@@ -1,3 +1,10 @@
+# Robots.txt para zenhogar.live
 User-agent: *
 Allow: /
-Sitemap: https://ais-pre-mbk4xj5m22k4pf3cbwqycf-412886598823.us-east1.run.app/sitemap.xml
+
+# Evitar que se indexen carpetas internas o de configuración si las tuvieras
+Disallow: /node_modules/
+Disallow: /dist/
+
+# Enlace directo al Sitemap
+Sitemap: https://zenhogar.live/sitemap.xml
