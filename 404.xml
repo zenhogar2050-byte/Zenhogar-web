@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Zenhogar - Redirigiendo...</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #57534e;
+    }
+    .loader {
+      text-align: center;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e7e5e4;
+      border-top: 4px solid #059669;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script type="text/javascript">
+    // Script de redirección para GitHub Pages (SPA friendly)
+    (function() {
+      var l = window.location;
+      // Esta lógica toma la URL que dio error 404 y la convierte al formato con Hash (#)
+      var path = l.pathname;
+      var search = l.search;
+      var hash = l.hash;
+
+      // Redirigir a la raíz con el hash correspondiente
+      var newUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/#' + path + search + hash;
+      
+      // Ejecutar la redirección
+      window.location.replace(newUrl);
+    })();
+  </script>
+</head>
+<body>
+  <div class="loader">
+    <div class="spinner"></div>
+    <p>Cargando contenido de Zenhogar...</p>
+  </div>
+</body>
+</html>
