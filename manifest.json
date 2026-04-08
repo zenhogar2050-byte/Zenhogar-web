@@ -1,23 +1,23 @@
 {
-  "name": "Zenhogar - Productos Unmerco",
+  "name": "Zenhogar - Tienda Naturista, Productos Unmerco",
   "short_name": "Zenhogar",
   "description": "Tu tienda de confianza para productos Unmerco originales.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#059669",
-  "icons": [
+ "icons": [
     {
       "src": "/favicon.svg",
-      "sizes": "192x192",
+      "sizes": "192x192 512x512",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/favicon.webp",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/webp",
+      "purpose": "maskable"
     }
   ]
 }
