@@ -1,21 +1,39 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="es">
   <head>
-    <meta charset="utf-8">
-    <title>Zenhogar</title>
-    <script type="text/javascript">
-      // Script para manejar Single Page Apps en GitHub Pages
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.replace(/&/g, '~and~') : '') +
-        l.hash
-      );
-    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/logo/logo.png" />
+    <link rel="apple-touch-icon" href="/assets/logo/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#059669" />
+    <meta name="apple-mobile-web-app-title" content="Zenhogar" />
+    <meta name="application-name" content="Zenhogar" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Zenhogar - Productos Unmerco</title>
+    <meta name="description" content="Tu tienda de confianza para productos Unmerco originales. Coliplus, Rtafull y suplementos con Registro INVIMA. Salud natural a la puerta de tu hogar en Colombia." />
+    <meta name="keywords" content="Zenhogar, Unmerco, Productos Unmerco, Coliplus, Rtafull, suplementos naturales Colombia, bienestar, salud natural, invima, cerca de mí, en mi ciudad, Medellín, Bogotá, Cali, Barranquilla, Bucaramanga, Pereira, envío rápido Colombia" />
+    <meta name="author" content="Zenhogar" />
+    <meta name="geo.region" content="CO" />
+    <meta name="geo.placename" content="Colombia" />
+    <meta name="geo.position" content="4.570868;-74.297333" />
+    <meta name="ICBM" content="4.570868, -74.297333" />
+    <link rel="canonical" href="https://zenhogar.live/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zenhogar" />
+    <meta property="og:title" content="Zenhogar - Productos Unmerco - Productos naturales" />
+    <meta property="og:description" content="Productos naturales originales con registro INVIMA. Envíos a todo el país." />
+    <meta property="og:url" content="https://zenhogar.live/" />
+    <meta property="og:image" content="/assets/logo/og-image.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Zenhogar - Productos Unmerco" />
+    <meta property="twitter:description" content="Suplementos Unmerco con envío rápido en Colombia." />
+    <meta property="twitter:image" content="/assets/logo/og-image.png" />
   </head>
   <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
