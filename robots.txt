@@ -2,9 +2,4 @@
 User-agent: *
 Allow: /
 
-# Evitar que se indexen carpetas internas o de configuración si las tuvieras
-Disallow: /node_modules/
-Disallow: /dist/
-
-# Enlace directo al Sitemap
 Sitemap: https://zenhogar.live/sitemap.xml
