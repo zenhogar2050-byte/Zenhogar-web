@@ -1,1 +1,0 @@
-import{t as e,r as n}from"./vendor-ui-7aJzfAqQ.js";function a(...r){return e(n(r))}function c(r){return new Intl.NumberFormat("es-CO",{style:"currency",currency:"COP",minimumFractionDigits:0}).format(r)}function o(r){return r.replace(/^(Combo|Oferta)\s*N°\s*\d+\s*/i,"")}export{o as a,a as c,c as f};

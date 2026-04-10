@@ -1,3 +1,5 @@
+# Robots.txt para zenhogar.live
 User-agent: *
 Allow: /
+
 Sitemap: https://zenhogar.live/sitemap.xml
