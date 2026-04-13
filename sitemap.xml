@@ -329,6 +329,24 @@
       <image:title>+NAD</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://zenhogar.live/producto/titan-coffee</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://zenhogar.live/assets/products/Titancoffee.webp</image:loc>
+      <image:title>Titan Coffee</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://zenhogar.live/producto/hemocream</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://zenhogar.live/assets/products/Hemocream.webp</image:loc>
+      <image:title>Hemocream</image:title>
+    </image:image>
+  </url>
 
   <!-- Combos -->
   <url>
