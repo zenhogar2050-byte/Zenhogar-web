@@ -24,7 +24,7 @@ const SEOManager = ({
                 "url": baseUrl,
                 "logo": {
                     "@type": "ImageObject",
-                    "url": `${baseUrl}/logo.png`,
+                    "url": `${baseUrl}/assets/logo/logo.png`,
                     "width": "512",
                     "height": "512"
                 },

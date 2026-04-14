@@ -4,6 +4,14 @@ import { PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../src/constants';
 
 const BASE_URL = 'https://zenhogar.live';
 
+// Leer el index.html generado por Vite para obtener los scripts y estilos reales
+const distIndexHtml = fs.readFileSync(path.join(process.cwd(), 'dist/index.html'), 'utf-8');
+
+// Extraer scripts y estilos (incluyendo los que tienen hash)
+const scriptTags = distIndexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g) || [];
+const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [];
+const headExtra = [...linkTags, ...scriptTags].join('\n    ');
+
 const template = (title: string, description: string, canonical: string, content: string, image: string) => `
 <!DOCTYPE html>
 <html lang="es">
@@ -23,17 +31,19 @@ const template = (title: string, description: string, canonical: string, content
 
     <meta property="og:title" content="${title} | Zenhogar">
     <meta property="og:description" content="${description}">
-    <meta property="og:image" content="${image}">
+    <meta property="og:image" content="${BASE_URL}${image}">
     <meta property="og:url" content="${BASE_URL}${canonical}">
     <meta property="og:type" content="product">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
+    ${headExtra}
+
     <!-- Estilos base para que no se vea roto mientras carga JS -->
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; color: #1c1917; margin: 0; line-height: 1.5; }
-        .container { max-width: 1200px; mx-auto; padding: 20px; }
-        .navbar { height: 112px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .navbar { height: 112px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; }
         .logo { height: 80px; }
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
         @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
@@ -47,13 +57,12 @@ const template = (title: string, description: string, canonical: string, content
 <body>
     <div id="root">
         <nav class="navbar">
-            <img src="${BASE_URL}/assets/logo/logo.png" alt="zenhogar Logo" class="logo">
+            <img src="/assets/logo/logo.png" alt="zenhogar Logo" class="logo">
         </nav>
         <main class="container">
             ${content}
         </main>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
 `;
@@ -122,14 +131,14 @@ const generateComboHTML = (combo: any) => {
     );
 };
 
-// Asegurar directorios
+// Asegurar directorios en dist
 const ensureDir = (dir: string) => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 };
 
 // Generar productos
 PRODUCTS.forEach(p => {
-    const dir = `public/producto/${p.id}`;
+    const dir = `dist/producto/${p.id}`;
     ensureDir(dir);
     fs.writeFileSync(`${dir}/index.html`, generateProductHTML(p));
     console.log(`Generado: ${dir}/index.html`);
@@ -137,14 +146,14 @@ PRODUCTS.forEach(p => {
 
 // Generar combos
 PROMOTIONS.forEach(c => {
-    const dir = `public/combo/${c.id}`;
+    const dir = `dist/combo/${c.id}`;
     ensureDir(dir);
     fs.writeFileSync(`${dir}/index.html`, generateComboHTML(c));
     console.log(`Generado: ${dir}/index.html`);
 });
 
 // Combo del mes
-const comboDir = `public/combo/${COMBO_OF_THE_MONTH.id}`;
+const comboDir = `dist/combo/${COMBO_OF_THE_MONTH.id}`;
 ensureDir(comboDir);
 fs.writeFileSync(`${comboDir}/index.html`, generateComboHTML(COMBO_OF_THE_MONTH));
 console.log(`Generado: ${comboDir}/index.html`);

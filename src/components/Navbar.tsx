@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="flex justify-between h-28 items-center">
           <Link to="/" className="flex items-center gap-3 group shrink-0">
             <img 
-              src="https://zenhogar.live/assets/logo/logo.png" 
+              src="/assets/logo/logo.png" 
               alt="zenhogar Logo" 
               className="h-20 sm:h-24 w-auto object-contain"
               referrerPolicy="no-referrer"
