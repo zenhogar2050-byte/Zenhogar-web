@@ -1,0 +1,5 @@
+{
+  "name": "zenhogar",
+  "description": "Sistema de embudo de ventas para productos de bienestar natural, incluyendo landings de producto, carrito de compras y checkout con integración a WhatsApp.",
+  "requestFramePermissions": []
+}
