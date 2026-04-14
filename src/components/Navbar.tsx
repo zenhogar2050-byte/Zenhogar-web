@@ -83,6 +83,7 @@ export default function Navbar() {
               <button 
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+                aria-label="Buscar productos"
               >
                 <Search className="w-5 h-5" />
               </button>
@@ -143,7 +144,10 @@ export default function Navbar() {
             </div>
 
             <div className="relative group">
-              <button className="flex items-center gap-1 text-stone-600 hover:text-emerald-600 font-medium transition-colors">
+              <button 
+                className="flex items-center gap-1 text-stone-600 hover:text-emerald-600 font-medium transition-colors"
+                aria-label="Ver lista de productos"
+              >
                 Productos <ChevronDown className="w-4 h-4" />
               </button>
               <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-stone-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 max-h-[70vh] overflow-y-auto">
@@ -161,6 +165,7 @@ export default function Navbar() {
             <Link
               to="/checkout"
               className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Ver carrito de compras"
             >
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
@@ -176,10 +181,15 @@ export default function Navbar() {
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Abrir buscador"
             >
               <Search className="w-6 h-6" />
             </button>
-            <Link to="/checkout" className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors">
+            <Link 
+              to="/checkout" 
+              className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Ver carrito"
+            >
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
@@ -190,6 +200,7 @@ export default function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

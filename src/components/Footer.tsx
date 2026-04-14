@@ -64,6 +64,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-emerald-600 transition-colors font-medium"
+                      aria-label="Visitar nuestro Facebook"
                     >
                       Facebook
                     </a>
@@ -72,6 +73,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-emerald-600 transition-colors font-medium"
+                      aria-label="Visitar nuestro Instagram"
                     >
                       Instagram
                     </a>

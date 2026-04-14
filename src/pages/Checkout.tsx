@@ -186,16 +186,32 @@ export default function Checkout() {
                       <div className="flex-grow">
                         <div className="flex justify-between">
                           <h3 className="text-sm font-bold text-stone-900">{item.productName}</h3>
-                          <button onClick={() => removeFromCart(item.productId, item.promoId)} className="text-stone-400 hover:text-red-500 transition-colors p-1">
+                          <button 
+                            onClick={() => removeFromCart(item.productId, item.promoId)} 
+                            className="text-stone-400 hover:text-red-500 transition-colors p-1"
+                            aria-label={`Eliminar ${item.productName} del carrito`}
+                          >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                         <p className="text-xs text-stone-500 mb-2">{item.promoLabel}</p>
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-2 bg-white border rounded-lg px-2 py-1">
-                            <button onClick={() => updateQuantity(item.productId, item.promoId, item.quantity - 1)} className="hover:text-emerald-600 p-1"><Minus className="w-3 h-3" /></button>
+                            <button 
+                              onClick={() => updateQuantity(item.productId, item.promoId, item.quantity - 1)} 
+                              className="hover:text-emerald-600 p-1"
+                              aria-label="Disminuir cantidad"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
                             <span className="text-sm font-bold min-w-[20px] text-center">{item.quantity}</span>
-                            <button onClick={() => updateQuantity(item.productId, item.promoId, item.quantity + 1)} className="hover:text-emerald-600 p-1"><Plus className="w-3 h-3" /></button>
+                            <button 
+                              onClick={() => updateQuantity(item.productId, item.promoId, item.quantity + 1)} 
+                              className="hover:text-emerald-600 p-1"
+                              aria-label="Aumentar cantidad"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
                           </div>
                           <span className="font-bold text-emerald-700">{formatCurrency(item.price * item.quantity)}</span>
                         </div>

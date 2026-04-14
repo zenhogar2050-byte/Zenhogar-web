@@ -139,6 +139,7 @@ export default function Home() {
       {/* Features */}
       <section className="py-16 bg-white border-y border-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="sr-only">Nuestras Ventajas</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-xl bg-stone-50 text-emerald-600">
@@ -225,6 +226,9 @@ export default function Home() {
                   <img 
                     src={COMBO_OF_THE_MONTH.image} 
                     alt={COMBO_OF_THE_MONTH.name}
+                    width={600}
+                    height={600}
+                    loading="lazy"
                     className="max-w-full max-h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                     referrerPolicy="no-referrer"
                   />
@@ -273,6 +277,9 @@ export default function Home() {
                     <img
                       src={product.image}
                       alt={product.name}
+                      width={400}
+                      height={400}
+                      loading="lazy"
                       className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />

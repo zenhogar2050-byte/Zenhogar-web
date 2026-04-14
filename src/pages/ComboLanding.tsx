@@ -110,6 +110,8 @@ export default function ComboLanding() {
                 <img
                   src={combo.image}
                   alt={combo.name}
+                  width={800}
+                  height={800}
                   className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />

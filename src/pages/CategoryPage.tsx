@@ -120,6 +120,9 @@ export default function CategoryPage() {
                       <img
                         src={product.image}
                         alt={product.name}
+                        width={400}
+                        height={400}
+                        loading="lazy"
                         className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
