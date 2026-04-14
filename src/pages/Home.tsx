@@ -210,6 +210,7 @@ export default function Home() {
                 <button 
                   onClick={handleComboBuy}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-stone-900 rounded-2xl font-black text-xs lg:text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl shadow-white/5 group"
+                  aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
                 >
                   <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5 group-hover:scale-110 transition-transform" />
                   APROVECHAR OFERTA

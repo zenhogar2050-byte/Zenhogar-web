@@ -27,6 +27,7 @@ export interface Product {
   seoTitle?: string;
   seoDescription?: string;
   keywords?: string;
+  components?: string;
   seoFaqs?: { q: string; a: string }[];
   longTailKeywords?: string[];
 }
@@ -79,7 +80,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/rtafull.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'hígado graso, cirrosis, desintoxicación hepática, digestión pesada, toxinas, limpieza natural, salud hepática, Zenhogar, Rtafull',
+    keywords: 'hígado graso, cirrosis, desintoxicación hepática, digestión pesada, toxinas, limpieza natural, salud hepática, colesterol alto, estreñimiento, Zenhogar, Rtafull',
+    components: 'Alcachofa, Boldo, Diente de León, Carqueja, Vitamina B1, B2, B6',
     longTailKeywords: [
       'suplemento natural para limpiar el colon profundamente',
       'cómo desintoxicar el hígado de forma natural y segura',
@@ -130,7 +132,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/coliplus.webp',
     basePrice: 75900,
     size: '500 ml',
-    keywords: 'estreñimiento, colon irritable, inflamación abdominal, pesadez estomacal, limpieza de colon, fibra natural, tránsito intestinal, Coliplus, Zenhogar',
+    keywords: 'estreñimiento, colon irritable, inflamación abdominal, pesadez estomacal, limpieza de colon, fibra natural, tránsito intestinal, digestión lenta, Coliplus, Zenhogar',
+    components: 'Pitaya, Linaza, Ciruela, Aloe Vera, Fibra de Manzana, Psyllium',
     longTailKeywords: [
       'cómo desinflamar el vientre de forma natural y rápida',
       'mejor suplemento para eliminar gases y pesadez estomacal',
@@ -181,7 +184,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Colagenocitratodemagnesio.webp',
     basePrice: 85000,
     size: '700 g',
-    keywords: 'dolor articular, calambres, caída de cabello, uñas quebradizas, piel seca, artritis, magnesio, colágeno hidrolizado, vitalidad, Zenhogar',
+    keywords: 'dolor articular, calambres, caída de cabello, uñas quebradizas, piel seca, artritis, magnesio, colágeno hidrolizado, vitalidad, falta de sueño, insomnio, estrés, descanso, Zenhogar',
+    components: 'Colágeno Hidrolizado, Citrato de Magnesio, Vitamina C, Biotina, Zinc',
     longTailKeywords: [
       'mejor colágeno con magnesio para fortalecer articulaciones',
       'suplemento natural para evitar el cansancio físico diario',
@@ -233,6 +237,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '500 ml',
     keywords: 'defensas bajas, gripe frecuente, sistema inmune, antioxidantes, fatiga crónica, cansancio, Resvis Factor, Zenhogar',
+    components: 'Resveratrol, Vitamina C, Zinc, Té Verde, Arándanos',
     longTailKeywords: [
       'mejor antioxidante natural para prevenir el envejecimiento',
       'cómo fortalecer el sistema inmunológico con resveratrol',
@@ -283,7 +288,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/CLA500_.webp',
     basePrice: 75900,
     size: '60 Cápsulas',
-    keywords: 'quemar grasa, bajar de peso, definición muscular, metabolismo lento, sobrepeso, CLA 500, Zenhogar, adelgazar natural',
+    keywords: 'quemar grasa, bajar de peso, definición muscular, metabolismo lento, sobrepeso, colesterol, triglicéridos, CLA 500, Zenhogar, adelgazar natural',
+    components: 'Ácido Linoleico Conjugado (CLA), Aceite de Cártamo, Vitamina E',
     longTailKeywords: [
       'mejor suplemento de CLA para quemar grasa abdominal',
       'cómo tonificar los músculos de forma natural con CLA 500',
@@ -334,7 +340,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Cafetolio.webp',
     basePrice: 99900,
     size: '500 g',
-    keywords: 'ansiedad por comer, falta de energía, metabolismo lento, café verde, adelgazar, energía natural, Cafetolio, Zenhogar',
+    keywords: 'ansiedad por comer, falta de energía, metabolismo lento, café verde, adelgazar, energía natural, colesterol, Cafetolio, Zenhogar',
+    components: 'Café Verde, L-Carnitina, Té Verde, Espirulina',
     longTailKeywords: [
       'mejor café verde para acelerar el metabolismo naturalmente',
       'cómo controlar la ansiedad por comer con café verde',
@@ -386,6 +393,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '120 ml',
     keywords: 'dolor muscular, tensión cuello, mala circulación, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
+    components: 'Salicilato de Metilo, Alcanfor, Mentol, Eucalipto, Castaño de Indias',
     longTailKeywords: [
       'mejor loción con efecto calor para dolores de espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
@@ -432,6 +440,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 93500,
     size: '500 g',
     keywords: 'colágeno hidrolizado, piel firme, arrugas, articulaciones, uñas fuertes, C-Lagen, Zenhogar',
+    components: 'Colágeno Hidrolizado Tipo I y III, Vitamina C, Resveratrol, Ácido Hialurónico',
     longTailKeywords: [
       'mejor colágeno hidrolizado para eliminar arrugas finas',
       'cómo mejorar la firmeza de la piel de forma natural',
@@ -478,6 +487,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '300 g',
     keywords: 'vitamina C, defensas, energía cítrica, antioxidante, Citramix, Zenhogar',
+    components: 'Vitamina C, Camu Camu, Naranja, Limón, Acerola',
     longTailKeywords: [
       'mejor suplemento de vitamina C natural para defensas',
       'cómo aumentar la energía diaria con extractos cítricos',
@@ -523,6 +533,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 75900,
     size: '400 g',
     keywords: 'café con colágeno, belleza matutina, energía y piel, Coffee Colágeno, Zenhogar',
+    components: 'Café Premium Colombiano, Colágeno Hidrolizado, Vitamina E, Biotina',
     longTailKeywords: [
       'mejor café colombiano con colágeno para la piel',
       'cómo cuidar la piel mientras tomas café por la mañana',
@@ -568,6 +579,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 105000,
     size: '500 g',
     keywords: 'creatina pura, fuerza muscular, rendimiento deportivo, recuperación, Zenhogar',
+    components: 'Creatina Monohidratada 100% Pura',
     longTailKeywords: [
       'mejor creatina monohidratada para ganar fuerza muscular',
       'cómo mejorar la recuperación muscular después del gimnasio',
@@ -613,6 +625,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '500 ml',
     keywords: 'salud masculina, próstata, vitalidad, equilibrio hormonal, bienestar integral, Iprossmen, Zenhogar',
+    components: 'Saw Palmetto, Semilla de Calabaza, Zinc, Vitamina E, Licopeno',
     longTailKeywords: [
       'mejor suplemento natural para la salud de la próstata',
       'cómo mejorar la vitalidad masculina de forma natural',
@@ -658,6 +671,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '500 ml',
     keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Zenhogar',
+    components: 'Vitamina A, C, D, E, Complejo B, Hierro, Magnesio, Zinc',
     longTailKeywords: [
       'mejor multivitamínico líquido para adultos y niños',
       'cómo asegurar la ingesta diaria de vitaminas esenciales',
@@ -702,7 +716,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Liofhim.webp',
     basePrice: 75900,
     size: '30 Cápsulas',
-    keywords: 'liofilizado, extractos naturales, alta pureza, Liofhim, Zenhogar',
+    keywords: 'liofilizado, extractos naturales, alta pureza, insomnio, falta de sueño, calores nocturnos, equilibrio hormonal, Liofhim, Zenhogar',
+    components: 'Soya Liofilizada, Trébol Rojo, Vitamina E, Calcio',
     longTailKeywords: [
       'mejor suplemento natural para los síntomas de la menopausia',
       'cómo aliviar los sofocos y calores nocturnos naturalmente',
@@ -748,6 +763,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '30 Cápsulas',
     keywords: 'adelgazar, quemar grasa, control apetito, Lipoblue, Zenhogar',
+    components: 'Forskolina, Extracto de Naranja Amarga, Garcinia Cambogia, Té Verde',
     longTailKeywords: [
       'mejor quemador de grasa natural para bajar de peso rápido',
       'cómo controlar la ansiedad por comer dulce y harinas',
@@ -792,7 +808,8 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Liteplex.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'metabolismo activo, bienestar natural, Liteplex, Zenhogar',
+    keywords: 'metabolismo activo, bienestar natural, colesterol alto, triglicéridos, Liteplex, Zenhogar',
+    components: 'Té Verde, Berenjena, Alcachofa, L-Carnitina, Vitamina C',
     longTailKeywords: [
       'mejor suplemento líquido para acelerar el metabolismo',
       'cómo mejorar la digestión y el metabolismo naturalmente',
@@ -838,6 +855,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '700 g',
     keywords: 'colágeno ligero, alta absorción, articulaciones, piel, Maxlite, Zenhogar',
+    components: 'Colágeno Hidrolizado, Vitamina C, Calcio, Magnesio',
     longTailKeywords: [
       'mejor colágeno de alta absorción para deportistas',
       'cómo fortalecer las articulaciones sin sentir pesadez',
@@ -883,6 +901,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '500 ml',
     keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
+    components: 'Borojó, Chontaduro, Maca, Polen, Vitaminas del complejo B',
     longTailKeywords: [
       'mejor suplemento natural para el cansancio físico y mental',
       'cómo aumentar el rendimiento en días de alta exigencia',
@@ -928,6 +947,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '500 ml',
     keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
+    components: 'Resveratrol Puro, Vitamina C, Extracto de Uva, Zinc',
     longTailKeywords: [
       'mejor antioxidante natural para prevenir el envejecimiento',
       'cómo proteger las células del daño oxidativo con resveratrol',
@@ -970,6 +990,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 85000,
     size: '50 ml',
     keywords: 'unificar tono piel, quitar manchas, piel radiante, Eventone, Zenhogar',
+    components: 'Ácido Kójico, Vitamina C, Azeloglicina, Extracto de Regaliz',
     longTailKeywords: [
       'mejor crema para quitar manchas de sol en la cara',
       'cómo unificar el tono de la piel de forma natural y segura',
@@ -1015,6 +1036,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '100 ml',
     keywords: 'brillo piel, nutrición profunda, piel dorada, Golden Passion, Zenhogar',
+    components: 'Aceite de Almendras, Partículas de Oro, Vitamina E, Aceite de Argán',
     longTailKeywords: [
       'mejor aceite corporal para un brillo dorado natural',
       'cómo nutrir la piel seca y darle luminosidad',
@@ -1060,6 +1082,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 82500,
     size: '50 ml',
     keywords: 'hidratación intensiva, piel seca, frescura, Hydrastrik, Zenhogar',
+    components: 'Ácido Hialurónico, Aloe Vera, Pantenol, Vitamina B5',
     longTailKeywords: [
       'mejor crema hidratante para piel muy seca y sensible',
       'cómo mantener la piel hidratada durante 24 horas',
@@ -1105,6 +1128,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 59900,
     size: '200 ml',
     keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
+    components: 'Avena, Caléndula, Manteca de Karité, Vitamina E',
     longTailKeywords: [
       'mejor crema corporal para pieles delicadas y sensibles',
       'cómo proteger la piel de las agresiones diarias naturalmente',
@@ -1150,6 +1174,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '120 ml',
     keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',
+    components: 'Minoxidil Natural, Romero, Quina, Ortiga, Biotina',
     longTailKeywords: [
       'mejor tónico capilar para evitar la caída del cabello',
       'cómo estimular el crecimiento del cabello de forma natural',
@@ -1195,6 +1220,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 85000,
     size: '250 ml',
     keywords: 'limpieza profunda, frescura, higiene, Tufoff, Zenhogar',
+    components: 'Cloruro de Benzalconio, Mentol, Eucalipto, Ácido Láctico',
     longTailKeywords: [
       'mejor producto para eliminar el mal olor corporal eficazmente',
       'cómo mantener la frescura durante todo el día naturalmente',
@@ -1241,6 +1267,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '60 Cápsulas',
     keywords: 'potencia sexual, rendimiento, vitalidad masculina, Akha, Zenhogar',
+    components: 'Maca, Ginseng, Zinc, L-Arginina, Vitamina E',
     longTailKeywords: [
       'mejor suplemento natural para la potencia y energía masculina',
       'cómo mejorar el rendimiento físico de forma natural y segura',
@@ -1286,6 +1313,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '120 ml',
     keywords: 'bienestar íntimo, cuidado suave, salud sexual, Derman, Zenhogar',
+    components: 'Ácido Láctico, Caléndula, Aloe Vera, Manzanilla',
     longTailKeywords: [
       'mejor producto natural para el cuidado íntimo femenino',
       'cómo mejorar el bienestar íntimo de forma segura y suave',
@@ -1331,6 +1359,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 73500,
     size: '60 Cápsulas',
     keywords: 'energía sexual, rendimiento superior, vitalidad, Haydar, Zenhogar',
+    components: 'Guaraná, Chontaduro, Borojó, Vitaminas B1, B6, B12',
     longTailKeywords: [
       'mejor suplemento natural para el rendimiento superior masculino',
       'cómo mantener la energía constante durante todo el día',
@@ -1376,6 +1405,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79000,
     size: '50 ml',
     keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
+    components: 'Extracto de Hamamelis, Alumbre, Aloe Vera, Vitamina E',
     longTailKeywords: [
       'mejor producto para recuperar la confianza femenina naturalmente',
       'cómo mejorar el bienestar íntimo y plenitud de la mujer',
@@ -1421,6 +1451,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89000,
     size: '60 Cápsulas',
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
+    components: 'Tribulus Terrestris, Maca Negra, Zinc, Magnesio',
     longTailKeywords: [
       'mejor suplemento para aumentar la fuerza y vitalidad masculina',
       'cómo mejorar el rendimiento físico y potencia naturalmente',
@@ -1466,6 +1497,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '500 ml',
     keywords: 'energía total, rendimiento diario, vitalidad, Tyruss Full, Zenhogar',
+    components: 'Borojó, Chontaduro, Maca, Polen, Vitaminas del complejo B',
     longTailKeywords: [
       'mejor suplemento líquido para energía total y rendimiento',
       'cómo mejorar el desempeño diario de forma natural y efectiva',
@@ -1511,6 +1543,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 73500,
     size: '500 ml',
     keywords: 'energizante natural, vitalidad, energía rápida, Zafir, Zenhogar',
+    components: 'Guaraná, Té Verde, Vitamina C, Complejo B',
     longTailKeywords: [
       'mejor bebida energizante natural para momentos de exigencia',
       'cómo obtener un impulso de energía rápida de forma saludable',
@@ -1556,6 +1589,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 85000,
     size: '60 Cápsulas',
     keywords: 'poder masculino, vitalidad, salud sexual, Zeus, Zenhogar',
+    components: 'Maca, Chontaduro, Borojó, Zinc, Vitaminas del complejo B',
     longTailKeywords: [
       'mejor suplemento avanzado para la salud masculina integral',
       'cómo potenciar el poder y vitalidad del hombre naturalmente',
@@ -1601,6 +1635,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '60 Cápsulas',
     keywords: 'longevidad, energía celular, salud cognitiva, +NAD, Zenhogar',
+    components: 'Nicotinamida Ribósido (NR), Resveratrol, Quercetina, Vitamina B3',
     longTailKeywords: [
       'mejor suplemento para aumentar los niveles de NAD+ naturalmente',
       'cómo mejorar la energía celular y longevidad activa',
@@ -1642,6 +1677,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '200g',
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar',
+    components: 'Café Premium, Maca, Ginseng, Guaraná, L-Arginina',
     longTailKeywords: [
       'mejor café enriquecido para la potencia y energía masculina',
       'cómo mejorar el rendimiento diario con una taza de café',
@@ -1685,6 +1721,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 65000,
     size: '30 ml',
     keywords: 'hemorroides, alivio, cuidado íntimo, Hemocream, Zenhogar',
+    components: 'Castaño de Indias, Hamamelis, Caléndula, Aloe Vera, Mentol',
     longTailKeywords: [
       'mejor crema natural para el alivio de las hemorroides',
       'cómo calmar el dolor y la inflamación de forma suave',
@@ -1735,6 +1772,7 @@ export const COMBO_OF_THE_MONTH = {
     'Aumenta los niveles de energía'
   ],
   keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
+  components: 'Resveratrol, Pitaya, Linaza, Vitamina C, Zinc, Aloe Vera',
   longTailKeywords: [
     'mejor combo natural para desinflamar el vientre y subir defensas',
     'cómo limpiar el colon y el hígado de forma efectiva y segura',
@@ -1775,6 +1813,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°1',
     keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Zenhogar, combo belleza',
+    components: 'Resveratrol, Avena, Caléndula, Manteca de Karité, Vitamina E',
     longTailKeywords: [
       'mejor combo para rejuvenecer la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
@@ -1819,6 +1858,7 @@ export const PROMOTIONS = [
     },
     badge: 'OFERTA N° 2',
     keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
+    components: 'Resveratrol, Ácido Kójico, Vitamina C, Azeloglicina, Extracto de Regaliz',
     longTailKeywords: [
       'mejor combo para quitar manchas y unificar el tono de la piel',
       'cómo nutrir las células y aclarar la piel de forma segura',
@@ -1863,6 +1903,7 @@ export const PROMOTIONS = [
     },
     badge: 'OFERTA N°3',
     keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
+    components: 'Pitaya, Alcachofa, Boldo, Linaza, Ciruela, Diente de León',
     longTailKeywords: [
       'mejor combo detox para limpiar el colon y el hígado naturalmente',
       'cómo eliminar la pesadez abdominal y regular la digestión',
@@ -1907,6 +1948,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°4',
     keywords: 'Liteplex, Rtafull, control de peso, adelgazar, desintoxicación, metabolismo, Zenhogar, combo salud',
+    components: 'Té Verde, Berenjena, Alcachofa, L-Carnitina, Boldo, Diente de León',
     longTailKeywords: [
       'mejor combo para bajar de peso y desintoxicar el cuerpo',
       'cómo acelerar el metabolismo y eliminar toxinas naturalmente',
@@ -1951,6 +1993,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°5',
     keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
+    components: 'Cloruro de Benzalconio, Alcachofa, Boldo, Mentol, Eucalipto',
     longTailKeywords: [
       'mejor combo para eliminar el mal olor y desintoxicar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
@@ -1995,6 +2038,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°6',
     keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
+    components: 'Salicilato de Metilo, Colágeno Hidrolizado, Citrato de Magnesio, Alcanfor, Mentol',
     longTailKeywords: [
       'mejor combo para el dolor de rodillas y espalda naturalmente',
       'cómo mejorar la movilidad articular y aliviar tensiones musculares',
@@ -2039,6 +2083,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°7',
     keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Zenhogar, combo energía',
+    components: 'Café Verde, Borojó, Chontaduro, Maca, Polen, Ganoderma',
     longTailKeywords: [
       'mejor combo para tener energía todo el día de forma natural',
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
@@ -2083,6 +2128,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°8',
     keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Zenhogar, combo salud',
+    components: 'Borojó, Chontaduro, Maca, Alcachofa, Boldo, Diente de León',
     longTailKeywords: [
       'mejor combo para limpiar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',

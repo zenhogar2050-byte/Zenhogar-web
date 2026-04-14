@@ -155,9 +155,9 @@ export default function Checkout() {
           {/* Columna Izquierda: Resumen con Imagen */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-stone-100">
-              <h2 className="text-2xl font-bold text-stone-900 flex items-center gap-3 mb-8">
+              <h1 className="text-2xl font-bold text-stone-900 flex items-center gap-3 mb-8">
                 <ShoppingBag className="w-6 h-6 text-emerald-600" /> Resumen de Compra
-              </h2>
+              </h1>
               <div className="space-y-6">
                 <AnimatePresence mode="popLayout">
                   {items.map((item) => (

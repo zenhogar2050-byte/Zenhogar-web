@@ -3,7 +3,7 @@ import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search } from
 import { useState, useEffect, useRef } from 'react';
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
-import { PRODUCTS, CATEGORIES } from '../constants';
+import { PRODUCTS, CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import { cn } from '../utils';
 
 export default function Navbar() {
@@ -17,9 +17,37 @@ export default function Navbar() {
 
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
-  const filteredProducts = searchQuery.trim() === '' 
+  const searchableItems = [
+    ...PRODUCTS.map(p => ({ ...p, searchType: 'product' as const })),
+    ...PROMOTIONS.map(p => ({ ...p, searchType: 'combo' as const })),
+    { ...COMBO_OF_THE_MONTH, searchType: 'combo' as const }
+  ];
+
+  const normalize = (text: string) => {
+    if (!text) return '';
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/ñ/g, 'n')
+      .trim();
+  };
+
+  const searchResults = searchQuery.trim() === '' 
     ? [] 
-    : PRODUCTS.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5);
+    : searchableItems.filter(item => {
+        const query = normalize(searchQuery);
+        
+        const nameMatch = normalize(item.name).includes(query);
+        const descMatch = normalize(item.description).includes(query);
+        const shortDescMatch = 'shortDescription' in item && normalize(item.shortDescription || '').includes(query);
+        const keywordsMatch = normalize(item.keywords || '').includes(query);
+        const componentsMatch = 'components' in item && normalize(item.components || '').includes(query);
+        const longTailMatch = item.longTailKeywords?.some(kw => normalize(kw).includes(query));
+        const benefitsMatch = item.benefits?.some(b => normalize(b).includes(query));
+
+        return nameMatch || descMatch || shortDescMatch || keywordsMatch || componentsMatch || longTailMatch || benefitsMatch;
+      }).slice(0, 6);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,6 +84,10 @@ export default function Navbar() {
               alt="zenhogar Logo" 
               className="h-20 sm:h-24 w-auto object-contain"
               referrerPolicy="no-referrer"
+              fetchPriority="high"
+              loading="eager"
+              width="180"
+              height="96"
             />
             <span className="text-xl sm:text-2xl font-bold text-[var(--color-brand-primary)] tracking-tight hidden xs:block">zenhogar</span>
           </Link>
@@ -101,7 +133,7 @@ export default function Navbar() {
                       <input
                         autoFocus
                         type="text"
-                        placeholder="Buscar productos..."
+                        placeholder="Buscar por nombre, síntoma o componente..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
@@ -109,33 +141,45 @@ export default function Navbar() {
                     </div>
                     
                     <div className="space-y-2">
-                      {filteredProducts.length > 0 ? (
-                        filteredProducts.map(product => (
+                      {searchResults.length > 0 ? (
+                        searchResults.map(item => (
                           <Link
-                            key={product.id}
-                            to={`/producto/${product.id}`}
+                            key={item.id}
+                            to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
                             className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
                           >
-                            <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden">
+                            <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
                               <img 
-                                src={product.image || null} 
-                                alt={product.name} 
+                                src={item.image || null} 
+                                alt={item.name} 
                                 className="w-full h-full object-contain"
                                 referrerPolicy="no-referrer"
                               />
+                              {item.searchType === 'combo' && (
+                                <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
+                                  <Sparkles className="w-4 h-4 text-emerald-600 opacity-50" />
+                                </div>
+                              )}
                             </div>
                             <div className="flex-grow min-w-0">
-                              <p className="text-sm font-bold text-stone-900 truncate font-display">
-                                {product.name}
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm font-bold text-stone-900 truncate font-display">
+                                  {item.name}
+                                </p>
+                                {item.searchType === 'combo' && (
+                                  <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
+                                )}
+                              </div>
+                              <p className="text-xs text-stone-500 truncate">
+                                {'shortDescription' in item ? item.shortDescription : item.description}
                               </p>
-                              <p className="text-xs text-stone-500 truncate">{product.shortDescription}</p>
                             </div>
                           </Link>
                         ))
                       ) : searchQuery.trim() !== '' ? (
-                        <p className="text-center py-4 text-sm text-stone-500">No se encontraron productos</p>
+                        <p className="text-center py-4 text-sm text-stone-500">No encontramos resultados para "{searchQuery}". Prueba con "estreñimiento", "colesterol" o "sueño".</p>
                       ) : (
-                        <p className="text-center py-4 text-sm text-stone-400 italic">Escribe para buscar...</p>
+                        <p className="text-center py-4 text-sm text-stone-400 italic">Busca por nombre, síntoma o ingrediente (ej. Pitaya)...</p>
                       )}
                     </div>
                   </motion.div>
@@ -222,7 +266,7 @@ export default function Navbar() {
               <input
                 autoFocus
                 type="text"
-                placeholder="Buscar productos..."
+                placeholder="Buscar por nombre, síntoma o componente..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-10 py-3 bg-stone-100 border-none rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
@@ -238,31 +282,43 @@ export default function Navbar() {
             </div>
             
             <div className="space-y-2 max-h-[60vh] overflow-y-auto">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map(product => (
+              {searchResults.length > 0 ? (
+                searchResults.map(item => (
                   <Link
-                    key={product.id}
-                    to={`/producto/${product.id}`}
+                    key={item.id}
+                    to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
                     className="flex items-center gap-4 p-3 hover:bg-stone-50 rounded-xl transition-colors"
                   >
-                    <div className="w-12 h-12 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden">
+                    <div className="w-12 h-12 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
                       <img 
-                        src={product.image || null} 
-                        alt={product.name} 
+                        src={item.image || null} 
+                        alt={item.name} 
                         className="w-full h-full object-contain"
                         referrerPolicy="no-referrer"
                       />
+                      {item.searchType === 'combo' && (
+                        <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
+                          <Sparkles className="w-5 h-5 text-emerald-600 opacity-50" />
+                        </div>
+                      )}
                     </div>
                     <div className="flex-grow min-w-0">
-                      <p className="text-sm font-bold text-stone-900 truncate font-display">
-                        {product.name}
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-bold text-stone-900 truncate font-display">
+                          {item.name}
+                        </p>
+                        {item.searchType === 'combo' && (
+                          <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
+                        )}
+                      </div>
+                      <p className="text-xs text-stone-500 truncate">
+                        {'shortDescription' in item ? item.shortDescription : item.description}
                       </p>
-                      <p className="text-xs text-stone-500 truncate">{product.shortDescription}</p>
                     </div>
                   </Link>
                 ))
               ) : searchQuery.trim() !== '' && (
-                <p className="text-center py-8 text-sm text-stone-500">No se encontraron productos</p>
+                <p className="text-center py-8 text-sm text-stone-500">No encontramos resultados para "{searchQuery}". Prueba con "estreñimiento", "colesterol" o "sueño".</p>
               )}
             </div>
           </motion.div>

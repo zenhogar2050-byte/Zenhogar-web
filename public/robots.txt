@@ -1,4 +1,3 @@
-# Robots.txt para zenhogar.live
 User-agent: *
 Allow: /
 

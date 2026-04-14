@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { formatCurrency } from '../utils';
 
 const SEOManager = ({ 
     title, 
@@ -10,8 +11,8 @@ const SEOManager = ({
 }) => {
     const baseUrl = "https://zenhogar.live";
     const fullUrl = `${baseUrl}${canonicalUrl}`;
-    const fullTitle = `${title} | Zenhogar`;
-    const defaultImage = `${baseUrl}/default-og.jpg`;
+    const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
+    const defaultImage = `${baseUrl}/assets/logo/logo.png`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 
     const schemaData = {
@@ -27,6 +28,13 @@ const SEOManager = ({
                     "url": `${baseUrl}/assets/logo/logo.png`,
                     "width": "512",
                     "height": "512"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+57-302-410-2568",
+                    "contactType": "customer service",
+                    "areaServed": "CO",
+                    "availableLanguage": "Spanish"
                 },
                 "sameAs": [
                     "https://instagram.com/zenhogar",
@@ -122,13 +130,17 @@ const SEOManager = ({
             <meta property="og:url" content={fullUrl} />
             <meta property="og:site_name" content="Zenhogar" />
             <meta property="og:image" content={finalImage || defaultImage} />
+            <meta property="og:image:secure_url" content={finalImage || defaultImage} />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt" content={title} />
 
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={finalImage || defaultImage} />
+            <meta name="twitter:label1" content="Precio" />
+            <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
 
             <script type="application/ld+json">
                 {JSON.stringify(schemaData)}

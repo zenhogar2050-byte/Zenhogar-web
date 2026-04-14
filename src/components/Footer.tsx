@@ -10,10 +10,13 @@ export default function Footer() {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <img 
-                src="https://zenhogar.live/assets/logo/logo.png" 
+                src="/assets/logo/logo.png" 
                 alt="zenhogar Logo" 
                 className="h-14 w-auto object-contain"
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                width="100"
+                height="56"
               />
               <span className="text-3xl font-bold tracking-tight">zenhogar</span>
             </div>
@@ -87,10 +90,13 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-end">
             <div className="bg-white/5 p-4 rounded-[2rem] border border-white/10 backdrop-blur-sm max-w-full">
               <img 
-                src="https://zenhogar.live/assets/logo/logo-invima.webp" 
+                src="/assets/logo/logo-invima.webp" 
                 alt="Logo INVIMA" 
                 className="w-full h-auto max-w-[256px] rounded-2xl shadow-2xl"
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                width="256"
+                height="128"
               />
             </div>
             <p className="mt-4 text-stone-500 text-xs italic text-center md:text-right">Información legal y certificaciones</p>
