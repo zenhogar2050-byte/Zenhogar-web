@@ -127,7 +127,7 @@ const generateHomeHTML = () => {
         "@type": "WebSite",
         "name": "Zenhogar",
         "url": BASE_URL,
-        "description": "Combos y Ofertas en Productos Unmerco Originales",
+        "description": "Combos y Ofertas en Productos Naturales Originales",
         "potentialAction": {
             "@type": "SearchAction",
             "target": `${BASE_URL}/search?q={search_term_string}`,
@@ -155,8 +155,8 @@ const generateHomeHTML = () => {
         </div>
     `;
     return template(
-        "Combos y Ofertas en Productos Unmerco Originales",
-        "Aprovecha nuestras ofertas y combos exclusivos en productos Unmerco. Soluciones naturales para tu bienestar integral.",
+        "Combos y Ofertas en Productos Naturales Originales",
+        "Aprovecha nuestras ofertas y combos exclusivos en productos naturales originales. Soluciones naturales para tu bienestar integral.",
         "/",
         content,
         COMBO_OF_THE_MONTH.image,
@@ -173,7 +173,7 @@ const generateProductHTML = (product: any) => {
         "description": product.description,
         "brand": {
             "@type": "Brand",
-            "name": "Unmerco"
+            "name": "Zenhogar"
         },
         "offers": {
             "@type": "Offer",

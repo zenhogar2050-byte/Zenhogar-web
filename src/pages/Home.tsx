@@ -33,8 +33,8 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <SEOManager 
-        title="Combos y Ofertas en Productos Unmerco Originales"
-        description="Aprovecha nuestras ofertas y combos exclusivos en productos Unmerco. Soluciones naturales para colon irritable, hígado graso, dolor articular y control de peso. Envío gratis y pago contra entrega en Colombia."
+        title="Combos y Ofertas en Productos Naturales Originales"
+        description="Aprovecha nuestras ofertas y combos exclusivos en productos naturales originales. Soluciones naturales para colon irritable, hígado graso, dolor articular y control de peso. Envío gratis y pago contra entrega en Colombia."
         canonicalUrl="/"
       />
 
@@ -329,12 +329,12 @@ export default function Home() {
                 Tu Bienestar es Nuestra <span className="text-emerald-600 italic">Prioridad Número Uno</span>
               </h2>
               <p className="text-lg text-stone-600 mb-12 leading-relaxed">
-                En Zenhogar nos dedicamos a seleccionar los mejores productos naturales de la línea Unmerco, garantizando que cada artículo que recibas sea 100% original y efectivo.
+                En Zenhogar nos dedicamos a seleccionar los mejores productos naturales, garantizando que cada artículo que recibas sea 100% original y efectivo.
               </p>
               
               <div className="grid sm:grid-cols-3 gap-6 text-left">
                 {[
-                  { title: 'Productos 100% Originales', desc: 'Directo de Unmerco.' },
+                  { title: 'Productos 100% Originales', desc: 'Calidad garantizada.' },
                   { title: 'Asesoría Personalizada', desc: 'Equipo listo para ayudarte.' },
                   { title: 'Pago Seguro', desc: 'Pago contra entrega.' }
                 ].map((item, i) => (

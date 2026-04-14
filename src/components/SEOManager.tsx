@@ -61,7 +61,7 @@ const SEOManager = ({
                 "mpn": productData.id || productData.name.toLowerCase().replace(/\s+/g, '-'),
                 "brand": {
                     "@type": "Brand",
-                    "name": "Unmerco"
+                    "name": "Zenhogar"
                 },
                 "aggregateRating": {
                     "@type": "AggregateRating",

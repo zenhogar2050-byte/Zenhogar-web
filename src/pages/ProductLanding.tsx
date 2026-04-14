@@ -27,7 +27,7 @@ export default function ProductLanding() {
     },
     {
       q: "¿Tienen registro INVIMA?",
-      a: "Sí, todos nuestros productos son originales de la línea Unmerco y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
+      a: "Sí, todos nuestros productos son originales y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
     },
     {
       q: "¿Cómo funciona el pago contra entrega?",
@@ -142,7 +142,7 @@ export default function ProductLanding() {
                     <Info className="w-6 h-6" /> {product.whyChoose?.title || '¿Por qué elegir este producto?'}
                   </h3>
                   <p className="text-[21px] text-emerald-800 leading-relaxed">
-                    {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad de Unmerco. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes en Colombia.'}
+                    {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes en Colombia.'}
                   </p>
                 </div>
 

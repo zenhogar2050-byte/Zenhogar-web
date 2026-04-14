@@ -38,8 +38,8 @@ export const CATEGORIES = [
     icon: 'Sparkles',
     color: 'emerald',
     description: 'Encuentra el equilibrio perfecto para tu cuerpo con nuestra selección de suplementos naturales y vitaminas de alta calidad.',
-    seoTitle: 'Salud y Bienestar: Suplementos Naturales Unmerco para tu Equilibrio',
-    seoDescription: 'Descubre nuestra selección de suplementos naturales para mejorar tu salud y bienestar. Productos originales Unmerco con registro INVIMA. Envío gratis en Colombia.'
+    seoTitle: 'Salud y Bienestar: Suplementos Naturales para tu Equilibrio',
+    seoDescription: 'Descubre nuestra selección de suplementos naturales para mejorar tu salud y bienestar. Productos originales con registro INVIMA. Envío gratis en Colombia.'
   },
   { 
     id: 'belleza-integral', 
@@ -48,7 +48,7 @@ export const CATEGORIES = [
     color: 'rose',
     description: 'Potencia tu belleza desde el interior con productos diseñados para nutrir tu piel, fortalecer tu cabello y revitalizar tu apariencia.',
     seoTitle: 'Belleza Integral: Nutrición para Piel, Cabello y Uñas | Zenhogar',
-    seoDescription: 'Potencia tu belleza desde el interior. Colágenos, vitaminas y tratamientos naturales para una apariencia radiante. Calidad Unmerco certificada.'
+    seoDescription: 'Potencia tu belleza desde el interior. Colágenos, vitaminas y tratamientos naturales para una apariencia radiante. Calidad certificada.'
   },
   { 
     id: 'salud-sexual', 
@@ -57,7 +57,7 @@ export const CATEGORIES = [
     color: 'purple',
     description: 'Mejora tu vitalidad y rendimiento con soluciones naturales diseñadas para tu bienestar íntimo y energía diaria.',
     seoTitle: 'Salud Sexual y Vitalidad: Potenciadores Naturales para Hombres y Mujeres',
-    seoDescription: 'Mejora tu rendimiento y energía con nuestras soluciones naturales para la salud sexual. Discreción, efectividad y calidad Unmerco garantizada.'
+    seoDescription: 'Mejora tu rendimiento y energía con nuestras soluciones naturales para la salud sexual. Discreción, efectividad y calidad garantizada.'
   }
 ];
 
@@ -79,7 +79,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/rtafull.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'hígado graso, cirrosis, desintoxicación hepática, digestión pesada, toxinas, limpieza natural, salud hepática, Unmerco, Rtafull',
+    keywords: 'hígado graso, cirrosis, desintoxicación hepática, digestión pesada, toxinas, limpieza natural, salud hepática, Zenhogar, Rtafull',
     longTailKeywords: [
       'suplemento natural para limpiar el colon profundamente',
       'cómo desintoxicar el hígado de forma natural y segura',
@@ -130,7 +130,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/coliplus.webp',
     basePrice: 75900,
     size: '500 ml',
-    keywords: 'estreñimiento, colon irritable, inflamación abdominal, pesadez estomacal, limpieza de colon, fibra natural, tránsito intestinal, Coliplus, Unmerco',
+    keywords: 'estreñimiento, colon irritable, inflamación abdominal, pesadez estomacal, limpieza de colon, fibra natural, tránsito intestinal, Coliplus, Zenhogar',
     longTailKeywords: [
       'cómo desinflamar el vientre de forma natural y rápida',
       'mejor suplemento para eliminar gases y pesadez estomacal',
@@ -181,7 +181,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Colagenocitratodemagnesio.webp',
     basePrice: 85000,
     size: '700 g',
-    keywords: 'dolor articular, calambres, caída de cabello, uñas quebradizas, piel seca, artritis, magnesio, colágeno hidrolizado, vitalidad, Unmerco',
+    keywords: 'dolor articular, calambres, caída de cabello, uñas quebradizas, piel seca, artritis, magnesio, colágeno hidrolizado, vitalidad, Zenhogar',
     longTailKeywords: [
       'mejor colágeno con magnesio para fortalecer articulaciones',
       'suplemento natural para evitar el cansancio físico diario',
@@ -232,7 +232,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Resvisfactor.webp',
     basePrice: 89900,
     size: '500 ml',
-    keywords: 'defensas bajas, gripe frecuente, sistema inmune, antioxidantes, fatiga crónica, cansancio, Resvis Factor, Unmerco',
+    keywords: 'defensas bajas, gripe frecuente, sistema inmune, antioxidantes, fatiga crónica, cansancio, Resvis Factor, Zenhogar',
     longTailKeywords: [
       'mejor antioxidante natural para prevenir el envejecimiento',
       'cómo fortalecer el sistema inmunológico con resveratrol',
@@ -283,7 +283,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/CLA500_.webp',
     basePrice: 75900,
     size: '60 Cápsulas',
-    keywords: 'quemar grasa, bajar de peso, definición muscular, metabolismo lento, sobrepeso, CLA 500, Unmerco, adelgazar natural',
+    keywords: 'quemar grasa, bajar de peso, definición muscular, metabolismo lento, sobrepeso, CLA 500, Zenhogar, adelgazar natural',
     longTailKeywords: [
       'mejor suplemento de CLA para quemar grasa abdominal',
       'cómo tonificar los músculos de forma natural con CLA 500',
@@ -334,14 +334,14 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Cafetolio.webp',
     basePrice: 99900,
     size: '500 g',
-    keywords: 'ansiedad por comer, falta de energía, metabolismo lento, café verde, adelgazar, energía natural, Cafetolio, Unmerco',
+    keywords: 'ansiedad por comer, falta de energía, metabolismo lento, café verde, adelgazar, energía natural, Cafetolio, Zenhogar',
     longTailKeywords: [
       'mejor café verde para acelerar el metabolismo naturalmente',
       'cómo controlar la ansiedad por comer con café verde',
       'suplemento natural para aumentar la energía sin nerviosismo',
       'beneficios del ácido clorogénico para la pérdida de peso',
       'fórmula balanceada para quemar grasa con café verde premium',
-      'bienestar integral y vitalidad diaria con Cafetolio Unmerco',
+      'bienestar integral y vitalidad diaria con Cafetolio Zenhogar',
       'cómo mejorar la quema de calorías con calidad certificada',
       'bebida natural para mantenerse activo y saludable todo el día',
       'café verde de alta autoridad para control de peso efectivo',
@@ -385,7 +385,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Termoactiva.webp',
     basePrice: 79900,
     size: '120 ml',
-    keywords: 'dolor muscular, tensión cuello, mala circulación, fatiga muscular, masajes, alivio rápido, loción termoactiva, Unmerco',
+    keywords: 'dolor muscular, tensión cuello, mala circulación, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
     longTailKeywords: [
       'mejor loción con efecto calor para dolores de espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
@@ -431,7 +431,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/C-lagen.webp',
     basePrice: 93500,
     size: '500 g',
-    keywords: 'colágeno hidrolizado, piel firme, arrugas, articulaciones, uñas fuertes, C-Lagen, Unmerco',
+    keywords: 'colágeno hidrolizado, piel firme, arrugas, articulaciones, uñas fuertes, C-Lagen, Zenhogar',
     longTailKeywords: [
       'mejor colágeno hidrolizado para eliminar arrugas finas',
       'cómo mejorar la firmeza de la piel de forma natural',
@@ -455,7 +455,11 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 187000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 280500, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Lucía Méndez', text: 'Mi piel se siente mucho más firme y las líneas de expresión han disminuido. ¡Me encanta!', rating: 5 },
+      { name: 'Carlos Ruiz', text: 'Lo tomo para mis articulaciones y he sentido una gran mejoría en la movilidad.', rating: 5 },
+      { name: 'Mariana Soler', text: 'Excelente calidad, se nota que es colágeno puro. Muy recomendado.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -473,14 +477,14 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Citramix.webp',
     basePrice: 79900,
     size: '300 g',
-    keywords: 'vitamina C, defensas, energía cítrica, antioxidante, Citramix, Unmerco',
+    keywords: 'vitamina C, defensas, energía cítrica, antioxidante, Citramix, Zenhogar',
     longTailKeywords: [
       'mejor suplemento de vitamina C natural para defensas',
       'cómo aumentar la energía diaria con extractos cítricos',
       'mezcla antioxidante natural para prevenir resfriados',
       'beneficios de los cítricos para el bienestar integral diario',
       'fórmula balanceada para fortalecer el sistema inmunológico',
-      'vitalidad y protección natural con Citramix Unmerco',
+      'vitalidad y protección natural con Citramix Zenhogar',
       'cómo mejorar la absorción de hierro con vitamina C cítrica',
       'suplemento de alta autoridad para energía y salud celular',
       'bebida revitalizante natural con calidad certificada',
@@ -497,7 +501,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Camila V.', text: 'Me encanta el sabor cítrico y me da mucha energía para empezar el día.', rating: 5 },
+      { name: 'Andrés F.', text: 'Mis defensas han mejorado mucho, ya no me enfermo tan seguido.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -515,7 +522,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Coffe+colageno.webp',
     basePrice: 75900,
     size: '400 g',
-    keywords: 'café con colágeno, belleza matutina, energía y piel, Coffee Colágeno, Unmerco',
+    keywords: 'café con colágeno, belleza matutina, energía y piel, Coffee Colágeno, Zenhogar',
     longTailKeywords: [
       'mejor café colombiano con colágeno para la piel',
       'cómo cuidar la piel mientras tomas café por la mañana',
@@ -539,7 +546,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Juan Pablo', text: 'Es el mejor ritual para empezar el día. Sabe a café premium y cuida mi piel.', rating: 5 },
+      { name: 'Diana Marcela', text: 'Me encanta la idea de tomar colágeno en mi café diario. Muy práctico y delicioso.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -557,7 +567,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/creatina100.webp',
     basePrice: 105000,
     size: '500 g',
-    keywords: 'creatina pura, fuerza muscular, rendimiento deportivo, recuperación, Unmerco',
+    keywords: 'creatina pura, fuerza muscular, rendimiento deportivo, recuperación, Zenhogar',
     longTailKeywords: [
       'mejor creatina monohidratada para ganar fuerza muscular',
       'cómo mejorar la recuperación muscular después del gimnasio',
@@ -581,7 +591,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 210000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 315000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Mateo Holguín', text: 'He aumentado mi fuerza en el gimnasio notablemente. Muy buena pureza.', rating: 5 },
+      { name: 'Santiago Arias', text: 'Excelente para la recuperación muscular. No me siento tan agotado después de entrenar.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -599,7 +612,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Iprossmen.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'salud masculina, próstata, vitalidad, equilibrio hormonal, bienestar integral, Iprossmen, Unmerco',
+    keywords: 'salud masculina, próstata, vitalidad, equilibrio hormonal, bienestar integral, Iprossmen, Zenhogar',
     longTailKeywords: [
       'mejor suplemento natural para la salud de la próstata',
       'cómo mejorar la vitalidad masculina de forma natural',
@@ -623,7 +636,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Humberto G.', text: 'Me siento con más vitalidad y equilibrio. Un gran apoyo para la salud masculina.', rating: 5 },
+      { name: 'Gabriel J.', text: 'Lo tomo como preventivo y me he sentido muy bien. Calidad garantizada.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -641,7 +657,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Kds10.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Unmerco',
+    keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Zenhogar',
     longTailKeywords: [
       'mejor multivitamínico líquido para adultos y niños',
       'cómo asegurar la ingesta diaria de vitaminas esenciales',
@@ -665,7 +681,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Familia Restrepo', text: 'Lo tomamos todos en casa y nos sentimos con mucha más energía y salud.', rating: 5 },
+      { name: 'Olga Marina', text: 'Excelente multivitamínico, mis hijos ya no se enferman tanto.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -683,7 +702,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Liofhim.webp',
     basePrice: 75900,
     size: '30 Cápsulas',
-    keywords: 'liofilizado, extractos naturales, alta pureza, Liofhim, Unmerco',
+    keywords: 'liofilizado, extractos naturales, alta pureza, Liofhim, Zenhogar',
     longTailKeywords: [
       'mejor suplemento natural para los síntomas de la menopausia',
       'cómo aliviar los sofocos y calores nocturnos naturalmente',
@@ -707,7 +726,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Cecilia López', text: 'Me ha ayudado mucho con los calores de la menopausia. Me siento más tranquila.', rating: 5 },
+      { name: 'Inés del Río', text: 'Excelente para el equilibrio hormonal. Lo recomiendo a todas mis amigas.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -725,7 +747,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Lipoblue.webp',
     basePrice: 89900,
     size: '30 Cápsulas',
-    keywords: 'adelgazar, quemar grasa, control apetito, Lipoblue, Unmerco',
+    keywords: 'adelgazar, quemar grasa, control apetito, Lipoblue, Zenhogar',
     longTailKeywords: [
       'mejor quemador de grasa natural para bajar de peso rápido',
       'cómo controlar la ansiedad por comer dulce y harinas',
@@ -749,7 +771,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Valentina S.', text: 'He logrado bajar de peso sin sentir ansiedad. Muy efectivo.', rating: 5 },
+      { name: 'Ximena P.', text: 'Me ayuda a controlar las ganas de comer dulce. He visto cambios en mi abdomen.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -767,7 +792,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Liteplex.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'metabolismo activo, bienestar natural, Liteplex, Unmerco',
+    keywords: 'metabolismo activo, bienestar natural, Liteplex, Zenhogar',
     longTailKeywords: [
       'mejor suplemento líquido para acelerar el metabolismo',
       'cómo mejorar la digestión y el metabolismo naturalmente',
@@ -791,7 +816,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Fernando D.', text: 'Siento mi metabolismo mucho más activo. Me ayuda a no sentirme pesado.', rating: 5 },
+      { name: 'Lorena M.', text: 'Excelente complemento para mi dieta. Me siento con más vitalidad.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -809,7 +837,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Maxlite.webp',
     basePrice: 89900,
     size: '700 g',
-    keywords: 'colágeno ligero, alta absorción, articulaciones, piel, Maxlite, Unmerco',
+    keywords: 'colágeno ligero, alta absorción, articulaciones, piel, Maxlite, Zenhogar',
     longTailKeywords: [
       'mejor colágeno de alta absorción para deportistas',
       'cómo fortalecer las articulaciones sin sentir pesadez',
@@ -833,7 +861,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Andrés Felipe', text: 'Se disuelve súper fácil y no tiene sabor fuerte. Mis rodillas lo agradecen.', rating: 5 },
+      { name: 'Claudia R.', text: 'Excelente absorción, he notado cambios en mi piel y cabello muy rápido.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -851,7 +882,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Megamac.webp',
     basePrice: 89900,
     size: '500 ml',
-    keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Unmerco',
+    keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
     longTailKeywords: [
       'mejor suplemento natural para el cansancio físico y mental',
       'cómo aumentar el rendimiento en días de alta exigencia',
@@ -875,7 +906,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Ricardo M.', text: 'Me da la energía que necesito para mis jornadas largas de trabajo. Muy efectivo.', rating: 5 },
+      { name: 'Sofía L.', text: 'Excelente para el rendimiento físico. Me siento con mucha más vitalidad.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Tu aliado en el equilibrio diario',
       description: 'Mantener tu cuerpo en armonía es la clave para una vida activa. Nuestros productos de salud y bienestar están formulados para apoyar tus funciones vitales de forma natural, ayudándote a recuperar ese equilibrio que te hace sentir bien cada día.'
@@ -893,7 +927,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Resveratrol.webp',
     basePrice: 79900,
     size: '500 ml',
-    keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Unmerco',
+    keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
     longTailKeywords: [
       'mejor antioxidante natural para prevenir el envejecimiento',
       'cómo proteger las células del daño oxidativo con resveratrol',
@@ -917,7 +951,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: []
+    testimonials: [
+      { name: 'Elena P.', text: 'Siento mi piel mucho más joven y con más vida. Es un antioxidante increíble.', rating: 5 },
+      { name: 'Mauricio G.', text: 'Me ayuda a sentirme con más vitalidad durante el día. Muy recomendado.', rating: 5 }
+    ]
   },
   // Belleza Integral
   {
@@ -932,7 +969,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Eventone.webp',
     basePrice: 85000,
     size: '50 ml',
-    keywords: 'unificar tono piel, quitar manchas, piel radiante, Eventone, Unmerco',
+    keywords: 'unificar tono piel, quitar manchas, piel radiante, Eventone, Zenhogar',
     longTailKeywords: [
       'mejor crema para quitar manchas de sol en la cara',
       'cómo unificar el tono de la piel de forma natural y segura',
@@ -956,7 +993,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 170000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Carolina V.', text: 'Tenía unas manchas de sol muy marcadas y Eventone las ha aclarado muchísimo.', rating: 5 },
+      { name: 'Sonia M.', text: 'Mi rostro se ve con un tono mucho más parejo. Estoy muy feliz con los resultados.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -974,7 +1014,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Goldenpassion.webp',
     basePrice: 79900,
     size: '100 ml',
-    keywords: 'brillo piel, nutrición profunda, piel dorada, Golden Passion, Unmerco',
+    keywords: 'brillo piel, nutrición profunda, piel dorada, Golden Passion, Zenhogar',
     longTailKeywords: [
       'mejor aceite corporal para un brillo dorado natural',
       'cómo nutrir la piel seca y darle luminosidad',
@@ -998,7 +1038,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Isabel C.', text: 'Deja un brillo hermoso en la piel sin ser grasoso. Huele delicioso.', rating: 5 },
+      { name: 'Marta L.', text: 'Me encanta cómo deja mi piel de suave y nutrida. Es mi favorito.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -1016,7 +1059,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Hydrastrik.webp',
     basePrice: 82500,
     size: '50 ml',
-    keywords: 'hidratación intensiva, piel seca, frescura, Hydrastrik, Unmerco',
+    keywords: 'hidratación intensiva, piel seca, frescura, Hydrastrik, Zenhogar',
     longTailKeywords: [
       'mejor crema hidratante para piel muy seca y sensible',
       'cómo mantener la piel hidratada durante 24 horas',
@@ -1040,7 +1083,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 165000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 247500, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Daniela F.', text: 'Mi piel estaba muy seca y Hydrastrik le devolvió la vida. Muy fresca.', rating: 5 },
+      { name: 'Andrea P.', text: 'Se absorbe rápido y deja la piel súper hidratada todo el día.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -1058,7 +1104,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Miskinne.webp',
     basePrice: 59900,
     size: '200 ml',
-    keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Unmerco',
+    keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
     longTailKeywords: [
       'mejor crema corporal para pieles delicadas y sensibles',
       'cómo proteger la piel de las agresiones diarias naturalmente',
@@ -1082,7 +1128,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 119800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 179700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Laura B.', text: 'Es la única crema que no irrita mi piel sensible. La deja súper suave.', rating: 5 },
+      { name: 'Mónica T.', text: 'Me encanta el aroma tan natural que tiene. Hidrata muy bien sin ser pegajosa.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -1100,7 +1149,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Tonico.webp',
     basePrice: 89900,
     size: '120 ml',
-    keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Unmerco',
+    keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',
     longTailKeywords: [
       'mejor tónico capilar para evitar la caída del cabello',
       'cómo estimular el crecimiento del cabello de forma natural',
@@ -1124,7 +1173,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Andrés S.', text: 'He notado que se me cae mucho menos el cabello y se siente más grueso.', rating: 5 },
+      { name: 'Liliana M.', text: 'Me ha ayudado a que me crezca cabello nuevo en las zonas donde tenía poco. Muy efectivo.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -1142,7 +1194,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Tuffof.webp',
     basePrice: 85000,
     size: '250 ml',
-    keywords: 'limpieza profunda, frescura, higiene, Tufoff, Unmerco',
+    keywords: 'limpieza profunda, frescura, higiene, Tufoff, Zenhogar',
     longTailKeywords: [
       'mejor producto para eliminar el mal olor corporal eficazmente',
       'cómo mantener la frescura durante todo el día naturalmente',
@@ -1166,7 +1218,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 170000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Ricardo J.', text: 'Me da una sensación de frescura increíble que dura todo el día. Muy recomendado.', rating: 5 },
+      { name: 'Andrés F.', text: 'Excelente para la higiene diaria, se siente la limpieza profunda desde el primer uso.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Belleza que nace desde tu interior',
       description: 'Cuidar tu apariencia es también cuidar tu salud. Nuestros productos de belleza integral nutren tu cuerpo desde adentro, ayudándote a proyectar esa vitalidad y equilibrio natural que te hace sentir radiante y segura en cada momento.'
@@ -1185,7 +1240,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/akha.webp',
     basePrice: 89900,
     size: '60 Cápsulas',
-    keywords: 'potencia sexual, rendimiento, vitalidad masculina, Akha, Unmerco',
+    keywords: 'potencia sexual, rendimiento, vitalidad masculina, Akha, Zenhogar',
     longTailKeywords: [
       'mejor suplemento natural para la potencia y energía masculina',
       'cómo mejorar el rendimiento físico de forma natural y segura',
@@ -1209,7 +1264,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Gabriel M.', text: 'He sentido un aumento significativo en mi energía diaria. Muy buen producto natural.', rating: 5 },
+      { name: 'Javier R.', text: 'Excelente para mejorar el rendimiento físico. Me siento con mucha más vitalidad.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1227,7 +1285,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Derman.webp',
     basePrice: 89900,
     size: '120 ml',
-    keywords: 'bienestar íntimo, cuidado suave, salud sexual, Derman, Unmerco',
+    keywords: 'bienestar íntimo, cuidado suave, salud sexual, Derman, Zenhogar',
     longTailKeywords: [
       'mejor producto natural para el cuidado íntimo femenino',
       'cómo mejorar el bienestar íntimo de forma segura y suave',
@@ -1251,7 +1309,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Mariana L.', text: 'Me brinda una frescura y seguridad única. Es muy suave con la piel.', rating: 5 },
+      { name: 'Sofía C.', text: 'Excelente para el cuidado íntimo diario. Me siento muy cómoda usándolo.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1269,7 +1330,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/haydar.webp',
     basePrice: 73500,
     size: '60 Cápsulas',
-    keywords: 'energía sexual, rendimiento superior, vitalidad, Haydar, Unmerco',
+    keywords: 'energía sexual, rendimiento superior, vitalidad, Haydar, Zenhogar',
     longTailKeywords: [
       'mejor suplemento natural para el rendimiento superior masculino',
       'cómo mantener la energía constante durante todo el día',
@@ -1293,7 +1354,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 147000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 220500, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Mauricio L.', text: 'He notado una gran diferencia en mi rendimiento diario. Muy efectivo y natural.', rating: 5 },
+      { name: 'Carlos P.', text: 'Me da la energía necesaria para mis actividades más exigentes. Excelente calidad.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1311,7 +1375,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Instantvirgin.webp',
     basePrice: 79000,
     size: '50 ml',
-    keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Unmerco',
+    keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
     longTailKeywords: [
       'mejor producto para recuperar la confianza femenina naturalmente',
       'cómo mejorar el bienestar íntimo y plenitud de la mujer',
@@ -1335,7 +1399,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 158000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 237000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Andrea G.', text: 'Me ha ayudado a recuperar mi confianza y bienestar íntimo. Muy efectivo.', rating: 5 },
+      { name: 'Lorena S.', text: 'Excelente producto, se siente la renovación desde las primeras aplicaciones.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1353,7 +1420,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Mammoth.webp',
     basePrice: 89000,
     size: '60 Cápsulas',
-    keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Unmerco',
+    keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
     longTailKeywords: [
       'mejor suplemento para aumentar la fuerza y vitalidad masculina',
       'cómo mejorar el rendimiento físico y potencia naturalmente',
@@ -1377,7 +1444,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 178000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 267000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Ricardo H.', text: 'Siento una fuerza y potencia que no tenía antes. Muy efectivo para mis entrenamientos.', rating: 5 },
+      { name: 'Andrés V.', text: 'Excelente para mejorar el rendimiento en todo sentido. Me siento con mucha más vitalidad.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1395,7 +1465,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Tyrussfull.webp',
     basePrice: 89900,
     size: '500 ml',
-    keywords: 'energía total, rendimiento diario, vitalidad, Tyruss Full, Unmerco',
+    keywords: 'energía total, rendimiento diario, vitalidad, Tyruss Full, Zenhogar',
     longTailKeywords: [
       'mejor suplemento líquido para energía total y rendimiento',
       'cómo mejorar el desempeño diario de forma natural y efectiva',
@@ -1419,7 +1489,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Juan C.', text: 'Me siento con una vitalidad total durante todo el día. Muy buen sabor y efecto.', rating: 5 },
+      { name: 'Mateo R.', text: 'Excelente para mejorar el rendimiento en mis actividades diarias. Muy recomendado.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1437,7 +1510,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Zafir.webp',
     basePrice: 73500,
     size: '500 ml',
-    keywords: 'energizante natural, vitalidad, energía rápida, Zafir, Unmerco',
+    keywords: 'energizante natural, vitalidad, energía rápida, Zafir, Zenhogar',
     longTailKeywords: [
       'mejor bebida energizante natural para momentos de exigencia',
       'cómo obtener un impulso de energía rápida de forma saludable',
@@ -1461,7 +1534,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 147000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 220500, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Felipe T.', text: 'Me encanta el sabor y la energía que me da. Muy natural y efectivo.', rating: 5 },
+      { name: 'Sonia R.', text: 'Excelente para esos días donde necesito un extra de vitalidad. Muy recomendado.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1479,7 +1555,7 @@ export const PRODUCTS: Product[] = [
     image: 'https://zenhogar.live/assets/products/Zeus.webp',
     basePrice: 85000,
     size: '60 Cápsulas',
-    keywords: 'poder masculino, vitalidad, salud sexual, Zeus, Unmerco',
+    keywords: 'poder masculino, vitalidad, salud sexual, Zeus, Zenhogar',
     longTailKeywords: [
       'mejor suplemento avanzado para la salud masculina integral',
       'cómo potenciar el poder y vitalidad del hombre naturalmente',
@@ -1503,7 +1579,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 170000, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Héctor M.', text: 'Me siento con el poder de un dios. Mi rendimiento ha mejorado al 100%.', rating: 5 },
+      { name: 'Julián D.', text: 'Excelente suplemento para la vitalidad masculina. Calidad garantizada.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1521,7 +1600,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
     size: '60 Cápsulas',
-    keywords: 'longevidad, energía celular, salud cognitiva, +NAD, Unmerco',
+    keywords: 'longevidad, energía celular, salud cognitiva, +NAD, Zenhogar',
     longTailKeywords: [
       'mejor suplemento para aumentar los niveles de NAD+ naturalmente',
       'cómo mejorar la energía celular y longevidad activa',
@@ -1545,7 +1624,10 @@ export const PRODUCTS: Product[] = [
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
-    testimonials: []
+    testimonials: [
+      { name: 'Roberto K.', text: 'Siento que mis células se han renovado. Tengo mucha más claridad mental.', rating: 5 },
+      { name: 'Lucía F.', text: 'Excelente para el antienvejecimiento celular. Me siento con más energía vital.', rating: 5 }
+    ]
   },
   {
     id: 'titan-coffee',
@@ -1559,7 +1641,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Titancoffee.webp', // Placeholder
     basePrice: 89900,
     size: '200g',
-    keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Unmerco',
+    keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar',
     longTailKeywords: [
       'mejor café enriquecido para la potencia y energía masculina',
       'cómo mejorar el rendimiento diario con una taza de café',
@@ -1581,7 +1663,10 @@ export const PRODUCTS: Product[] = [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
       { id: '2u', label: '2 Unidades', units: 2, price: 134850 }
     ],
-    testimonials: [],
+    testimonials: [
+      { name: 'Marcos P.', text: 'El café más potente que he probado. Me mantiene activo todo el día.', rating: 5 },
+      { name: 'Elena B.', text: 'Sabor intenso y energía duradera. Mi favorito para el trabajo.', rating: 5 }
+    ],
     whyChoose: {
       title: 'Recupera tu vitalidad y confianza',
       description: 'El bienestar íntimo es fundamental para una vida plena. Nuestras soluciones naturales están diseñadas para potenciar tu energía y equilibrio natural, permitiéndote disfrutar de cada momento con la confianza y vitalidad que mereces.'
@@ -1599,7 +1684,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Hemocream.webp',
     basePrice: 65000,
     size: '30 ml',
-    keywords: 'hemorroides, alivio, cuidado íntimo, Hemocream, Unmerco',
+    keywords: 'hemorroides, alivio, cuidado íntimo, Hemocream, Zenhogar',
     longTailKeywords: [
       'mejor crema natural para el alivio de las hemorroides',
       'cómo calmar el dolor y la inflamación de forma suave',
@@ -1621,7 +1706,10 @@ export const PRODUCTS: Product[] = [
       { id: '1u', label: '1 Unidad', units: 1, price: 65000 },
       { id: '2u', label: '2 Unidades', units: 2, price: 97500 }
     ],
-    testimonials: []
+    testimonials: [
+      { name: 'Jorge T.', text: 'Me ha aliviado mucho el malestar y la inflamación. Muy efectiva.', rating: 5 },
+      { name: 'Marta S.', text: 'Excelente crema, brinda un alivio rápido y duradero. Calidad certificada.', rating: 5 }
+    ]
   }
 ];
 
@@ -1646,7 +1734,7 @@ export const COMBO_OF_THE_MONTH = {
     'Mejora la digestión y absorción',
     'Aumenta los niveles de energía'
   ],
-  keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Unmerco, combo salud',
+  keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
   longTailKeywords: [
     'mejor combo natural para desinflamar el vientre y subir defensas',
     'cómo limpiar el colon y el hígado de forma efectiva y segura',
@@ -1686,7 +1774,7 @@ export const PROMOTIONS = [
       description: 'Cuidar tu piel por fuera y tus células por dentro es la clave de un brillo real. Este combo une la protección antioxidante del resveratrol con la suavidad de Miskinne, apoyando tu vitalidad y equilibrio natural para que luzcas radiante.'
     },
     badge: 'COMBO N°1',
-    keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Unmerco, combo belleza',
+    keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Zenhogar, combo belleza',
     longTailKeywords: [
       'mejor combo para rejuvenecer la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
@@ -1730,7 +1818,7 @@ export const PROMOTIONS = [
       description: 'Unificar tu tono de piel y proteger tus células es un acto de amor propio. Este dúo antioxidante trabaja en armonía para nutrirte profundamente, devolviéndote esa vitalidad y claridad que te hace sentir eternamente bella.'
     },
     badge: 'OFERTA N° 2',
-    keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Unmerco, combo belleza',
+    keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
     longTailKeywords: [
       'mejor combo para quitar manchas y unificar el tono de la piel',
       'cómo nutrir las células y aclarar la piel de forma segura',
@@ -1774,7 +1862,7 @@ export const PROMOTIONS = [
       description: 'Sentirse ligero es el primer paso para una vida activa. Este combo detox limpia tu sistema de forma gentil y honesta, apoyando tu microbiota y vitalidad para que recuperes tu ritmo y equilibrio natural sin pesadez.'
     },
     badge: 'OFERTA N°3',
-    keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Unmerco, combo salud',
+    keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
     longTailKeywords: [
       'mejor combo detox para limpiar el colon y el hígado naturalmente',
       'cómo eliminar la pesadez abdominal y regular la digestión',
@@ -1818,7 +1906,7 @@ export const PROMOTIONS = [
       description: 'Lograr tu peso ideal requiere un metabolismo activo y un cuerpo libre de toxinas. Este combo apoya tu proceso de forma honesta, ayudándote a sentirte ligero y con la vitalidad necesaria para mantener tu ritmo natural.'
     },
     badge: 'COMBO N°4',
-    keywords: 'Liteplex, Rtafull, control de peso, adelgazar, desintoxicación, metabolismo, Unmerco, combo salud',
+    keywords: 'Liteplex, Rtafull, control de peso, adelgazar, desintoxicación, metabolismo, Zenhogar, combo salud',
     longTailKeywords: [
       'mejor combo para bajar de peso y desintoxicar el cuerpo',
       'cómo acelerar el metabolismo y eliminar toxinas naturalmente',
@@ -1862,7 +1950,7 @@ export const PROMOTIONS = [
       description: 'Un cuerpo limpio es un cuerpo protegido. Este combo combina la frescura de Tufoff con la depuración de Rtafull, brindándote una defensa integral y una vitalidad renovada para enfrentar el día a día con seguridad.'
     },
     badge: 'COMBO N°5',
-    keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Unmerco, combo salud',
+    keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
     longTailKeywords: [
       'mejor combo para eliminar el mal olor y desintoxicar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
@@ -1906,7 +1994,7 @@ export const PROMOTIONS = [
       description: 'No dejes que las tensiones te frenen. Este combo cuida tus articulaciones desde adentro y relaja tus músculos por fuera, devolviéndote la elasticidad y el confort necesarios para vivir tu vitalidad sin límites.'
     },
     badge: 'COMBO N°6',
-    keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Unmerco, combo bienestar',
+    keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
     longTailKeywords: [
       'mejor combo para el dolor de rodillas y espalda naturalmente',
       'cómo mejorar la movilidad articular y aliviar tensiones musculares',
@@ -1950,7 +2038,7 @@ export const PROMOTIONS = [
       description: 'Cuando el día exige el máximo, tu cuerpo necesita combustible de calidad. Este combo potencia tu rendimiento y enfoque mental de forma natural, dándote esa vitalidad extrema que te permite superar cualquier obstáculo.'
     },
     badge: 'COMBO N°7',
-    keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Unmerco, combo energía',
+    keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Zenhogar, combo energía',
     longTailKeywords: [
       'mejor combo para tener energía todo el día de forma natural',
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
@@ -1994,7 +2082,7 @@ export const PROMOTIONS = [
       description: 'Empieza cada día con la seguridad de un cuerpo limpio y lleno de energía. Este combo apoya tu desempeño diario y depuración natural, ayudándote a mantener ese equilibrio y vitalidad que te hace sentir imparable.'
     },
     badge: 'COMBO N°8',
-    keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Unmerco, combo salud',
+    keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Zenhogar, combo salud',
     longTailKeywords: [
       'mejor combo para limpiar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',

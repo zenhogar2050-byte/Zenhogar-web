@@ -24,7 +24,7 @@ export default function ComboLanding() {
     },
     {
       q: "¿Tienen registro INVIMA?",
-      a: "Sí, todos nuestros productos son originales de la línea Unmerco y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
+      a: "Sí, todos nuestros productos son originales y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
     },
     {
       q: "¿Cómo funciona el pago contra entrega?",
@@ -76,7 +76,7 @@ export default function ComboLanding() {
     <div className="min-h-screen bg-white">
       <SEOManager 
         title={cleanPromoName(combo.name)}
-        description={`${combo.description} Aprovecha este combo exclusivo de productos Unmerco originales.`}
+        description={`${combo.description} Aprovecha este combo exclusivo de productos naturales originales.`}
         canonicalUrl={`/combo/${combo.id}`}
         ogImage={combo.image}
         type="product"

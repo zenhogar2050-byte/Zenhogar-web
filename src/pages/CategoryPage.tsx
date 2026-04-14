@@ -68,7 +68,7 @@ export default function CategoryPage() {
     <div className="flex flex-col min-h-screen">
       <SEOManager 
         title={category.name}
-        description={`${category.description} Encuentra soluciones naturales para tu bienestar con productos Unmerco originales.`}
+        description={`${category.description} Encuentra soluciones naturales para tu bienestar con productos naturales originales.`}
         canonicalUrl={`/categoria/${category.id}`}
       />
       {/* Header Section */}
