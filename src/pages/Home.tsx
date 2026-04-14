@@ -228,7 +228,8 @@ export default function Home() {
                     alt={COMBO_OF_THE_MONTH.name}
                     width={600}
                     height={600}
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
                     className="max-w-full max-h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                     referrerPolicy="no-referrer"
                   />

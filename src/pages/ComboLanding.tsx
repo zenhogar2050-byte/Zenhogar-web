@@ -112,6 +112,8 @@ export default function ComboLanding() {
                   alt={combo.name}
                   width={800}
                   height={800}
+                  loading="eager"
+                  fetchPriority="high"
                   className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
