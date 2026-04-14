@@ -37,21 +37,27 @@ export const CATEGORIES = [
     name: 'Salud y Bienestar', 
     icon: 'Sparkles',
     color: 'emerald',
-    description: 'Encuentra el equilibrio perfecto para tu cuerpo con nuestra selección de suplementos naturales y vitaminas de alta calidad.'
+    description: 'Encuentra el equilibrio perfecto para tu cuerpo con nuestra selección de suplementos naturales y vitaminas de alta calidad.',
+    seoTitle: 'Salud y Bienestar: Suplementos Naturales Unmerco para tu Equilibrio',
+    seoDescription: 'Descubre nuestra selección de suplementos naturales para mejorar tu salud y bienestar. Productos originales Unmerco con registro INVIMA. Envío gratis en Colombia.'
   },
   { 
     id: 'belleza-integral', 
     name: 'Belleza Integral', 
     icon: 'Heart',
     color: 'rose',
-    description: 'Potencia tu belleza desde el interior con productos diseñados para nutrir tu piel, fortalecer tu cabello y revitalizar tu apariencia.'
+    description: 'Potencia tu belleza desde el interior con productos diseñados para nutrir tu piel, fortalecer tu cabello y revitalizar tu apariencia.',
+    seoTitle: 'Belleza Integral: Nutrición para Piel, Cabello y Uñas | Zenhogar',
+    seoDescription: 'Potencia tu belleza desde el interior. Colágenos, vitaminas y tratamientos naturales para una apariencia radiante. Calidad Unmerco certificada.'
   },
   { 
     id: 'salud-sexual', 
     name: 'Salud Sexual', 
     icon: 'Zap',
     color: 'purple',
-    description: 'Mejora tu vitalidad y rendimiento con soluciones naturales diseñadas para tu bienestar íntimo y energía diaria.'
+    description: 'Mejora tu vitalidad y rendimiento con soluciones naturales diseñadas para tu bienestar íntimo y energía diaria.',
+    seoTitle: 'Salud Sexual y Vitalidad: Potenciadores Naturales para Hombres y Mujeres',
+    seoDescription: 'Mejora tu rendimiento y energía con nuestras soluciones naturales para la salud sexual. Discreción, efectividad y calidad Unmerco garantizada.'
   }
 ];
 
