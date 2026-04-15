@@ -20,7 +20,7 @@ export default function PromoBanner() {
   // En móvil, incluimos la Oferta del Mes al principio
   const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
   const mobileItems = baseItems;
-  const marqueeItems = [...baseItems, ...baseItems, ...baseItems];
+  const marqueeItems = [...baseItems, ...baseItems];
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -63,8 +63,8 @@ export default function PromoBanner() {
   // VELOCIDADES CALIBRADAS PARA MARQUEE (Tablet/Desktop)
   const durations = {
     mobile: 4,
-    tablet: 8,
-    desktop: 15
+    tablet: 12,
+    desktop: 25
   };
 
   const currentDuration = durations[screenSize];
