@@ -84,7 +84,42 @@ const SEOManager = ({
                     "offerCount": productData.offerCount,
                     "availability": "https://schema.org/InStock",
                     "url": fullUrl,
-                    "priceValidUntil": "2026-12-31"
+                    "priceValidUntil": "2026-12-31",
+                    "shippingDetails": {
+                        "@type": "OfferShippingDetails",
+                        "shippingRate": {
+                            "@type": "MonetaryAmount",
+                            "value": "0",
+                            "currency": "COP"
+                        },
+                        "shippingDestination": {
+                            "@type": "DefinedRegion",
+                            "addressCountry": "CO"
+                        },
+                        "deliveryTime": {
+                            "@type": "ShippingDeliveryTime",
+                            "handlingTime": {
+                                "@type": "QuantitativeValue",
+                                "minValue": "0",
+                                "maxValue": "1",
+                                "unitCode": "DAY"
+                            },
+                            "transitTime": {
+                                "@type": "QuantitativeValue",
+                                "minValue": "2",
+                                "maxValue": "5",
+                                "unitCode": "DAY"
+                            }
+                        }
+                    },
+                    "hasMerchantReturnPolicy": {
+                        "@type": "MerchantReturnPolicy",
+                        "applicableCountry": "CO",
+                        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                        "merchantReturnDays": 2,
+                        "returnMethod": "https://schema.org/ReturnByMail",
+                        "returnFees": "https://schema.org/FreeReturn"
+                    }
                 },
                 "review": [
                     {

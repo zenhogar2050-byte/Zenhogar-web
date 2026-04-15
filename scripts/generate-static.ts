@@ -193,7 +193,27 @@ const generateProductHTML = (product: any) => {
             "url": `${BASE_URL}/producto/${product.id}`,
             "priceCurrency": "COP",
             "price": product.basePrice,
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "COP"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "CO"
+                }
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "CO",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                "merchantReturnDays": 2,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+            }
         }
     };
 
@@ -258,7 +278,27 @@ const generateComboHTML = (combo: any) => {
             "url": `${BASE_URL}/combo/${combo.id}`,
             "priceCurrency": "COP",
             "price": combo.price,
-            "availability": "https://schema.org/InStock"
+            "availability": "https://schema.org/InStock",
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "COP"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "CO"
+                }
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "CO",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                "merchantReturnDays": 2,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+            }
         }
     };
 
