@@ -42,11 +42,7 @@ export default function Home() {
       <section className="relative pt-10 pb-12 lg:pt-16 lg:pb-20 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <div>
               <h1 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-6 font-display leading-[1.1] tracking-tight">
                 Reclama el Control de tu <span className="text-emerald-600 italic">Vitalidad</span>
               </h1>
@@ -59,7 +55,7 @@ export default function Home() {
                   <span>Certificación INVIMA Garantizada</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
         {/* Abstract organic background elements */}

@@ -75,7 +75,7 @@ export default function PromoBanner() {
         className="bg-blue-700 text-white py-10 relative border-b border-blue-500/30 overflow-hidden select-none touch-pan-y"
       >
         <div className="max-w-md mx-auto px-4 relative h-[420px] flex items-center justify-center">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentIndex}
               initial={{ opacity: 0, scale: 0.8, x: 100 }}
@@ -108,6 +108,10 @@ export default function PromoBanner() {
                     draggable="false"
                     className="max-w-full max-h-full object-contain drop-shadow-xl"
                     referrerPolicy="no-referrer"
+                    width="256"
+                    height="256"
+                    fetchPriority={currentIndex === 0 ? "high" : "auto"}
+                    loading={currentIndex === 0 ? "eager" : "lazy"}
                   />
                 </motion.div>
 
@@ -202,6 +206,9 @@ export default function PromoBanner() {
                 draggable="false"
                 className="max-w-full max-h-full object-contain drop-shadow-md"
                 referrerPolicy="no-referrer"
+                width="240"
+                height="240"
+                loading="lazy"
               />
             </div>
             <div className="flex items-center mb-3">
