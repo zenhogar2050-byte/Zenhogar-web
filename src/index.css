@@ -10,10 +10,14 @@
   
   @keyframes marquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-33.333%); }
+    100% { transform: translateX(calc(-100% / 3)); }
   }
   
-  --animate-marquee: marquee 24s linear infinite;
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+@utility pause-animation {
+  animation-play-state: paused;
 }
 
 @utility scrollbar-hide {

@@ -21,6 +21,10 @@ const ComboLanding = lazy(() => import('./pages/ComboLanding'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const CategoryPage = lazy(() => import('./pages/CategoryPage'));
 const Gracias = lazy(() => import('./pages/Gracias'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const DeliveryConditions = lazy(() => import('./pages/DeliveryConditions'));
+const ReturnsWarranty = lazy(() => import('./pages/ReturnsWarranty'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -89,6 +93,10 @@ function AppContent() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/gracias" element={<Gracias />} />
             <Route path="/categoria/:id" element={<CategoryPage />} />
+            <Route path="/quienes-somos" element={<AboutUs />} />
+            <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
+            <Route path="/condiciones-entrega" element={<DeliveryConditions />} />
+            <Route path="/devoluciones-garantia" element={<ReturnsWarranty />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </Suspense>

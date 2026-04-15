@@ -18,8 +18,9 @@ export default function PromoBanner() {
   });
 
   // En móvil, incluimos la Oferta del Mes al principio
-  const mobileItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
-  const marqueeItems = [...PROMOTIONS, ...PROMOTIONS];
+  const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
+  const mobileItems = baseItems;
+  const marqueeItems = [...baseItems, ...baseItems, ...baseItems];
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -180,18 +181,12 @@ export default function PromoBanner() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <motion.div 
-        className="flex items-center whitespace-nowrap"
-        initial={{ x: 0 }}
-        animate={isPaused ? undefined : { x: "-50%" }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: currentDuration,
-            ease: "linear",
-          }
-        }}
+      <div 
+        className={cn(
+          "flex items-center whitespace-nowrap animate-marquee",
+          isPaused && "pause-animation"
+        )}
+        style={{ animationDuration: `${currentDuration}s` }}
       >
         {marqueeItems.map((promo, index) => (
           <Link 
@@ -199,7 +194,10 @@ export default function PromoBanner() {
             to={`/combo/${promo.id}`}
             className="inline-flex flex-col items-center mx-8 hover:text-blue-200 transition-colors cursor-pointer group flex-shrink-0"
           >
-            <div className="w-48 h-48 sm:w-60 sm:h-60 bg-white rounded-[2rem] sm:rounded-[2.5rem] mb-4 flex items-center justify-center p-4 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform">
+            <div className={cn(
+              "w-48 h-48 sm:w-60 sm:h-60 rounded-[2rem] sm:rounded-[2.5rem] mb-4 flex items-center justify-center p-4 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform",
+              promo.id === COMBO_OF_THE_MONTH.id ? "bg-emerald-50 border-4 border-emerald-400/50" : "bg-white"
+            )}>
               <img 
                 src={promo.image} 
                 alt={promo.name} 
@@ -212,7 +210,10 @@ export default function PromoBanner() {
               />
             </div>
             <div className="flex items-center mb-3">
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-blue-200" />
+              <Sparkles className={cn(
+                "w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3",
+                promo.id === COMBO_OF_THE_MONTH.id ? "text-emerald-400" : "text-blue-200"
+              )} />
               <span className="text-xl sm:text-2xl font-black tracking-wide uppercase">
                 {cleanPromoName(promo.name)}
               </span>
@@ -221,13 +222,16 @@ export default function PromoBanner() {
               <span className="text-xs sm:text-sm font-bold text-blue-200 line-through opacity-80">
                 {formatCurrency(promo.originalPrice)}
               </span>
-              <span className="text-base sm:text-lg font-black bg-white text-blue-700 px-4 sm:px-5 py-1 sm:py-1.5 rounded-full shadow-xl transform group-hover:scale-110 transition-transform">
+              <span className={cn(
+                "text-base sm:text-lg font-black px-4 sm:px-5 py-1 sm:py-1.5 rounded-full shadow-xl transform group-hover:scale-110 transition-transform",
+                promo.id === COMBO_OF_THE_MONTH.id ? "bg-emerald-500 text-white" : "bg-white text-blue-700"
+              )}>
                 Solo por {formatCurrency(promo.price)}
               </span>
             </div>
           </Link>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

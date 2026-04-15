@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-stone-900 text-white py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-12 lg:gap-24 mb-16 items-start">
+        <div className="grid md:grid-cols-4 gap-12 lg:gap-16 mb-16 items-start">
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
@@ -25,9 +25,28 @@ export default function Footer() {
             </p>
           </div>
 
+          {/* Quick Links Section */}
+          <div>
+            <h4 className="text-xl font-bold mb-8 text-white">Nosotros</h4>
+            <ul className="space-y-4 text-stone-400">
+              <li>
+                <Link to="/quienes-somos" className="hover:text-emerald-600 transition-colors">Quiénes Somos</Link>
+              </li>
+              <li>
+                <Link to="/politica-privacidad" className="hover:text-emerald-600 transition-colors">Política de Privacidad</Link>
+              </li>
+              <li>
+                <Link to="/condiciones-entrega" className="hover:text-emerald-600 transition-colors">Condiciones de Entrega</Link>
+              </li>
+              <li>
+                <Link to="/devoluciones-garantia" className="hover:text-emerald-600 transition-colors">Devoluciones y Garantía</Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Section */}
           <div>
-            <h4 className="text-xl font-bold mb-8 text-white">Información de Contacto</h4>
+            <h4 className="text-xl font-bold mb-8 text-white">Contacto</h4>
             <ul className="space-y-6 text-stone-400">
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
@@ -50,37 +69,8 @@ export default function Footer() {
                   <Mail className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Correos Electrónicos</p>
+                  <p className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Correos</p>
                   <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-600 transition-colors block font-medium">ventas@zenhogar.live</a>
-                  <a href="mailto:soporte@zenhogar.live" className="text-white hover:text-emerald-600 transition-colors block font-medium">soporte@zenhogar.live</a>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Redes Sociales</p>
-                  <div className="flex gap-4 mt-2">
-                    <a 
-                      href="https://www.facebook.com/HomeIdeas0812" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-emerald-600 transition-colors font-medium"
-                      aria-label="Visitar nuestro Facebook"
-                    >
-                      Facebook
-                    </a>
-                    <a 
-                      href="https://www.instagram.com/zenhogar" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-emerald-600 transition-colors font-medium"
-                      aria-label="Visitar nuestro Instagram"
-                    >
-                      Instagram
-                    </a>
-                  </div>
                 </div>
               </li>
             </ul>
@@ -109,6 +99,13 @@ export default function Footer() {
             <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
             <Link to="/checkout" className="hover:text-white transition-colors">Carrito</Link>
           </div>
+        </div>
+
+        {/* YMYL Medical Disclaimer */}
+        <div className="mt-8 pt-8 border-t border-stone-800/50">
+          <p className="text-[10px] text-stone-600 leading-relaxed text-center max-w-4xl mx-auto italic">
+            Aviso Legal: Los productos ofrecidos por ZENHOGAR son suplementos dietarios y no pretenden diagnosticar, tratar, curar o prevenir ninguna enfermedad. La información proporcionada en este sitio web tiene fines informativos y no sustituye el consejo médico profesional. Siempre consulte con su médico antes de comenzar cualquier régimen de suplementación. Los resultados pueden variar de persona a persona. Todos nuestros productos cuentan con registro INVIMA vigente.
+          </p>
         </div>
       </div>
     </footer>
