@@ -305,10 +305,10 @@ const generateProductHTML = (product: any) => {
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "CO",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
                 "merchantReturnDays": 2,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn"
+                "returnMethod": "http://schema.org/ReturnByMail",
+                "returnFees": "http://schema.org/FreeReturn"
             }
         }
     };
@@ -487,10 +487,10 @@ const generateComboHTML = (combo: any) => {
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "CO",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
                 "merchantReturnDays": 2,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn"
+                "returnMethod": "http://schema.org/ReturnByMail",
+                "returnFees": "http://schema.org/FreeReturn"
             }
         }
     };
