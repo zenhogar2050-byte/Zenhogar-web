@@ -7,8 +7,9 @@ const BASE_URL = 'https://zenhogar.live';
 // Leer el index.html generado por Vite para obtener los scripts y estilos reales
 const distIndexHtml = fs.readFileSync(path.join(process.cwd(), 'dist/index.html'), 'utf-8');
 
-// Extraer scripts y estilos (incluyendo los que tienen hash)
-const scriptTags = distIndexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g) || [];
+// Extraer scripts y estilos (excluyendo scripts de tipo application/ld+json para evitar duplicidad)
+const scriptTags = (distIndexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g) || [])
+    .filter(tag => !tag.includes('application/ld+json'));
 const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [];
 const headExtra = [...linkTags, ...scriptTags].join('\n    ');
 
@@ -46,10 +47,17 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    ${schema ? (Array.isArray(schema) 
-        ? schema.map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n    ')
-        : `<script type="application/ld+json">${JSON.stringify(schema)}</script>`) 
-    : ''}
+    ${schema ? (() => {
+        const schemas = Array.isArray(schema) ? schema : [schema];
+        const graph = {
+            "@context": "https://schema.org",
+            "@graph": schemas.map(s => {
+                const { "@context": context, ...rest } = s;
+                return rest;
+            })
+        };
+        return `<script type="application/ld+json">${JSON.stringify(graph)}</script>`;
+    })() : ''}
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->
