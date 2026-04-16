@@ -13,7 +13,42 @@ const scriptTags = (distIndexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g) 
 const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [];
 const headExtra = [...linkTags, ...scriptTags].join('\n    ');
 
-const template = (title: string, description: string, canonical: string, content: string, image: string, schema?: any) => `
+const template = (title: string, description: string, canonical: string, content: string, image: string, schema?: any) => {
+    const schemas = Array.isArray(schema) ? schema : (schema ? [schema] : []);
+    const graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": `${BASE_URL}/#organization`,
+                "name": "Zenhogar",
+                "url": BASE_URL,
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": `${BASE_URL}/assets/logo/logo.png`,
+                    "width": "512",
+                    "height": "512"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+57-302-410-2568",
+                    "contactType": "customer service",
+                    "areaServed": "CO",
+                    "availableLanguage": "Spanish"
+                },
+                "sameAs": [
+                    "https://instagram.com/zenhogar",
+                    "https://www.facebook.com/HomeIdeas0812"
+                ]
+            },
+            ...schemas.map(s => {
+                const { "@context": context, ...rest } = s;
+                return rest;
+            })
+        ]
+    };
+
+    return `
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -47,17 +82,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    ${schema ? (() => {
-        const schemas = Array.isArray(schema) ? schema : [schema];
-        const graph = {
-            "@context": "https://schema.org",
-            "@graph": schemas.map(s => {
-                const { "@context": context, ...rest } = s;
-                return rest;
-            })
-        };
-        return `<script type="application/ld+json">${JSON.stringify(graph)}</script>`;
-    })() : ''}
+    <script type="application/ld+json">${JSON.stringify(graph)}</script>
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->
@@ -89,6 +114,7 @@ const template = (title: string, description: string, canonical: string, content
 </body>
 </html>
 `;
+};
 
 // Generador de HTML para Categorías
 const generateCategoryHTML = (category: any) => {
@@ -224,6 +250,8 @@ const generateProductHTML = (product: any) => {
         "name": product.name,
         "image": `${BASE_URL}${product.image}`,
         "description": product.description,
+        "sku": product.id,
+        "mpn": product.id,
         "brand": {
             "@type": "Brand",
             "name": "Zenhogar"
@@ -257,6 +285,21 @@ const generateProductHTML = (product: any) => {
                 "shippingDestination": {
                     "@type": "DefinedRegion",
                     "addressCountry": "CO"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": "0",
+                        "maxValue": "1",
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": "2",
+                        "maxValue": "5",
+                        "unitCode": "DAY"
+                    }
                 }
             },
             "hasMerchantReturnPolicy": {
@@ -389,6 +432,8 @@ const generateComboHTML = (combo: any) => {
         "name": combo.name,
         "image": `${BASE_URL}${combo.image}`,
         "description": combo.description,
+        "sku": combo.id,
+        "mpn": combo.id,
         "brand": {
             "@type": "Brand",
             "name": "Zenhogar"
@@ -422,6 +467,21 @@ const generateComboHTML = (combo: any) => {
                 "shippingDestination": {
                     "@type": "DefinedRegion",
                     "addressCountry": "CO"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": "0",
+                        "maxValue": "1",
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": "2",
+                        "maxValue": "5",
+                        "unitCode": "DAY"
+                    }
                 }
             },
             "hasMerchantReturnPolicy": {

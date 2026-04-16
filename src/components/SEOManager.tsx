@@ -176,10 +176,6 @@ const SEOManager = ({
             <meta name="twitter:image" content={finalImage || defaultImage} />
             <meta name="twitter:label1" content="Precio" />
             <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
-
-            <script type="application/ld+json">
-                {JSON.stringify(schemaData)}
-            </script>
         </Helmet>
     );
 };
