@@ -46,7 +46,10 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    ${schema ? `<script type="application/ld+json">${JSON.stringify(schema)}</script>` : ''}
+    ${schema ? (Array.isArray(schema) 
+        ? schema.map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n    ')
+        : `<script type="application/ld+json">${JSON.stringify(schema)}</script>`) 
+    : ''}
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->
@@ -110,7 +113,7 @@ const generateCategoryHTML = (category: any) => {
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
             ${categoryProducts.map(p => `
                 <div style="background: white; padding: 20px; border-radius: 24px; border: 1px solid #e7e5e4; text-align: center;">
-                    <img src="${p.image}" alt="${p.name}" style="width: 100%; border-radius: 16px; margin-bottom: 15px;">
+                    <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" style="width: 100%; border-radius: 16px; margin-bottom: 15px;">
                     <h3 style="margin: 10px 0;">${p.name}</h3>
                     <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">${p.shortDescription}</p>
                     <div class="price">Desde ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.basePrice)}</div>
@@ -118,6 +121,16 @@ const generateCategoryHTML = (category: any) => {
                 </div>
             `).join('')}
         </div>
+
+        <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
+            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
+                <a href="/politica-privacidad" style="color: inherit; text-decoration: none;">Privacidad</a>
+                <a href="/condiciones-entrega" style="color: inherit; text-decoration: none;">Envíos</a>
+                <a href="/devoluciones-garantia" style="color: inherit; text-decoration: none;">Garantía</a>
+            </div>
+        </footer>
     `;
     return template(
         category.seoTitle || category.name,
@@ -146,8 +159,9 @@ const generateHomeHTML = () => {
 
     const content = `
         <div style="text-align: center; padding: 60px 0;">
+            <p style="text-transform: uppercase; letter-spacing: 0.1em; color: #059669; font-weight: bold; margin-bottom: 10px;">Tu Tienda de Productos Naturales en Colombia</p>
             <h1 style="font-size: 3.5rem;">Reclama el Control de tu <span style="color: #059669; font-style: italic;">Vitalidad</span></h1>
-            <p class="description" style="font-size: 1.4rem; max-width: 800px; margin: 20px auto;">Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior.</p>
+            <p class="description" style="font-size: 1.4rem; max-width: 800px; margin: 20px auto;">ZENHOGAR: Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior.</p>
         </div>
         <div style="margin-bottom: 60px;">
             <h2 style="text-align: center; margin-bottom: 40px;">Oferta Destacada</h2>
@@ -162,6 +176,28 @@ const generateHomeHTML = () => {
                 </div>
             </div>
         </div>
+
+        <div style="margin-bottom: 60px;">
+            <h2 style="text-align: center; margin-bottom: 40px;">Explora por Categoría</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                ${CATEGORIES.map(c => `
+                    <a href="/categoria/${c.id}" style="text-decoration: none; color: inherit; text-align: center; padding: 20px; background: white; border-radius: 20px; border: 1px solid #e7e5e4;">
+                        <h3 style="margin: 0; color: #059669;">${c.name}</h3>
+                        <p style="font-size: 0.8rem; color: #78716c; margin-top: 10px;">${c.description.substring(0, 60)}...</p>
+                    </a>
+                `).join('')}
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
+            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
+                <a href="/politica-privacidad" style="color: inherit; text-decoration: none;">Privacidad</a>
+                <a href="/condiciones-entrega" style="color: inherit; text-decoration: none;">Envíos</a>
+                <a href="/devoluciones-garantia" style="color: inherit; text-decoration: none;">Garantía</a>
+            </div>
+        </footer>
     `;
     return template(
         "Combos y Ofertas en Productos Naturales Originales",
@@ -226,10 +262,29 @@ const generateProductHTML = (product: any) => {
         }
     };
 
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL },
+            { "@type": "ListItem", "position": 2, "name": product.name, "item": `${BASE_URL}/producto/${product.id}` }
+        ]
+    };
+
+    const faqSchema = product.seoFaqs ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": product.seoFaqs.map((faq: any) => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+        }))
+    } : null;
+
     const content = `
         <div class="product-grid">
             <div>
-                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <img src="${product.image}" alt="${product.name}" loading="lazy" decoding="async" class="product-image">
                 <div style="margin-top: 20px; padding: 20px; background: #ecfdf5; border-radius: 24px;">
                     <h3>${product.whyChoose?.title || '¿Por qué elegir este producto?'}</h3>
                     <p>${product.whyChoose?.description || ''}</p>
@@ -240,13 +295,74 @@ const generateProductHTML = (product: any) => {
                 <h1>${product.name}</h1>
                 <p class="description"><strong>Es útil para:</strong> ${product.shortDescription}</p>
                 <p class="description">${product.description}</p>
+                
+                <div style="margin: 15px 0;">
+                    <strong style="color: #1c1917;">Componentes Principales:</strong>
+                    <p style="color: #57534e; font-size: 0.95rem; margin-top: 5px;">${product.components || 'Extractos naturales certificados'}</p>
+                </div>
+
                 <ul class="benefit-list">
                     ${product.benefits.map((b: string) => `<li class="benefit-item">✅ ${b}</li>`).join('')}
                 </ul>
                 <div class="price">Desde ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(product.basePrice)}</div>
                 <p style="color: #059669; font-weight: bold;">Envío GRATIS + Pago Contra Entrega</p>
+
+                <div style="margin-top: 30px; border-top: 1px solid #e7e5e4; padding-top: 20px;">
+                    <h4 style="font-size: 0.9rem; color: #78716c; margin-bottom: 10px;">Temas relacionados:</h4>
+                    <div style="font-size: 0.8rem; color: #a8a29e; line-height: 1.4; display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${(product.longTailKeywords || []).map((kw: string) => `<span style="background: #f5f5f4; padding: 2px 8px; border-radius: 4px;">${kw}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; border-top: 1px solid #e7e5e4; pt-20px;">
+                    <h3>Preguntas Frecuentes</h3>
+                    <div style="font-size: 0.9rem; color: #57534e;">
+                        ${(product.seoFaqs || []).map((faq: any) => `
+                            <div style="margin-bottom: 15px;">
+                                <strong>¿${faq.q}?</strong>
+                                <p style="margin-top: 5px;">${faq.a}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div style="margin-top: 60px; padding: 40px; background: white; border-radius: 40px; border: 1px solid #e7e5e4;">
+            <h2 style="text-align: center; margin-bottom: 30px;">Lo que dicen nuestros clientes</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                ${(product.testimonials || []).map((t: any) => `
+                    <div style="padding: 20px; background: #fafaf9; border-radius: 20px; text-align: center;">
+                        <div style="color: #fbbf24; margin-bottom: 10px;">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
+                        <p style="font-style: italic; color: #57534e; margin-bottom: 10px;">"${t.text}"</p>
+                        <strong>${t.name}</strong>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; border-top: 1px solid #e7e5e4; padding-top: 40px;">
+            <h2 style="text-align: center; margin-bottom: 30px;">Otros productos que te podrían gustar</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                ${PRODUCTS.filter(p => p.id !== product.id && p.category === product.category).slice(0, 4).map(p => `
+                    <a href="/producto/${p.id}" style="text-decoration: none; color: inherit; text-align: center; background: white; padding: 15px; border-radius: 20px; border: 1px solid #f5f5f4;">
+                        <img src="${p.image}" alt="${p.name}" style="width: 100%; border-radius: 12px; margin-bottom: 10px;">
+                        <p style="font-weight: bold; margin: 0; font-size: 0.9rem;">${p.name}</p>
+                        <p style="color: #059669; font-weight: 900; margin: 5px 0;">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.basePrice)}</p>
+                    </a>
+                `).join('')}
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
+            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
+                <a href="/politica-privacidad" style="color: inherit; text-decoration: none;">Privacidad</a>
+                <a href="/condiciones-entrega" style="color: inherit; text-decoration: none;">Envíos</a>
+                <a href="/devoluciones-garantia" style="color: inherit; text-decoration: none;">Garantía</a>
+            </div>
+        </footer>
     `;
     return template(
         product.seoTitle || product.name,
@@ -254,7 +370,7 @@ const generateProductHTML = (product: any) => {
         `/producto/${product.id}`,
         content,
         product.image,
-        schema
+        [schema, breadcrumbSchema, faqSchema].filter(Boolean)
     );
 };
 
@@ -311,10 +427,29 @@ const generateComboHTML = (combo: any) => {
         }
     };
 
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL },
+            { "@type": "ListItem", "position": 2, "name": combo.name, "item": `${BASE_URL}/combo/${combo.id}` }
+        ]
+    };
+
+    const faqSchema = combo.seoFaqs ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": combo.seoFaqs.map((faq: any) => ({
+            "@type": "Question",
+            "name": faq.q,
+            "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+        }))
+    } : null;
+
     const content = `
         <div class="product-grid">
             <div>
-                <img src="${combo.image}" alt="${combo.name}" class="product-image">
+                <img src="${combo.image}" alt="${combo.name}" loading="lazy" decoding="async" class="product-image">
                 <div style="margin-top: 20px; padding: 20px; background: #ecfdf5; border-radius: 24px;">
                     <h3>${combo.whyChoose?.title || '¿Por qué elegir este combo?'}</h3>
                     <p>${combo.whyChoose?.description || ''}</p>
@@ -324,14 +459,68 @@ const generateComboHTML = (combo: any) => {
                 <span class="badge">${combo.badge || 'OFERTA ESPECIAL'}</span>
                 <h1>${combo.name}</h1>
                 <p class="description"><strong>Es útil para:</strong> ${combo.description}</p>
+                
+                <div style="margin: 15px 0;">
+                    <strong style="color: #1c1917;">Composición del Combo:</strong>
+                    <p style="color: #57534e; font-size: 0.95rem; margin-top: 5px;">${combo.components || 'Sinergia de extractos naturales'}</p>
+                </div>
+
                 <ul class="benefit-list">
                     ${combo.benefits?.map((b: string) => `<li class="benefit-item">✅ ${b}</li>`).join('')}
                 </ul>
                 <div class="price">Solo por ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(combo.price)}</div>
                 <p style="color: #059669; font-weight: bold;">Ahorras ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(combo.originalPrice - combo.price)}</p>
                 <p style="color: #059669; font-weight: bold;">Envío GRATIS + Pago Contra Entrega</p>
+
+                <div style="margin-top: 30px; border-top: 1px solid #e7e5e4; pt-20px;">
+                    <h3>Preguntas Frecuentes</h3>
+                    <div style="font-size: 0.9rem; color: #57534e;">
+                        ${(combo.seoFaqs || []).map((faq: any) => `
+                            <div style="margin-bottom: 15px;">
+                                <strong>¿${faq.q}?</strong>
+                                <p style="margin-top: 5px;">${faq.a}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div style="margin-top: 60px; padding: 40px; background: white; border-radius: 40px; border: 1px solid #e7e5e4;">
+            <h2 style="text-align: center; margin-bottom: 30px;">Lo que dicen nuestros clientes</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                ${(combo.testimonials || []).map((t: any) => `
+                    <div style="padding: 20px; background: #fafaf9; border-radius: 20px; text-align: center;">
+                        <div style="color: #fbbf24; margin-bottom: 10px;">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
+                        <p style="font-style: italic; color: #57534e; margin-bottom: 10px;">"${t.text}"</p>
+                        <strong>${t.name}</strong>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; border-top: 1px solid #e7e5e4; padding-top: 40px;">
+            <h2 style="text-align: center; margin-bottom: 30px;">Otras ofertas que te podrían interesar</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                ${PROMOTIONS.filter(c => c.id !== combo.id).slice(0, 4).map(c => `
+                    <a href="/combo/${c.id}" style="text-decoration: none; color: inherit; text-align: center; background: white; padding: 15px; border-radius: 20px; border: 1px solid #f5f5f4;">
+                        <img src="${c.image}" alt="${c.name}" style="width: 100%; border-radius: 12px; margin-bottom: 10px;">
+                        <p style="font-weight: bold; margin: 0; font-size: 0.9rem;">${c.name}</p>
+                        <p style="color: #059669; font-weight: 900; margin: 5px 0;">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(c.price)}</p>
+                    </a>
+                `).join('')}
+            </div>
+        </div>
+
+        <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
+            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
+                <a href="/politica-privacidad" style="color: inherit; text-decoration: none;">Privacidad</a>
+                <a href="/condiciones-entrega" style="color: inherit; text-decoration: none;">Envíos</a>
+                <a href="/devoluciones-garantia" style="color: inherit; text-decoration: none;">Garantía</a>
+            </div>
+        </footer>
     `;
     return template(
         combo.seoTitle || combo.name,
@@ -339,7 +528,7 @@ const generateComboHTML = (combo: any) => {
         `/combo/${combo.id}`,
         content,
         combo.image,
-        schema
+        [schema, breadcrumbSchema, faqSchema].filter(Boolean)
     );
 };
 
@@ -381,4 +570,103 @@ const comboDir = `dist/combo/${COMBO_OF_THE_MONTH.id}`;
 ensureDir(comboDir);
 fs.writeFileSync(`${comboDir}/index.html`, generateComboHTML(COMBO_OF_THE_MONTH));
 console.log(`Generado: ${comboDir}/index.html (Combo del Mes)`);
+
+// 6. Generar Páginas Legales e Informativas
+const generateSimplePageHTML = (title: string, description: string, canonical: string, content: string) => {
+    return template(title, description, canonical, content, '/assets/logo/logo.png');
+};
+
+const pages = [
+    {
+        id: 'quienes-somos',
+        title: 'Quiénes Somos',
+        description: 'Conoce la historia de ZENHOGAR, nuestra misión y compromiso con la salud natural en Colombia.',
+        content: `
+            <h1 style="font-size: 3rem; margin-bottom: 30px;">Quiénes Somos</h1>
+            <div style="font-size: 1.1rem; color: #444; max-width: 800px;">
+                <h2 style="color: #1c1917;">Nuestro Compromiso</h2>
+                <p>En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA y certificaciones de seguridad para garantizar que cada solución que llevas a tu hogar sea efectiva y confiable.</p>
+                <p>Nuestra historia nació de la convicción de que la naturaleza ofrece las mejores soluciones para nuestra salud. Lo que comenzó como un pequeño proyecto familiar se ha convertido en una marca de confianza para miles de colombianos.</p>
+                <p><strong>Gestionamos los despachos desde Barranquilla a cualquier parte de Colombia.</strong></p>
+                
+                <h2 style="color: #1c1917; margin-top: 40px;">Misión de Bienestar</h2>
+                <p>Proveer suplementos naturales de grado medicinal que mejoren la calidad de vida de las familias colombianas, asegurando honestidad en cada componente.</p>
+            </div>
+        `
+    },
+    {
+        id: 'politica-privacidad',
+        title: 'Política de Privacidad',
+        description: 'Política de tratamiento de datos personales de ZENHOGAR. Tu privacidad es nuestra prioridad.',
+        content: `
+            <h1 style="font-size: 2.5rem; margin-bottom: 30px;">Política de Privacidad</h1>
+            <div style="font-size: 1rem; color: #444; max-width: 800px;">
+                <p>En ZENHOGAR, protegemos tus datos personales. Esta política detalla cómo recolectamos y tratamos tu información de acuerdo con la ley colombiana.</p>
+                <h3>1. Recolección de Datos</h3>
+                <p>Solo recolectamos los datos necesarios para procesar tus pedidos y brindarte soporte: nombre, dirección, teléfono y correo electrónico.</p>
+                <h3>2. Finalidad</h3>
+                <p>Tus datos son usados exclusivamente para la entrega de productos, confirmación vía WhatsApp y envío de ofertas relevantes si así lo autorizas.</p>
+            </div>
+        `
+    },
+    {
+        id: 'condiciones-entrega',
+        title: 'Condiciones de Entrega',
+        description: 'Información sobre tiempos de entrega, cobertura y método de pago contra entrega en Colombia.',
+        content: `
+            <h1 style="font-size: 2.5rem; margin-bottom: 30px;">Condiciones de Entrega</h1>
+            <div style="font-size: 1rem; color: #444; max-width: 800px;">
+                <p>Ofrecemos cobertura nacional en Colombia con el mejor servicio de logística.</p>
+                <h3>Tiempos de Entrega</h3>
+                <p>De 2 a 5 días hábiles dependiendo de la zona del país. Gestionamos los despachos desde Barranquilla a cualquier parte de Colombia.</p>
+                <h3>Pago Contra Entrega</h3>
+                <p>Pagas en efectivo al recibir tu producto en la puerta de tu casa. Máxima seguridad para tu compra.</p>
+            </div>
+        `
+    },
+    {
+        id: 'devoluciones-garantia',
+        title: 'Devoluciones y Garantía',
+        description: 'Conoce nuestras políticas de garantía para productos dañados o insatisfacción.',
+        content: `
+            <h1 style="font-size: 2.5rem; margin-bottom: 30px;">Devoluciones y Garantía</h1>
+            <div style="font-size: 1rem; color: #444; max-width: 800px;">
+                <p>Tu satisfacción es nuestra prioridad. Por eso ofrecemos garantías claras.</p>
+                <h3>Garantía Legal</h3>
+                <p>Si el producto llega en mal estado o con defectos de fabricación, tienes derecho a la reposición inmediata sin costo adicional.</p>
+                <h3>Procedimiento</h3>
+                <p>Contáctanos vía WhatsApp con pruebas fotográficas del estado del producto para procesar tu garantía en menos de 24 horas.</p>
+            </div>
+        `
+    }
+];
+
+pages.forEach(p => {
+    const dir = `dist/${p.id}`;
+    ensureDir(dir);
+    fs.writeFileSync(`${dir}/index.html`, generateSimplePageHTML(p.title, p.description, `/${p.id}`, p.content));
+    console.log(`Generado: ${dir}/index.html (Página: ${p.id})`);
+});
+
+// 7. Generar Sitemap.xml
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>${BASE_URL}/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+    ${CATEGORIES.map(c => `<url><loc>${BASE_URL}/categoria/${c.id}</loc><priority>0.8</priority></url>`).join('\n    ')}
+    ${PRODUCTS.map(p => `<url><loc>${BASE_URL}/producto/${p.id}</loc><priority>0.9</priority></url>`).join('\n    ')}
+    ${PROMOTIONS.map(c => `<url><loc>${BASE_URL}/combo/${c.id}</loc><priority>0.9</priority></url>`).join('\n    ')}
+    <url><loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}</loc><priority>0.9</priority></url>
+    ${pages.map(p => `<url><loc>${BASE_URL}/${p.id}</loc><priority>0.5</priority></url>`).join('\n    ')}
+</urlset>`;
+
+fs.writeFileSync('dist/sitemap.xml', sitemap);
+console.log('Generado: dist/sitemap.xml');
+
+// 8. Generar Robots.txt
+const robots = `User-agent: *
+Allow: /
+Sitemap: ${BASE_URL}/sitemap.xml`;
+
+fs.writeFileSync('dist/robots.txt', robots);
+console.log('Generado: dist/robots.txt');
 

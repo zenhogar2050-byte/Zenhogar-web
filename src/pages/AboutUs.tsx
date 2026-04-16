@@ -32,7 +32,7 @@ export default function AboutUs() {
                 Nos especializamos en la selección y distribución de suplementos naturales de la más alta calidad, asegurándonos de que cada producto que llega a tu hogar cumpla con los estándares más exigentes y cuente con los registros sanitarios necesarios.
               </p>
               <p className="font-bold text-stone-900">
-                Estamos ubicados en Barranquilla, Colombia, desde donde despachamos bienestar a todo el país.
+                Gestionamos los despachos desde Barranquilla a cualquier parte de Colombia.
               </p>
             </div>
           </div>
