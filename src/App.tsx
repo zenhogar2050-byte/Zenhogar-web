@@ -58,7 +58,13 @@ function ScrollToTop() {
 export default function App() {
   useEffect(() => {
     markFacebookEntry();
-    initPixel();
+    
+    // Defer non-critical third-party scripts
+    const timer = setTimeout(() => {
+      initPixel();
+    }, 2500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (

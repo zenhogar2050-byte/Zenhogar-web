@@ -6,6 +6,7 @@ import { CheckCircle2, ShoppingCart, ArrowLeft, Star, Zap, ShieldCheck, Trending
 import { cn, formatCurrency, cleanPromoName } from '../utils';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import TrustBar from '../components/TrustBar';
 import { track } from '../utils/pixel';
 import { useEffect, useState } from 'react';
 
@@ -227,6 +228,8 @@ export default function ComboLanding() {
                     <Zap className="w-5 h-5 fill-emerald-400 text-emerald-400 animate-pulse" />
                     <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
                   </p>
+                  
+                  <TrustBar className="mt-8 border-white/10 text-white" />
                 </div>
 
                 {/* Background pattern */}

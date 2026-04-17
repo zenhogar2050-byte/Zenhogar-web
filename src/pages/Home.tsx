@@ -4,6 +4,7 @@ import { PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, PRODUCTS } from '../constan
 import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import TrustBar from '../components/TrustBar';
 import { formatCurrency, cn, cleanPromoName } from '../utils';
 import { useCart } from '../CartContext';
 import { useEffect } from 'react';
@@ -50,12 +51,14 @@ export default function Home() {
                 Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior. Ciencia natural para una vida sin límites.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <div className="flex items-center gap-2 text-stone-500 font-medium">
+                <div className="flex items-center gap-2 text-stone-500 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm">
                   <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                  <span>Certificación INVIMA Garantizada</span>
+                  <span className="text-sm">Certificación INVIMA Garantizada</span>
                 </div>
               </div>
             </div>
+            
+            <TrustBar className="mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-8 shadow-sm" />
           </div>
         </div>
         {/* Abstract organic background elements */}

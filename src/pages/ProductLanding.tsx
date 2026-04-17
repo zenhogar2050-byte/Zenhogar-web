@@ -7,6 +7,7 @@ import { cn, formatCurrency } from '../utils';
 import { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import TrustBar from '../components/TrustBar';
 import { track } from '../utils/pixel';
 
 export default function ProductLanding() {
@@ -295,6 +296,7 @@ export default function ProductLanding() {
                   <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
                 </p>
 
+                <TrustBar className="mt-8" />
               </div>
             </motion.div>
           </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -26,4 +26,22 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Optimización de Rendimiento y Estabilidad de Diseño */
+#promo-banner-mobile {
+  min-height: 500px;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+#promo-banner {
+  min-height: 380px;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 380px;
+}
+
+/* Evitar parpadeo de fuentes */
+html {
+  font-display: swap;
 }

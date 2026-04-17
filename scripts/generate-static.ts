@@ -74,6 +74,12 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
+    <!-- Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/assets/logo/logo.png" as="image" type="image/png" fetchpriority="high">
+
     <meta property="og:title" content="${title} | Zenhogar">
     <meta property="og:description" content="${description}">
     <meta property="og:image" content="${BASE_URL}${image}">
@@ -110,6 +116,27 @@ const template = (title: string, description: string, canonical: string, content
         <main class="container">
             ${content}
         </main>
+        
+        <section style="background: #f5f5f4; padding: 40px 20px; text-align: center; border-top: 1px solid #e7e5e4;">
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+                <div>
+                    <h3 style="margin-bottom: 10px;">🛡️ Registro INVIMA</h3>
+                    <p style="font-size: 14px; color: #57534e;">Productos 100% Originales y Certificados</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">🚚 Envío Gratis</h3>
+                    <p style="font-size: 14px; color: #57534e;">A toda Colombia (2-5 días hábiles)</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">🤝 Pago Contra Entrega</h3>
+                    <p style="font-size: 14px; color: #57534e;">Paga en efectivo al recibir en tu puerta</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">⭐ Garantía Total</h3>
+                    <p style="font-size: 14px; color: #57534e;">Satisfacción garantizada en tu compra</p>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>
@@ -200,7 +227,7 @@ const generateHomeHTML = () => {
         <div style="margin-bottom: 60px;">
             <h2 style="text-align: center; margin-bottom: 40px;">Oferta Destacada</h2>
             <div style="background: #1c1917; color: white; padding: 40px; border-radius: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                <img src="${COMBO_OF_THE_MONTH.image}" alt="${COMBO_OF_THE_MONTH.name}" style="width: 100%; border-radius: 24px; background: white; padding: 20px;">
+                <img src="${COMBO_OF_THE_MONTH.image}" alt="${COMBO_OF_THE_MONTH.image}" width="600" height="600" loading="eager" fetchpriority="high" style="width: 100%; border-radius: 24px; background: white; padding: 20px;">
                 <div>
                     <span class="badge" style="background: #059669; color: white;">OFERTA DEL MES</span>
                     <h2 style="font-size: 2.5rem; margin: 10px 0;">${COMBO_OF_THE_MONTH.name}</h2>
@@ -748,6 +775,19 @@ pages.forEach(p => {
 });
 
 // 7. Generar Sitemap.xml
+const escapeXml = (unsafe: string) => {
+    return unsafe.replace(/[<>&'"]/g, (c) => {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+        return c;
+    });
+};
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url><loc>${BASE_URL}/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
@@ -758,7 +798,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${p.image}</image:loc>
-            <image:title>${p.name}</image:title>
+            <image:title>${escapeXml(p.name)}</image:title>
         </image:image>
     </url>`).join('')}
     ${PROMOTIONS.map(c => `
@@ -767,7 +807,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${c.image}</image:loc>
-            <image:title>${c.name}</image:title>
+            <image:title>${escapeXml(c.name)}</image:title>
         </image:image>
     </url>`).join('')}
     <url>
@@ -775,14 +815,15 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${COMBO_OF_THE_MONTH.image}</image:loc>
-            <image:title>${COMBO_OF_THE_MONTH.name}</image:title>
+            <image:title>${escapeXml(COMBO_OF_THE_MONTH.name)}</image:title>
         </image:image>
     </url>
     ${pages.map(p => `<url><loc>${BASE_URL}/${p.id}</loc><priority>0.5</priority></url>`).join('\n    ')}
 </urlset>`;
 
 fs.writeFileSync('dist/sitemap.xml', sitemap);
-console.log('Generado: dist/sitemap.xml');
+fs.writeFileSync('public/sitemap.xml', sitemap); // Sincronizar con public para el servidor de desarrollo
+console.log('Generado: dist/sitemap.xml y public/sitemap.xml');
 
 // 8. Generar Robots.txt
 const robots = `User-agent: *
