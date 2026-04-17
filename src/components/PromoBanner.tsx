@@ -20,7 +20,10 @@ export default function PromoBanner() {
   // En móvil, incluimos la Oferta del Mes al principio
   const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
   const mobileItems = baseItems;
-  const marqueeItems = [...baseItems, ...baseItems, ...baseItems];
+  // Solo calculamos marqueeItems si NO estamos en móvil
+  const marqueeItems = screenSize !== 'mobile' 
+    ? [...baseItems, ...baseItems, ...baseItems]
+    : [];
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -94,8 +97,6 @@ export default function PromoBanner() {
                 className="flex flex-col items-center group"
               >
                 <motion.div 
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   className={cn(
                     "w-64 h-64 rounded-[3rem] mb-6 flex items-center justify-center p-6 shadow-2xl transition-colors",
                     mobileItems[currentIndex].id === COMBO_OF_THE_MONTH.id 

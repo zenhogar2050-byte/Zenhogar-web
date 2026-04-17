@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCTS, CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
@@ -25,11 +25,11 @@ export default function Navbar() {
 
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
-  const searchableItems = [
+  const searchableItems = React.useMemo(() => [
     ...PRODUCTS.map(p => ({ ...p, searchType: 'product' as const })),
     ...PROMOTIONS.map(p => ({ ...p, searchType: 'combo' as const })),
     { ...COMBO_OF_THE_MONTH, searchType: 'combo' as const }
-  ];
+  ], []);
 
   const normalize = (text: string) => {
     if (!text) return '';

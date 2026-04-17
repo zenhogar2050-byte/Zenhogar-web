@@ -83,7 +83,7 @@ export default function Home() {
           </div>
         </div>
         {/* Abstract organic background elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30 pointer-events-none hidden md:block">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100 blur-[120px] rounded-full" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 blur-[120px] rounded-full" />
         </div>

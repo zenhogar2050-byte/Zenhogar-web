@@ -64,7 +64,18 @@ export default function App() {
     // Defer non-critical third-party scripts
     const timer = setTimeout(() => {
       initPixel();
-    }, 2500);
+      
+      // Init GTM
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
+      document.head.appendChild(script);
+      
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-57BY2PVKF4');
+    }, 3500);
 
     return () => clearTimeout(timer);
   }, []);
