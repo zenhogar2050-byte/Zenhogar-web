@@ -4,22 +4,38 @@ import { PRODUCTS } from '../constants';
 import { useCart } from '../CartContext';
 import { CheckCircle2, ShoppingCart, ArrowLeft, Star, TrendingUp, Zap, ShieldCheck, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { cn, formatCurrency } from '../utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
+import OrderBump from '../components/OrderBump';
 import { track } from '../utils/pixel';
+import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
 export default function ProductLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { addToCart } = useCart();
+  const { addToCart, addComboToCart } = useCart();
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showSticky, setShowSticky] = useState(false);
+  const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const product = PRODUCTS.find(p => p.id === id);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (buyButtonRef.current) {
+        const rect = buyButtonRef.current.getBoundingClientRect();
+        setShowSticky(rect.top < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const faqs = [
     {
@@ -84,6 +100,24 @@ export default function ProductLanding() {
       content_type: 'product' 
     });
     addToCart(product, promoId);
+    navigate('/checkout');
+  };
+
+  const currentBump = product ? BUMP_OPPORTUNITIES[product.id] : null;
+
+  const handleBumpAccept = () => {
+    if (!currentBump) return;
+    
+    track('InitiateCheckout', { 
+      content_ids: [String(currentBump.targetCombo.id)], 
+      content_name: currentBump.targetCombo.name, 
+      value: Number(currentBump.targetCombo.price), 
+      currency: 'COP', 
+      num_items: 1, 
+      content_type: 'product_combo' 
+    });
+
+    addComboToCart(currentBump.targetCombo); 
     navigate('/checkout');
   };
 
@@ -191,6 +225,15 @@ export default function ProductLanding() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
+                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-2">Verificado</span>
+              </div>
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-1 leading-tight font-display">
                 {product.name}
               </h1>
@@ -267,7 +310,19 @@ export default function ProductLanding() {
                   })}
                 </div>
 
+                {/* Order Bump - Visible only when 1 Unit is selected */}
+                {selectedPromo === '1u' && currentBump && (
+                  <OrderBump
+                    productName={product.name}
+                    complementName={currentBump.complementName}
+                    bumpPrice={currentBump.bumpPrice}
+                    savings={currentBump.savings}
+                    onAccept={handleBumpAccept}
+                  />
+                )}
+
                 <button
+                  ref={buyButtonRef}
                   onClick={() => selectedPromo && handleBuyNow(selectedPromo)}
                   className="w-full mt-6 py-5 bg-emerald-600 text-white rounded-2xl font-black text-lg hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-3 group"
                 >
@@ -329,6 +384,46 @@ export default function ProductLanding() {
           </div>
         </div>
       </section>
+
+      {/* Sticky Conversion Bar (Mobile & Desktop) */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-3 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
+          >
+            <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 lg:w-16 lg:h-16 bg-stone-100 rounded-lg lg:rounded-2xl overflow-hidden flex-shrink-0">
+                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs lg:text-sm font-bold text-stone-900 line-clamp-1">{product.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-700 font-black text-sm lg:text-lg italic">{formatCurrency(product.promos.find(p => p.id === selectedPromo)?.price || product.basePrice)}</span>
+                    <span className="hidden sm:inline-block text-[10px] font-bold text-stone-400 uppercase tracking-widest">Envío Gratis</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="hidden lg:flex items-center gap-2 text-xs font-bold text-stone-500 bg-stone-50 px-4 py-2 rounded-full border">
+                  <Zap className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
+                  Paga al recibir en casa
+                </div>
+                <button
+                  onClick={() => selectedPromo && handleBuyNow(selectedPromo)}
+                  className="flex-grow sm:flex-grow-0 px-6 lg:px-10 py-3 lg:py-4 bg-emerald-600 text-white rounded-xl lg:rounded-2xl font-black text-sm lg:text-base shadow-lg shadow-emerald-600/20 active:scale-95 transition-all hover:bg-emerald-700"
+                >
+                  COMPRAR AHORA
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Footer />
     </div>
   );

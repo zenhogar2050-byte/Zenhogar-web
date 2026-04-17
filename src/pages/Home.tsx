@@ -1,18 +1,38 @@
 import { motion } from 'motion/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, PRODUCTS } from '../constants';
-import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame, Shield, Stethoscope, Gauge } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
 import { formatCurrency, cn, cleanPromoName } from '../utils';
 import { useCart } from '../CartContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+const SYMPTOMS = [
+  { id: 'digestiva', label: 'Digestión', icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', link: '/categoria/salud-bienestar' },
+  { id: 'defensas', label: 'Defensas', icon: Shield, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', link: '/categoria/salud-bienestar' },
+  { id: 'energia', label: 'Energía', icon: Zap, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', link: '/categoria/salud-bienestar' },
+  { id: 'hormonal', label: 'Vitalidad', icon: Heart, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100', link: '/categoria/salud-bienestar' },
+  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
+];
 
 export default function Home() {
   const navigate = useNavigate();
   const { hash } = useLocation();
   const { addComboToCart } = useCart();
+  const [stock, setStock] = useState(42);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStock(prev => {
+        if (prev <= 7) return 7;
+        const change = Math.random() > 0.7 ? 1 : 0;
+        return prev - change;
+      });
+    }, 45000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (hash) {
@@ -40,7 +60,7 @@ export default function Home() {
       />
 
       {/* Hero Section - Solution Oriented */}
-      <section className="relative pt-10 pb-12 lg:pt-16 lg:pb-20 overflow-hidden bg-white">
+      <section className="relative pt-10 pb-8 lg:pt-16 lg:pb-12 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div>
@@ -50,6 +70,7 @@ export default function Home() {
               <p className="text-xl lg:text-2xl text-stone-600 mb-10 leading-relaxed font-light">
                 Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior. Ciencia natural para una vida sin límites.
               </p>
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <div className="flex items-center gap-2 text-stone-500 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm">
                   <ShieldCheck className="w-5 h-5 text-emerald-600" />
@@ -214,6 +235,13 @@ export default function Home() {
                   <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5 group-hover:scale-110 transition-transform" />
                   APROVECHAR OFERTA
                 </button>
+
+                <div className="mt-6 flex flex-col gap-2">
+                  <div className="flex items-center gap-2 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/10">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-bold text-emerald-500">Quedan solo {stock} unidades en stock</span>
+                  </div>
+                </div>
 
                 <div className="mt-8 flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
                   <Zap className="w-5 h-5 fill-current animate-pulse" />

@@ -5,11 +5,13 @@ import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS } from '../cons
 import { formatCurrency } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchaseIfFromFacebook } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
+import OrderBump from '../components/OrderBump';
+import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { items, total, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { items, total, updateQuantity, removeFromCart, clearCart, addComboToCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -20,6 +22,19 @@ export default function Checkout() {
     city: '',
   });
   const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   useEffect(() => {
     if (items.length === 0 || hasTrackedAbandoned) return;
@@ -53,6 +68,34 @@ export default function Checkout() {
 
   const departments = Object.keys(COLOMBIA_DATA || {});
   const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
+
+  // Order Bump Logic for Checkout
+  const getBumpOpportunity = () => {
+    if (items.length !== 1) return null;
+    const item = items[0];
+    if (item.promoId !== '1u') return null;
+    const opportunity = BUMP_OPPORTUNITIES[item.productId];
+    if (!opportunity) return null;
+    return { ...opportunity, originalItem: item };
+  };
+
+  const bumpOpportunity = getBumpOpportunity();
+
+  const handleBumpAccept = () => {
+    if (!bumpOpportunity) return;
+    
+    track('InitiateCheckout', { 
+      content_ids: [String(bumpOpportunity.targetCombo.id)], 
+      content_name: bumpOpportunity.targetCombo.name, 
+      value: Number(bumpOpportunity.targetCombo.price), 
+      currency: 'COP', 
+      num_items: 1, 
+      content_type: 'product_combo_bump' 
+    });
+
+    removeFromCart(bumpOpportunity.originalItem.productId, bumpOpportunity.originalItem.promoId);
+    addComboToCart(bumpOpportunity.targetCombo);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -155,9 +198,21 @@ export default function Checkout() {
           {/* Columna Izquierda: Resumen con Imagen */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-stone-100">
-              <h1 className="text-2xl font-bold text-stone-900 flex items-center gap-3 mb-8">
+              <h1 className="text-2xl font-bold text-stone-900 flex items-center gap-3 mb-4">
                 <ShoppingBag className="w-6 h-6 text-emerald-600" /> Resumen de Compra
               </h1>
+
+              {/* Countdown Urgency */}
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                  <p className="text-xs font-bold text-amber-900 uppercase tracking-wider">Tu descuento está reservado por:</p>
+                </div>
+                <div className="bg-white px-4 py-1.5 rounded-xl border border-amber-200 text-amber-700 font-mono font-black text-lg">
+                  {formatTime(timeLeft)}
+                </div>
+              </div>
+
               <div className="space-y-6">
                 <AnimatePresence mode="popLayout">
                   {items.map((item) => (
@@ -248,17 +303,60 @@ export default function Checkout() {
                   </select>
                 </div>
 
-                <button type="submit" disabled={isSubmitting || items.length === 0} className="w-full py-5 bg-stone-900 text-white rounded-2xl font-black text-lg hover:bg-emerald-600 transition-all shadow-xl shadow-stone-900/10 flex items-center justify-center gap-3 disabled:opacity-50">
-                  {isSubmitting ? (
-                    <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      FINALIZAR PEDIDO
-                    </>
-                  )}
-                </button>
-                <p className="text-center text-[10px] text-stone-400 font-bold uppercase tracking-widest">Pago contraentrega disponible</p>
+                {bumpOpportunity && (
+                  <div className="pt-2">
+                    <OrderBump
+                      productName={bumpOpportunity.originalItem.productName}
+                      complementName={bumpOpportunity.complementName}
+                      bumpPrice={bumpOpportunity.bumpPrice}
+                      savings={bumpOpportunity.savings}
+                      onAccept={handleBumpAccept}
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-4">
+                  <button type="submit" disabled={isSubmitting || items.length === 0} className="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black text-xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/20 flex items-center justify-center gap-3 disabled:opacity-50 active:scale-95">
+                    {isSubmitting ? (
+                      <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        ¡SÍ! ENVIAR MI PEDIDO AHORA
+                      </>
+                    )}
+                  </button>
+                  
+                  <div className="flex flex-col items-center gap-3">
+                    <p className="text-center text-[10px] text-stone-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                       <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Pago 100% Seguro Contra Entrega
+                    </p>
+                    <div className="flex items-center justify-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                      <img src="https://picsum.photos/seed/ssl/40/20" alt="SSL Secure" className="h-6" referrerPolicy="no-referrer" />
+                      <img src="https://picsum.photos/seed/invima/40/20" alt="INVIMA" className="h-6" referrerPolicy="no-referrer" />
+                      <img src="https://picsum.photos/seed/co/40/20" alt="Colombia" className="h-6" referrerPolicy="no-referrer" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Steps Section */}
+                <div className="mt-8 pt-6 border-t border-stone-100">
+                  <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 text-center">¿Qué pasará después de mi compra?</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="text-center">
+                      <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-xs font-black text-stone-500 mx-auto mb-2">1</div>
+                      <p className="text-[9px] font-bold text-stone-600 leading-tight">Confirmamos por WhatsApp</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-xs font-black text-stone-500 mx-auto mb-2">2</div>
+                      <p className="text-[9px] font-bold text-stone-600 leading-tight">Despachamos de inmediato</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-xs font-black text-stone-500 mx-auto mb-2">3</div>
+                      <p className="text-[9px] font-bold text-stone-600 leading-tight">Pagas al recibir en casa</p>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>

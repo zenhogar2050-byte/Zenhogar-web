@@ -1,10 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCTS, CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import { cn } from '../utils';
+
+const SYMPTOMS = [
+  { id: 'digestiva', label: 'Digestión', icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', link: '/categoria/salud-bienestar' },
+  { id: 'defensas', label: 'Defensas', icon: Shield, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', link: '/categoria/salud-bienestar' },
+  { id: 'energia', label: 'Energía', icon: Zap, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', link: '/categoria/salud-bienestar' },
+  { id: 'hormonal', label: 'Vitalidad', icon: Heart, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100', link: '/categoria/salud-bienestar' },
+  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -125,51 +133,81 @@ export default function Navbar() {
                 </div>
                 
                 <AnimatePresence>
-                  {isSearchOpen && searchQuery.trim() !== '' && (
+                  {isSearchOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-0 mt-2 w-full bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden"
+                      className="absolute top-full left-0 mt-2 w-full bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden min-w-[320px]"
                     >
-                      <div className="space-y-2 max-h-[60vh] overflow-y-auto">
-                        {searchResults.length > 0 ? (
-                          searchResults.map(item => (
-                            <Link
-                              key={item.id}
-                              to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
-                              className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
-                            >
-                              <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
-                                <img 
-                                  src={item.image || null} 
-                                  alt={item.name} 
-                                  className="w-full h-full object-contain"
-                                  referrerPolicy="no-referrer"
-                                />
-                                {item.searchType === 'combo' && (
-                                  <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
-                                    <Sparkles className="w-4 h-4 text-emerald-600 opacity-50" />
-                                  </div>
+                      {/* Symptom Quick Filter PIILLS */}
+                      {searchQuery.trim() === '' && (
+                        <div className="mb-6">
+                          <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3 px-1">¿Qué quieres mejorar hoy?</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {SYMPTOMS.map((symptom) => (
+                              <Link
+                                key={symptom.id}
+                                to={symptom.link}
+                                onClick={() => setIsSearchOpen(false)}
+                                className={cn(
+                                  "flex items-center gap-2 px-3 py-2 rounded-xl border transition-all hover:shadow-md active:scale-95",
+                                  symptom.bg,
+                                  symptom.border
                                 )}
-                              </div>
-                              <div className="flex-grow min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <p className="text-sm font-bold text-stone-900 truncate font-display">
-                                    {item.name}
-                                  </p>
+                              >
+                                <symptom.icon className={cn("w-3.5 h-3.5", symptom.color)} />
+                                <span className="font-bold text-stone-900 text-[11px]">{symptom.label}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+                        {searchQuery.trim() !== '' ? (
+                          searchResults.length > 0 ? (
+                            searchResults.map(item => (
+                              <Link
+                                key={item.id}
+                                to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
+                                className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
+                              >
+                                <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
+                                  <img 
+                                    src={item.image || null} 
+                                    alt={item.name} 
+                                    className="w-full h-full object-contain"
+                                    referrerPolicy="no-referrer"
+                                  />
                                   {item.searchType === 'combo' && (
-                                    <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
+                                    <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
+                                      <Sparkles className="w-4 h-4 text-emerald-600 opacity-50" />
+                                    </div>
                                   )}
                                 </div>
-                                <p className="text-xs text-stone-500 truncate">
-                                  {'shortDescription' in item ? item.shortDescription : item.description}
-                                </p>
-                              </div>
-                            </Link>
-                          ))
+                                <div className="flex-grow min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <p className="text-sm font-bold text-stone-900 truncate font-display">
+                                      {item.name}
+                                    </p>
+                                    {item.searchType === 'combo' && (
+                                      <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-stone-500 truncate">
+                                    {'shortDescription' in item ? item.shortDescription : item.description}
+                                  </p>
+                                </div>
+                              </Link>
+                            ))
+                          ) : (
+                            <p className="text-center py-4 text-sm text-stone-500">No encontramos resultados para "{searchQuery}"</p>
+                          )
                         ) : (
-                          <p className="text-center py-4 text-sm text-stone-500">No encontramos resultados para "{searchQuery}"</p>
+                          <div className="py-2">
+                            <p className="text-center text-xs text-stone-400 italic">Escribe para buscar productos, ingredientes o soluciones...</p>
+                          </div>
                         )}
                       </div>
                     </motion.div>

@@ -82,10 +82,10 @@ const SEOManager = ({
                     "highPrice": productData.highPrice,
                     "priceCurrency": "COP",
                     "offerCount": productData.offerCount,
-                    "availability": "http://schema.org/InStock",
+                    "availability": "https://schema.org/InStock",
                     "url": fullUrl,
                     "priceValidUntil": "2027-12-31",
-                    "itemCondition": "http://schema.org/NewCondition",
+                    "itemCondition": "https://schema.org/NewCondition",
                     "shippingDetails": {
                         "@type": "OfferShippingDetails",
                         "shippingRate": {
@@ -116,10 +116,10 @@ const SEOManager = ({
                     "hasMerchantReturnPolicy": {
                         "@type": "MerchantReturnPolicy",
                         "applicableCountry": "CO",
-                        "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
+                        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
                         "merchantReturnDays": 2,
-                        "returnMethod": "http://schema.org/ReturnByMail",
-                        "returnFees": "http://schema.org/FreeReturn"
+                        "returnMethod": "https://schema.org/ReturnByMail",
+                        "returnFees": "https://schema.org/FreeReturn"
                     }
                 },
                 "additionalProperty": [

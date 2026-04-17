@@ -310,8 +310,8 @@ const generateProductHTML = (product: any) => {
             "lowPrice": product.basePrice,
             "highPrice": Math.max(...(product.promos || []).map((p: any) => p.price), product.basePrice),
             "offerCount": (product.promos?.length || 0) + 1,
-            "availability": "http://schema.org/InStock",
-            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
             "priceValidUntil": "2027-12-31",
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
@@ -343,10 +343,10 @@ const generateProductHTML = (product: any) => {
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "CO",
-                "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
                 "merchantReturnDays": 2,
-                "returnMethod": "http://schema.org/ReturnByMail",
-                "returnFees": "http://schema.org/FreeReturn"
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
             }
         },
         "additionalProperty": [
@@ -513,8 +513,8 @@ const generateComboHTML = (combo: any) => {
             "priceCurrency": "COP",
             "price": combo.price,
             "priceValidUntil": "2027-12-31",
-            "itemCondition": "http://schema.org/NewCondition",
-            "availability": "http://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock",
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
                 "shippingRate": {
@@ -545,10 +545,10 @@ const generateComboHTML = (combo: any) => {
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "CO",
-                "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
                 "merchantReturnDays": 2,
-                "returnMethod": "http://schema.org/ReturnByMail",
-                "returnFees": "http://schema.org/FreeReturn"
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
             }
         }
     };
