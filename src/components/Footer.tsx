@@ -101,6 +101,14 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Local SEO Cities Section */}
+        <div className="mt-8 pt-8 border-t border-stone-800/50 text-center">
+          <p className="text-[11px] font-bold text-stone-500 uppercase tracking-widest mb-3">Envíos con Pago Contra Entrega en Colombia:</p>
+          <p className="text-[11px] text-stone-600 leading-relaxed max-w-5xl mx-auto">
+            Despachos diarios desde Barranquilla a: Bogotá, Medellín, Cali, Barranquilla, Cartagena, Cúcuta, Bucaramanga, Pereira, Ibagué, Santa Marta, Valledupar, Villavicencio, Montería, Pasto, Neiva, Popayán, Sincelejo, Armenia, Riohacha, Tunja, Quibdó, Florencia y cualquier rincón de Colombia.
+          </p>
+        </div>
+
         {/* YMYL Medical Disclaimer */}
         <div className="mt-8 pt-8 border-t border-stone-800/50">
           <p className="text-[10px] text-stone-600 leading-relaxed text-center max-w-4xl mx-auto italic">

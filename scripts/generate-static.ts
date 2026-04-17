@@ -224,6 +224,11 @@ const generateHomeHTML = () => {
         </div>
 
         <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <div style="margin-bottom: 30px; padding: 20px; background: #fafaf9; border-radius: 24px; font-size: 0.8rem; color: #a8a29e;">
+                <p style="font-weight: bold; color: #78716c; margin-bottom: 10px;">Envíos inmediatos y Pago Contra Entrega en Toda Colombia:</p>
+                <p>Bogotá, Medellín, Cali, Barranquilla, Cartagena, Cúcuta, Bucaramanga, Pereira, Ibagué, Santa Marta, Valledupar, Villavicencio, Montería, Pasto, Neiva, Popayán y más.</p>
+                <p style="margin-top: 10px;">Despachos desde Barranquilla con cobertura nacional.</p>
+            </div>
             <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
             <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
                 <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
@@ -248,7 +253,9 @@ const generateProductHTML = (product: any) => {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product.name,
-        "image": `${BASE_URL}${product.image}`,
+        "image": [
+            `${BASE_URL}${product.image}`
+        ],
         "description": product.description,
         "sku": product.id,
         "mpn": product.id,
@@ -270,11 +277,15 @@ const generateProductHTML = (product: any) => {
             }
         ],
         "offers": {
-            "@type": "Offer",
+            "@type": "AggregateOffer",
             "url": `${BASE_URL}/producto/${product.id}`,
             "priceCurrency": "COP",
-            "price": product.basePrice,
-            "availability": "https://schema.org/InStock",
+            "lowPrice": product.basePrice,
+            "highPrice": Math.max(...(product.promos || []).map((p: any) => p.price), product.basePrice),
+            "offerCount": (product.promos?.length || 0) + 1,
+            "availability": "http://schema.org/InStock",
+            "itemCondition": "http://schema.org/NewCondition",
+            "priceValidUntil": "2027-12-31",
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
                 "shippingRate": {
@@ -310,7 +321,19 @@ const generateProductHTML = (product: any) => {
                 "returnMethod": "http://schema.org/ReturnByMail",
                 "returnFees": "http://schema.org/FreeReturn"
             }
-        }
+        },
+        "additionalProperty": [
+            {
+                "@type": "PropertyValue",
+                "name": "Registro INVIMA",
+                "value": "Vigente y Verificado"
+            },
+            {
+                "@type": "PropertyValue",
+                "name": "Modo de Uso",
+                "value": "Según indicación en etiqueta. Generalmente 10-20 gotas o 1 cucharada diaria."
+            }
+        ]
     };
 
     const breadcrumbSchema = {
@@ -406,6 +429,10 @@ const generateProductHTML = (product: any) => {
         </div>
 
         <footer style="margin-top: 80px; padding: 40px 0; border-top: 1px solid #e7e5e4; text-align: center; color: #78716c; font-size: 0.9rem;">
+            <div style="margin-bottom: 30px; padding: 20px; background: #fafaf9; border-radius: 24px; font-size: 0.8rem; color: #a8a29e;">
+                <p style="font-weight: bold; color: #78716c; margin-bottom: 10px;">Envíos a Domicilio con Pago Contra Entrega:</p>
+                <p>Bogotá, Medellín, Cali, Barranquilla, Cartagena, Cúcuta, Bucaramanga, Pereira, Ibagué, Santa Marta, Valledupar, Villavicencio, Montería, Pasto, Neiva, Popayán y ciudades intermedias.</p>
+            </div>
             <p>&copy; 2026 ZENHOGAR. Todos los derechos reservados.</p>
             <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
                 <a href="/quienes-somos" style="color: inherit; text-decoration: none;">Nosotros</a>
@@ -430,7 +457,9 @@ const generateComboHTML = (combo: any) => {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": combo.name,
-        "image": `${BASE_URL}${combo.image}`,
+        "image": [
+            `${BASE_URL}${combo.image}`
+        ],
         "description": combo.description,
         "sku": combo.id,
         "mpn": combo.id,
@@ -456,7 +485,9 @@ const generateComboHTML = (combo: any) => {
             "url": `${BASE_URL}/combo/${combo.id}`,
             "priceCurrency": "COP",
             "price": combo.price,
-            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2027-12-31",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock",
             "shippingDetails": {
                 "@type": "OfferShippingDetails",
                 "shippingRate": {
@@ -718,12 +749,35 @@ pages.forEach(p => {
 
 // 7. Generar Sitemap.xml
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url><loc>${BASE_URL}/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
     ${CATEGORIES.map(c => `<url><loc>${BASE_URL}/categoria/${c.id}</loc><priority>0.8</priority></url>`).join('\n    ')}
-    ${PRODUCTS.map(p => `<url><loc>${BASE_URL}/producto/${p.id}</loc><priority>0.9</priority></url>`).join('\n    ')}
-    ${PROMOTIONS.map(c => `<url><loc>${BASE_URL}/combo/${c.id}</loc><priority>0.9</priority></url>`).join('\n    ')}
-    <url><loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}</loc><priority>0.9</priority></url>
+    ${PRODUCTS.map(p => `
+    <url>
+        <loc>${BASE_URL}/producto/${p.id}</loc>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>${BASE_URL}${p.image}</image:loc>
+            <image:title>${p.name}</image:title>
+        </image:image>
+    </url>`).join('')}
+    ${PROMOTIONS.map(c => `
+    <url>
+        <loc>${BASE_URL}/combo/${c.id}</loc>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>${BASE_URL}${c.image}</image:loc>
+            <image:title>${c.name}</image:title>
+        </image:image>
+    </url>`).join('')}
+    <url>
+        <loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}</loc>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>${BASE_URL}${COMBO_OF_THE_MONTH.image}</image:loc>
+            <image:title>${COMBO_OF_THE_MONTH.name}</image:title>
+        </image:image>
+    </url>
     ${pages.map(p => `<url><loc>${BASE_URL}/${p.id}</loc><priority>0.5</priority></url>`).join('\n    ')}
 </urlset>`;
 

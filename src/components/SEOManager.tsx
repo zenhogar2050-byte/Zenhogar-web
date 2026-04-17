@@ -82,9 +82,10 @@ const SEOManager = ({
                     "highPrice": productData.highPrice,
                     "priceCurrency": "COP",
                     "offerCount": productData.offerCount,
-                    "availability": "https://schema.org/InStock",
+                    "availability": "http://schema.org/InStock",
                     "url": fullUrl,
-                    "priceValidUntil": "2026-12-31",
+                    "priceValidUntil": "2027-12-31",
+                    "itemCondition": "http://schema.org/NewCondition",
                     "shippingDetails": {
                         "@type": "OfferShippingDetails",
                         "shippingRate": {
@@ -115,12 +116,24 @@ const SEOManager = ({
                     "hasMerchantReturnPolicy": {
                         "@type": "MerchantReturnPolicy",
                         "applicableCountry": "CO",
-                        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                        "returnPolicyCategory": "http://schema.org/MerchantReturnFiniteReturnPeriod",
                         "merchantReturnDays": 2,
-                        "returnMethod": "https://schema.org/ReturnByMail",
-                        "returnFees": "https://schema.org/FreeReturn"
+                        "returnMethod": "http://schema.org/ReturnByMail",
+                        "returnFees": "http://schema.org/FreeReturn"
                     }
                 },
+                "additionalProperty": [
+                    {
+                        "@type": "PropertyValue",
+                        "name": "Registro INVIMA",
+                        "value": "Vigente y Verificado"
+                    },
+                    {
+                        "@type": "PropertyValue",
+                        "name": "Modo de Uso",
+                        "value": "Según indicación en etiqueta. Generalmente 10-20 gotas o 1 cucharada diaria."
+                    }
+                ],
                 "review": [
                     {
                         "@type": "Review",
@@ -176,6 +189,10 @@ const SEOManager = ({
             <meta name="twitter:image" content={finalImage || defaultImage} />
             <meta name="twitter:label1" content="Precio" />
             <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
+
+            <script type="application/ld+json">
+                {JSON.stringify(schemaData)}
+            </script>
         </Helmet>
     );
 };
