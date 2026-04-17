@@ -61,21 +61,25 @@ export default function App() {
   useEffect(() => {
     markFacebookEntry();
     
-    // Defer non-critical third-party scripts
+    // Defer non-critical third-party scripts even further
     const timer = setTimeout(() => {
-      initPixel();
-      
-      // Init GTM
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
-      document.head.appendChild(script);
-      
-      (window as any).dataLayer = (window as any).dataLayer || [];
-      function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-57BY2PVKF4');
-    }, 3500);
+      // Execute intensive scripts only when main thread is likely idle
+      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
+      idleCallback(() => {
+        initPixel();
+        
+        // Init GTM
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
+        document.head.appendChild(script);
+        
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-57BY2PVKF4');
+      });
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);

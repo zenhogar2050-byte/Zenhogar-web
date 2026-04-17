@@ -21,8 +21,9 @@ export default function PromoBanner() {
   const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
   const mobileItems = baseItems;
   // Solo calculamos marqueeItems si NO estamos en móvil
+  // Aumentamos a 5 repeticiones para asegurar que el loop sea invisible y cubra pantallas ultra-wide
   const marqueeItems = screenSize !== 'mobile' 
-    ? [...baseItems, ...baseItems, ...baseItems]
+    ? [...baseItems, ...baseItems, ...baseItems, ...baseItems, ...baseItems]
     : [];
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export default function PromoBanner() {
         )}
         style={{ 
           '--marquee-duration': `${currentDuration}s`,
-          '--marquee-end': '-33.3333%'
+          '--marquee-end': '-20%'
         } as React.CSSProperties}
       >
         {marqueeItems.map((promo, index) => (
@@ -210,7 +211,8 @@ export default function PromoBanner() {
                 referrerPolicy="no-referrer"
                 width="240"
                 height="240"
-                loading="lazy"
+                loading={index < 4 ? "eager" : "lazy"}
+                fetchPriority={index < 4 ? "high" : "auto"}
               />
             </div>
             <div className="flex items-center mb-3">

@@ -12,7 +12,7 @@ const SEOManager = ({
     const baseUrl = "https://zenhogar.live";
     const fullUrl = `${baseUrl}${canonicalUrl}`;
     const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
-    const defaultImage = `${baseUrl}/assets/logo/logo.png`;
+    const defaultImage = `${baseUrl}/assets/logo/og-image.png`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 
     const schemaData = {
@@ -190,6 +190,10 @@ const SEOManager = ({
             <meta name="twitter:image" content={finalImage || defaultImage} />
             <meta name="twitter:label1" content="Precio" />
             <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
+            
+            <script type="application/ld+json">
+                {JSON.stringify(schemaData)}
+            </script>
         </Helmet>
     );
 };

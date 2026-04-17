@@ -90,13 +90,13 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-3 group shrink-0">
               <img 
                 src="/assets/logo/logo.png" 
-                alt="zenhogar Logo" 
+                alt="Zenhogar - Productos Naturales" 
                 className="h-16 md:h-24 w-auto object-contain"
                 referrerPolicy="no-referrer"
                 fetchPriority="high"
                 loading="eager"
-                width="180"
-                height="96"
+                width="112"
+                height="112"
               />
               <span className="text-xl sm:text-2xl font-bold text-[var(--color-brand-primary)] tracking-tight hidden xl:block">zenhogar</span>
             </Link>
