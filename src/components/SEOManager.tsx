@@ -141,18 +141,7 @@ const SEOManager = ({
                         "reviewRating": { "@type": "Rating", "ratingValue": "5" },
                         "reviewBody": "Excelente producto, 100% original y efectivo."
                     }
-                ],
-                "mainEntity": productData.faqs ? {
-                    "@type": "FAQPage",
-                    "mainEntity": productData.faqs.map((faq: any) => ({
-                        "@type": "Question",
-                        "name": faq.q,
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": faq.a
-                        }
-                    }))
-                } : undefined
+                ]
             } : {
                 "@type": "WebPage",
                 "@id": `${fullUrl}/#webpage`,
@@ -160,7 +149,19 @@ const SEOManager = ({
                 "name": fullTitle,
                 "isPartOf": { "@id": `${baseUrl}/#organization` },
                 "breadcrumb": { "@id": `${fullUrl}/#breadcrumb` }
-            }
+            },
+            type === "product" && productData?.faqs ? {
+                "@type": "FAQPage",
+                "@id": `${fullUrl}/#faq`,
+                "mainEntity": productData.faqs.map((faq: any) => ({
+                    "@type": "Question",
+                    "name": faq.q,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": faq.a
+                    }
+                }))
+            } : null
         ].filter(Boolean)
     };
 
@@ -189,10 +190,6 @@ const SEOManager = ({
             <meta name="twitter:image" content={finalImage || defaultImage} />
             <meta name="twitter:label1" content="Precio" />
             <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
-
-            <script type="application/ld+json">
-                {JSON.stringify(schemaData)}
-            </script>
         </Helmet>
     );
 };
