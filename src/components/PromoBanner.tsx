@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 export default function PromoBanner() {
   const [isPaused, setIsPaused] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFirstMount, setIsFirstMount] = useState(true);
   const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>(() => {
     if (typeof window !== 'undefined') {
       const width = window.innerWidth;
@@ -16,6 +17,11 @@ export default function PromoBanner() {
     }
     return 'desktop';
   });
+
+  // Marcar que ya no es el primer montaje después del render inicial
+  useEffect(() => {
+    setIsFirstMount(false);
+  }, []);
 
   // En móvil, incluimos la Oferta del Mes al principio
   const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
@@ -83,7 +89,7 @@ export default function PromoBanner() {
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, scale: 0.8, x: 100 }}
+              initial={isFirstMount ? false : { opacity: 0, scale: 0.8, x: 100 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: -100 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}

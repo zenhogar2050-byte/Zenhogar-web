@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -30,9 +29,9 @@
 
 /* Optimización de Rendimiento y Estabilidad de Diseño */
 #promo-banner-mobile {
-  min-height: 500px;
+  min-height: 420px;
   content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
+  contain-intrinsic-size: 0 420px;
 }
 
 #promo-banner {

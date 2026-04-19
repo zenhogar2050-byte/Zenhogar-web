@@ -17,7 +17,7 @@ function PageTracker() {
 }
 
 // Dynamic imports for pages
-const Home = lazy(() => import('./pages/Home'));
+import Home from './pages/Home';
 const ProductLanding = lazy(() => import('./pages/ProductLanding'));
 const ComboLanding = lazy(() => import('./pages/ComboLanding'));
 const Checkout = lazy(() => import('./pages/Checkout'));

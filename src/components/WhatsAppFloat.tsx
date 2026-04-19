@@ -1,8 +1,18 @@
+import { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function WhatsAppFloat() {
-  const whatsappNumber = '573024102568'; // Replace with actual number if known, or keep as placeholder
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 6000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isVisible) return null;
+
+  const whatsappNumber = '573024102568'; 
   const message = 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
 

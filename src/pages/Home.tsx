@@ -60,26 +60,26 @@ export default function Home() {
       />
 
       {/* Hero Section - Solution Oriented */}
-      <section className="relative pt-10 pb-8 lg:pt-16 lg:pb-12 overflow-hidden bg-white">
+      <section className="relative pt-6 pb-6 lg:pt-16 lg:pb-12 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <div>
-              <h1 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-6 font-display leading-[1.1] tracking-tight">
+            <div className="pt-2">
+              <h1 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-4 lg:mb-6 font-display leading-[1.1] tracking-tight text-balance">
                 Reclama el Control de tu <span className="text-emerald-600 italic">Vitalidad</span>
               </h1>
-              <p className="text-xl lg:text-2xl text-stone-600 mb-10 leading-relaxed font-light">
+              <p className="text-lg lg:text-2xl text-stone-600 mb-6 lg:mb-10 leading-relaxed font-light">
                 Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior. Ciencia natural para una vida sin límites.
               </p>
+            </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <div className="flex items-center gap-2 text-stone-500 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                  <span className="text-sm">Certificación INVIMA Garantizada</span>
-                </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex items-center gap-2 text-stone-500 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm transition-transform active:scale-95">
+                <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                <span className="text-sm">Certificación INVIMA Garantizada</span>
               </div>
             </div>
             
-            <TrustBar className="mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-8 shadow-sm" />
+            <TrustBar className="mt-8 lg:mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
           </div>
         </div>
         {/* Abstract organic background elements */}
@@ -127,14 +127,13 @@ export default function Home() {
                   to={`/categoria/${category.id}`}
                   className="group transition-all hover:-translate-y-2 active:translate-y-0"
                 >
-                  {/* Unified 3D Capsule Button */}
+                  {/* Unified 3D Capsule Button - Simplified shadows on mobile */}
                   <div className={cn(
-                    "relative overflow-hidden text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest flex items-center gap-5 transition-all border-b-8 border-t border-white/20 active:border-b-4 active:translate-y-1 shadow-2xl",
+                    "relative overflow-hidden text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest flex items-center gap-5 transition-all border-b-8 border-t border-white/20 active:border-b-4 active:translate-y-1 shadow-lg md:shadow-2xl",
                     colors.bg,
                     category.color === 'emerald' && "border-b-emerald-900",
                     category.color === 'rose' && "border-b-rose-900",
                     category.color === 'purple' && "border-b-purple-900",
-                    colors.shadow,
                     colors.glow
                   )}>
                     {/* Glossy Overlay */}

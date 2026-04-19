@@ -4,15 +4,19 @@ import { Truck, ShieldCheck } from 'lucide-react';
 
 export default function TopBanner() {
   const [isMobile, setIsMobile] = useState(false);
+  const [startAnimation, setStartAnimation] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
+    // Defer animation to free main thread for initial paint
+    const timer = setTimeout(() => setStartAnimation(true), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="bg-stone-900 overflow-hidden py-2 border-b border-white/5 relative z-[60]">
+    <div className="bg-stone-900 overflow-hidden h-9 sm:h-10 flex items-center border-b border-white/5 relative z-[60]">
       <motion.div 
-        animate={{ x: [0, -1000] }}
+        animate={startAnimation ? { x: [0, -1000] } : { x: 0 }}
         transition={{ 
           duration: isMobile ? 20 : 35, 
           repeat: Infinity, 

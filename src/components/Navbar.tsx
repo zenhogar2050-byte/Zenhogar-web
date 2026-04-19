@@ -95,8 +95,8 @@ export default function Navbar() {
                 referrerPolicy="no-referrer"
                 fetchPriority="high"
                 loading="eager"
-                width="112"
-                height="112"
+                width="64"
+                height="64"
               />
               <span className="text-xl sm:text-2xl font-bold text-[var(--color-brand-primary)] tracking-tight hidden xl:block">zenhogar</span>
             </Link>
