@@ -349,10 +349,23 @@ export default function Checkout() {
                     <p className="text-center text-[10px] text-stone-400 font-bold uppercase tracking-widest flex items-center gap-2">
                        <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Pago 100% Seguro Contra Entrega
                     </p>
-                    <div className="flex items-center justify-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                      <img src="https://picsum.photos/seed/ssl/40/20" alt="SSL Secure" className="h-6" referrerPolicy="no-referrer" />
-                      <img src="https://picsum.photos/seed/invima/40/20" alt="INVIMA" className="h-6" referrerPolicy="no-referrer" />
-                      <img src="https://picsum.photos/seed/co/40/20" alt="Colombia" className="h-6" referrerPolicy="no-referrer" />
+                    <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 transition-all duration-500 py-6">
+                      <div className="flex flex-col items-center">
+                        <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-12 transition-all object-contain" referrerPolicy="no-referrer" onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
+                        <span className="hidden text-[10px] font-black text-stone-400">COORDINADORA</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-12 transition-all object-contain" referrerPolicy="no-referrer" onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
+                        <span className="hidden text-[10px] font-black text-stone-400">SERVIENTREGA</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-12 transition-all object-contain" referrerPolicy="no-referrer" onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
+                        <span className="hidden text-[10px] font-black text-stone-400">INTERRAPIDISIMO</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <img src="/assets/partners/swayp.webp" alt="Swayp" className="h-12 transition-all object-contain" referrerPolicy="no-referrer" onError={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextSibling.style.display='block'; }} />
+                        <span className="hidden text-[10px] font-black text-stone-400">SWAYP</span>
+                      </div>
                     </div>
                   </div>
                 </div>

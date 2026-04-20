@@ -23,7 +23,13 @@ import {
   FileSpreadsheet,
   Edit,
   Save,
-  Truck
+  Truck,
+  X,
+  ClipboardCheck,
+  Clipboard,
+  FileText,
+  MapPin,
+  Calendar
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, db } from '../lib/firebase';
@@ -40,14 +46,16 @@ interface Order {
     phone?: string;
     ciudad?: string;
     direccion?: string;
+    department?: string;
   };
   cart?: {
     items: any[];
     total: number;
   };
   order_details?: string;
+  tracking_guide?: string;
   total?: number;
-  status: 'pending' | 'sent' | 'delivered' | 'cancelled' | 'shipped_with_guide' | 'withdrawn';
+  status: 'pending' | 'confirmed' | 'sent' | 'delivered' | 'cancelled' | 'shipped_with_guide' | 'withdrawn';
   type: 'order' | 'abandoned';
   created_at: string;
 }
@@ -63,6 +71,9 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [trackingInput, setTrackingInput] = useState('');
+  const [copying, setCopying] = useState(false);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -117,6 +128,32 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleUpdateTracking = async (orderId: string) => {
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, { tracking_guide: trackingInput });
+      setSelectedOrder(prev => prev ? { ...prev, tracking_guide: trackingInput } : null);
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopying(true);
+    setTimeout(() => setCopying(false), 2000);
+  };
+
+  const generateClientMessage = (order: Order) => {
+    const customer = order.customer || {};
+    const name = customer.nombre || customer.fullName || 'Cliente';
+    const items = order.cart?.items?.map((i: any) => `- ${i.quantity || 1}x ${i.name || i.productName}`).join('\n') || order.order_details || '';
+    const guide = order.tracking_guide ? `🚚 Tu número de guía es: *${order.tracking_guide}*\nPuedes rastrearlo en la transportadora correspondiente.\n` : '';
+    
+    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${customer.direccion || 'N/A'}\n🏙️ Ciudad: ${customer.ciudad || 'N/A'}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
   };
 
   const handleDeleteOrder = async (orderId: string) => {
@@ -374,7 +411,11 @@ export default function AdminDashboard() {
                       const initial = (customer.nombre?.[0] || customer.fullName?.[0] || '?').toUpperCase();
 
                       return (
-                        <tr key={order.id} className="hover:bg-stone-50/50 transition-colors group">
+                        <tr 
+                          key={order.id} 
+                          className="hover:bg-stone-50/50 transition-colors group cursor-pointer"
+                          onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
+                        >
                           <td className="px-6 py-5">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
@@ -445,34 +486,42 @@ export default function AdminDashboard() {
                             <StatusBadge status={order.status} type={order.type} />
                           </td>
                           <td className="px-6 py-5 text-right">
-                            <div className="flex justify-end gap-2">
-                               <a 
-                                href={`https://wa.me/${displayPhone.replace(/\+/g, '').replace(/\s/g, '')}`} 
-                                target="_blank" 
-                                rel="noreferrer"
-                                className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
-                                title="Contactar WhatsApp"
-                              >
-                                <Phone className="w-4 h-4" />
-                              </a>
-                              {order.type === 'order' && (
-                                <StatusActions 
-                                  currentStatus={order.status} 
-                                  onUpdate={(s) => updateStatus(order.id, s)} 
-                                  onDelete={() => handleDeleteOrder(order.id)}
-                                />
-                              )}
-                              {order.type === 'abandoned' && (
+                             <div className="flex justify-end gap-2">
                                 <button 
-                                  onClick={() => handleDeleteOrder(order.id)}
-                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
-                                  title="Eliminar registro"
+                                  onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
+                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all shadow-sm"
+                                  title="Ver Detalles"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Eye className="w-4 h-4" />
                                 </button>
-                              )}
-                            </div>
-                          </td>
+                                <a 
+                                  href={`https://wa.me/${displayPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage(order))}`} 
+                                  target="_blank" 
+                                  rel="noreferrer"
+                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
+                                  title="Enviar Mensaje Confirmación"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <Phone className="w-4 h-4" />
+                                </a>
+                                {order.type === 'order' && (
+                                  <StatusActions 
+                                    currentStatus={order.status} 
+                                    onUpdate={(s) => updateStatus(order.id, s)} 
+                                    onDelete={() => handleDeleteOrder(order.id)}
+                                  />
+                                )}
+                                {order.type === 'abandoned' && (
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
+                                    className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
+                                    title="Eliminar registro"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
+                           </td>
                         </tr>
                       );
                     })
@@ -483,6 +532,154 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
+
+      {/* Detail Modal */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-10">
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            onClick={() => setSelectedOrder(null)}
+            className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" 
+          />
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            className="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col"
+          >
+            {/* Modal Header */}
+            <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-black text-stone-900 tracking-tight">Detalles del Pedido</h3>
+                  <p className="text-[10px] uppercase font-black text-stone-400 tracking-widest">{selectedOrder.id.slice(-8)} • {selectedOrder.type === 'order' ? 'Venta Directa' : 'Abandono'}</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedOrder(null)}
+                className="w-10 h-10 rounded-xl bg-stone-200 text-stone-500 flex items-center justify-center hover:bg-stone-300 transition-all"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-grow overflow-y-auto p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                {/* Info Column */}
+                <div className="space-y-8">
+                  <section>
+                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <User className="w-3 h-3" /> Información del Cliente
+                    </h4>
+                    <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-3">
+                      <p className="font-bold text-stone-900 truncate">{selectedOrder.customer.nombre || selectedOrder.customer.fullName} {selectedOrder.customer.apellido}</p>
+                      <div className="flex items-center gap-2 text-stone-600 text-sm">
+                        <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'N/A'}
+                      </div>
+                      <div className="flex items-center gap-2 text-stone-600 text-sm">
+                        <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'N/A'}
+                      </div>
+                      <div className="flex items-start gap-2 text-stone-600 text-sm">
+                        <MapPin className="w-4 h-4 text-stone-400 mt-0.5" /> 
+                        <div>
+                          <p>{selectedOrder.customer.direccion || 'Sin dirección'}</p>
+                          <p className="font-bold text-stone-400">{selectedOrder.customer.ciudad} {selectedOrder.customer.department && `• ${selectedOrder.customer.department}`}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <Package className="w-3 h-3" /> Productos y Monto
+                    </h4>
+                    <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 italic text-sm text-stone-600">
+                      {selectedOrder.cart?.items?.length ? (
+                        <ul className="space-y-2">
+                          {selectedOrder.cart.items.map((item, idx) => (
+                            <li key={idx} className="flex justify-between border-b border-stone-200/50 pb-2 last:border-0 last:pb-0">
+                              <span>{item.quantity || 1}x {item.name || item.productName}</span>
+                              <span className="font-black text-stone-400">{formatCurrency(item.price || 0)}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>{selectedOrder.order_details || 'Sin detalles registrados'}</p>
+                      )}
+                      <div className="mt-4 pt-4 border-t-2 border-dashed border-stone-200 flex justify-between items-center font-black text-lg text-stone-900">
+                        <span>TOTAL</span>
+                        <span className="text-emerald-600">{formatCurrency(selectedOrder.total || selectedOrder.cart?.total || 0)}</span>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                {/* Management Column */}
+                <div className="space-y-8">
+                  <section>
+                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <Truck className="w-3 h-3" /> Seguimiento y Guía
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          value={trackingInput}
+                          onChange={(e) => setTrackingInput(e.target.value)}
+                          placeholder="Número de guía..."
+                          className="w-full px-5 py-4 bg-stone-50 border border-stone-200 rounded-2xl outline-none focus:ring-2 focus:ring-purple-500 transition-all font-mono text-sm"
+                        />
+                      </div>
+                      <button 
+                        onClick={() => handleUpdateTracking(selectedOrder.id)}
+                        className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all shadow-lg shadow-purple-600/20"
+                      >
+                         Guardar Número de Guía
+                      </button>
+                    </div>
+                  </section>
+
+                  <section className="bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100">
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-2">
+                        <Mail className="w-3 h-3" /> Mensaje para Cliente
+                      </h4>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => copyToClipboard(generateClientMessage(selectedOrder))}
+                          className={cn(
+                            "px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all",
+                            copying ? "bg-emerald-600 text-white" : "bg-white text-emerald-600 hover:bg-emerald-100"
+                          )}
+                        >
+                          {copying ? <ClipboardCheck className="w-3 h-3" /> : <Clipboard className="w-3 h-3" />}
+                          {copying ? 'Copiado' : 'Copiar'}
+                        </button>
+                        <a 
+                          href={`https://wa.me/${(selectedOrder.customer.telefono || selectedOrder.customer.phone || '').replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage(selectedOrder))}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-600 text-white hover:bg-emerald-700 transition-all flex items-center gap-2"
+                        >
+                          <Phone className="w-3 h-3" /> Enviar WhatsApp
+                        </a>
+                      </div>
+                    </div>
+                    <div className="bg-white/80 p-4 rounded-xl text-[11px] leading-relaxed text-emerald-900 border border-emerald-100 whitespace-pre-wrap font-medium h-40 overflow-y-auto">
+                      {generateClientMessage(selectedOrder)}
+                    </div>
+                    <p className="mt-3 text-[9px] text-emerald-700/60 font-medium italic text-center">Puedes adjuntar el PDF de la guía manualmente en WhatsApp junto a este mensaje.</p>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
@@ -530,10 +727,11 @@ function StatusBadge({ status, type }: { status: string, type: string }) {
   );
 
   const config: any = {
-    pending: { label: "Pendiente", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
+    pending: { label: "PEDIDO PENDIENTE DE CONFIRMACIÓN", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
+    confirmed: { label: "PEDIDO CONFIRMADO", bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500" },
     sent: { label: "Enviado", bg: "bg-blue-100", text: "text-blue-700", dot: "bg-blue-500" },
     shipped_with_guide: { label: "Guía Asignada", bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
-    delivered: { label: "Entregado", bg: "bg-emerald-100", text: "text-emerald-700", dot: "bg-emerald-500" },
+    delivered: { label: "Entregado", bg: "bg-emerald-600 text-white", text: "text-white", dot: "bg-white" },
     cancelled: { label: "Cancelado", bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
     withdrawn: { label: "Desistió", bg: "bg-stone-200", text: "text-stone-700", dot: "bg-stone-500" },
   };
@@ -551,7 +749,8 @@ function StatusActions({ currentStatus, onUpdate, onDelete }: { currentStatus: s
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
-    { id: 'pending', label: 'Pendiente', icon: Clock },
+    { id: 'pending', label: 'Pend. Conf.', icon: Clock },
+    { id: 'confirmed', label: 'Confirmado', icon: CheckCircle2 },
     { id: 'sent', label: 'Enviado', icon: TrendingUp },
     { id: 'shipped_with_guide', label: 'Guía Asignada', icon: Truck },
     { id: 'delivered', label: 'Entregado', icon: CheckCircle2 },
