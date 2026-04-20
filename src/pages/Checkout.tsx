@@ -8,6 +8,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
+import { saveOrderToFirebase } from '../lib/firebase';
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -46,6 +47,14 @@ export default function Checkout() {
           const orderDetails = items.map(item => 
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
+
+          // Firebase Tracking (NEW for 2.0/Cloudflare)
+          await saveOrderToFirebase({
+            customer: formData,
+            order_details: orderDetails,
+            total: formatCurrency(total),
+            type: 'abandoned'
+          });
 
           await fetch('/api/abandoned', {
             method: 'POST',
@@ -117,6 +126,15 @@ export default function Checkout() {
     ).join('\n');
 
     try {
+      // Firebase Saving (Critical for Cloudflare persistence)
+      await saveOrderToFirebase({
+        customer: formData,
+        order_details: orderDetails,
+        total: total,
+        cart: { items, total },
+        type: 'order'
+      });
+
       const sheetsPayload = {
         token: "zenhogar_secret_2026",
         customer: formData,

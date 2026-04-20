@@ -49,7 +49,11 @@ async function startServer() {
   // API Admin Routes
   app.get("/api/admin/orders", (req, res) => {
     const password = req.headers["x-admin-password"];
-    if (password !== (process.env.ADMIN_PASSWORD || "Jacobo0812")) {
+    const expected = (process.env.ADMIN_PASSWORD || "Jacobo0812").trim();
+    const received = (typeof password === 'string' ? password : '').trim();
+
+    if (received !== expected) {
+      console.log(`[Admin] Intento de acceso fallido. Recibido: "${received}", Esperado: "${expected}"`);
       return res.status(401).json({ message: "No autorizado" });
     }
     res.json(getLocalOrders());
@@ -58,7 +62,10 @@ async function startServer() {
   app.post("/api/admin/orders/update", (req, res) => {
     const { orderId, status } = req.body;
     const password = req.headers["x-admin-password"];
-    if (password !== (process.env.ADMIN_PASSWORD || "Jacobo0812")) {
+    const expected = (process.env.ADMIN_PASSWORD || "Jacobo0812").trim();
+    const received = (typeof password === 'string' ? password : '').trim();
+
+    if (received !== expected) {
       return res.status(401).json({ message: "No autorizado" });
     }
 

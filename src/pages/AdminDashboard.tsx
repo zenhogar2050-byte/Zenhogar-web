@@ -21,6 +21,7 @@ import {
   EyeOff
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
+import { getOrdersFromFirebase, updateOrderStatusInFirebase } from '../lib/firebase';
 
 interface Order {
   id: string;
@@ -57,28 +58,30 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const savedPass = password || localStorage.getItem('admin_pass');
+      const expectedPass = "Jacobo0812"; // Fallback if env is not reachable on client
+
       if (!savedPass) {
         setError('Por favor, ingresa la contraseña.');
         setLoading(false);
         return;
       }
 
-      const res = await fetch('/api/admin/orders', {
-        headers: { 'x-admin-password': savedPass }
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(data);
-        setIsAuthenticated(true);
-        localStorage.setItem('admin_pass', savedPass);
-      } else {
+      if (savedPass.trim() !== expectedPass) {
         setError('Contraseña incorrecta. Acceso denegado.');
         setIsAuthenticated(false);
         localStorage.removeItem('admin_pass');
+        setLoading(false);
+        return;
       }
+
+      // Fetch from Firebase (Cloud Discovery)
+      const data = await getOrdersFromFirebase();
+      setOrders(data as any);
+      setIsAuthenticated(true);
+      localStorage.setItem('admin_pass', savedPass);
+      
     } catch (err) {
-      setError('Error de conexión con el servidor.');
+      setError('Error al conectar con la base de datos de Firebase.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -87,16 +90,8 @@ export default function AdminDashboard() {
 
   const updateStatus = async (orderId: string, status: string) => {
     try {
-      const savedPass = localStorage.getItem('admin_pass');
-      const res = await fetch('/api/admin/orders/update', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-admin-password': savedPass || ''
-        },
-        body: JSON.stringify({ orderId, status })
-      });
-      if (res.ok) fetchOrders();
+      const success = await updateOrderStatusInFirebase(orderId, status);
+      if (success) fetchOrders();
     } catch (err) {
       console.error(err);
     }
