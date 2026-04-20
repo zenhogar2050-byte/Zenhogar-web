@@ -69,7 +69,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'order' | 'abandoned'>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingCell, setEditingCell] = useState<{ id: string, field: string } | null>(null);
   const [editValue, setEditValue] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
@@ -119,15 +119,29 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleUpdateContent = async (orderId: string) => {
+  const handleSaveCell = async (orderId: string, field: string, value: string) => {
     try {
       const orderRef = doc(db, 'orders', orderId);
-      await updateDoc(orderRef, { order_details: editValue });
-      setEditingId(null);
+      let updateData: any = {};
+      
+      if (field.startsWith('customer.')) {
+        updateData[field] = value;
+      } else if (field === 'total') {
+        updateData[field] = parseFloat(value);
+      } else {
+        updateData[field] = value;
+      }
+
+      await updateDoc(orderRef, updateData);
+      setEditingCell(null);
       fetchOrders();
     } catch (err) {
-      console.error(err);
+      console.error('Error saving cell:', err);
     }
+  };
+
+  const handleUpdateContent = async (orderId: string) => {
+    handleSaveCell(orderId, 'order_details', editValue);
   };
 
   const handleUpdateTracking = async (orderId: string) => {
@@ -167,7 +181,7 @@ export default function AdminDashboard() {
   };
 
   const downloadExcel = () => {
-    const headers = ['Fecha', 'Tipo', 'Cliente', 'WhatsApp', 'Email', 'Contenido', 'Monto', 'Estado'];
+    const headers = ['Fecha', 'Tipo', 'Cliente', 'WhatsApp', 'Email', 'Dirección', 'Ciudad', 'Departamento', 'Contenido', 'Monto', 'Estado'];
     const rows = filteredOrders.map(o => {
       const customer = o.customer || {};
       const items = o.cart?.items?.map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || o.order_details || 'N/A';
@@ -177,6 +191,9 @@ export default function AdminDashboard() {
         customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || 'N/A'),
         customer.telefono || customer.phone || 'N/A',
         customer.email || 'N/A',
+        customer.direccion || 'N/A',
+        customer.ciudad || 'N/A',
+        customer.department || 'N/A',
         items,
         o.total || o.cart?.total || 0,
         o.status || 'N/A'
@@ -390,6 +407,9 @@ export default function AdminDashboard() {
                   <tr className="bg-stone-50/50 border-b border-stone-100">
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Cliente</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">WhatsApp</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Dirección</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ciudad</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Departamento</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Contenido</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Monto</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
@@ -399,7 +419,7 @@ export default function AdminDashboard() {
                 <tbody className="divide-y divide-stone-100">
                   {filteredOrders.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
+                      <td colSpan={9} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
                     </tr>
                   ) : (
                     filteredOrders.map((order) => {
@@ -421,8 +441,29 @@ export default function AdminDashboard() {
                               <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
                                 {initial}
                               </div>
-                              <div>
-                                <div className="font-bold text-stone-900 leading-tight">{displayName}</div>
+                              <div className="group/edit relative">
+                                {editingCell?.id === order.id && editingCell?.field === 'customer.nombre' ? (
+                                  <div className="flex items-center gap-2">
+                                    <input 
+                                      className="text-sm font-bold text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
+                                      value={editValue}
+                                      autoFocus
+                                      onChange={(e) => setEditValue(e.target.value)}
+                                      onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.nombre', editValue)}
+                                    />
+                                    <button onClick={() => handleSaveCell(order.id, 'customer.nombre', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-2">
+                                    <div className="font-bold text-stone-900 leading-tight">{displayName}</div>
+                                    <button 
+                                      onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.nombre' }); setEditValue(customer.nombre || customer.fullName || ''); }}
+                                      className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                    >
+                                      <Edit className="w-3 h-3" />
+                                    </button>
+                                  </div>
+                                )}
                                 <div className="flex items-center gap-2 mt-1">
                                   <span className={cn(
                                     "text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest",
@@ -438,20 +479,122 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="px-6 py-5">
-                            <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
-                              {displayPhone}
-                            </span>
+                            <div className="group/edit relative">
+                              {editingCell?.id === order.id && editingCell?.field === 'customer.telefono' ? (
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    className="text-xs font-mono bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-28"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.telefono', editValue)}
+                                  />
+                                  <button onClick={() => handleSaveCell(order.id, 'customer.telefono', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
+                                    {displayPhone}
+                                  </span>
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.telefono' }); setEditValue(displayPhone); }}
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="group/edit relative">
+                              {editingCell?.id === order.id && editingCell?.field === 'customer.direccion' ? (
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.direccion', editValue)}
+                                  />
+                                  <button onClick={() => handleSaveCell(order.id, 'customer.direccion', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <p className="text-xs text-stone-600">{customer.direccion || 'N/A'}</p>
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.direccion' }); setEditValue(customer.direccion || ''); }}
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="group/edit relative">
+                              {editingCell?.id === order.id && editingCell?.field === 'customer.ciudad' ? (
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.ciudad', editValue)}
+                                  />
+                                  <button onClick={() => handleSaveCell(order.id, 'customer.ciudad', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <p className="text-xs text-stone-600">{customer.ciudad || 'N/A'}</p>
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.ciudad' }); setEditValue(customer.ciudad || ''); }}
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="group/edit relative">
+                              {editingCell?.id === order.id && editingCell?.field === 'customer.department' ? (
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.department', editValue)}
+                                  />
+                                  <button onClick={() => handleSaveCell(order.id, 'customer.department', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <p className="text-xs text-stone-600">{customer.department || 'N/A'}</p>
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.department' }); setEditValue(customer.department || ''); }}
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </td>
                           <td className="px-6 py-5">
                             <div className="max-w-xs relative group/edit">
-                              {editingId === order.id ? (
+                              {editingCell?.id === order.id && editingCell?.field === 'order_details' ? (
                                 <div className="flex items-center gap-2">
                                   <textarea 
-                                    className="text-xs bg-stone-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none"
+                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none w-48"
                                     value={editValue}
+                                    autoFocus
                                     onChange={(e) => setEditValue(e.target.value)}
                                   />
-                                  <button onClick={() => handleUpdateContent(order.id)} className="p-1 text-emerald-600 hover:scale-110">
+                                  <button onClick={() => handleSaveCell(order.id, 'order_details', editValue)} className="p-1 text-emerald-600 hover:scale-110">
                                     <Save className="w-4 h-4" />
                                   </button>
                                 </div>
@@ -464,8 +607,9 @@ export default function AdminDashboard() {
                                     }
                                   </p>
                                   <button 
-                                    onClick={() => {
-                                      setEditingId(order.id);
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditingCell({ id: order.id, field: 'order_details' });
                                       setEditValue(order.cart?.items?.length 
                                         ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
                                         : order.order_details || ''
@@ -479,8 +623,34 @@ export default function AdminDashboard() {
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-5 text-sm font-black text-stone-900">
-                            {formatCurrency(order.total || order.cart?.total || 0)}
+                          <td className="px-6 py-5">
+                            <div className="group/edit relative">
+                              {editingCell?.id === order.id && editingCell?.field === 'total' ? (
+                                <div className="flex items-center gap-2">
+                                  <input 
+                                    type="number"
+                                    className="text-sm font-black text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                    value={editValue}
+                                    autoFocus
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'total', editValue)}
+                                  />
+                                  <button onClick={() => handleSaveCell(order.id, 'total', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-black text-stone-900">
+                                    {formatCurrency(order.total || order.cart?.total || 0)}
+                                  </span>
+                                  <button 
+                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'total' }); setEditValue((order.total || order.cart?.total || 0).toString()); }}
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </td>
                           <td className="px-6 py-5">
                             <StatusBadge status={order.status} type={order.type} />
