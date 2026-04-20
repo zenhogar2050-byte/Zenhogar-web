@@ -11,14 +11,14 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <img 
                 src="/assets/logo/logo.png" 
-                alt="zenhogar Logo" 
+                alt="Zenhogar Logo" 
                 className="h-14 w-auto object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
                 width="100"
                 height="56"
               />
-              <span className="text-3xl font-bold tracking-tight">zenhogar</span>
+              <span className="text-3xl font-bold tracking-tight">Zenhogar</span>
             </div>
             <p className="text-stone-400 max-w-sm leading-relaxed text-lg">
               Dedicados a llevar el bienestar natural a cada hogar colombiano. Calidad, confianza y salud en cada producto.

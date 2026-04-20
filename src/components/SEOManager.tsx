@@ -29,6 +29,7 @@ const SEOManager = ({
                     "width": "512",
                     "height": "512"
                 },
+                "description": "Tienda líder en productos naturales originales y suplementos con registro INVIMA en Colombia.",
                 "contactPoint": {
                     "@type": "ContactPoint",
                     "telephone": "+57-302-410-2568",
@@ -36,8 +37,14 @@ const SEOManager = ({
                     "areaServed": "CO",
                     "availableLanguage": "Spanish"
                 },
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Barranquilla",
+                    "addressRegion": "Atlántico",
+                    "addressCountry": "CO"
+                },
                 "sameAs": [
-                    "https://instagram.com/zenhogar",
+                    "https://instagram.com/zenhogar2050",
                     "https://www.facebook.com/HomeIdeas0812"
                 ]
             },
@@ -59,6 +66,18 @@ const SEOManager = ({
                     } : null
                 ].filter(Boolean)
             },
+            {
+                "@type": "WebSite",
+                "@id": `${baseUrl}/#website`,
+                "url": baseUrl,
+                "name": "Zenhogar",
+                "publisher": { "@id": `${baseUrl}/#organization` },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": `${baseUrl}/categoria/salud-bienestar?q={search_term_string}`,
+                    "query-input": "required name=search_term_string"
+                }
+            },
             type === "product" && productData ? {
                 "@type": "Product",
                 "@id": `${fullUrl}/#product`,
@@ -67,21 +86,28 @@ const SEOManager = ({
                 "image": [finalImage],
                 "sku": productData.id || productData.name.toLowerCase().replace(/\s+/g, '-'),
                 "mpn": productData.id || productData.name.toLowerCase().replace(/\s+/g, '-'),
+                "category": productData.category || "Salud y Bienestar",
                 "brand": {
                     "@type": "Brand",
                     "name": "Zenhogar"
                 },
+                "manufacturer": {
+                    "@type": "Organization",
+                    "name": "Fabricante Certificado con Registro INVIMA"
+                },
                 "aggregateRating": {
                     "@type": "AggregateRating",
                     "ratingValue": "4.9",
-                    "reviewCount": "520"
+                    "reviewCount": productData.reviewCount || "520",
+                    "bestRating": "5",
+                    "worstRating": "1"
                 },
                 "offers": {
                     "@type": "AggregateOffer",
                     "lowPrice": productData.lowPrice,
                     "highPrice": productData.highPrice,
                     "priceCurrency": "COP",
-                    "offerCount": productData.offerCount,
+                    "offerCount": productData.offerCount || 3,
                     "availability": "https://schema.org/InStock",
                     "url": fullUrl,
                     "priceValidUntil": "2027-12-31",
@@ -130,18 +156,22 @@ const SEOManager = ({
                     },
                     {
                         "@type": "PropertyValue",
-                        "name": "Modo de Uso",
-                        "value": "Según indicación en etiqueta. Generalmente 10-20 gotas o 1 cucharada diaria."
+                        "name": "Origen",
+                        "value": "Colombia"
                     }
                 ],
-                "review": [
+                "review": (productData.reviews || [
                     {
-                        "@type": "Review",
-                        "author": { "@type": "Person", "name": "Cliente Verificado" },
-                        "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-                        "reviewBody": "Excelente producto, 100% original y efectivo."
+                        "author": "Cliente Verificado",
+                        "rating": 5,
+                        "text": "Excelente producto, 100% original y efectivo."
                     }
-                ]
+                ]).map((rev: any) => ({
+                    "@type": "Review",
+                    "author": { "@type": "Person", "name": rev.author || rev.name },
+                    "reviewRating": { "@type": "Rating", "ratingValue": rev.rating.toString() },
+                    "reviewBody": rev.text
+                }))
             } : {
                 "@type": "WebPage",
                 "@id": `${fullUrl}/#webpage`,

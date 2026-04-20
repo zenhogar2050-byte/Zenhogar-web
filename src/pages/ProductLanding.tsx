@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { PRODUCTS } from '../constants';
+import { PRODUCTS, GENERAL_FAQS } from '../constants';
 import { useCart } from '../CartContext';
 import { CheckCircle2, ShoppingCart, ArrowLeft, Star, TrendingUp, Zap, ShieldCheck, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import { cn, formatCurrency } from '../utils';
@@ -10,6 +10,7 @@ import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import OrderBump from '../components/OrderBump';
+import FAQSection from '../components/FAQSection';
 import { track } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
@@ -19,8 +20,6 @@ export default function ProductLanding() {
   const [searchParams] = useSearchParams();
   const { addToCart, addComboToCart } = useCart();
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
-
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showSticky, setShowSticky] = useState(false);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -37,25 +36,6 @@ export default function ProductLanding() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const faqs = [
-    {
-      q: "¿Cómo es el proceso de envío?",
-      a: "Realizamos envíos a toda Colombia. El tiempo estimado es de 2 a 5 días hábiles dependiendo de tu ubicación. Recibirás un número de guía para rastrear tu pedido."
-    },
-    {
-      q: "¿Tienen registro INVIMA?",
-      a: "Sí, todos nuestros productos son originales y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
-    },
-    {
-      q: "¿Cómo funciona el pago contra entrega?",
-      a: "Es muy sencillo: realizas el pedido a través de nuestra web o WhatsApp, y pagas el valor total en efectivo únicamente cuando el transportador entregue el producto en tu puerta."
-    },
-    {
-      q: "¿Tienen garantía de satisfacción?",
-      a: "Garantizamos que recibirás un producto 100% original y en perfecto estado. Si el empaque llega dañado, realizamos el cambio sin costo adicional."
-    }
-  ];
 
   useEffect(() => {
     const promoParam = searchParams.get('promo');
@@ -136,10 +116,12 @@ export default function ProductLanding() {
         productData={{
           id: product.id,
           name: product.name,
+          category: product.category,
           lowPrice: product.promos[0].price,
           highPrice: product.promos[product.promos.length - 1].price,
           offerCount: product.promos.length,
-          faqs: product.seoFaqs
+          faqs: product.seoFaqs,
+          reviews: product.testimonials
         }}
       />
 
@@ -186,37 +168,10 @@ export default function ProductLanding() {
                   </p>
                 </div>
 
-              {/* FAQ Section - Moved here */}
-              <div className="mt-6 space-y-3">
-                <h3 className="text-lg font-bold text-stone-900 mb-4 px-2">Preguntas Frecuentes</h3>
-                <div className="space-y-3">
-                  {faqs.map((faq, i) => (
-                    <div key={i} className="border border-stone-200 rounded-2xl overflow-hidden bg-white">
-                      <button 
-                        onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                        className="w-full flex items-center justify-between p-4 text-left hover:bg-stone-50 transition-colors"
-                      >
-                        <span className="text-sm font-bold text-stone-900">{faq.q}</span>
-                        {openFaq === i ? <ChevronUp className="w-4 h-4 text-emerald-600" /> : <ChevronDown className="w-4 h-4 text-stone-400" />}
-                      </button>
-                      <AnimatePresence>
-                        {openFaq === i && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="p-4 text-xs text-stone-600 border-t border-stone-100 bg-stone-50/30 leading-relaxed">
-                              {faq.a}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <FAQSection 
+                specificFaqs={product.seoFaqs} 
+                generalFaqs={GENERAL_FAQS} 
+              />
               
               {/* Decorative background element for the image */}
               <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-50/50 blur-[100px] rounded-full" />

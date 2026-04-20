@@ -2206,3 +2206,22 @@ export const COLOMBIA_DATA = {
   'Amazonas': ['Leticia'],
   'San Andrés y Providencia': ['San Andrés', 'Providencia']
 };
+
+export const GENERAL_FAQS = [
+  {
+    q: "¿Cómo es el proceso de envío?",
+    a: "Realizamos envíos a toda Colombia. El tiempo estimado es de 2 a 5 días hábiles dependiendo de tu ubicación. Recibirás un número de guía para rastrear tu pedido."
+  },
+  {
+    q: "¿Tienen registro INVIMA?",
+    a: "Sí, todos nuestros productos son originales y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
+  },
+  {
+    q: "¿Cómo funciona el pago contra entrega?",
+    a: "Es muy sencillo: realizas el pedido a través de nuestra web o WhatsApp, y pagas el valor total en efectivo únicamente cuando el transportador entregue el producto en tu puerta."
+  },
+  {
+    q: "¿Tienen garantía de satisfacción?",
+    a: "Garantizamos que recibirás un producto 100% original y en perfecto estado. Si el empaque llega dañado, realizamos el cambio sin costo adicional."
+  }
+];
