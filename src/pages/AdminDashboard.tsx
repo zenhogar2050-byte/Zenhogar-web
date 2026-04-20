@@ -80,8 +80,8 @@ export default function AdminDashboard() {
       setIsAuthenticated(true);
       localStorage.setItem('admin_pass', savedPass);
       
-    } catch (err) {
-      setError('Error al conectar con la base de datos de Firebase.');
+    } catch (err: any) {
+      setError(err.message || 'Error al conectar con la base de datos de Firebase.');
       console.error(err);
     } finally {
       setLoading(false);
