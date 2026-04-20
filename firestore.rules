@@ -11,13 +11,8 @@ service cloud.firestore {
       // Permite a cualquier visitante crear un pedido (Checkout)
       allow create: if true;
       
-      // Permite leer y actualizar pedidos (Admin Dashboard)
-      // Nota: En un entorno de producción ideal usaríamos Firebase Auth. 
-      // Por ahora habilitamos lectura para que el panel funcione en Cloudflare.
-      allow read, update: if true;
-      
-      // No permitimos borrar pedidos desde el cliente por seguridad
-      allow delete: if false;
+      // Permite leer, actualizar y ELIMINAR pedidos (Admin Dashboard)
+      allow read, update, delete: if true;
     }
   }
 }

@@ -18,27 +18,36 @@ import {
   ExternalLink,
   Lock,
   Eye,
-  EyeOff
+  EyeOff,
+  Download,
+  FileSpreadsheet,
+  Edit,
+  Save,
+  Truck
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
-import { getOrdersFromFirebase, updateOrderStatusInFirebase } from '../lib/firebase';
+import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, db } from '../lib/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
 interface Order {
   id: string;
   customer: {
-    nombre: string;
-    apellido: string;
-    email: string;
-    telefono: string;
-    ciudad: string;
-    direccion: string;
+    nombre?: string;
+    apellido?: string;
+    fullName?: string;
+    email?: string;
+    telefono?: string;
+    phone?: string;
+    ciudad?: string;
+    direccion?: string;
   };
   cart?: {
     items: any[];
     total: number;
   };
+  order_details?: string;
   total?: number;
-  status: 'pending' | 'sent' | 'delivered' | 'cancelled';
+  status: 'pending' | 'sent' | 'delivered' | 'cancelled' | 'shipped_with_guide' | 'withdrawn';
   type: 'order' | 'abandoned';
   created_at: string;
 }
@@ -52,6 +61,8 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'order' | 'abandoned'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -95,6 +106,56 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleUpdateContent = async (orderId: string) => {
+    try {
+      const orderRef = doc(db, 'orders', orderId);
+      await updateDoc(orderRef, { order_details: editValue });
+      setEditingId(null);
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar este cliente/pedido? Esta acción no se puede deshacer.')) return;
+    try {
+      const success = await deleteOrderFromFirebase(orderId);
+      if (success) fetchOrders();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const downloadExcel = () => {
+    const headers = ['Fecha', 'Tipo', 'Cliente', 'WhatsApp', 'Email', 'Contenido', 'Monto', 'Estado'];
+    const rows = filteredOrders.map(o => {
+      const customer = o.customer || {};
+      const items = o.cart?.items?.map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || o.order_details || 'N/A';
+      return [
+        o.created_at ? new Date(o.created_at).toLocaleString() : 'N/A',
+        o.type === 'order' ? 'PEDIDO' : 'ABANDONADO',
+        customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || 'N/A'),
+        customer.telefono || customer.phone || 'N/A',
+        customer.email || 'N/A',
+        items,
+        o.total || o.cart?.total || 0,
+        o.status || 'N/A'
+      ];
+    });
+
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `pedidos_zenhogar_${new Date().toISOString().slice(0,10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
@@ -265,13 +326,23 @@ export default function AdminDashboard() {
               <FilterTab active={filter === 'order'} label="Ventas" onClick={() => setFilter('order')} />
               <FilterTab active={filter === 'abandoned'} label="Abandonados" onClick={() => setFilter('abandoned')} />
             </div>
-            <button 
-              onClick={fetchOrders}
-              className="p-3 bg-stone-100 text-stone-600 rounded-2xl hover:bg-emerald-50 hover:text-emerald-600 transition-all flex-shrink-0"
-              title="Actualizar datos"
-            >
-              <TrendingUp className="w-5 h-5" />
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={downloadExcel}
+                className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl hover:bg-emerald-100 transition-all flex items-center gap-2 font-bold text-xs uppercase tracking-widest"
+                title="Descargar Excel"
+              >
+                <FileSpreadsheet className="w-5 h-5" />
+                <span className="hidden sm:inline">Exportar</span>
+              </button>
+              <button 
+                onClick={fetchOrders}
+                className="p-3 bg-stone-100 text-stone-600 rounded-2xl hover:bg-emerald-50 hover:text-emerald-600 transition-all flex-shrink-0"
+                title="Actualizar datos"
+              >
+                <TrendingUp className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Orders Table */}
@@ -281,6 +352,7 @@ export default function AdminDashboard() {
                 <thead>
                   <tr className="bg-stone-50/50 border-b border-stone-100">
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Cliente</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">WhatsApp</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Contenido</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Monto</th>
                     <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
@@ -325,13 +397,44 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="px-6 py-5">
-                            <div className="max-w-xs">
-                              {order.type === 'order' ? (
-                                <p className="text-xs text-stone-600 line-clamp-2">
-                                  {order.cart?.items?.map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || order.order_details || 'Detalles en WhatsApp'}
-                                </p>
+                            <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
+                              {displayPhone}
+                            </span>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="max-w-xs relative group/edit">
+                              {editingId === order.id ? (
+                                <div className="flex items-center gap-2">
+                                  <textarea 
+                                    className="text-xs bg-stone-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none"
+                                    value={editValue}
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                  />
+                                  <button onClick={() => handleUpdateContent(order.id)} className="p-1 text-emerald-600 hover:scale-110">
+                                    <Save className="w-4 h-4" />
+                                  </button>
+                                </div>
                               ) : (
-                                <p className="text-xs text-orange-600 font-medium italic">Carrito no finalizado</p>
+                                <div className="flex justify-between items-start">
+                                  <p className="text-xs text-stone-600 line-clamp-2">
+                                    {order.cart?.items?.length 
+                                      ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
+                                      : order.order_details || 'Sin detalles'
+                                    }
+                                  </p>
+                                  <button 
+                                    onClick={() => {
+                                      setEditingId(order.id);
+                                      setEditValue(order.cart?.items?.length 
+                                        ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
+                                        : order.order_details || ''
+                                      );
+                                    }} 
+                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600 transition-all"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                </div>
                               )}
                             </div>
                           </td>
@@ -356,7 +459,17 @@ export default function AdminDashboard() {
                                 <StatusActions 
                                   currentStatus={order.status} 
                                   onUpdate={(s) => updateStatus(order.id, s)} 
+                                  onDelete={() => handleDeleteOrder(order.id)}
                                 />
+                              )}
+                              {order.type === 'abandoned' && (
+                                <button 
+                                  onClick={() => handleDeleteOrder(order.id)}
+                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
+                                  title="Eliminar registro"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
                               )}
                             </div>
                           </td>
@@ -409,13 +522,20 @@ function FilterTab({ active, label, onClick }: { active: boolean, label: string,
 }
 
 function StatusBadge({ status, type }: { status: string, type: string }) {
-  if (type === 'abandoned') return null;
+  if (type === 'abandoned') return (
+    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100">
+      <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+      <span className="text-[10px] font-black uppercase tracking-widest text-orange-700">Abandono</span>
+    </div>
+  );
 
   const config: any = {
     pending: { label: "Pendiente", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
     sent: { label: "Enviado", bg: "bg-blue-100", text: "text-blue-700", dot: "bg-blue-500" },
+    shipped_with_guide: { label: "Guía Asignada", bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
     delivered: { label: "Entregado", bg: "bg-emerald-100", text: "text-emerald-700", dot: "bg-emerald-500" },
     cancelled: { label: "Cancelado", bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
+    withdrawn: { label: "Desistió", bg: "bg-stone-200", text: "text-stone-700", dot: "bg-stone-500" },
   };
 
   const c = config[status] || config.pending;
@@ -427,14 +547,16 @@ function StatusBadge({ status, type }: { status: string, type: string }) {
   );
 }
 
-function StatusActions({ currentStatus, onUpdate }: { currentStatus: string, onUpdate: (s: string) => void }) {
+function StatusActions({ currentStatus, onUpdate, onDelete }: { currentStatus: string, onUpdate: (s: string) => void, onDelete: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const options = [
     { id: 'pending', label: 'Pendiente', icon: Clock },
     { id: 'sent', label: 'Enviado', icon: TrendingUp },
+    { id: 'shipped_with_guide', label: 'Guía Asignada', icon: Truck },
     { id: 'delivered', label: 'Entregado', icon: CheckCircle2 },
     { id: 'cancelled', label: 'Cancelado', icon: XCircle },
+    { id: 'withdrawn', label: 'Desistió', icon: Trash2 },
   ];
 
   return (
@@ -449,7 +571,7 @@ function StatusActions({ currentStatus, onUpdate }: { currentStatus: string, onU
       {isOpen && (
         <>
           <div className="fixed inset-0 z-[60]" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-stone-100 py-2 z-[70] overflow-hidden">
+          <div className="absolute right-0 bottom-full mb-2 w-48 bg-white rounded-2xl shadow-2xl border border-stone-100 py-2 z-[70] overflow-hidden">
             {options.map((opt) => (
               <button
                 key={opt.id}
@@ -463,6 +585,14 @@ function StatusActions({ currentStatus, onUpdate }: { currentStatus: string, onU
                 <span className="font-medium">{opt.label}</span>
               </button>
             ))}
+            <div className="border-t border-stone-100 my-1"></div>
+            <button
+              onClick={() => { onDelete(); setIsOpen(false); }}
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm text-left hover:bg-red-50 text-red-600 transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span className="font-bold">Eliminar de la Base</span>
+            </button>
           </div>
         </>
       )}

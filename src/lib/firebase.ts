@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -60,7 +60,17 @@ export async function updateOrderStatusInFirebase(orderId: string, status: strin
     });
     return true;
   } catch (error) {
-    console.error('Error updating order:', error);
+    return false;
+  }
+}
+
+export async function deleteOrderFromFirebase(orderId: string) {
+  try {
+    const orderRef = doc(db, collections.ORDERS, orderId);
+    await deleteDoc(orderRef);
+    return true;
+  } catch (error) {
+    console.error('Error deleting order:', error);
     return false;
   }
 }
