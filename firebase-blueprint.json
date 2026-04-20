@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Pedido",
+      "description": "Información de pedidos y carritos abandonados",
+      "type": "object",
+      "properties": {
+        "customer": {
+          "type": "object",
+          "properties": {
+            "nombre": { "type": "string" },
+            "apellido": { "type": "string" },
+            "email": { "type": "string" },
+            "telefono": { "type": "string" },
+            "ciudad": { "type": "string" },
+            "direccion": { "type": "string" },
+            "department": { "type": "string" }
+          },
+          "required": ["nombre", "phone"]
+        },
+        "order_details": { "type": "string" },
+        "total": { "type": "number" },
+        "status": { 
+          "type": "string",
+          "enum": ["pending", "sent", "delivered", "cancelled"]
+        },
+        "type": {
+          "type": "string",
+          "enum": ["order", "abandoned"]
+        },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customer", "type"]
+    }
+  },
+  "firestore": {
+    "orders/{orderId}": {
+      "schema": "Order",
+      "description": "Colección principal de pedidos y prospectos"
+    }
+  }
+}
