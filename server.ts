@@ -49,7 +49,7 @@ async function startServer() {
   // API Admin Routes
   app.get("/api/admin/orders", (req, res) => {
     const password = req.headers["x-admin-password"];
-    if (password !== (process.env.ADMIN_PASSWORD || "zenhogar2026")) {
+    if (password !== (process.env.ADMIN_PASSWORD || "Jacobo0812")) {
       return res.status(401).json({ message: "No autorizado" });
     }
     res.json(getLocalOrders());
@@ -58,7 +58,7 @@ async function startServer() {
   app.post("/api/admin/orders/update", (req, res) => {
     const { orderId, status } = req.body;
     const password = req.headers["x-admin-password"];
-    if (password !== (process.env.ADMIN_PASSWORD || "zenhogar2026")) {
+    if (password !== (process.env.ADMIN_PASSWORD || "Jacobo0812")) {
       return res.status(401).json({ message: "No autorizado" });
     }
 

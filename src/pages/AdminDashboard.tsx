@@ -16,7 +16,9 @@ import {
   Phone,
   Mail,
   ExternalLink,
-  Lock
+  Lock,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 
@@ -43,15 +45,24 @@ interface Order {
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'order' | 'abandoned'>('all');
   const [searchTerm, setSearchTerm] = useState('');
 
   const fetchOrders = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const savedPass = localStorage.getItem('admin_pass') || password;
+      const savedPass = password || localStorage.getItem('admin_pass');
+      if (!savedPass) {
+        setError('Por favor, ingresa la contraseña.');
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch('/api/admin/orders', {
         headers: { 'x-admin-password': savedPass }
       });
@@ -62,10 +73,12 @@ export default function AdminDashboard() {
         setIsAuthenticated(true);
         localStorage.setItem('admin_pass', savedPass);
       } else {
+        setError('Contraseña incorrecta. Acceso denegado.');
         setIsAuthenticated(false);
         localStorage.removeItem('admin_pass');
       }
     } catch (err) {
+      setError('Error de conexión con el servidor.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -129,14 +142,31 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-2 px-1">Contraseña de acceso</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && fetchOrders()}
-                className="w-full px-5 py-4 bg-stone-50 border border-stone-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
-                placeholder="Introducir clave..."
-              />
+              <div className="relative">
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); setError(null); }}
+                  onKeyPress={(e) => e.key === 'Enter' && fetchOrders()}
+                  className={cn(
+                    "w-full px-5 py-4 bg-stone-50 border rounded-2xl focus:ring-2 outline-none transition-all pr-14",
+                    error ? "border-red-300 focus:ring-red-500" : "border-stone-200 focus:ring-emerald-500"
+                  )}
+                  placeholder="Introducir clave..."
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-stone-400 hover:text-stone-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              {error && (
+                <p className="mt-2 text-xs font-bold text-red-600 px-1 animate-pulse">
+                  {error}
+                </p>
+              )}
             </div>
             <button 
               onClick={fetchOrders}
