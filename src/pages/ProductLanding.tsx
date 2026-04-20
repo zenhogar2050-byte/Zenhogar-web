@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
+import ConfidenceBadges from '../components/ConfidenceBadges';
 import OrderBump from '../components/OrderBump';
 import { track } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
@@ -329,6 +330,8 @@ export default function ProductLanding() {
                   <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform" />
                   COMPRAR AHORA
                 </button>
+
+                <ConfidenceBadges className="mt-4" />
 
                 {/* Persuasive Micro-copy */}
                 <div className="mt-6 space-y-3">

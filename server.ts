@@ -16,9 +16,69 @@ async function startServer() {
 
   app.use(express.json());
 
+  const ORDERS_FILE = path.resolve(__dirname, "orders.json");
+
+  // Helper to read/write local orders for the Admin Dashboard
+  const getLocalOrders = () => {
+    if (!fs.existsSync(ORDERS_FILE)) return [];
+    try {
+      return JSON.parse(fs.readFileSync(ORDERS_FILE, "utf-8"));
+    } catch (e) {
+      return [];
+    }
+  };
+
+  const saveLocalOrder = (orderData: any) => {
+    const orders = getLocalOrders();
+    orders.unshift({
+      ...orderData,
+      id: orderData.id || `ord_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      status: "pending",
+      created_at: new Date().toISOString()
+    });
+    // Keep only last 1000 orders to prevent file size issues
+    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders.slice(0, 1000), null, 2));
+    
+    // Automation: Send Confirmation Email (Placeholder logic for Resend)
+    if (process.env.RESEND_API_KEY) {
+      console.log("Automation 2.0: Triggering order confirmation email to", orderData.customer.email);
+      // Here we would perform a fetch to Resend API
+    }
+  };
+
+  // API Admin Routes
+  app.get("/api/admin/orders", (req, res) => {
+    const password = req.headers["x-admin-password"];
+    if (password !== (process.env.ADMIN_PASSWORD || "zenhogar2026")) {
+      return res.status(401).json({ message: "No autorizado" });
+    }
+    res.json(getLocalOrders());
+  });
+
+  app.post("/api/admin/orders/update", (req, res) => {
+    const { orderId, status } = req.body;
+    const password = req.headers["x-admin-password"];
+    if (password !== (process.env.ADMIN_PASSWORD || "zenhogar2026")) {
+      return res.status(401).json({ message: "No autorizado" });
+    }
+
+    const orders = getLocalOrders();
+    const index = orders.findIndex((o: any) => o.id === orderId);
+    if (index !== -1) {
+      orders[index].status = status;
+      orders[index].updated_at = new Date().toISOString();
+      fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2));
+      return res.json({ status: "ok" });
+    }
+    res.status(404).json({ message: "Pedido no encontrado" });
+  });
+
   // API Routes
   app.post("/api/orders", async (req, res) => {
     console.log("Received order request for Google Sheets:", JSON.stringify(req.body, null, 2));
+    
+    // Save locally for Admin Panel (NEW in 2.0)
+    saveLocalOrder(req.body);
     
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
@@ -67,6 +127,9 @@ async function startServer() {
 
   app.post("/api/abandoned", async (req, res) => {
     console.log("Received abandoned cart for Google Sheets:", JSON.stringify(req.body, null, 2));
+    
+    // Save locally for Admin Panel (NEW in 2.0)
+    saveLocalOrder({ ...req.body, type: "abandoned" });
     
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;

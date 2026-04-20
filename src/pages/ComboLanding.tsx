@@ -7,6 +7,7 @@ import { cn, formatCurrency, cleanPromoName } from '../utils';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
+import ConfidenceBadges from '../components/ConfidenceBadges';
 import { track } from '../utils/pixel';
 import { useEffect, useState } from 'react';
 
@@ -223,6 +224,8 @@ export default function ComboLanding() {
                     <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform" />
                     APROVECHAR OFERTA
                   </button>
+
+                  <ConfidenceBadges className="mt-4 bg-white/5 border-white/10" />
                   
                   <p className="text-center text-sm font-black text-emerald-400 mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 bg-white/5 py-4 px-6 rounded-2xl border border-white/10">
                     <Zap className="w-5 h-5 fill-emerald-400 text-emerald-400 animate-pulse" />

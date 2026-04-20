@@ -27,6 +27,7 @@ const AboutUs = lazy(() => import('./pages/AboutUs'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const DeliveryConditions = lazy(() => import('./pages/DeliveryConditions'));
 const ReturnsWarranty = lazy(() => import('./pages/ReturnsWarranty'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -98,6 +99,17 @@ export default function App() {
 function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  if (isAdmin) {
+    return (
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen font-sans text-stone-900">
@@ -121,6 +133,7 @@ function AppContent() {
             <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
             <Route path="/condiciones-entrega" element={<DeliveryConditions />} />
             <Route path="/devoluciones-garantia" element={<ReturnsWarranty />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </Suspense>
