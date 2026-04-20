@@ -167,8 +167,9 @@ export default function AdminDashboard() {
     const name = customer.nombre || customer.fullName || 'Cliente';
     const items = order.cart?.items?.map((i: any) => `- ${i.quantity || 1}x ${i.name || i.productName}`).join('\n') || order.order_details || '';
     const guide = order.tracking_guide ? `🚚 Tu número de guía es: *${order.tracking_guide}*\nPuedes rastrearlo en la transportadora correspondiente.\n` : '';
+    const ticket = order.ticket_number ? `🔖 Ticket: *#${order.ticket_number}*\n` : '';
     
-    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${customer.direccion || 'N/A'}\n🏙️ Ciudad: ${customer.ciudad || 'N/A'}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
+    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n${ticket}*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${customer.direccion || 'N/A'}\n🏙️ Ciudad: ${customer.ciudad || 'N/A'}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
   };
 
   const handleDeleteOrder = async (orderId: string) => {
@@ -734,7 +735,7 @@ export default function AdminDashboard() {
                   <FileText className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-black text-stone-900 tracking-tight">Detalles del Pedido</h3>
+                  <h3 className="font-black text-stone-900 tracking-tight">Detalles del Pedido {selectedOrder.ticket_number && `#${selectedOrder.ticket_number}`}</h3>
                   <p className="text-[10px] uppercase font-black text-stone-400 tracking-widest">{selectedOrder.id.slice(-8)} • {selectedOrder.type === 'order' ? 'Venta Directa' : 'Abandono'}</p>
                 </div>
               </div>

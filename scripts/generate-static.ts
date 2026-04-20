@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../src/constants';
+import { generateSchemaGraph } from '../src/lib/seo-logic';
 
 const BASE_URL = 'https://zenhogar.live';
 
@@ -13,41 +14,7 @@ const scriptTags = (distIndexHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g) 
 const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [];
 const headExtra = [...linkTags, ...scriptTags].join('\n    ');
 
-const template = (title: string, description: string, canonical: string, content: string, image: string, schema?: any) => {
-    const schemas = Array.isArray(schema) ? schema : (schema ? [schema] : []);
-    const graph = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Organization",
-                "@id": `${BASE_URL}/#organization`,
-                "name": "Zenhogar",
-                "url": BASE_URL,
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": `${BASE_URL}/assets/logo/logo.png`,
-                    "width": "512",
-                    "height": "512"
-                },
-                "contactPoint": {
-                    "@type": "ContactPoint",
-                    "telephone": "+57-302-410-2568",
-                    "contactType": "customer service",
-                    "areaServed": "CO",
-                    "availableLanguage": "Spanish"
-                },
-                "sameAs": [
-                    "https://instagram.com/zenhogar",
-                    "https://www.facebook.com/HomeIdeas0812"
-                ]
-            },
-            ...schemas.map(s => {
-                const { "@context": context, ...rest } = s;
-                return rest;
-            })
-        ]
-    };
-
+const template = (title: string, description: string, canonical: string, content: string, image: string, graph: any) => {
     return `
 <!DOCTYPE html>
 <html lang="es">
@@ -88,7 +55,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    <script type="application/ld+json">${JSON.stringify(graph)}</script>
+    <script type="application/ld+json" id="main-schema" data-rh="true">${JSON.stringify(graph)}</script>
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->
@@ -146,14 +113,23 @@ const template = (title: string, description: string, canonical: string, content
 // Generador de HTML para Categorías
 const generateCategoryHTML = (category: any) => {
     const categoryProducts = PRODUCTS.filter(p => p.category === category.id);
+    const title = category.seoTitle || category.name;
+    const description = category.seoDescription || category.description;
+    const path = `/categoria/${category.id}`;
     
-    // Esquema JSON-LD para la categoría
-    const schema = {
-        "@context": "https://schema.org",
+    // Esquema JSON-LD usando lógica centralizada
+    const graph = generateSchemaGraph({
+        type: "category",
+        title,
+        description,
+        canonicalUrl: path,
+        ogImage: '/assets/logo/logo.png'
+    });
+
+    // Añadir ItemList específica para categorías
+    (graph as any)["@graph"].push({
         "@type": "CollectionPage",
-        "name": category.name,
-        "description": category.description,
-        "url": `${BASE_URL}/categoria/${category.id}`,
+        "@id": `${BASE_URL}${path}/#collection`,
         "mainEntity": {
             "@type": "ItemList",
             "itemListElement": categoryProducts.map((p, index) => ({
@@ -164,7 +140,7 @@ const generateCategoryHTML = (category: any) => {
                 "image": `${BASE_URL}${p.image}`
             }))
         }
-    };
+    });
 
     const content = `
         <div style="text-align: center; margin-bottom: 60px;">
@@ -194,29 +170,28 @@ const generateCategoryHTML = (category: any) => {
         </footer>
     `;
     return template(
-        category.seoTitle || category.name,
-        category.seoDescription || category.description,
-        `/categoria/${category.id}`,
+        title,
+        description,
+        path,
         content,
         categoryProducts[0]?.image || '/assets/logo/logo.png',
-        schema
+        graph
     );
 };
 
 // Generador de HTML para Home
 const generateHomeHTML = () => {
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Zenhogar",
-        "url": BASE_URL,
-        "description": "Combos y Ofertas en Productos Naturales Originales",
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": `${BASE_URL}/search?q={search_term_string}`,
-            "query-input": "required name=search_term_string"
-        }
-    };
+    const title = "Combos y Ofertas en Productos Naturales Originales";
+    const description = "Aprovecha nuestras ofertas y combos exclusivos en productos naturales originales. Soluciones naturales para tu bienestar integral.";
+    const path = "/";
+    
+    const graph = generateSchemaGraph({
+        type: "website",
+        title,
+        description,
+        canonicalUrl: path,
+        ogImage: COMBO_OF_THE_MONTH.image
+    });
 
     const content = `
         <div style="text-align: center; padding: 60px 0;">
@@ -266,121 +241,33 @@ const generateHomeHTML = () => {
         </footer>
     `;
     return template(
-        "Combos y Ofertas en Productos Naturales Originales",
-        "Aprovecha nuestras ofertas y combos exclusivos en productos naturales originales. Soluciones naturales para tu bienestar integral.",
-        "/",
+        title,
+        description,
+        path,
         content,
         COMBO_OF_THE_MONTH.image,
-        schema
+        graph
     );
 };
 
 const generateProductHTML = (product: any) => {
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": product.name,
-        "image": [
-            `${BASE_URL}${product.image}`
-        ],
-        "description": product.description,
-        "sku": product.id,
-        "mpn": product.id,
-        "brand": {
-            "@type": "Brand",
-            "name": "Zenhogar"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "520"
-        },
-        "review": [
-            {
-                "@type": "Review",
-                "author": { "@type": "Person", "name": "Cliente Verificado" },
-                "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-                "reviewBody": "Excelente producto, 100% original y efectivo."
-            }
-        ],
-        "offers": {
-            "@type": "AggregateOffer",
-            "url": `${BASE_URL}/producto/${product.id}`,
-            "priceCurrency": "COP",
-            "lowPrice": product.basePrice,
-            "highPrice": Math.max(...(product.promos || []).map((p: any) => p.price), product.basePrice),
-            "offerCount": (product.promos?.length || 0) + 1,
-            "availability": "https://schema.org/InStock",
-            "itemCondition": "https://schema.org/NewCondition",
-            "priceValidUntil": "2027-12-31",
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "COP"
-                },
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "CO"
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": "0",
-                        "maxValue": "1",
-                        "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": "2",
-                        "maxValue": "5",
-                        "unitCode": "DAY"
-                    }
-                }
-            },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "CO",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                "merchantReturnDays": 2,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn"
-            }
-        },
-        "additionalProperty": [
-            {
-                "@type": "PropertyValue",
-                "name": "Registro INVIMA",
-                "value": "Vigente y Verificado"
-            },
-            {
-                "@type": "PropertyValue",
-                "name": "Modo de Uso",
-                "value": "Según indicación en etiqueta. Generalmente 10-20 gotas o 1 cucharada diaria."
-            }
-        ]
-    };
+    const title = product.seoTitle || product.name;
+    const description = product.seoDescription || product.shortDescription;
+    const path = `/producto/${product.id}`;
 
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL },
-            { "@type": "ListItem", "position": 2, "name": product.name, "item": `${BASE_URL}/producto/${product.id}` }
-        ]
-    };
-
-    const faqSchema = product.seoFaqs ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": product.seoFaqs.map((faq: any) => ({
-            "@type": "Question",
-            "name": faq.q,
-            "acceptedAnswer": { "@type": "Answer", "text": faq.a }
-        }))
-    } : null;
+    const graph = generateSchemaGraph({
+        type: "product",
+        title,
+        description,
+        canonicalUrl: path,
+        ogImage: product.image,
+        productData: {
+            ...product,
+            lowPrice: product.basePrice,
+            highPrice: Math.max(...(product.promos || []).map((p: any) => p.price), product.basePrice),
+            faqs: product.seoFaqs
+        }
+    });
 
     const content = `
         <div class="product-grid">
@@ -470,107 +357,33 @@ const generateProductHTML = (product: any) => {
         </footer>
     `;
     return template(
-        product.seoTitle || product.name,
-        product.seoDescription || product.shortDescription,
-        `/producto/${product.id}`,
+        title,
+        description,
+        path,
         content,
         product.image,
-        [schema, breadcrumbSchema, faqSchema].filter(Boolean)
+        graph
     );
 };
 
 const generateComboHTML = (combo: any) => {
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": combo.name,
-        "image": [
-            `${BASE_URL}${combo.image}`
-        ],
-        "description": combo.description,
-        "sku": combo.id,
-        "mpn": combo.id,
-        "brand": {
-            "@type": "Brand",
-            "name": "Zenhogar"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "520"
-        },
-        "review": [
-            {
-                "@type": "Review",
-                "author": { "@type": "Person", "name": "Cliente Verificado" },
-                "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-                "reviewBody": "Excelente producto, 100% original y efectivo."
-            }
-        ],
-        "offers": {
-            "@type": "Offer",
-            "url": `${BASE_URL}/combo/${combo.id}`,
-            "priceCurrency": "COP",
-            "price": combo.price,
-            "priceValidUntil": "2027-12-31",
-            "itemCondition": "https://schema.org/NewCondition",
-            "availability": "https://schema.org/InStock",
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "COP"
-                },
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "CO"
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": "0",
-                        "maxValue": "1",
-                        "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": "2",
-                        "maxValue": "5",
-                        "unitCode": "DAY"
-                    }
-                }
-            },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "CO",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                "merchantReturnDays": 2,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn"
-            }
+    const title = combo.seoTitle || combo.name;
+    const description = combo.seoDescription || combo.description;
+    const path = `/combo/${combo.id}`;
+
+    const graph = generateSchemaGraph({
+        type: "product",
+        title,
+        description,
+        canonicalUrl: path,
+        ogImage: combo.image,
+        productData: {
+            ...combo,
+            lowPrice: combo.price,
+            highPrice: combo.originalPrice || combo.price,
+            faqs: combo.seoFaqs
         }
-    };
-
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL },
-            { "@type": "ListItem", "position": 2, "name": combo.name, "item": `${BASE_URL}/combo/${combo.id}` }
-        ]
-    };
-
-    const faqSchema = combo.seoFaqs ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": combo.seoFaqs.map((faq: any) => ({
-            "@type": "Question",
-            "name": faq.q,
-            "acceptedAnswer": { "@type": "Answer", "text": faq.a }
-        }))
-    } : null;
+    });
 
     const content = `
         <div class="product-grid">
@@ -649,12 +462,12 @@ const generateComboHTML = (combo: any) => {
         </footer>
     `;
     return template(
-        combo.seoTitle || combo.name,
-        combo.seoDescription || combo.description,
-        `/combo/${combo.id}`,
+        title,
+        description,
+        path,
         content,
         combo.image,
-        [schema, breadcrumbSchema, faqSchema].filter(Boolean)
+        graph
     );
 };
 
@@ -699,7 +512,14 @@ console.log(`Generado: ${comboDir}/index.html (Combo del Mes)`);
 
 // 6. Generar Páginas Legales e Informativas
 const generateSimplePageHTML = (title: string, description: string, canonical: string, content: string) => {
-    return template(title, description, canonical, content, '/assets/logo/logo.png');
+    const graph = generateSchemaGraph({
+        type: "website",
+        title,
+        description,
+        canonicalUrl: canonical,
+        ogImage: '/assets/logo/logo.png'
+    });
+    return template(title, description, canonical, content, '/assets/logo/logo.png', graph);
 };
 
 const pages = [
