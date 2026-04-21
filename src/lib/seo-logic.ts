@@ -1,11 +1,11 @@
-cconst BASE_URL = "https://zenhogar.live";
+const BASE_URL = "https://zenhogar.live";
 
 export const generateSchemaGraph = (params: {
     type: string, title: string, description: string, canonicalUrl: string, ogImage?: string, productData?: any 
 }) => {
     const { type, title, description, canonicalUrl, ogImage, productData } = params;
     
-    // LIMPIEZA FINAL: Extrae el path puro sin importar qué tan mal venga la URL
+    // 1. LIMPIEZA DE URL: Evita el error "livehttps://live"
     const path = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
     const fullUrl = `${BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
     
@@ -31,12 +31,13 @@ export const generateSchemaGraph = (params: {
                 "image": [finalImage],
                 "sku": String(productData.id || "zen-001"),
                 "brand": { "@type": "Brand", "name": "Zenhogar" },
+                // 2. CORRECCIÓN DE PUNTUACIÓN: Números puros para evitar el error rojo
                 "aggregateRating": {
                     "@type": "AggregateRating",
-                    "ratingValue": "4.9",
-                    "bestRating": "5",
-                    "worstRating": "1",
-                    "reviewCount": "520"
+                    "ratingValue": 4.9,
+                    "bestRating": 5,
+                    "worstRating": 1,
+                    "reviewCount": 520
                 },
                 "offers": {
                     "@type": "AggregateOffer",
@@ -47,6 +48,7 @@ export const generateSchemaGraph = (params: {
                     "url": fullUrl
                 }
             } : null,
+            // 3. BLOQUE FAQ: Unificado con ID correcto para evitar duplicados
             type === "product" && productData?.faqs?.length > 0 ? {
                 "@type": "FAQPage",
                 "@id": `${fullUrl}/#faq`,
