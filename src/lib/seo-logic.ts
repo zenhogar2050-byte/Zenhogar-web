@@ -5,23 +5,20 @@ export const generateSchemaGraph = (params: {
 }) => {
     const { type, title, description, canonicalUrl, ogImage, productData } = params;
     
-    // Limpieza de URL para evitar el error de duplicidad de dominio
     const path = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
     const fullUrl = `${BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
-    const finalImage = ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`;
 
     if (type === "product" && productData) {
         return {
             "@context": "https://schema.org",
             "@type": "Product",
-            // Usamos una URL limpia como ID único
+            // El @id evita la fragmentación de datos que ves en tus avisos naranja
             "@id": `${fullUrl}#product`,
             "name": productData.name,
             "description": description,
-            "image": [finalImage],
-            "sku": String(productData.id || "zen-001"),
             "brand": { "@type": "Brand", "name": "Zenhogar" },
-            // UN SOLO BLOQUE DE RATING: Valores numéricos estrictos
+            "sku": String(productData.id || "zen-001"),
+            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
             "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": 4.9,
@@ -34,6 +31,7 @@ export const generateSchemaGraph = (params: {
                 "priceCurrency": "COP",
                 "lowPrice": productData.lowPrice || productData.basePrice,
                 "highPrice": productData.highPrice || productData.basePrice,
+                "offerCount": "1", // Corrige el aviso de falta de campo opcional
                 "availability": "https://schema.org/InStock",
                 "url": fullUrl
             }
@@ -45,7 +43,6 @@ export const generateSchemaGraph = (params: {
         "@type": "WebPage",
         "@id": `${fullUrl}#webpage`,
         "url": fullUrl,
-        "name": title,
-        "description": description
+        "name": title
     };
 };

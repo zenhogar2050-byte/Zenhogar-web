@@ -8,11 +8,20 @@ import TopBanner from './components/TopBanner';
 import SocialProof from './components/SocialProof';
 import { track, markFacebookEntry, initPixel } from './utils/pixel';
 
-function PageTracker() {
+// --- NUEVA LÓGICA DE LIMPIEZA SEO ---
+function SEOCleaner() {
   const location = useLocation();
+
   useEffect(() => {
+    // 1. Elimina CUALQUIER script de JSON-LD previo para evitar duplicados en Search Console
+    // Esto soluciona el error de "2 elementos detectados"
+    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    existingScripts.forEach(script => script.remove());
+
+    // 2. Trackeo de página estándar
     track('PageView');
   }, [location]);
+
   return null;
 }
 
@@ -34,7 +43,6 @@ function ScrollToTop() {
 
   useEffect(() => {
     if (pathname === '/') {
-      // Small timeout to ensure the banner is rendered
       setTimeout(() => {
         const banner = document.getElementById('promo-banner');
         if (banner) {
@@ -62,14 +70,11 @@ export default function App() {
   useEffect(() => {
     markFacebookEntry();
     
-    // Defer non-critical third-party scripts even further
     const timer = setTimeout(() => {
-      // Execute intensive scripts only when main thread is likely idle
       const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
       idleCallback(() => {
         initPixel();
         
-        // Init GTM
         const script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
@@ -88,7 +93,8 @@ export default function App() {
   return (
     <CartProvider>
       <Router>
-        <PageTracker />
+        {/* SEOCleaner se encarga de que Google no vea basura de páginas anteriores */}
+        <SEOCleaner /> 
         <ScrollToTop />
         <AppContent />
       </Router>
