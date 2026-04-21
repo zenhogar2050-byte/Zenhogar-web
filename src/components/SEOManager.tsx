@@ -11,27 +11,36 @@ const SEOManager = ({
     productData = null 
 }) => {
     const baseUrl = "https://zenhogar.live";
-    const fullUrl = `${baseUrl}${canonicalUrl}`;
+    
+    // 1. Normalización de URL para evitar errores de redirección
+    // Eliminamos barras finales y aseguramos el slash inicial
+    const cleanPath = canonicalUrl.startsWith('/') ? canonicalUrl : `/${canonicalUrl}`;
+    const normalizedPath = cleanPath.replace(/\/$/, '');
+    const fullUrl = `${baseUrl}${normalizedPath}`;
+    
     const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
     const defaultImage = `${baseUrl}/assets/logo/og-image.png`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 
+    // 2. Generación del Grafo de Esquema Único
     const schemaData = generateSchemaGraph({
         type,
         title,
         description,
-        canonicalUrl,
+        canonicalUrl: fullUrl,
         ogImage: finalImage,
         productData
     });
 
     return (
         <Helmet>
+            {/* Metadatos Básicos */}
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
             <link rel="canonical" href={fullUrl} />
             <meta name="robots" content="index, follow, max-image-preview:large" />
 
+            {/* Open Graph (Facebook / WhatsApp) */}
             <meta property="og:locale" content="es_CO" />
             <meta property="og:type" content={type === "product" ? "og:product" : "website"} />
             <meta property="og:title" content={fullTitle} />
@@ -44,14 +53,26 @@ const SEOManager = ({
             <meta property="og:image:height" content="630" />
             <meta property="og:image:alt" content={title} />
 
+            {/* Twitter Card */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={finalImage || defaultImage} />
-            <meta name="twitter:label1" content="Precio" />
-            <meta name="twitter:data1" content={productData ? formatCurrency(productData.lowPrice) : "Ofertas exclusivas"} />
             
-            <script type="application/ld+json" id="main-schema" data-rh="true">
+            {/* Datos de Producto para Twitter si aplican */}
+            {productData && (
+                <>
+                    <meta name="twitter:label1" content="Precio" />
+                    <meta name="twitter:data1" content={formatCurrency(productData.lowPrice)} />
+                </>
+            )}
+
+            {/* CAMBIO CRÍTICO PARA GOOGLE SEARCH CONSOLE:
+               Usamos un ID único y el atributo data-rh="true". 
+               Esto le dice a react-helmet-async que REEMPLACE cualquier script previo
+               en lugar de añadir uno nuevo, eliminando los "6 elementos no válidos".
+            */}
+            <script type="application/ld+json" data-rh="true" id="schema-main">
                 {JSON.stringify(schemaData)}
             </script>
         </Helmet>
