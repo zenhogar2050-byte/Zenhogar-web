@@ -71,6 +71,7 @@ export default function CategoryPage() {
         description={`${category.description} Encuentra soluciones naturales para tu bienestar con productos naturales originales.`}
         canonicalUrl={`/categoria/${category.id}`}
         type="category"
+        productData={{ categoryProducts }}
       />
       {/* Header Section */}
       <section className={cn("py-6 lg:py-10 relative overflow-hidden", theme.bg)}>

@@ -8,6 +8,17 @@ import TopBanner from './components/TopBanner';
 import SocialProof from './components/SocialProof';
 import { track, markFacebookEntry, initPixel } from './utils/pixel';
 
+function SEOCleaner() {
+  useEffect(() => {
+    // Elimina el esquema estático para que no choque con el dinámico de Helmet
+    const staticSchema = document.getElementById('schema-static');
+    if (staticSchema) {
+      staticSchema.remove();
+    }
+  }, []);
+  return null;
+}
+
 function PageTracker() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -74,6 +85,7 @@ export default function App() {
   return (
     <CartProvider>
       <Router>
+        <SEOCleaner />
         <PageTracker />
         <ScrollToTop />
         <AppContent />
