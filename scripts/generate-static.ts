@@ -55,7 +55,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    <script type="application/ld+json" id="main-schema" data-rh="true">${JSON.stringify(graph)}</script>
+    <script type="application/ld+json" id="schema-main" data-rh="true">${JSON.stringify(graph)}</script>
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->

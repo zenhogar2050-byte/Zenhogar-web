@@ -12,7 +12,7 @@ export const generateSchemaGraph = (params: {
         return {
             "@context": "https://schema.org",
             "@type": "Product",
-            // Forzamos un ID único para unir las reseñas al producto
+            // El ID absoluto es vital para evitar la "fragmentación" en GSC
             "@id": `${fullUrl}#product`,
             "name": productData.name,
             "description": description,
@@ -22,7 +22,7 @@ export const generateSchemaGraph = (params: {
             "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": 4.9,
-                "reviewCount": 520,
+                "reviewCount": productData.reviews?.length > 0 ? productData.reviews.length : 520,
                 "bestRating": 5,
                 "worstRating": 1
             },
@@ -31,10 +31,30 @@ export const generateSchemaGraph = (params: {
                 "priceCurrency": "COP",
                 "lowPrice": productData.lowPrice || productData.basePrice,
                 "highPrice": productData.highPrice || productData.basePrice,
-                "offerCount": "1", // Corrige aviso naranja
+                "offerCount": productData.offerCount || "1",
                 "availability": "https://schema.org/InStock",
                 "url": fullUrl
-            }
+            },
+            "review": productData.reviews?.map((r: any) => ({
+                "@type": "Review",
+                "author": { "@type": "Person", "name": r.name },
+                "datePublished": "2024-01-01",
+                "reviewBody": r.text,
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": r.rating || 5,
+                    "bestRating": 5,
+                    "worstRating": 1
+                }
+            })),
+            "subjectOf": productData.faqs?.length > 0 ? {
+                "@type": "FAQPage",
+                "mainEntity": productData.faqs.map((f: any) => ({
+                    "@type": "Question",
+                    "name": f.q,
+                    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+                }))
+            } : undefined
         };
     }
 

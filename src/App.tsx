@@ -8,24 +8,11 @@ import TopBanner from './components/TopBanner';
 import SocialProof from './components/SocialProof';
 import { track, markFacebookEntry, initPixel } from './utils/pixel';
 
-// --- LIMPIADOR DE DUPLICADOS PARA GOOGLE SEARCH CONSOLE ---
-function SEOCleaner() {
+function PageTracker() {
   const { pathname } = useLocation();
-
   useEffect(() => {
-    // Busca todos los scripts de datos estructurados y los elimina
-    // Esto evita que Google vea 2 productos en la misma página
-    const scripts = document.querySelectorAll('script[type="application/ld+json"]');
-    scripts.forEach(script => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    });
-
-    // Trackeo de página para el Pixel/Analytics
     track('PageView');
   }, [pathname]);
-
   return null;
 }
 
@@ -87,7 +74,7 @@ export default function App() {
   return (
     <CartProvider>
       <Router>
-        <SEOCleaner />
+        <PageTracker />
         <ScrollToTop />
         <AppContent />
       </Router>
