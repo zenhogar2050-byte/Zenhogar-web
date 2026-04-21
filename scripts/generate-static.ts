@@ -118,7 +118,7 @@ const generateCategoryHTML = (category: any) => {
     const path = `/categoria/${category.id}`;
     
     // Esquema JSON-LD usando lógica centralizada
-    const graph = generateSchemaGraph({
+    let graph: any = generateSchemaGraph({
         type: "category",
         title,
         description,
@@ -126,21 +126,28 @@ const generateCategoryHTML = (category: any) => {
         ogImage: '/assets/logo/logo.png'
     });
 
-    // Añadir ItemList específica para categorías
-    (graph as any)["@graph"].push({
-        "@type": "CollectionPage",
-        "@id": `${BASE_URL}${path}/#collection`,
-        "mainEntity": {
-            "@type": "ItemList",
-            "itemListElement": categoryProducts.map((p, index) => ({
-                "@type": "ListItem",
-                "position": index + 1,
-                "url": `${BASE_URL}/producto/${p.id}`,
-                "name": p.name,
-                "image": `${BASE_URL}${p.image}`
-            }))
-        }
-    });
+    // Convertimos a @graph para añadir la ItemList de la categoría
+    // Esto resuelve el error "Cannot read properties of undefined (reading 'push')"
+    graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            { ...graph, "@context": undefined },
+            {
+                "@type": "CollectionPage",
+                "@id": `${BASE_URL}${path}/#collection`,
+                "mainEntity": {
+                    "@type": "ItemList",
+                    "itemListElement": categoryProducts.map((p, index) => ({
+                        "@type": "ListItem",
+                        "position": index + 1,
+                        "url": `${BASE_URL}/producto/${p.id}`,
+                        "name": p.name,
+                        "image": `${BASE_URL}${p.image}`
+                    }))
+                }
+            }
+        ]
+    };
 
     const content = `
         <div style="text-align: center; margin-bottom: 60px;">
