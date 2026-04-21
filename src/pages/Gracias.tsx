@@ -3,9 +3,23 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle2, Send, ArrowLeft } from 'lucide-react';
 import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
+import SEOManager from '../components/SEOManager';
 
 export default function Gracias() {
   const location = useLocation();
+  
+  // Noindex for Thank You page via SEOManager
+  // SEOManager should handle the noindex if we pass it, 
+  // but just in case, I'll ensure the meta tag is added.
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow';
+    document.head.appendChild(meta);
+    return () => {
+      document.head.removeChild(meta);
+    };
+  }, []);
   
   // Fallback to localStorage if state is lost on refresh
   const getInitialData = () => {

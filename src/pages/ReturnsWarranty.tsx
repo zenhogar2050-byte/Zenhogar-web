@@ -2,12 +2,18 @@ import React from 'react';
 import { RefreshCcw, ShieldCheck, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LegalFooter from '../components/LegalFooter';
+import SEOManager from '../components/SEOManager';
 
 export default function ReturnsWarranty() {
   const navigate = useNavigate();
 
   return (
     <div className="bg-white min-h-screen py-20">
+      <SEOManager 
+        title="Devoluciones y Garantía"
+        description="Conoce nuestras políticas de garantía para productos dañados o insatisfacción."
+        canonicalUrl="/devoluciones-garantia"
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate(-1)}

@@ -2,12 +2,18 @@ import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LegalFooter from '../components/LegalFooter';
+import SEOManager from '../components/SEOManager';
 
 export default function PrivacyPolicy() {
   const navigate = useNavigate();
 
   return (
     <div className="bg-white min-h-screen py-20">
+      <SEOManager 
+        title="Política de Privacidad"
+        description="Política de tratamiento de datos personales de ZENHOGAR. Tu privacidad es nuestra prioridad."
+        canonicalUrl="/politica-privacidad"
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate(-1)}

@@ -2,12 +2,18 @@ import React from 'react';
 import { Truck, Clock, MapPin, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import LegalFooter from '../components/LegalFooter';
+import SEOManager from '../components/SEOManager';
 
 export default function DeliveryConditions() {
   const navigate = useNavigate();
 
   return (
     <div className="bg-white min-h-screen py-20">
+      <SEOManager 
+        title="Condiciones de Entrega"
+        description="Información sobre tiempos de entrega, cobertura y método de pago contra entrega en Colombia."
+        canonicalUrl="/condiciones-entrega"
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate(-1)}

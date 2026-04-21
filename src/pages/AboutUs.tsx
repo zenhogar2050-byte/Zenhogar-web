@@ -3,12 +3,18 @@ import { ShieldCheck, Heart, Truck, Award, ArrowLeft } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import LegalFooter from '../components/LegalFooter';
+import SEOManager from '../components/SEOManager';
 
 export default function AboutUs() {
   const navigate = useNavigate();
 
   return (
     <div className="bg-white min-h-screen py-20">
+      <SEOManager 
+        title="Quiénes Somos"
+        description="Conoce la historia de ZENHOGAR, nuestra misión y compromiso con la salud natural en Colombia."
+        canonicalUrl="/quienes-somos"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate(-1)}
