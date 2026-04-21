@@ -12,13 +12,13 @@ export const generateSchemaGraph = (params: {
         return {
             "@context": "https://schema.org",
             "@type": "Product",
-            // El @id evita la fragmentación de datos que ves en tus avisos naranja
+            // Forzamos un ID único para unir las reseñas al producto
             "@id": `${fullUrl}#product`,
             "name": productData.name,
             "description": description,
-            "brand": { "@type": "Brand", "name": "Zenhogar" },
             "sku": String(productData.id || "zen-001"),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
+            "brand": { "@type": "Brand", "name": "Zenhogar" },
             "aggregateRating": {
                 "@type": "AggregateRating",
                 "ratingValue": 4.9,
@@ -31,7 +31,7 @@ export const generateSchemaGraph = (params: {
                 "priceCurrency": "COP",
                 "lowPrice": productData.lowPrice || productData.basePrice,
                 "highPrice": productData.highPrice || productData.basePrice,
-                "offerCount": "1", // Corrige el aviso de falta de campo opcional
+                "offerCount": "1", // Corrige aviso naranja
                 "availability": "https://schema.org/InStock",
                 "url": fullUrl
             }

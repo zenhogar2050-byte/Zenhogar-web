@@ -8,24 +8,28 @@ import TopBanner from './components/TopBanner';
 import SocialProof from './components/SocialProof';
 import { track, markFacebookEntry, initPixel } from './utils/pixel';
 
-// --- NUEVA LÓGICA DE LIMPIEZA SEO ---
+// --- LIMPIADOR DE DUPLICADOS PARA GOOGLE SEARCH CONSOLE ---
 function SEOCleaner() {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    // 1. Elimina CUALQUIER script de JSON-LD previo para evitar duplicados en Search Console
-    // Esto soluciona el error de "2 elementos detectados"
-    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
-    existingScripts.forEach(script => script.remove());
+    // Busca todos los scripts de datos estructurados y los elimina
+    // Esto evita que Google vea 2 productos en la misma página
+    const scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    scripts.forEach(script => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    });
 
-    // 2. Trackeo de página estándar
+    // Trackeo de página para el Pixel/Analytics
     track('PageView');
-  }, [location]);
+  }, [pathname]);
 
   return null;
 }
 
-// Dynamic imports for pages
+// Dynamic imports
 import Home from './pages/Home';
 const ProductLanding = lazy(() => import('./pages/ProductLanding'));
 const ComboLanding = lazy(() => import('./pages/ComboLanding'));
@@ -40,7 +44,6 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
     if (pathname === '/') {
       setTimeout(() => {
@@ -49,11 +52,7 @@ function ScrollToTop() {
           const navbarHeight = 64;
           const elementPosition = banner.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         } else {
           window.scrollTo(0, 0);
         }
@@ -62,39 +61,33 @@ function ScrollToTop() {
       window.scrollTo(0, 0);
     }
   }, [pathname]);
-
   return null;
 }
 
 export default function App() {
   useEffect(() => {
     markFacebookEntry();
-    
     const timer = setTimeout(() => {
       const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
       idleCallback(() => {
         initPixel();
-        
         const script = document.createElement('script');
         script.async = true;
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
         document.head.appendChild(script);
-        
         (window as any).dataLayer = (window as any).dataLayer || [];
         function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-57BY2PVKF4');
       });
     }, 5000);
-
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <CartProvider>
       <Router>
-        {/* SEOCleaner se encarga de que Google no vea basura de páginas anteriores */}
-        <SEOCleaner /> 
+        <SEOCleaner />
         <ScrollToTop />
         <AppContent />
       </Router>
