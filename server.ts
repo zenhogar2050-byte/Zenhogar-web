@@ -15,6 +15,28 @@ async function startServer() {
   const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
+  
+  // URL Normalization Middleware (Fix Redirect Errors in GSC)
+  app.use((req, res, next) => {
+    const url = req.originalUrl;
+    const searchIndex = url.indexOf('?');
+    const path = searchIndex !== -1 ? url.slice(0, searchIndex) : url;
+    const query = searchIndex !== -1 ? url.slice(searchIndex) : '';
+
+    // Remove trailing slash (except for home page)
+    if (path.length > 1 && path.endsWith('/')) {
+      const newPath = path.slice(0, -1);
+      return res.redirect(301, newPath + query);
+    }
+    
+    // Remove multiple slashes
+    if (path.includes('//')) {
+      const newPath = path.replace(/\/+/g, '/');
+      return res.redirect(301, newPath + query);
+    }
+
+    next();
+  });
 
   const ORDERS_FILE = path.resolve(__dirname, "orders.json");
 

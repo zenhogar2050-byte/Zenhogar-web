@@ -72,7 +72,10 @@ export const generateSchemaGraph = (params: {
                 "name": fullTitle,
                 "description": description,
                 "isPartOf": { "@id": `${BASE_URL}/#website` },
-                "breadcrumb": { "@id": `${fullUrl}/#breadcrumb` }
+                "breadcrumb": { "@id": `${fullUrl}/#breadcrumb` },
+                "mainEntity": type === "product" ? { "@id": `${fullUrl}/#product` } : 
+                              (type === "category" ? { "@id": `${fullUrl}/#collection` } : 
+                              (canonicalUrl === "/" ? { "@id": `${BASE_URL}/#localbusiness` } : undefined))
             },
             {
                 "@type": "BreadcrumbList",
@@ -84,7 +87,7 @@ export const generateSchemaGraph = (params: {
                         "name": "Inicio",
                         "item": BASE_URL
                     },
-                    type === "product" ? {
+                    (type === "product" || type === "category") ? {
                         "@type": "ListItem",
                         "position": 2,
                         "name": productData?.name || title,
@@ -104,6 +107,8 @@ export const generateSchemaGraph = (params: {
                 "aggregateRating": {
                     "@type": "AggregateRating",
                     "ratingValue": "4.9",
+                    "bestRating": "5",
+                    "worstRating": "1",
                     "reviewCount": String(productData.reviewCount || "520")
                 },
                 "review": (productData.reviews || [
@@ -115,17 +120,23 @@ export const generateSchemaGraph = (params: {
                 ]).map((rev: any) => ({
                     "@type": "Review",
                     "author": { "@type": "Person", "name": String(rev.author || rev.name) },
-                    "reviewRating": { "@type": "Rating", "ratingValue": String(rev.rating) },
+                    "reviewRating": { 
+                        "@type": "Rating", 
+                        "ratingValue": String(rev.rating),
+                        "bestRating": "5",
+                        "worstRating": "1"
+                    },
                     "reviewBody": rev.text
                 })),
                 "offers": {
                     "@type": "AggregateOffer",
-                    "lowPrice": productData.lowPrice,
-                    "highPrice": productData.highPrice,
+                    "lowPrice": productData.lowPrice || productData.basePrice,
+                    "highPrice": productData.highPrice || productData.basePrice,
                     "priceCurrency": "COP",
                     "offerCount": String(productData.offerCount || 1),
                     "availability": "https://schema.org/InStock",
                     "url": fullUrl,
+                    "seller": { "@id": `${BASE_URL}/#organization` },
                     "shippingDetails": {
                         "@type": "OfferShippingDetails",
                         "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "COP" },

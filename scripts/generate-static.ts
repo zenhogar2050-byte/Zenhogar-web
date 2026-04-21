@@ -265,7 +265,8 @@ const generateProductHTML = (product: any) => {
             ...product,
             lowPrice: product.basePrice,
             highPrice: Math.max(...(product.promos || []).map((p: any) => p.price), product.basePrice),
-            faqs: product.seoFaqs
+            faqs: product.seoFaqs,
+            reviews: product.testimonials
         }
     });
 
@@ -381,7 +382,8 @@ const generateComboHTML = (combo: any) => {
             ...combo,
             lowPrice: combo.price,
             highPrice: combo.originalPrice || combo.price,
-            faqs: combo.seoFaqs
+            faqs: combo.seoFaqs,
+            reviews: combo.testimonials
         }
     });
 
