@@ -10,12 +10,16 @@ export const generateSchemaGraph = (params: {
 }) => {
     const { type, title, description, canonicalUrl, ogImage, productData } = params;
     
-    // NORMALIZACIÓN: Evita la duplicación de https://zenhogar.live observada en el error
-    const path = canonicalUrl.replace(BASE_URL, '').startsWith('/') 
-        ? canonicalUrl.replace(BASE_URL, '') 
-        : `/${canonicalUrl.replace(BASE_URL, '')}`;
+    // 1. LIMPIEZA RADICAL DE URL: 
+    // Extraemos solo la ruta (path) sin importar si canonicalUrl ya trae el dominio o no.
+    const pathOnly = canonicalUrl
+        .replace("https://zenhogar.live", "")
+        .replace("http://zenhogar.live", "")
+        .replace(/\/$/, ""); // Quita barra final si existe
     
-    const fullUrl = `${BASE_URL}${path}`.replace(/\/$/, ''); // URL limpia sin barra final
+    const normalizedPath = pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`;
+    const fullUrl = `${BASE_URL}${normalizedPath === '/' ? '' : normalizedPath}`;
+    
     const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`;
 
@@ -57,7 +61,6 @@ export const generateSchemaGraph = (params: {
                 "description": description,
                 "isPartOf": { "@id": `${BASE_URL}/#website` },
                 "breadcrumb": { "@id": `${fullUrl}/#breadcrumb` },
-                // Vinculación clara de la entidad principal para evitar duplicados
                 "mainEntity": type === "product" ? { "@id": `${fullUrl}/#product` } : undefined
             },
             {
@@ -78,7 +81,7 @@ export const generateSchemaGraph = (params: {
                     } : null
                 ].filter(Boolean)
             },
-            // BLOQUE DE PRODUCTO: Corregido para AggregateRating
+            // BLOQUE DE PRODUCTO: Asegura que AggregateRating use strings
             type === "product" && productData ? {
                 "@type": "Product",
                 "@id": `${fullUrl}/#product`,
@@ -104,10 +107,10 @@ export const generateSchemaGraph = (params: {
                     "seller": { "@id": `${BASE_URL}/#organization` }
                 }
             } : null,
-            // BLOQUE FAQ: Corregido ID duplicado
+            // BLOQUE FAQ: Con ID corregido basado en la normalización anterior
             type === "product" && productData?.faqs && productData.faqs.length > 0 ? {
                 "@type": "FAQPage",
-                "@id": `${fullUrl}/#faq`, // Ahora usa la URL normalizada correctamente
+                "@id": `${fullUrl}/#faq`, 
                 "mainEntity": productData.faqs.map((faq: any) => ({
                     "@type": "Question",
                     "name": faq.q,
