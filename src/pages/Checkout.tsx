@@ -23,6 +23,7 @@ export default function Checkout() {
     city: '',
   });
   const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
+  const [abandonedId, setAbandonedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Checkout() {
   };
 
   useEffect(() => {
-    if (items.length === 0 || hasTrackedAbandoned) return;
+    if (items.length === 0 || isSubmitting) return;
 
     // Solo trackear si al menos tiene nombre y teléfono
     if (formData.fullName.length > 3 && formData.phone.length > 6) {
@@ -48,8 +49,12 @@ export default function Checkout() {
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
 
+          // Generar un ID único basado en el teléfono para evitar duplicados del mismo cliente
+          const uniqueId = `abandoned_${formData.phone.replace(/\D/g, '')}`;
+
           // Firebase Tracking (NEW for 2.0/Cloudflare)
           await saveOrderToFirebase({
+            id: uniqueId, // Usamos ID fijo para sobrescribir si el cliente sigue en el checkout
             customer: formData,
             order_details: orderDetails,
             total: formatCurrency(total),
@@ -65,15 +70,17 @@ export default function Checkout() {
               total: formatCurrency(total),
             }),
           });
+          
           setHasTrackedAbandoned(true);
+          setAbandonedId(uniqueId);
         } catch (e) {
           console.error("Error tracking abandoned cart:", e);
         }
-      }, 5000); // 5 segundos de inactividad después de llenar datos básicos
+      }, 1800000); // 30 MINUTOS de inactividad total antes de declarar abandono
 
       return () => clearTimeout(timer);
     }
-  }, [formData.fullName, formData.phone, items, total, hasTrackedAbandoned]);
+  }, [formData.fullName, formData.phone, items, total, isSubmitting]);
 
   const departments = Object.keys(COLOMBIA_DATA || {});
   const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
@@ -157,6 +164,12 @@ export default function Checkout() {
         type: 'order',
         ticket_number: currentTicket
       });
+
+      // SI HABÍA UN REGISTRO DE ABANDONO PREVIO, LO ELIMINAMOS PARA EVITAR DUPLICADOS
+      if (abandonedId) {
+        const { deleteOrderFromFirebase } = await import('../lib/firebase');
+        await deleteOrderFromFirebase(abandonedId);
+      }
 
       const message = `*🛍️ PEDIDO #${currentTicket} - ZENHOGAR*\n\n` +
         `*PRODUCTOS:*\n${orderDetails}\n\n` +

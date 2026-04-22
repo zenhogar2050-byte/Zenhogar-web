@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, setDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -12,9 +12,23 @@ export const collections = {
 export async function saveOrderToFirebase(orderData: any) {
   try {
     const ordersRef = collection(db, collections.ORDERS);
+    
+    // Si viene con un ID (caso carrito abandonado para evitar duplicados)
+    if (orderData.id) {
+      const orderRef = doc(db, collections.ORDERS, orderData.id);
+      const { id, ...cleanData } = orderData;
+      await setDoc(orderRef, {
+        ...cleanData,
+        status: cleanData.status || 'abandoned',
+        created_at: serverTimestamp()
+      }, { merge: true });
+      return true;
+    }
+
+    // Pedido normal
     await addDoc(ordersRef, {
       ...orderData,
-      status: 'pending',
+      status: orderData.status || 'pending',
       created_at: serverTimestamp()
     });
     return true;

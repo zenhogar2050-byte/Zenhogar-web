@@ -249,16 +249,16 @@ export default function Home() {
               </div>
               
               <div className="relative mt-4 lg:mt-0">
-                <div className="aspect-square rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 p-6 sm:p-8 flex items-center justify-center">
+                <div className="max-w-full aspect-square flex items-center justify-center">
                   <img 
                     src={COMBO_OF_THE_MONTH.image} 
                     alt={COMBO_OF_THE_MONTH.name}
-                    width={600}
-                    height={600}
+                    width={500}
+                    height={500}
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
-                    className="max-w-full max-h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
+                    className="w-full h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -302,15 +302,15 @@ export default function Home() {
                 className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all"
               >
                 <Link to={`/producto/${product.id}`} className="block">
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2">
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative">
                     <img
                       src={product.image}
                       alt={product.name}
-                      width={400}
-                      height={400}
+                      width={300}
+                      height={300}
                       loading="lazy"
                       decoding="async"
-                      className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
                   </div>
