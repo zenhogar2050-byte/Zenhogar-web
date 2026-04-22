@@ -149,6 +149,7 @@ export default function ProductLanding() {
                   height={800}
                   loading="eager"
                   fetchPriority="high"
+                  decoding="async"
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />

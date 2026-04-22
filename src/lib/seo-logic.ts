@@ -5,8 +5,9 @@ export const generateSchemaGraph = (params: {
 }) => {
     const { type, title, description, canonicalUrl, ogImage, productData } = params;
     
-    const path = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
-    const fullUrl = `${BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+    const normalizedPath = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
+    const finalPath = normalizedPath === "" ? "/" : normalizedPath;
+    const fullUrl = `${BASE_URL}${finalPath.startsWith('/') ? finalPath : `/${finalPath}`}`;
 
     const graph: any[] = [];
 

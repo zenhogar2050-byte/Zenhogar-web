@@ -17,11 +17,7 @@ const SYMPTOMS = [
   { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-800', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
 ];
 
-export default function Home() {
-  const navigate = useNavigate();
-  const { hash } = useLocation();
-  const { addComboToCart } = useCart();
-  const [stock, setStock] = useState(42);
+function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState('');
 
   useEffect(() => {
@@ -37,17 +33,29 @@ export default function Home() {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      // Si los días son 0, solo mostrar horas y minutos para no ocupar espacio innecesario, 
-      // pero si hay días, mostrar el formato completo.
       return `${days > 0 ? `${days}d : ` : ''}${hours.toString().padStart(2, '0')}h : ${minutes.toString().padStart(2, '0')}m : ${seconds.toString().padStart(2, '0')}s`;
     };
 
+    setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
+
+  return (
+    <span className="text-lg sm:text-2xl font-mono font-black text-white leading-none tracking-tighter drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+      {timeLeft}
+    </span>
+  );
+}
+
+export default function Home() {
+  const navigate = useNavigate();
+  const { hash } = useLocation();
+  const { addComboToCart } = useCart();
+  const [stock, setStock] = useState(42);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -106,9 +114,7 @@ export default function Home() {
               <Activity className="w-4 h-4 text-emerald-400 animate-bounce" />
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                 <span className="text-[9px] sm:text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] leading-none">Termina en:</span>
-                <span className="text-lg sm:text-2xl font-mono font-black text-white leading-none tracking-tighter drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                  {timeLeft}
-                </span>
+                <CountdownTimer />
               </div>
             </div>
           </div>

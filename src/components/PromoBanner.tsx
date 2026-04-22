@@ -8,45 +8,21 @@ import { motion, AnimatePresence } from 'motion/react';
 export default function PromoBanner() {
   const [isPaused, setIsPaused] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isFirstMount, setIsFirstMount] = useState(true);
-  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>(() => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 768) return 'mobile';
-      if (width < 1280) return 'tablet';
-    }
-    return 'desktop';
-  });
-
-  // Marcar que ya no es el primer montaje después del render inicial
-  useEffect(() => {
-    setIsFirstMount(false);
-  }, []);
-
-  // En móvil, incluimos la Oferta del Mes al principio
-  const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
-  const mobileItems = baseItems;
-  // Solo calculamos marqueeItems si NO estamos en móvil
-  // Aumentamos a 5 repeticiones para asegurar que el loop sea invisible y cubra pantallas ultra-wide
-  const marqueeItems = screenSize !== 'mobile' 
-    ? [...baseItems, ...baseItems, ...baseItems, ...baseItems, ...baseItems]
-    : [];
+  const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
 
   useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
-      if (width < 768) {
-        setScreenSize('mobile');
-      } else if (width < 1280) {
-        setScreenSize('tablet');
-      } else {
-        setScreenSize('desktop');
-      }
+      setScreenSize(width < 768 ? 'mobile' : width < 1280 ? 'tablet' : 'desktop');
     };
-    
-    window.addEventListener('resize', checkScreenSize);
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize, { passive: true });
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
+  const mobileItems = baseItems;
+  const marqueeItems = [...baseItems, ...baseItems];
 
   // Auto-play para móvil
   useEffect(() => {
@@ -101,7 +77,7 @@ export default function PromoBanner() {
         } as React.CSSProperties}
       >
         {/* DUPLICAMOS EL CONTENIDO EXACTAMENTE 2 VECES PARA UN LOOP INVISIBLE */}
-        {[...baseItems, ...baseItems].map((promo, index) => (
+        {marqueeItems.map((promo, index) => (
           <Link 
             key={`${promo.id}-${index}`} 
             to={`/combo/${promo.id}`}
@@ -119,10 +95,11 @@ export default function PromoBanner() {
                 draggable="false"
                 className="max-w-full max-h-full object-contain drop-shadow-xl"
                 referrerPolicy="no-referrer"
-                width={400}
-                height={400}
+                width={screenSize === 'mobile' ? 144 : 256}
+                height={screenSize === 'mobile' ? 144 : 256}
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchPriority={index === 0 ? "high" : "auto"}
+                decoding="async"
               />
             </div>
             <div className="flex items-center mb-2 sm:mb-4 px-4 w-full justify-center">

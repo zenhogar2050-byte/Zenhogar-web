@@ -5,7 +5,7 @@ import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS } from '../cons
 import { formatCurrency } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
+import { trackPurchase, track } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 import { saveOrderToFirebase } from '../lib/firebase';

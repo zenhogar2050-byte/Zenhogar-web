@@ -52,9 +52,13 @@ export default function App() {
   useEffect(() => {
     markFacebookEntry();
     
-    // Defer non-critical scripts until first interaction or idle
+    // Estrategia de carga diferida extrema para maximizar PageSpeed en móvil
     const loadScripts = () => {
-      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
+      if ((window as any)._scriptsLoaded) return;
+      (window as any)._scriptsLoaded = true;
+
+      // Usar requestIdleCallback para no interrumpir el renderizado
+      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 100));
       idleCallback(() => {
         initPixel();
         const script = document.createElement('script');
@@ -62,14 +66,22 @@ export default function App() {
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
         document.head.appendChild(script);
         (window as any).dataLayer = (window as any).dataLayer || [];
-        function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-57BY2PVKF4');
+        function gtag(){(window as any).dataLayer.push(arguments);}
+        (gtag as any)('js', new Date());
+        (gtag as any)('config', 'G-57BY2PVKF4');
       });
     };
 
-    const timer = setTimeout(loadScripts, 3000);
-    return () => clearTimeout(timer);
+    // Cargar al primer toque, scroll o después de 4.5 segundos si no hay actividad
+    window.addEventListener('touchstart', loadScripts, { once: true, passive: true });
+    window.addEventListener('scroll', loadScripts, { once: true, passive: true });
+    const timer = setTimeout(loadScripts, 4500);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('touchstart', loadScripts);
+      window.removeEventListener('scroll', loadScripts);
+    };
   }, []);
 
   return (
