@@ -70,122 +70,23 @@ export default function PromoBanner() {
     setIsPaused(false);
   };
 
-  // VELOCIDADES CALIBRADAS PARA MARQUEE (Tablet/Desktop)
+  // VELOCIDADES CALIBRADAS PARA MARQUEE
   const durations = {
-    mobile: 4,
+    mobile: 25,
     tablet: 27.5,
     desktop: 55
   };
 
   const currentDuration = durations[screenSize];
 
-  if (screenSize === 'mobile') {
-    return (
-      <div 
-        id="promo-banner-mobile" 
-        className="bg-blue-800 text-white py-10 relative border-b border-blue-600/30 overflow-hidden select-none touch-pan-y"
-      >
-        <div className="max-w-md mx-auto px-4 relative h-[420px] flex items-center justify-center">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={currentIndex}
-              initial={isFirstMount ? false : { opacity: 0, scale: 0.8, x: 100 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.8, x: -100 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragStart={() => setIsPaused(true)}
-              onDragEnd={handleDragEnd}
-              className="absolute inset-0 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing"
-            >
-              <Link 
-                to={`/combo/${mobileItems[currentIndex].id}`}
-                className="flex flex-col items-center group"
-              >
-                <div 
-                  className={cn(
-                    "w-64 h-64 rounded-[3rem] mb-6 flex items-center justify-center p-6 shadow-2xl transition-colors",
-                    mobileItems[currentIndex].id === COMBO_OF_THE_MONTH.id 
-                      ? "bg-emerald-50 border-4 border-emerald-400/50" 
-                      : "bg-white"
-                  )}
-                >
-                  <img 
-                    src={mobileItems[currentIndex].image} 
-                    alt={mobileItems[currentIndex].name} 
-                    draggable="false"
-                    className="max-w-full max-h-full object-contain drop-shadow-xl"
-                    referrerPolicy="no-referrer"
-                    width="256"
-                    height="256"
-                    fetchPriority={currentIndex === 0 ? "high" : "auto"}
-                    loading={currentIndex === 0 ? "eager" : "lazy"}
-                  />
-                </div>
-
-                <div className="flex items-center mb-4">
-                  <Sparkles className={cn(
-                    "w-6 h-6 mr-3 animate-pulse",
-                    mobileItems[currentIndex].id === COMBO_OF_THE_MONTH.id ? "text-emerald-400" : "text-blue-100"
-                  )} />
-                  <span className="text-2xl font-black tracking-wider uppercase text-center leading-tight">
-                    {cleanPromoName(mobileItems[currentIndex].name)}
-                  </span>
-                </div>
-
-                <div className="flex flex-col items-center gap-2">
-                  <span className="text-sm font-bold text-blue-100 line-through opacity-90">
-                    {formatCurrency(mobileItems[currentIndex].originalPrice)}
-                  </span>
-                  <span className={cn(
-                    "text-xl font-black px-8 py-2 rounded-full shadow-2xl transform active:scale-95 transition-transform",
-                    mobileItems[currentIndex].id === COMBO_OF_THE_MONTH.id
-                      ? "bg-emerald-500 text-white"
-                      : "bg-white text-blue-800"
-                  )}>
-                    Solo por {formatCurrency(mobileItems[currentIndex].price)}
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Indicadores de posición */}
-          <div className="absolute bottom-0 flex gap-2">
-            {mobileItems.map((_, idx) => (
-              <div 
-                key={idx}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? 'bg-white w-6' : 'bg-blue-400/50'}`}
-              />
-            ))}
-          </div>
-
-          {/* Flechas de navegación */}
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev - 1 + mobileItems.length) % mobileItems.length)}
-            className="absolute left-2 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-            aria-label="Ver promoción anterior"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev + 1) % mobileItems.length)}
-            className="absolute right-2 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-            aria-label="Ver siguiente promoción"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Versión Marquee para Tablet y Desktop
+  // Versión Unificada Marquee (Mobile, Tablet y Desktop)
   return (
     <div 
       id="promo-banner" 
-      className="bg-blue-800 text-white py-12 relative border-b border-blue-600/30 overflow-hidden select-none"
+      className={cn(
+        "bg-blue-800 text-white relative border-b border-blue-600/30 overflow-hidden select-none",
+        screenSize === 'mobile' ? "py-8" : "py-12"
+      )}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -196,7 +97,7 @@ export default function PromoBanner() {
         )}
         style={{ 
           '--marquee-duration': `${currentDuration}s`,
-          '--marquee-end': '-50%' // Usamos exactamente la mitad para un loop perfecto
+          '--marquee-end': '-50%' 
         } as React.CSSProperties}
       >
         {/* DUPLICAMOS EL CONTENIDO EXACTAMENTE 2 VECES PARA UN LOOP INVISIBLE */}
@@ -204,10 +105,14 @@ export default function PromoBanner() {
           <Link 
             key={`${promo.id}-${index}`} 
             to={`/combo/${promo.id}`}
-            className="flex flex-col items-center group flex-shrink-0 w-[350px] xl:w-[450px]" // ANCHO FIJO POR CSS (SIN JS)
+            className={cn(
+              "flex flex-col items-center group flex-shrink-0",
+              screenSize === 'mobile' ? "w-[280px]" : "w-[350px] xl:w-[450px]"
+            )}
           >
             <div className={cn(
-              "w-48 h-48 sm:w-64 sm:h-64 rounded-[2.5rem] sm:rounded-[3rem] mb-6 flex items-center justify-center p-6 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform bg-white",
+              "rounded-[2.5rem] sm:rounded-[3rem] mb-4 sm:mb-6 flex items-center justify-center p-4 sm:p-6 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform bg-white",
+              screenSize === 'mobile' ? "w-40 h-40" : "w-48 h-48 sm:w-64 sm:h-64",
               promo.id === COMBO_OF_THE_MONTH.id && "border-4 border-emerald-400"
             )}>
               <img 
@@ -222,21 +127,29 @@ export default function PromoBanner() {
                 fetchPriority={index < 3 ? "high" : "auto"}
               />
             </div>
-            <div className="flex items-center mb-4 px-4 w-full justify-center">
+            <div className="flex items-center mb-2 sm:mb-4 px-4 w-full justify-center">
               <Sparkles className={cn(
-                "w-5 h-5 sm:w-6 sm:h-6 mr-3 shrink-0",
+                "mr-2 sm:mr-3 shrink-0",
+                screenSize === 'mobile' ? "w-4 h-4" : "w-5 h-5 sm:w-6 sm:h-6",
                 promo.id === COMBO_OF_THE_MONTH.id ? "text-emerald-400" : "text-blue-200"
               )} />
-              <span className="text-xl sm:text-2xl font-black tracking-widest uppercase truncate">
+              <span className={cn(
+                "font-black tracking-widest uppercase truncate",
+                screenSize === 'mobile' ? "text-lg" : "text-xl sm:text-2xl"
+              )}>
                 {cleanPromoName(promo.name)}
               </span>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-xs sm:text-base font-bold text-blue-200 line-through opacity-80">
+            <div className="flex flex-col items-center gap-1 sm:gap-2">
+              <span className={cn(
+                "font-bold text-blue-200 line-through opacity-80",
+                screenSize === 'mobile' ? "text-[10px]" : "text-xs sm:text-base"
+              )}>
                 {formatCurrency(promo.originalPrice)}
               </span>
               <span className={cn(
-                "text-base sm:text-xl font-black px-6 sm:px-10 py-1.5 sm:py-2 rounded-full shadow-2xl transform group-hover:scale-110 transition-transform",
+                "font-black rounded-full shadow-2xl transform group-hover:scale-110 transition-transform",
+                screenSize === 'mobile' ? "text-sm px-5 py-1" : "text-base sm:text-xl px-6 sm:px-10 py-1.5 sm:py-2",
                 promo.id === COMBO_OF_THE_MONTH.id ? "bg-emerald-500 text-white" : "bg-white text-blue-700"
               )}>
                 Solo por {formatCurrency(promo.price)}

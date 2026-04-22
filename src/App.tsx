@@ -43,20 +43,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    if (pathname === '/') {
-      // Usamos un pequeño delay para asegurar que el DOM esté listo
-      const timer = setTimeout(() => {
-        const banner = document.getElementById('promo-banner') || document.getElementById('promo-banner-mobile');
-        if (banner) {
-          banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-      }, 150);
-      return () => clearTimeout(timer);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [pathname]);
   return null;
 }
@@ -81,7 +68,7 @@ export default function App() {
       });
     };
 
-    const timer = setTimeout(loadScripts, 6000);
+    const timer = setTimeout(loadScripts, 3000);
     return () => clearTimeout(timer);
   }, []);
 

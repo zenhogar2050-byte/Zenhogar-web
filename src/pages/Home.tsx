@@ -10,11 +10,11 @@ import { useCart } from '../CartContext';
 import { useEffect, useState } from 'react';
 
 const SYMPTOMS = [
-  { id: 'digestiva', label: 'Digestión', icon: Activity, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', link: '/categoria/salud-bienestar' },
-  { id: 'defensas', label: 'Defensas', icon: Shield, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', link: '/categoria/salud-bienestar' },
-  { id: 'energia', label: 'Energía', icon: Zap, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', link: '/categoria/salud-bienestar' },
-  { id: 'hormonal', label: 'Vitalidad', icon: Heart, color: 'text-rose-600', bg: 'bg-rose-50', border: 'border-rose-100', link: '/categoria/salud-bienestar' },
-  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
+  { id: 'digestiva', label: 'Digestión', icon: Activity, color: 'text-emerald-800', bg: 'bg-emerald-50', border: 'border-emerald-100', link: '/categoria/salud-bienestar' },
+  { id: 'defensas', label: 'Defensas', icon: Shield, color: 'text-blue-800', bg: 'bg-blue-50', border: 'border-blue-100', link: '/categoria/salud-bienestar' },
+  { id: 'energia', label: 'Energía', icon: Zap, color: 'text-orange-800', bg: 'bg-orange-50', border: 'border-orange-100', link: '/categoria/salud-bienestar' },
+  { id: 'hormonal', label: 'Vitalidad', icon: Heart, color: 'text-rose-800', bg: 'bg-rose-50', border: 'border-rose-100', link: '/categoria/salud-bienestar' },
+  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-800', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
 ];
 
 export default function Home() {
@@ -65,7 +65,7 @@ export default function Home() {
           <div className="text-center max-w-4xl mx-auto">
             <div className="pt-2">
               <h1 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-4 lg:mb-6 font-display leading-[1.1] tracking-tight text-balance">
-                Reclama el Control de tu <span className="text-emerald-600 italic">Vitalidad</span>
+                Reclama el Control de tu <span className="text-emerald-700 italic">Vitalidad</span>
               </h1>
               <p className="text-lg lg:text-2xl text-stone-600 mb-6 lg:mb-10 leading-relaxed font-light">
                 Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior. Ciencia natural para una vida sin límites.
@@ -73,9 +73,9 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <div className="flex items-center gap-2 text-stone-500 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm transition-transform active:scale-95">
-                <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                <span className="text-sm">Certificación INVIMA Garantizada</span>
+              <div className="flex items-center gap-2 text-stone-700 font-medium bg-stone-50 px-6 py-2 rounded-full border border-stone-100 shadow-sm transition-transform active:scale-95">
+                <ShieldCheck className="w-5 h-5 text-emerald-700" />
+                <span className="text-sm font-bold">Certificación INVIMA Garantizada</span>
               </div>
             </div>
             
@@ -160,33 +160,33 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="sr-only">Nuestras Ventajas</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-stone-50 text-emerald-600">
-                <Truck className="w-6 h-6" />
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
+                  <Truck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-stone-900 mb-1">Envíos a todo el país</h3>
+                  <p className="text-sm text-stone-500">Llegamos a cada rincón de Colombia con seguridad.</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-stone-900 mb-1">Envíos a todo el país</h3>
-                <p className="text-sm text-stone-500">Llegamos a cada rincón de Colombia con seguridad.</p>
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-stone-900 mb-1">Pago Contra Entrega</h3>
+                  <p className="text-sm text-stone-500">Paga cuando recibas tu pedido en la puerta de tu casa.</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-stone-50 text-emerald-600">
-                <ShieldCheck className="w-6 h-6" />
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-stone-900 mb-1">Garantía de Calidad</h3>
+                  <p className="text-sm text-stone-500">Productos originales y con registro sanitario.</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-stone-900 mb-1">Pago Contra Entrega</h3>
-                <p className="text-sm text-stone-500">Paga cuando recibas tu pedido en la puerta de tu casa.</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-stone-50 text-emerald-600">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-stone-900 mb-1">Garantía de Calidad</h3>
-                <p className="text-sm text-stone-500">Productos originales y con registro sanitario.</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -324,16 +324,16 @@ export default function Home() {
                       )}
                     </div>
                     <div className="flex flex-col gap-1 mb-4">
-                      <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider">Es útil para:</span>
-                      <p className="text-stone-500 text-sm line-clamp-2">{product.shortDescription}</p>
+                      <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">Es útil para:</span>
+                      <p className="text-stone-600 text-sm line-clamp-2">{product.shortDescription}</p>
                     </div>
 
                     {/* Benefits with checkmarks */}
                     <div className="space-y-2 mb-6">
                       {product.benefits.slice(0, 2).map((benefit, i) => (
                         <div key={i} className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                          <span className="text-xs text-stone-600 font-medium line-clamp-1">{benefit}</span>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0" />
+                          <span className="text-xs text-stone-700 font-medium line-clamp-1">{benefit}</span>
                         </div>
                       ))}
                     </div>
@@ -362,8 +362,8 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 font-display leading-tight">
-                Tu Bienestar es Nuestra <span className="text-emerald-600 italic">Prioridad Número Uno</span>
+              <h2 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-4 lg:mb-6 font-display leading-[1.1] tracking-tight text-balance">
+                Tu Bienestar es Nuestra <span className="text-emerald-800 italic">Prioridad Número Uno</span>
               </h2>
               <p className="text-lg text-stone-600 mb-12 leading-relaxed">
                 En Zenhogar nos dedicamos a seleccionar los mejores productos naturales, garantizando que cada artículo que recibas sea 100% original y efectivo.
@@ -377,10 +377,10 @@ export default function Home() {
                 ].map((item, i) => (
                   <div key={i} className="p-6 rounded-2xl border-2 border-stone-100 bg-stone-50/50 hover:border-emerald-300 hover:bg-emerald-50 transition-all shadow-sm group">
                     <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm">
-                      <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                      <CheckCircle2 className="w-6 h-6 text-emerald-800" />
                     </div>
                     <h3 className="font-bold text-stone-900 mb-2">{item.title}</h3>
-                    <p className="text-xs text-stone-500 leading-relaxed">{item.desc}</p>
+                    <p className="text-[11px] text-stone-600 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>

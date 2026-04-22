@@ -188,7 +188,7 @@ export default function ProductLanding() {
                   ))}
                 </div>
                 <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
-                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-2">Verificado</span>
+                <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-2">Verificado</span>
               </div>
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-1 leading-tight font-display">
                 {product.name}
@@ -199,7 +199,7 @@ export default function ProductLanding() {
                 </div>
               )}
               <div className="flex flex-col gap-1 mb-4">
-                <span className="text-[20px] font-black text-emerald-600 uppercase tracking-wider">Es útil para:</span>
+                <span className="text-[20px] font-black text-emerald-700 uppercase tracking-wider">Es útil para:</span>
                 <p className="text-lg font-bold text-stone-800 leading-tight">
                   {product.shortDescription}
                 </p>
@@ -252,13 +252,13 @@ export default function ProductLanding() {
                               </span>
                             )}
                           </div>
-                          <div className="text-[20px] font-black text-emerald-600 uppercase mb-1">
+                          <div className="text-[20px] font-black text-emerald-800 uppercase mb-1">
                             {unitCount > 1 ? `Solo ${formatCurrency(avgPrice)} por unidad` : "Precio especial"}
                           </div>
                           <span className="text-xs text-stone-500">Ahorras {formatCurrency(savings)}</span>
                         </div>
                         <div className="text-right">
-                          <div className="text-lg font-black text-emerald-700">{formatCurrency(promo.price)}</div>
+                          <div className="text-lg font-black text-emerald-800">{formatCurrency(promo.price)}</div>
                           <div className="text-[10px] text-stone-400 line-through">{formatCurrency(originalPrice)}</div>
                         </div>
                       </button>
@@ -290,21 +290,21 @@ export default function ProductLanding() {
 
                 {/* Persuasive Micro-copy */}
                 <div className="mt-6 space-y-3">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
                     <CheckCircle2 className="w-3 h-3" />
                     <span>No interrumpas tu proceso: 92% de los clientes eligen el Plan de 3 meses</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-500 uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
                     <CheckCircle2 className="w-3 h-3" />
                     <span>Ahorro garantizado en tu recompra automática</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-500 uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
                     <CheckCircle2 className="w-3 h-3" />
                     <span>Asegura tu stock: Alta demanda en este producto</span>
                   </div>
                 </div>
                 
-                <p className="text-center text-lg font-black text-emerald-700 mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 bg-emerald-50 py-4 px-6 rounded-2xl border-2 border-emerald-200 shadow-sm">
+                <p className="text-center text-lg font-black text-emerald-800 mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 bg-emerald-50 py-4 px-6 rounded-2xl border-2 border-emerald-200 shadow-sm">
                   <Zap className="w-6 h-6 fill-emerald-500 text-emerald-500 animate-pulse" />
                   <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
                 </p>

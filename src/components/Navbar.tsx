@@ -258,21 +258,34 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-1 sm:gap-2">
+          <div className="md:hidden flex items-center gap-1">
+            <button
+              onClick={() => {
+                setIsSearchOpen(!isSearchOpen);
+                setIsOpen(false);
+              }}
+              className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Buscar"
+            >
+              <Search className="w-5 h-5" />
+            </button>
             <Link 
               to="/checkout" 
               className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
               aria-label="Ver carrito"
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                <span className="absolute top-0 right-0 bg-emerald-600 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white">
                   {cartCount}
                 </span>
               )}
             </Link>
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => {
+                setIsOpen(!isOpen);
+                setIsSearchOpen(false);
+              }}
               className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
@@ -281,27 +294,37 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Persistent Search Bar */}
-        <div className="md:hidden pb-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
-            <input
-              type="text"
-              placeholder="Buscar por nombre, síntoma o componente..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2.5 bg-white border-2 border-emerald-500/20 rounded-xl text-sm focus:border-emerald-500 focus:ring-0 outline-none transition-all"
-            />
-            {searchQuery && (
-              <button 
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-stone-400"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        </div>
+        {/* Mobile ELIMINAMOS LA BARRA PERSISTENTE Y LA HACEMOS COLAPSABLE */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="md:hidden pb-4 overflow-hidden"
+            >
+              <div className="relative px-4">
+                <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+                <input
+                  type="text"
+                  placeholder="¿Qué buscas?"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-10 py-3 bg-stone-100 border-2 border-transparent focus:border-emerald-500 rounded-xl text-sm outline-none transition-all"
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-7 top-1/2 -translate-y-1/2 p-1 text-stone-400"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile Search Results Overlay */}
