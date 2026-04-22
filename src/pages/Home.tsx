@@ -211,7 +211,7 @@ export default function Home() {
                 </h2>
                 <div className="mb-8 lg:mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
                   <h3 className="text-emerald-500 font-bold text-[27px] mb-2 leading-tight">{COMBO_OF_THE_MONTH.whyChoose?.title}</h3>
-                  <p className="text-[21px] lg:text-[21px] text-stone-300 leading-relaxed">
+                  <p className="text-[21px] lg:text-[21px] text-stone-200 leading-relaxed font-medium">
                     {COMBO_OF_THE_MONTH.whyChoose?.description}
                   </p>
                 </div>
@@ -257,6 +257,7 @@ export default function Home() {
                     height={600}
                     loading="eager"
                     fetchPriority="high"
+                    decoding="async"
                     className="max-w-full max-h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                     referrerPolicy="no-referrer"
                   />
@@ -308,6 +309,7 @@ export default function Home() {
                       width={400}
                       height={400}
                       loading="lazy"
+                      decoding="async"
                       className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                     />
@@ -377,7 +379,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm">
                       <CheckCircle2 className="w-6 h-6 text-emerald-600" />
                     </div>
-                    <h4 className="font-bold text-stone-900 mb-2">{item.title}</h4>
+                    <h3 className="font-bold text-stone-900 mb-2">{item.title}</h3>
                     <p className="text-xs text-stone-500 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}

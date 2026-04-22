@@ -44,19 +44,18 @@ function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     if (pathname === '/') {
-      setTimeout(() => {
-        const banner = document.getElementById('promo-banner');
+      // Usamos un pequeño delay para asegurar que el DOM esté listo
+      const timer = setTimeout(() => {
+        const banner = document.getElementById('promo-banner') || document.getElementById('promo-banner-mobile');
         if (banner) {
-          const navbarHeight = 64;
-          const elementPosition = banner.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
-      }, 100);
+      }, 150);
+      return () => clearTimeout(timer);
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [pathname]);
   return null;

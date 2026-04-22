@@ -27,38 +27,38 @@ export default function Footer() {
 
           {/* Quick Links Section */}
           <div>
-            <h4 className="text-xl font-bold mb-8 text-white">Nosotros</h4>
-            <ul className="space-y-4 text-stone-300">
+            <h2 className="text-xl font-bold mb-8 text-white uppercase tracking-wider text-sm">Nosotros</h2>
+            <ul className="space-y-4 text-stone-200">
               <li>
-                <Link to="/quienes-somos" className="hover:text-emerald-500 transition-colors">Quiénes Somos</Link>
+                <Link to="/quienes-somos" className="hover:text-emerald-400 transition-colors">Quiénes Somos</Link>
               </li>
               <li>
-                <Link to="/politica-privacidad" className="hover:text-emerald-500 transition-colors">Política de Privacidad</Link>
+                <Link to="/politica-privacidad" className="hover:text-emerald-400 transition-colors">Política de Privacidad</Link>
               </li>
               <li>
-                <Link to="/condiciones-entrega" className="hover:text-emerald-500 transition-colors">Condiciones de Entrega</Link>
+                <Link to="/condiciones-entrega" className="hover:text-emerald-400 transition-colors">Condiciones de Entrega</Link>
               </li>
               <li>
-                <Link to="/devoluciones-garantia" className="hover:text-emerald-500 transition-colors">Devoluciones y Garantía</Link>
+                <Link to="/devoluciones-garantia" className="hover:text-emerald-400 transition-colors">Devoluciones y Garantía</Link>
               </li>
             </ul>
           </div>
 
           {/* Contact Section */}
           <div>
-            <h4 className="text-xl font-bold mb-8 text-white">Contacto</h4>
-            <ul className="space-y-6 text-stone-300">
+            <h2 className="text-xl font-bold mb-8 text-white uppercase tracking-wider text-sm">Contacto</h2>
+            <ul className="space-y-6 text-stone-200">
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-emerald-500" />
+                  <Phone className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">WhatsApp</p>
+                  <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest mb-1">WhatsApp</p>
                   <a 
                     href="https://wa.me/573024102568" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-white hover:text-emerald-500 transition-colors text-lg font-medium"
+                    className="text-white hover:text-emerald-400 transition-colors text-lg font-medium"
                   >
                     +57 302 410 2568
                   </a>
@@ -66,11 +66,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-emerald-500" />
+                  <Mail className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Correos</p>
-                  <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-500 transition-colors block font-medium">ventas@zenhogar.live</a>
+                  <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest mb-1">Correos</p>
+                  <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-400 transition-colors block font-medium">ventas@zenhogar.live</a>
                 </div>
               </li>
             </ul>
@@ -93,7 +93,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-500 text-sm">
+        <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-300 text-sm">
           <p>© 2026 zenhogar. Todos los derechos reservados.</p>
           <div className="flex gap-8">
             <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
@@ -103,15 +103,15 @@ export default function Footer() {
 
         {/* Local SEO Cities Section */}
         <div className="mt-8 pt-8 border-t border-stone-800/50 text-center">
-          <p className="text-[11px] font-bold text-stone-500 uppercase tracking-widest mb-3">Envíos con Pago Contra Entrega en Colombia:</p>
-          <p className="text-[11px] text-stone-600 leading-relaxed max-w-5xl mx-auto">
+          <p className="text-[11px] font-bold text-stone-300 uppercase tracking-widest mb-3">Envíos con Pago Contra Entrega en Colombia:</p>
+          <p className="text-[11px] text-stone-300 leading-relaxed max-w-5xl mx-auto">
             Despachos diarios desde Barranquilla a: Bogotá, Medellín, Cali, Barranquilla, Cartagena, Cúcuta, Bucaramanga, Pereira, Ibagué, Santa Marta, Valledupar, Villavicencio, Montería, Pasto, Neiva, Popayán, Sincelejo, Armenia, Riohacha, Tunja, Quibdó, Florencia y cualquier rincón de Colombia.
           </p>
         </div>
 
         {/* YMYL Medical Disclaimer */}
         <div className="mt-8 pt-8 border-t border-stone-800/50">
-          <p className="text-[10px] text-stone-600 leading-relaxed text-center max-w-4xl mx-auto italic">
+          <p className="text-[10px] text-stone-300 leading-relaxed text-center max-w-4xl mx-auto italic">
             Aviso Legal: Los productos ofrecidos por ZENHOGAR son suplementos dietarios y no pretenden diagnosticar, tratar, curar o prevenir ninguna enfermedad. La información proporcionada en este sitio web tiene fines informativos y no sustituye el consejo médico profesional. Siempre consulte con su médico antes de comenzar cualquier régimen de suplementación. Los resultados pueden variar de persona a persona. Todos nuestros productos cuentan con registro INVIMA vigente.
           </p>
         </div>

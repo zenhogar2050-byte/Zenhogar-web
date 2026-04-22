@@ -285,7 +285,7 @@ export const PRODUCTS: Product[] = [
       'Apoya el metabolismo energético',
       'Ideal para acompañar tu rutina de ejercicio'
     ],
-    image: '/assets/products/CLA500_.webp',
+    image: '/assets/products/CLA500.webp',
     basePrice: 75900,
     size: '60 Cápsulas',
     keywords: 'quemar grasa, bajar de peso, definición muscular, metabolismo lento, sobrepeso, colesterol, triglicéridos, CLA 500, Zenhogar, adelgazar natural',
