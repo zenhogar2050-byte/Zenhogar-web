@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, PRODUCTS } from '../constants';
-import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame, Shield, Stethoscope, Gauge } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame, Shield, Stethoscope, Gauge, TrendingUp } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
@@ -22,6 +22,32 @@ export default function Home() {
   const { hash } = useLocation();
   const { addComboToCart } = useCart();
   const [stock, setStock] = useState(42);
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+      const diff = endOfMonth.getTime() - now.getTime();
+
+      if (diff <= 0) return '00d : 00h : 00m';
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      // Si los días son 0, solo mostrar horas y minutos para no ocupar espacio innecesario, 
+      // pero si hay días, mostrar el formato completo.
+      return `${days > 0 ? `${days}d : ` : ''}${hours.toString().padStart(2, '0')}h : ${minutes.toString().padStart(2, '0')}m : ${seconds.toString().padStart(2, '0')}s`;
+    };
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -59,16 +85,46 @@ export default function Home() {
         canonicalUrl="/"
       />
 
+      {/* Flash Sale Header */}
+      <div className="bg-stone-950 text-white py-3 sm:py-4 overflow-hidden relative border-b border-white/5 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-12">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 bg-emerald-600 px-3 py-1 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+              <Zap className="w-4 h-4 fill-white text-white" />
+              <span className="text-[10px] sm:text-xs font-black tracking-widest uppercase">OFERTA ACTIVA</span>
+            </div>
+            <span className="text-xs sm:text-sm font-black tracking-[0.1em] uppercase text-stone-200">BLACK SALE: HASTA 40% OFF</span>
+          </div>
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="hidden lg:flex items-center gap-2 text-stone-400">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Envío Gratis Hoy</span>
+            </div>
+            
+            <div className="flex items-center gap-3 bg-white/5 px-5 py-2 rounded-2xl border border-white/10 shadow-inner">
+              <Activity className="w-4 h-4 text-emerald-400 animate-bounce" />
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                <span className="text-[9px] sm:text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] leading-none">Termina en:</span>
+                <span className="text-lg sm:text-2xl font-mono font-black text-white leading-none tracking-tighter drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                  {timeLeft}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section - Solution Oriented */}
       <section className="relative pt-6 pb-6 lg:pt-16 lg:pb-12 overflow-hidden bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="pt-2">
               <h1 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-4 lg:mb-6 font-display leading-[1.1] tracking-tight text-balance">
-                Reclama el Control de tu <span className="text-emerald-700 italic">Vitalidad</span>
+                Sana tu Cuerpo desde la Raíz y Recupera la <span className="text-emerald-700 italic">Energía</span> que te Mereces
               </h1>
               <p className="text-lg lg:text-2xl text-stone-600 mb-6 lg:mb-10 leading-relaxed font-light">
-                Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior. Ciencia natural para una vida sin límites.
+                Descubre el poder de lo orgánico para sanar desde el interior. Resultados reales con los productos naturales más vendidos de Colombia.
               </p>
             </div>
 
@@ -296,6 +352,12 @@ export default function Home() {
               >
                 <Link to={`/producto/${product.id}`} className="block">
                   <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative">
+                    <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
+                      <div className="bg-white/90 backdrop-blur-sm text-stone-900 text-[9px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md border border-stone-100">
+                        <ArrowRight className="w-2.5 h-2.5 text-emerald-600" />
+                        DISPONIBLE
+                      </div>
+                    </div>
                     <img
                       src={product.image}
                       alt={product.name}

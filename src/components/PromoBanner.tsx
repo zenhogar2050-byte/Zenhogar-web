@@ -97,7 +97,7 @@ export default function PromoBanner() {
         style={{ 
           '--marquee-duration': `${currentDuration}s`,
           '--marquee-end': '-50%',
-          'backface-visibility': 'hidden'
+          backfaceVisibility: 'hidden'
         } as React.CSSProperties}
       >
         {/* DUPLICAMOS EL CONTENIDO EXACTAMENTE 2 VECES PARA UN LOOP INVISIBLE */}

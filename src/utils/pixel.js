@@ -45,10 +45,7 @@ export const track = (event, data = {}) => {
   if (typeof window !== 'undefined' && window.fbq) window.fbq('track', event, data);
 };
 
-export const trackPurchaseIfFromFacebook = (data) => {
+export const trackPurchase = (data) => {
   if (typeof window === 'undefined') return;
-  const entry = sessionStorage.getItem(FB_KEY);
-  if (!entry) return;
-  const mins = (Date.now() - parseInt(entry)) / 60000;
-  if (mins < 30) track('Purchase', data);
+  track('Purchase', data);
 };
