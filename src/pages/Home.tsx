@@ -194,10 +194,7 @@ export default function Home() {
       {/* Combo of the Month */}
       <section id="oferta-del-mes" className="pt-8 pb-4 lg:pt-12 lg:pb-6 bg-white hidden sm:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+          <div
             className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16"
           >
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
@@ -253,12 +250,12 @@ export default function Home() {
                   <img 
                     src={COMBO_OF_THE_MONTH.image} 
                     alt={COMBO_OF_THE_MONTH.name}
-                    width={500}
-                    height={500}
+                    width={400}
+                    height={400}
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
-                    className="w-full h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
+                    className="w-full h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.4)] transform-gpu"
                     referrerPolicy="no-referrer"
                   />
                 </div>
@@ -279,7 +276,7 @@ export default function Home() {
                 <rect width="100%" height="100%" fill="url(#grid)" />
               </svg>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -293,12 +290,8 @@ export default function Home() {
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {PRODUCTS.slice(0, 6).map((product, index) => (
-              <motion.div
+              <div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
                 className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all"
               >
                 <Link to={`/producto/${product.id}`} className="block">
@@ -346,7 +339,7 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
           
@@ -357,11 +350,7 @@ export default function Home() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
+            <div>
               <h2 className="text-4xl lg:text-7xl font-bold text-stone-900 mb-4 lg:mb-6 font-display leading-[1.1] tracking-tight text-balance">
                 Tu Bienestar es Nuestra <span className="text-emerald-800 italic">Prioridad Número Uno</span>
               </h2>
@@ -384,7 +373,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -403,12 +392,8 @@ export default function Home() {
               { name: 'Juan Carlos', text: 'Excelente servicio y el pago contra entrega me dio mucha confianza para mi primera compra.', rating: 5 },
               { name: 'Luz Adriana', text: 'Los combos son geniales, el ahorro es real y los productos son originales.', rating: 5 }
             ].map((t, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all"
               >
                 <div className="flex gap-1 mb-6 text-emerald-500">
@@ -426,7 +411,7 @@ export default function Home() {
                     <div className="text-xs text-stone-500 uppercase tracking-widest">Cliente Verificado</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

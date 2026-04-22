@@ -92,12 +92,13 @@ export default function PromoBanner() {
     >
       <div 
         className={cn(
-          "flex items-center w-max animate-marquee",
+          "flex items-center w-max animate-marquee transform-gpu",
           isPaused && "pause-animation"
         )}
         style={{ 
           '--marquee-duration': `${currentDuration}s`,
-          '--marquee-end': '-50%' 
+          '--marquee-end': '-50%',
+          'backface-visibility': 'hidden'
         } as React.CSSProperties}
       >
         {/* DUPLICAMOS EL CONTENIDO EXACTAMENTE 2 VECES PARA UN LOOP INVISIBLE */}
@@ -106,13 +107,13 @@ export default function PromoBanner() {
             key={`${promo.id}-${index}`} 
             to={`/combo/${promo.id}`}
             className={cn(
-              "flex flex-col items-center group flex-shrink-0",
-              screenSize === 'mobile' ? "w-[280px]" : "w-[350px] xl:w-[450px]"
+              "flex flex-col items-center group flex-shrink-0 px-4",
+              screenSize === 'mobile' ? "w-[240px]" : "w-[350px] xl:w-[450px]"
             )}
           >
             <div className={cn(
               "rounded-[2.5rem] sm:rounded-[3rem] mb-4 sm:mb-6 flex items-center justify-center p-4 sm:p-6 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform bg-white",
-              screenSize === 'mobile' ? "w-40 h-40" : "w-48 h-48 sm:w-64 sm:h-64",
+              screenSize === 'mobile' ? "w-36 h-36" : "w-48 h-48 sm:w-64 sm:h-64",
               promo.id === COMBO_OF_THE_MONTH.id && "border-4 border-emerald-400"
             )}>
               <img 
@@ -121,10 +122,10 @@ export default function PromoBanner() {
                 draggable="false"
                 className="max-w-full max-h-full object-contain drop-shadow-xl"
                 referrerPolicy="no-referrer"
-                width="256"
-                height="256"
-                loading={index < 3 ? "eager" : "lazy"}
-                fetchPriority={index < 3 ? "high" : "auto"}
+                width={screenSize === 'mobile' ? 200 : 400}
+                height={screenSize === 'mobile' ? 200 : 400}
+                loading={index === 0 && screenSize !== 'mobile' ? "eager" : "lazy"}
+                fetchPriority={index === 0 && screenSize !== 'mobile' ? "high" : "auto"}
               />
             </div>
             <div className="flex items-center mb-2 sm:mb-4 px-4 w-full justify-center">

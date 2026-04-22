@@ -15,14 +15,21 @@
     <meta name="application-name" content="ZENHOGAR" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
     
-    <!-- Prioridad máxima para la imagen Hero (LCP) -->
+    <!-- LCP Image Preload - Crucial for Mobile Performance -->
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high" />
 
-    <!-- Fuentes con estrategia swap para evitar CLS y mejorar FCP -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
+    <!-- Fonts with improved loading strategy -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
+    </noscript>
 
     <script type="text/javascript">
       (function(l) {
