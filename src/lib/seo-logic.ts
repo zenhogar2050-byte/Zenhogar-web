@@ -30,8 +30,8 @@ export const generateSchemaGraph = (params: {
             "@type": "ImageObject",
             "inLanguage": "es-CO",
             "@id": `${BASE_URL}/#logo`,
-            "url": `${BASE_URL}/assets/logo/logo.png`,
-            "contentUrl": `${BASE_URL}/assets/logo/logo.png`,
+            "url": `${BASE_URL}/assets/logo/logo-icon.webp`,
+            "contentUrl": `${BASE_URL}/assets/logo/logo-icon.webp`,
             "width": 512,
             "height": 512,
             "caption": "Zenhogar"

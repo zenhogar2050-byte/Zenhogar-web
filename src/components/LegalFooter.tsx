@@ -7,15 +7,23 @@ export default function LegalFooter() {
     <div className="mt-32 pt-20 border-t border-stone-200">
       <div className="grid md:grid-cols-4 gap-12 items-start">
         <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <img 
-              src="/assets/logo/logo.png" 
-              alt="zenhogar Logo" 
-              className="h-12 w-auto object-contain"
-              referrerPolicy="no-referrer"
-            />
-            <span className="text-2xl font-bold tracking-tight text-stone-900">zenhogar</span>
-          </div>
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 flex-shrink-0">
+              <img 
+                src="/assets/logo/logo-icon.webp" 
+                alt="Zen Hogar Icon" 
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+                width="40"
+                height="40"
+              />
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="text-xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
+              <span className="text-[8px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
+            </div>
+          </Link>
           <p className="text-stone-500 leading-relaxed">
             Dedicados a llevar el bienestar natural a cada hogar colombiano. Calidad, confianza y salud en cada producto.
           </p>
@@ -64,7 +72,7 @@ export default function LegalFooter() {
               referrerPolicy="no-referrer"
             />
           </div>
-          <p className="mt-3 text-stone-400 text-[10px] italic">Información legal y certificaciones</p>
+          <p className="mt-3 text-stone-300 text-[10px] italic">Información legal y certificaciones</p>
         </div>
       </div>
     </div>

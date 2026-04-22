@@ -3,13 +3,15 @@ const FB_KEY = 'fb_entry_time';
 
 export const initPixel = () => {
   if (typeof window === 'undefined') return;
-  if (window.location.hostname !== 'zenhogar.live' && window.location.hostname !== 'localhost' && !window.location.hostname.includes('run.app')) {
-    // Permitimos localhost y run.app para desarrollo/preview, pero el usuario pidió zenhogar.live
-    // Ajustaré a lo que pidió exactamente el usuario.
-  }
   
-  if (window.location.hostname !== 'zenhogar.live') return;
+  // No inicializar si ya existe o no hay ID
   if (!PIXEL_ID || window.fbq) return;
+
+  // Solo inicializar en el dominio principal o local para evitar ruido
+  const isProd = window.location.hostname === 'zenhogar.live';
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('run.app');
+  
+  if (!isProd && !isDev) return;
 
   !(function (f, b, e, v, n, t, s) {
     if (f.fbq) return;

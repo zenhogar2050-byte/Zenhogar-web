@@ -204,8 +204,7 @@ export default function PromoBanner() {
           <Link 
             key={`${promo.id}-${index}`} 
             to={`/combo/${promo.id}`}
-            className="flex flex-col items-center group flex-shrink-0"
-            style={{ width: screenSize === 'desktop' ? '450px' : '350px' }} // ANCHO FIJO PARA MATEMÁTICA PERFECTA
+            className="flex flex-col items-center group flex-shrink-0 w-[350px] xl:w-[450px]" // ANCHO FIJO POR CSS (SIN JS)
           >
             <div className={cn(
               "w-48 h-48 sm:w-64 sm:h-64 rounded-[2.5rem] sm:rounded-[3rem] mb-6 flex items-center justify-center p-6 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform bg-white",
@@ -219,7 +218,8 @@ export default function PromoBanner() {
                 referrerPolicy="no-referrer"
                 width="256"
                 height="256"
-                loading={index < 4 ? "eager" : "lazy"}
+                loading={index < 3 ? "eager" : "lazy"}
+                fetchPriority={index < 3 ? "high" : "auto"}
               />
             </div>
             <div className="flex items-center mb-4 px-4 w-full justify-center">

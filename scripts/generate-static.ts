@@ -44,7 +44,7 @@ const template = (title: string, description: string, canonical: string, content
     <!-- Performance Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="/assets/logo/logo.png" as="image" type="image/png" fetchpriority="high">
+    <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <meta property="og:title" content="${title} | Zenhogar">
@@ -55,7 +55,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    <script type="application/ld+json" id="schema-static" data-rh="true">${JSON.stringify(graph)}</script>
+    <script type="application/ld+json" id="schema-main" data-rh="true">${JSON.stringify(graph)}</script>
     ${headExtra}
 
     <!-- Estilos base para que no se vea roto mientras carga JS -->
@@ -64,6 +64,9 @@ const template = (title: string, description: string, canonical: string, content
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .navbar { height: 112px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; position: sticky; top: 0; z-index: 50; }
         .logo { height: 80px; }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; }
+        .logo-sub { font-size: 10px; font-weight: bold; color: #059669; letter-spacing: 0.2em; text-transform: uppercase; margin-top: -4px; }
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
         @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
         .product-image { width: 100%; border-radius: 24px; background: #f5f5f4; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
@@ -78,7 +81,13 @@ const template = (title: string, description: string, canonical: string, content
 <body>
     <div id="root">
         <nav class="navbar">
-            <img src="/assets/logo/logo.png" alt="zenhogar Logo" class="logo">
+            <div class="logo-container">
+                <img src="/assets/logo/logo-icon.webp" alt="zenhogar Icon" class="logo">
+                <div style="display: flex; flex-direction: column;">
+                    <span class="logo-text">Zen Hogar</span>
+                    <span class="logo-sub">Salud Vital</span>
+                </div>
+            </div>
         </nav>
         <main class="container">
             ${content}
@@ -123,7 +132,7 @@ const generateCategoryHTML = (category: any) => {
         title,
         description,
         canonicalUrl: path,
-        ogImage: '/assets/logo/logo.png',
+        ogImage: '/assets/logo/logo-icon.webp',
         productData: { categoryProducts }
     });
 
@@ -159,7 +168,7 @@ const generateCategoryHTML = (category: any) => {
         description,
         path,
         content,
-        categoryProducts[0]?.image || '/assets/logo/logo.png',
+        categoryProducts[0]?.image || '/assets/logo/logo-icon.webp',
         graph
     );
 };
@@ -504,9 +513,9 @@ const generateSimplePageHTML = (title: string, description: string, canonical: s
         title,
         description,
         canonicalUrl: canonical,
-        ogImage: '/assets/logo/logo.png'
+        ogImage: '/assets/logo/logo-icon.webp'
     });
-    return template(title, description, canonical, content, '/assets/logo/logo.png', graph);
+    return template(title, description, canonical, content, '/assets/logo/logo-icon.webp', graph);
 };
 
 const pages = [

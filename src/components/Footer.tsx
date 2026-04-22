@@ -8,18 +8,23 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-12 lg:gap-16 mb-16 items-start">
           {/* Brand Section */}
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <img 
-                src="/assets/logo/logo.png" 
-                alt="Zenhogar Logo" 
-                className="h-14 w-auto object-contain"
-                referrerPolicy="no-referrer"
-                loading="lazy"
-                width="200"
-                height="112"
-              />
-              <span className="text-3xl font-bold tracking-tight">Zenhogar</span>
-            </div>
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                <img 
+                  src="/assets/logo/logo-icon.webp" 
+                  alt="Zen Hogar Icon" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                  width="64"
+                  height="64"
+                />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-2xl font-black text-white tracking-tighter uppercase">Zen Hogar</span>
+                <span className="text-[10px] font-bold text-emerald-400 tracking-[0.2em] uppercase">Salud Vital</span>
+              </div>
+            </Link>
             <p className="text-stone-300 max-w-sm leading-relaxed text-lg">
               Dedicados a llevar el bienestar natural a cada hogar colombiano. Calidad, confianza y salud en cada producto.
             </p>
@@ -89,11 +94,11 @@ export default function Footer() {
                 height="128"
               />
             </div>
-            <p className="mt-4 text-stone-500 text-xs italic text-center md:text-right">Información legal y certificaciones</p>
+            <p className="mt-4 text-stone-300 text-xs italic text-center md:text-right">Información legal y certificaciones</p>
           </div>
         </div>
 
-        <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-300 text-sm">
+        <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-100 text-sm">
           <p>© 2026 zenhogar. Todos los derechos reservados.</p>
           <div className="flex gap-8">
             <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
@@ -103,7 +108,7 @@ export default function Footer() {
 
         {/* Local SEO Cities Section */}
         <div className="mt-8 pt-8 border-t border-stone-800/50 text-center">
-          <p className="text-[11px] font-bold text-stone-300 uppercase tracking-widest mb-3">Envíos con Pago Contra Entrega en Colombia:</p>
+          <p className="text-[11px] font-bold text-stone-100 uppercase tracking-widest mb-3">Envíos con Pago Contra Entrega en Colombia:</p>
           <p className="text-[11px] text-stone-300 leading-relaxed max-w-5xl mx-auto">
             Despachos diarios desde Barranquilla a: Bogotá, Medellín, Cali, Barranquilla, Cartagena, Cúcuta, Bucaramanga, Pereira, Ibagué, Santa Marta, Valledupar, Villavicencio, Montería, Pasto, Neiva, Popayán, Sincelejo, Armenia, Riohacha, Tunja, Quibdó, Florencia y cualquier rincón de Colombia.
           </p>

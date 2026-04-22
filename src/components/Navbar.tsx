@@ -87,18 +87,23 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 md:h-28 items-center">
           <div className="flex items-center gap-4 lg:gap-8 flex-1">
-            <Link to="/" className="flex items-center gap-3 group shrink-0">
-              <img 
-                src="/assets/logo/logo.png" 
-                alt="Zenhogar - Productos Naturales" 
-                className="h-16 md:h-24 w-auto object-contain"
-                referrerPolicy="no-referrer"
-                fetchPriority="high"
-                loading="eager"
-                width="160"
-                height="96"
-              />
-              <span className="text-xl sm:text-2xl font-bold text-[var(--color-brand-primary)] tracking-tight hidden xl:block">zenhogar</span>
+            <Link to="/" className="flex items-center gap-2 group shrink-0">
+              <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+                <img 
+                  src="/assets/logo/logo-icon.webp" 
+                  alt="Zen Hogar Icon" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                  loading="eager"
+                  decoding="async"
+                  width="64"
+                  height="64"
+                />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-xl md:text-2xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
+                <span className="text-[10px] md:text-[12px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
+              </div>
             </Link>
 
             {/* Desktop Categories & Search - Moved next to logo */}
