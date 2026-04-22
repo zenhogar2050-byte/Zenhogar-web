@@ -15,12 +15,12 @@ export default function Footer() {
                 className="h-14 w-auto object-contain"
                 referrerPolicy="no-referrer"
                 loading="lazy"
-                width="100"
-                height="56"
+                width="200"
+                height="112"
               />
               <span className="text-3xl font-bold tracking-tight">Zenhogar</span>
             </div>
-            <p className="text-stone-400 max-w-sm leading-relaxed text-lg">
+            <p className="text-stone-300 max-w-sm leading-relaxed text-lg">
               Dedicados a llevar el bienestar natural a cada hogar colombiano. Calidad, confianza y salud en cada producto.
             </p>
           </div>
@@ -28,18 +28,18 @@ export default function Footer() {
           {/* Quick Links Section */}
           <div>
             <h4 className="text-xl font-bold mb-8 text-white">Nosotros</h4>
-            <ul className="space-y-4 text-stone-400">
+            <ul className="space-y-4 text-stone-300">
               <li>
-                <Link to="/quienes-somos" className="hover:text-emerald-600 transition-colors">Quiénes Somos</Link>
+                <Link to="/quienes-somos" className="hover:text-emerald-500 transition-colors">Quiénes Somos</Link>
               </li>
               <li>
-                <Link to="/politica-privacidad" className="hover:text-emerald-600 transition-colors">Política de Privacidad</Link>
+                <Link to="/politica-privacidad" className="hover:text-emerald-500 transition-colors">Política de Privacidad</Link>
               </li>
               <li>
-                <Link to="/condiciones-entrega" className="hover:text-emerald-600 transition-colors">Condiciones de Entrega</Link>
+                <Link to="/condiciones-entrega" className="hover:text-emerald-500 transition-colors">Condiciones de Entrega</Link>
               </li>
               <li>
-                <Link to="/devoluciones-garantia" className="hover:text-emerald-600 transition-colors">Devoluciones y Garantía</Link>
+                <Link to="/devoluciones-garantia" className="hover:text-emerald-500 transition-colors">Devoluciones y Garantía</Link>
               </li>
             </ul>
           </div>
@@ -47,18 +47,18 @@ export default function Footer() {
           {/* Contact Section */}
           <div>
             <h4 className="text-xl font-bold mb-8 text-white">Contacto</h4>
-            <ul className="space-y-6 text-stone-400">
+            <ul className="space-y-6 text-stone-300">
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-emerald-600" />
+                  <Phone className="w-5 h-5 text-emerald-500" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">WhatsApp</p>
+                  <p className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">WhatsApp</p>
                   <a 
                     href="https://wa.me/573024102568" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-white hover:text-emerald-600 transition-colors text-lg font-medium"
+                    className="text-white hover:text-emerald-500 transition-colors text-lg font-medium"
                   >
                     +57 302 410 2568
                   </a>
@@ -66,11 +66,11 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-emerald-600" />
+                  <Mail className="w-5 h-5 text-emerald-500" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Correos</p>
-                  <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-600 transition-colors block font-medium">ventas@zenhogar.live</a>
+                  <p className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Correos</p>
+                  <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-500 transition-colors block font-medium">ventas@zenhogar.live</a>
                 </div>
               </li>
             </ul>

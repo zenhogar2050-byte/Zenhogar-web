@@ -211,7 +211,7 @@ export default function Home() {
                 </h2>
                 <div className="mb-8 lg:mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
                   <h3 className="text-emerald-500 font-bold text-[27px] mb-2 leading-tight">{COMBO_OF_THE_MONTH.whyChoose?.title}</h3>
-                  <p className="text-[21px] lg:text-[21px] text-stone-400 leading-relaxed">
+                  <p className="text-[21px] lg:text-[21px] text-stone-300 leading-relaxed">
                     {COMBO_OF_THE_MONTH.whyChoose?.description}
                   </p>
                 </div>

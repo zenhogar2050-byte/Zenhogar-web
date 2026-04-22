@@ -65,7 +65,9 @@ function ScrollToTop() {
 export default function App() {
   useEffect(() => {
     markFacebookEntry();
-    const timer = setTimeout(() => {
+    
+    // Defer non-critical scripts until first interaction or idle
+    const loadScripts = () => {
       const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
       idleCallback(() => {
         initPixel();
@@ -78,7 +80,9 @@ export default function App() {
         gtag('js', new Date());
         gtag('config', 'G-57BY2PVKF4');
       });
-    }, 5000);
+    };
+
+    const timer = setTimeout(loadScripts, 6000);
     return () => clearTimeout(timer);
   }, []);
 

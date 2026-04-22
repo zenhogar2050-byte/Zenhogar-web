@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import fs from "fs";
 
+import { Resend } from 'resend';
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +15,8 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
+  
+  const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
   app.use(express.json());
   
@@ -61,10 +65,47 @@ async function startServer() {
     // Keep only last 1000 orders to prevent file size issues
     fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders.slice(0, 1000), null, 2));
     
-    // Automation: Send Confirmation Email (Placeholder logic for Resend)
-    if (process.env.RESEND_API_KEY) {
-      console.log("Automation 2.0: Triggering order confirmation email to", orderData.customer.email);
-      // Here we would perform a fetch to Resend API
+    // Automation: Send Confirmation Email (Real logic with Resend)
+    if (resend && orderData.customer?.email && orderData.type !== "abandoned") {
+      console.log("Automation 2.0: Sending confirmation email to", orderData.customer.email);
+      
+      const productName = orderData.product?.name || orderData.combo?.name || "Producto Zenhogar";
+      const total = orderData.total || (orderData.combo?.price) || (orderData.product?.basePrice);
+      
+      resend.emails.send({
+        from: 'ZENHOGAR <pedidos@zenhogar.live>',
+        to: orderData.customer.email,
+        subject: `¡Gracias por tu pedido! - ${productName}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e7e5e4; border-radius: 20px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <h1 style="color: #059669;">¡Hola, ${orderData.customer.name}!</h1>
+              <p style="font-size: 18px; color: #444;">Hemos recibido tu pedido con éxito.</p>
+            </div>
+            
+            <div style="background: #fafaf9; padding: 20px; border-radius: 16px; margin-bottom: 20px;">
+              <h2 style="font-size: 16px; color: #1c1917; margin-top: 0;">Detalles del Pedido:</h2>
+              <p><strong>Producto:</strong> ${productName}</p>
+              <p><strong>Total:</strong> $${new Intl.NumberFormat('es-CO').format(total)}</p>
+              <p><strong>Método de Pago:</strong> Pago Contra Entrega</p>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+              <h2 style="font-size: 16px; color: #1c1917;">Información de Envío:</h2>
+              <p style="margin: 5px 0;">${orderData.customer.address}</p>
+              <p style="margin: 5px 0;">${orderData.customer.city}, ${orderData.customer.department}</p>
+              <p style="margin: 5px 0;">Teléfono: ${orderData.customer.phone}</p>
+            </div>
+
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #eee;">
+              <p style="color: #666; font-size: 14px;">Muy pronto nos pondremos en contacto contigo vía WhatsApp para confirmar el despacho.</p>
+              <p style="color: #059669; font-weight: bold;">¡Gracias por confiar en ZENHOGAR!</p>
+            </div>
+          </div>
+        `
+      }).catch(err => {
+        console.error("Error sending email with Resend:", err);
+      });
     }
   };
 

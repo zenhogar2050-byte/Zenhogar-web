@@ -44,8 +44,8 @@ const template = (title: string, description: string, canonical: string, content
     <!-- Performance Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="preload" href="/assets/logo/logo.png" as="image" type="image/png" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <meta property="og:title" content="${title} | Zenhogar">
     <meta property="og:description" content="${description}">
