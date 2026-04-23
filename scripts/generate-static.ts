@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+// Build Version: 2026-04-23-V1.1-PERFORMANCE-FIX
 import { PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../src/constants';
 import { generateSchemaGraph } from '../src/lib/seo-logic';
 
