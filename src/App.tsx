@@ -11,9 +11,8 @@ import { track, markFacebookEntry, initPixel } from './utils/pixel';
 function SEOCleaner() {
   useEffect(() => {
     // Elimina el esquema estático para que no choque con el dinámico de Helmet
-    // Ahora coincide con el id="schema-main" inyectado por el generador estático
-    const staticSchema = document.getElementById('schema-main');
-    if (staticSchema && staticSchema.getAttribute('data-static') === 'true') {
+    const staticSchema = document.getElementById('schema-static');
+    if (staticSchema) {
       staticSchema.remove();
     }
   }, []);
@@ -53,13 +52,9 @@ export default function App() {
   useEffect(() => {
     markFacebookEntry();
     
-    // Estrategia de carga diferida extrema para maximizar PageSpeed en móvil
+    // Defer non-critical scripts until first interaction or idle
     const loadScripts = () => {
-      if ((window as any)._scriptsLoaded) return;
-      (window as any)._scriptsLoaded = true;
-
-      // Usar requestIdleCallback para no interrumpir el renderizado
-      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 100));
+      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
       idleCallback(() => {
         initPixel();
         const script = document.createElement('script');
@@ -67,22 +62,14 @@ export default function App() {
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
         document.head.appendChild(script);
         (window as any).dataLayer = (window as any).dataLayer || [];
-        function gtag(){(window as any).dataLayer.push(arguments);}
-        (gtag as any)('js', new Date());
-        (gtag as any)('config', 'G-57BY2PVKF4');
+        function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-57BY2PVKF4');
       });
     };
 
-    // Cargar al primer toque, scroll o después de 4.5 segundos si no hay actividad
-    window.addEventListener('touchstart', loadScripts, { once: true, passive: true });
-    window.addEventListener('scroll', loadScripts, { once: true, passive: true });
-    const timer = setTimeout(loadScripts, 4500);
-    
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('touchstart', loadScripts);
-      window.removeEventListener('scroll', loadScripts);
-    };
+    const timer = setTimeout(loadScripts, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

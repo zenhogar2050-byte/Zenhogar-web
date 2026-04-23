@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle2, Send, ArrowLeft } from 'lucide-react';
-import { trackPurchase, track } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
 import SEOManager from '../components/SEOManager';
 
 export default function Gracias() {
@@ -57,7 +57,7 @@ export default function Gracias() {
     // El usuario pidió exactamente este valor en la instrucción, 
     // pero usaré el de la orden si está disponible para ser más preciso, 
     // respetando la lógica de la instrucción.
-    trackPurchase({ value: orderData.value, currency: 'COP' });
+    trackPurchaseIfFromFacebook({ value: orderData.value, currency: 'COP' });
   }, [orderData.value]);
 
   const handleWhatsAppClick = () => {

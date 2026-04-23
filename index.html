@@ -15,34 +15,29 @@
     <meta name="application-name" content="ZENHOGAR" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     <link rel="dns-prefetch" href="https://connect.facebook.net" />
     
-    <!-- Preload LCP Image (Combo Bienestar / Banner) -->
+    <!-- LCP Image Preload - Crucial for Mobile -->
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/assets/products/rtafull.webp" as="image" type="image/webp" fetchpriority="low" />
 
-    <style>
-      :root { --font-sans: 'Inter', system-ui, sans-serif; --font-display: 'Outfit', sans-serif; }
-      body { margin: 0; font-family: var(--font-sans); background: #fff; color: #1c1917; }
-      #root { min-height: 100vh; display: flex; flex-col: column; }
-      .bg-stone-950 { background-color: #0c0a09; }
-      .text-white { color: #fff; }
-      #promo-banner { min-height: 320px; background-color: #1e40af; }
-      @media (min-width: 768px) { #promo-banner { min-height: 380px; } }
-    </style>
+    <!-- Fonts - Swap to avoid invisible text -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
 
-    <!-- Optimized Fonts Loading (No-blocking) -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
-    </noscript>
-
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
   </head>
   <body>
     <div id="root"></div>

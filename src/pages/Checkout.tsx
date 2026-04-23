@@ -5,7 +5,7 @@ import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS } from '../cons
 import { formatCurrency } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchase, track } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 import { saveOrderToFirebase } from '../lib/firebase';
@@ -323,9 +323,9 @@ export default function Checkout() {
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100 sticky top-24">
               <h2 className="text-2xl font-bold text-stone-900 mb-8">Envío y Pago</h2>
               <form onSubmit={handleSubmit} className="space-y-5">
-                <input required type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Nombre Completo" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input required type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Correo Electrónico" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
+                <input type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Nombre Completo" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Correo Electrónico (Opcional)" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
+                <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp / Teléfono" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 <input required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Dirección Exacta" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 
                 <div className="grid grid-cols-2 gap-4">

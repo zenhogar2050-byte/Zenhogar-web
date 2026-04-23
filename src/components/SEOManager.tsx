@@ -13,13 +13,10 @@ const SEOManager = ({
     const baseUrl = "https://zenhogar.live";
     
     // 1. Normalización de URL para evitar errores de redirección
-    // Forzamos el slash solo en el root, eliminamos doble slash y barras finales en el resto.
-    let normalizedPath = canonicalUrl === '/' ? '/' : canonicalUrl.replace(/\/$/, "");
-    if (!normalizedPath.startsWith('/')) normalizedPath = `/${normalizedPath}`;
-    
-    // Si es el root, aseguramos que termine en / para consistencia con servidores modernos
-    const finalPath = normalizedPath === '/' ? '/' : normalizedPath;
-    const fullUrl = `${baseUrl}${finalPath}`;
+    // Eliminamos barras finales y aseguramos el slash inicial
+    const cleanPath = canonicalUrl.startsWith('/') ? canonicalUrl : `/${canonicalUrl}`;
+    const normalizedPath = cleanPath.replace(/\/$/, '');
+    const fullUrl = `${baseUrl}${normalizedPath}`;
     
     const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
     const defaultImage = `${baseUrl}/assets/logo/og-image.png`;

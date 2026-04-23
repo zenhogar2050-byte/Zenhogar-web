@@ -1174,7 +1174,7 @@ export const PRODUCTS: Product[] = [
     seoTitle: 'Cómo solucionar la caída del cabello y falta de crecimiento con Tónico Capilar',
     seoDescription: 'Fortalece tu cabello desde la raíz con nuestro Tónico Capilar. Fórmula balanceada para vitalidad, bienestar integral y calidad certificada. ¡Pídelo hoy!',
     benefits: ['Estimula el crecimiento', 'Fortalece la raíz', 'Brillo y sedosidad'],
-    image: '/assets/products/Tonico.webp',
+    image: '/assets/products/tonico.webp',
     basePrice: 89900,
     size: '120 ml',
     keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',

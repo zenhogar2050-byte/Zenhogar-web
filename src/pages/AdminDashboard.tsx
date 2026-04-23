@@ -1,5 +1,21 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar
+} from 'recharts';
 import { 
   LayoutDashboard, 
   Package, 
@@ -75,6 +91,7 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics'>('orders');
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -222,11 +239,99 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  const totalRevenue = (orders || [])
+  const totalRevenue = useMemo(() => (orders || [])
     .filter(o => o && (o.status === 'delivered' || (o.status === 'pending' && o.type === 'order')))
-    .reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0);
+    .reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0), [orders]);
 
-  const filteredOrders = (orders || [])
+  const chartData = useMemo(() => {
+    const last7Days = [...Array(7)].map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      return d.toISOString().split('T')[0];
+    }).reverse();
+
+    return last7Days.map(date => {
+      const dayOrders = orders.filter(o => o.created_at?.startsWith(date) && o.type === 'order');
+      return {
+        name: date.split('-').slice(1).reverse().join('/'),
+        ventas: dayOrders.length,
+        ingresos: dayOrders.reduce((acc, curr) => acc + (Number(curr.total) || Number(curr.cart?.total) || 0), 0)
+      };
+    });
+  }, [orders]);
+
+  const statusDistribution = useMemo(() => {
+    const stats: any = {};
+    orders.filter(o => o.type === 'order').forEach(o => {
+      stats[o.status] = (stats[o.status] || 0) + 1;
+    });
+    return Object.entries(stats).map(([name, value]) => ({ name, value }));
+  }, [orders]);
+
+  const topProducts = useMemo(() => {
+    const products: any = {};
+    orders.filter(o => o.type === 'order').forEach(o => {
+      o.cart?.items?.forEach((item: any) => {
+        const name = item.name || item.productName || 'Desconocido';
+        products[name] = (products[name] || 0) + (item.quantity || 1);
+      });
+    });
+    return Object.entries(products)
+      .map(([name, sales]) => ({ name, sales: sales as number }))
+      .sort((a, b) => b.sales - a.sales)
+      .slice(0, 10);
+  }, [orders]);
+
+  const geoStats = useMemo(() => {
+    const departments: any = {};
+    const cities: any = {};
+    
+    orders.filter(o => o.type === 'order').forEach(o => {
+      const dept = o.customer?.department || 'No especificado';
+      const city = o.customer?.city || 'No especificada';
+      departments[dept] = (departments[dept] || 0) + 1;
+      cities[city] = (cities[city] || 0) + 1;
+    });
+
+    const sortedDepts = Object.entries(departments)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count);
+
+    const sortedCities = Object.entries(cities)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count);
+
+    return { departments: sortedDepts, cities: sortedCities };
+  }, [orders]);
+
+  const funnelStats = useMemo(() => {
+    const totalCheckouts = orders.length;
+    const completed = orders.filter(o => o.type === 'order').length;
+    const abandoned = orders.filter(o => o.type === 'abandoned').length;
+    const conversionRate = totalCheckouts > 0 ? (completed / totalCheckouts) * 100 : 0;
+
+    return [
+      { name: 'Checkouts Iniciados', value: totalCheckouts, fill: '#94a3b8' },
+      { name: 'Ventas Finalizadas', value: completed, fill: '#10b981' },
+      { name: 'Carritos Abandonados', value: abandoned, fill: '#f59e0b' }
+    ];
+  }, [orders]);
+
+  const abandonedByProduct = useMemo(() => {
+    const products: any = {};
+    orders.filter(o => o.type === 'abandoned').forEach(o => {
+      o.cart?.items?.forEach((item: any) => {
+        const name = item.name || item.productName || 'Desconocido';
+        products[name] = (products[name] || 0) + 1;
+      });
+    });
+    return Object.entries(products)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+  }, [orders]);
+
+  const filteredOrders = useMemo(() => (orders || [])
     .filter(o => o && (filter === 'all' || o.type === filter))
     .filter(o => {
       const search = (searchTerm || '').toLowerCase();
@@ -245,7 +350,7 @@ export default function AdminDashboard() {
         email.includes(search) ||
         ticket.includes(search)
       );
-    });
+    }), [orders, filter, searchTerm]);
 
   if (!isAuthenticated) {
     return (
@@ -313,8 +418,23 @@ export default function AdminDashboard() {
         </div>
         
         <nav className="space-y-2">
-          <button className="w-full flex items-center gap-3 p-3 bg-white/10 rounded-xl font-medium text-emerald-400">
-            <LayoutDashboard className="w-5 h-5" /> Dashboard
+          <button 
+            onClick={() => setActiveTab('orders')}
+            className={cn(
+              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
+              activeTab === 'orders' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+            )}
+          >
+            <LayoutDashboard className="w-5 h-5" /> Pedidos
+          </button>
+          <button 
+            onClick={() => setActiveTab('analytics')}
+            className={cn(
+              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
+              activeTab === 'analytics' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+            )}
+          >
+            <TrendingUp className="w-5 h-5" /> Analítica
           </button>
         </nav>
 
@@ -340,377 +460,557 @@ export default function AdminDashboard() {
         </header>
 
         <div className="p-4 lg:p-8">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard 
-              label="Ingresos Estimados" 
-              value={formatCurrency(totalRevenue)} 
-              icon={<DollarSign className="w-6 h-6" />}
-              color="emerald"
-            />
-            <StatCard 
-              label="Pedidos Totales" 
-              value={(orders || []).filter(o => o && o.type === 'order').length} 
-              icon={<Package className="w-6 h-6" />}
-              color="blue"
-            />
-            <StatCard 
-              label="Carritos Abandonados" 
-              value={(orders || []).filter(o => o && o.type === 'abandoned').length} 
-              icon={<Trash2 className="w-6 h-6" />}
-              color="orange"
-            />
-            <StatCard 
-              label="Pendientes de Envío" 
-              value={(orders || []).filter(o => o && o.status === 'pending' && o.type === 'order').length} 
-              icon={<Clock className="w-6 h-6" />}
-              color="amber"
-            />
-          </div>
-
-          {/* Filters & Search */}
-          <div className="bg-white p-4 rounded-[2rem] border border-stone-200 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
-            <div className="relative flex-grow w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
-              <input 
-                type="text" 
-                placeholder="Buscar por nombre, correo o teléfono..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium text-sm"
-              />
-            </div>
-            <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
-              <FilterTab active={filter === 'all'} label="Todos" onClick={() => setFilter('all')} />
-              <FilterTab active={filter === 'order'} label="Ventas" onClick={() => setFilter('order')} />
-              <FilterTab active={filter === 'abandoned'} label="Abandonados" onClick={() => setFilter('abandoned')} />
-            </div>
-            <div className="flex gap-2">
-              <button 
-                onClick={downloadExcel}
-                className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl hover:bg-emerald-100 transition-all flex items-center gap-2 font-bold text-xs uppercase tracking-widest"
-                title="Descargar Excel"
+          <AnimatePresence mode="wait">
+            {activeTab === 'orders' ? (
+              <motion.div
+                key="orders"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
               >
-                <FileSpreadsheet className="w-5 h-5" />
-                <span className="hidden sm:inline">Exportar</span>
-              </button>
-              <button 
-                onClick={fetchOrders}
-                className="p-3 bg-stone-100 text-stone-600 rounded-2xl hover:bg-emerald-50 hover:text-emerald-600 transition-all flex-shrink-0"
-                title="Actualizar datos"
-              >
-                <TrendingUp className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  <StatCard 
+                    label="Ingresos Estimados" 
+                    value={formatCurrency(totalRevenue)} 
+                    icon={<DollarSign className="w-6 h-6" />}
+                    color="emerald"
+                  />
+                  <StatCard 
+                    label="Pedidos Totales" 
+                    value={(orders || []).filter(o => o && o.type === 'order').length} 
+                    icon={<Package className="w-6 h-6" />}
+                    color="blue"
+                  />
+                  <StatCard 
+                    label="Carritos Abandonados" 
+                    value={(orders || []).filter(o => o && o.type === 'abandoned').length} 
+                    icon={<Trash2 className="w-6 h-6" />}
+                    color="orange"
+                  />
+                  <StatCard 
+                    label="Pendientes de Envío" 
+                    value={(orders || []).filter(o => o && o.status === 'pending' && o.type === 'order').length} 
+                    icon={<Clock className="w-6 h-6" />}
+                    color="amber"
+                  />
+                </div>
 
-          {/* Orders Table */}
-          <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-stone-50/50 border-b border-stone-100">
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ticket</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Cliente</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">WhatsApp</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Dirección</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ciudad</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Departamento</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Contenido</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Monto</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
-                    <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest text-right">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-100">
-                  {filteredOrders.length === 0 ? (
-                    <tr>
-                      <td colSpan={10} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
-                    </tr>
-                  ) : (
-                    filteredOrders.map((order) => {
-                      const customer = order.customer || {};
-                      const displayName = customer.nombre 
-                        ? `${customer.nombre} ${customer.apellido || ''}`
-                        : (customer.fullName || 'Cliente sin nombre');
-                      const displayPhone = customer.telefono || customer.phone || 'N/A';
-                      const initial = (customer.nombre?.[0] || customer.fullName?.[0] || '?').toUpperCase();
+                {/* Filters & Search */}
+                <div className="bg-white p-4 rounded-[2rem] border border-stone-200 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
+                  <div className="relative flex-grow w-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
+                    <input 
+                      type="text" 
+                      placeholder="Buscar por nombre, correo o teléfono..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium text-sm"
+                    />
+                  </div>
+                  <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
+                    <FilterTab active={filter === 'all'} label="Todos" onClick={() => setFilter('all')} />
+                    <FilterTab active={filter === 'order'} label="Ventas" onClick={() => setFilter('order')} />
+                    <FilterTab active={filter === 'abandoned'} label="Abandonados" onClick={() => setFilter('abandoned')} />
+                  </div>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={downloadExcel}
+                      className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl hover:bg-emerald-100 transition-all flex items-center gap-2 font-bold text-xs uppercase tracking-widest"
+                      title="Descargar Excel"
+                    >
+                      <FileSpreadsheet className="w-5 h-5" />
+                      <span className="hidden sm:inline">Exportar</span>
+                    </button>
+                    <button 
+                      onClick={fetchOrders}
+                      className="p-3 bg-stone-100 text-stone-600 rounded-2xl hover:bg-emerald-50 hover:text-emerald-600 transition-all flex-shrink-0"
+                      title="Actualizar datos"
+                    >
+                      <TrendingUp className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
 
-                      return (
-                        <tr 
-                          key={order.id} 
-                          className="hover:bg-stone-50/50 transition-colors group cursor-pointer"
-                          onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
-                        >
-                          <td className="px-6 py-5">
-                            <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
-                              #{order.ticket_number || '---'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
-                                {initial}
-                              </div>
-                              <div className="group/edit relative">
-                                {editingCell?.id === order.id && editingCell?.field === 'customer.fullName' ? (
-                                  <div className="flex items-center gap-2">
-                                    <input 
-                                      className="text-sm font-bold text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
-                                      value={editValue}
-                                      autoFocus
-                                      onChange={(e) => setEditValue(e.target.value)}
-                                      onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.fullName', editValue)}
-                                    />
-                                    <button onClick={() => handleSaveCell(order.id, 'customer.fullName', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                  </div>
-                                ) : (
-                                  <div className="flex items-center gap-2">
-                                    <div className="font-bold text-stone-900 leading-tight">{displayName}</div>
-                                    <button 
-                                      onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.fullName' }); setEditValue(customer.fullName || customer.nombre || ''); }}
-                                      className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                    >
-                                      <Edit className="w-3 h-3" />
-                                    </button>
-                                  </div>
-                                )}
-                                <div className="flex items-center gap-2 mt-1">
-                                  <span className={cn(
-                                    "text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest",
-                                    order.type === 'order' ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
-                                  )}>
-                                    {order.type === 'order' ? 'PEDIDO' : 'ABANDONADO'}
-                                  </span>
-                                  <span className="text-[10px] font-bold text-stone-400">
-                                    {order.created_at ? new Date(order.created_at).toLocaleDateString('es-CO') : 'Reciente'}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="group/edit relative">
-                              {editingCell?.id === order.id && editingCell?.field === 'customer.phone' ? (
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    className="text-xs font-mono bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-28"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.phone', editValue)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'customer.phone', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
-                                    {displayPhone}
-                                  </span>
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.phone' }); setEditValue(customer.phone || customer.telefono || ''); }}
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="group/edit relative">
-                              {editingCell?.id === order.id && editingCell?.field === 'customer.address' ? (
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.address', editValue)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'customer.address', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-2">
-                                  <p className="text-xs text-stone-600">{customer.address || customer.direccion || 'N/A'}</p>
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.address' }); setEditValue(customer.address || customer.direccion || ''); }}
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="group/edit relative">
-                              {editingCell?.id === order.id && editingCell?.field === 'customer.city' ? (
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.city', editValue)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'customer.city', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-2">
-                                  <p className="text-xs text-stone-600">{customer.city || customer.ciudad || 'N/A'}</p>
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.city' }); setEditValue(customer.city || customer.ciudad || ''); }}
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="group/edit relative">
-                              {editingCell?.id === order.id && editingCell?.field === 'customer.department' ? (
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.department', editValue)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'customer.department', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-2">
-                                  <p className="text-xs text-stone-600">{customer.department || 'N/A'}</p>
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.department' }); setEditValue(customer.department || ''); }}
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="max-w-xs relative group/edit">
-                              {editingCell?.id === order.id && editingCell?.field === 'order_details' ? (
-                                <div className="flex items-center gap-2">
-                                  <textarea 
-                                    className="text-xs bg-emerald-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none w-48"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'order_details', editValue)} className="p-1 text-emerald-600 hover:scale-110">
-                                    <Save className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="flex justify-between items-start">
-                                  <p className="text-xs text-stone-600 line-clamp-2">
-                                    {order.cart?.items?.length 
-                                      ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
-                                      : order.order_details || 'Sin detalles'
-                                    }
-                                  </p>
-                                  <button 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditingCell({ id: order.id, field: 'order_details' });
-                                      setEditValue(order.cart?.items?.length 
-                                        ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
-                                        : order.order_details || ''
-                                      );
-                                    }} 
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600 transition-all"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="group/edit relative">
-                              {editingCell?.id === order.id && editingCell?.field === 'total' ? (
-                                <div className="flex items-center gap-2">
-                                  <input 
-                                    type="number"
-                                    className="text-sm font-black text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                    value={editValue}
-                                    autoFocus
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'total', editValue)}
-                                  />
-                                  <button onClick={() => handleSaveCell(order.id, 'total', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                </div>
-                              ) : (
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-black text-stone-900">
-                                    {formatCurrency(order.total || order.cart?.total || 0)}
-                                  </span>
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'total' }); setEditValue((order.total || order.cart?.total || 0).toString()); }}
-                                    className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                  >
-                                    <Edit className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-5">
-                            <StatusBadge status={order.status} type={order.type} />
-                          </td>
-                          <td className="px-6 py-5 text-right">
-                             <div className="flex justify-end gap-2">
-                                <button 
-                                  onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
-                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all shadow-sm"
-                                  title="Ver Detalles"
-                                >
-                                  <Eye className="w-4 h-4" />
-                                </button>
-                                <a 
-                                  href={`https://wa.me/${displayPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage(order))}`} 
-                                  target="_blank" 
-                                  rel="noreferrer"
-                                  className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
-                                  title="Enviar Mensaje Confirmación"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  <Phone className="w-4 h-4" />
-                                </a>
-                                {order.type === 'order' && (
-                                  <StatusActions 
-                                    currentStatus={order.status} 
-                                    onUpdate={(s) => updateStatus(order.id, s)} 
-                                    onDelete={() => handleDeleteOrder(order.id)}
-                                  />
-                                )}
-                                {order.type === 'abandoned' && (
-                                  <button 
-                                    onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
-                                    className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
-                                    title="Eliminar registro"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
-                                )}
-                              </div>
-                           </td>
+                {/* Orders Table */}
+                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-stone-50/50 border-b border-stone-100">
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ticket</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Cliente</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">WhatsApp</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Dirección</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ciudad</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Departamento</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Contenido</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Monto</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest text-right">Acciones</th>
                         </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                      </thead>
+                      <tbody className="divide-y divide-stone-100">
+                        {filteredOrders.length === 0 ? (
+                          <tr>
+                            <td colSpan={10} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
+                          </tr>
+                        ) : (
+                          filteredOrders.map((order) => {
+                            const customer = order.customer || {};
+                            const displayName = customer.nombre 
+                              ? `${customer.nombre} ${customer.apellido || ''}`
+                              : (customer.fullName || 'Cliente sin nombre');
+                            const displayPhone = customer.telefono || customer.phone || 'N/A';
+                            const initial = (customer.nombre?.[0] || customer.fullName?.[0] || '?').toUpperCase();
+
+                            return (
+                              <tr 
+                                key={order.id} 
+                                className="hover:bg-stone-50/50 transition-colors group cursor-pointer"
+                                onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
+                              >
+                                <td className="px-6 py-5">
+                                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
+                                    #{order.ticket_number || '---'}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
+                                      {initial}
+                                    </div>
+                                    <div className="group/edit relative">
+                                      {editingCell?.id === order.id && editingCell?.field === 'customer.fullName' ? (
+                                        <div className="flex items-center gap-2">
+                                          <input 
+                                            className="text-sm font-bold text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
+                                            value={editValue}
+                                            autoFocus
+                                            onChange={(e) => setEditValue(e.target.value)}
+                                            onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.fullName', editValue)}
+                                          />
+                                          <button onClick={() => handleSaveCell(order.id, 'customer.fullName', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                        </div>
+                                      ) : (
+                                        <div className="flex items-center gap-2">
+                                          <div className="font-bold text-stone-900 leading-tight">{displayName}</div>
+                                          <button 
+                                            onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.fullName' }); setEditValue(customer.fullName || customer.nombre || ''); }}
+                                            className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                          >
+                                            <Edit className="w-3 h-3" />
+                                          </button>
+                                        </div>
+                                      )}
+                                      <div className="flex items-center gap-2 mt-1">
+                                        <span className={cn(
+                                          "text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest",
+                                          order.type === 'order' ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
+                                        )}>
+                                          {order.type === 'order' ? 'PEDIDO' : 'ABANDONADO'}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-stone-400">
+                                          {order.created_at ? new Date(order.created_at).toLocaleDateString('es-CO') : 'Reciente'}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="group/edit relative">
+                                    {editingCell?.id === order.id && editingCell?.field === 'customer.phone' ? (
+                                      <div className="flex items-center gap-2">
+                                        <input 
+                                          className="text-xs font-mono bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-28"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.phone', editValue)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'customer.phone', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
+                                          {displayPhone}
+                                        </span>
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.phone' }); setEditValue(customer.phone || customer.telefono || ''); }}
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="group/edit relative">
+                                    {editingCell?.id === order.id && editingCell?.field === 'customer.address' ? (
+                                      <div className="flex items-center gap-2">
+                                        <input 
+                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.address', editValue)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'customer.address', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-2">
+                                        <p className="text-xs text-stone-600">{customer.address || customer.direccion || 'N/A'}</p>
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.address' }); setEditValue(customer.address || customer.direccion || ''); }}
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="group/edit relative">
+                                    {editingCell?.id === order.id && editingCell?.field === 'customer.city' ? (
+                                      <div className="flex items-center gap-2">
+                                        <input 
+                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.city', editValue)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'customer.city', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-2">
+                                        <p className="text-xs text-stone-600">{customer.city || customer.ciudad || 'N/A'}</p>
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.city' }); setEditValue(customer.city || customer.ciudad || ''); }}
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="group/edit relative">
+                                    {editingCell?.id === order.id && editingCell?.field === 'customer.department' ? (
+                                      <div className="flex items-center gap-2">
+                                        <input 
+                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.department', editValue)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'customer.department', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-2">
+                                        <p className="text-xs text-stone-600">{customer.department || 'N/A'}</p>
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.department' }); setEditValue(customer.department || ''); }}
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="max-w-xs relative group/edit">
+                                    {editingCell?.id === order.id && editingCell?.field === 'order_details' ? (
+                                      <div className="flex items-center gap-2">
+                                        <textarea 
+                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none w-48"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'order_details', editValue)} className="p-1 text-emerald-600 hover:scale-110">
+                                          <Save className="w-4 h-4" />
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex justify-between items-start">
+                                        <p className="text-xs text-stone-600 line-clamp-2">
+                                          {order.cart?.items?.length 
+                                            ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
+                                            : order.order_details || 'Sin detalles'
+                                          }
+                                        </p>
+                                        <button 
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEditingCell({ id: order.id, field: 'order_details' });
+                                            setEditValue(order.cart?.items?.length 
+                                              ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
+                                              : order.order_details || ''
+                                            );
+                                          }} 
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600 transition-all"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <div className="group/edit relative">
+                                    {editingCell?.id === order.id && editingCell?.field === 'total' ? (
+                                      <div className="flex items-center gap-2">
+                                        <input 
+                                          type="number"
+                                          className="text-sm font-black text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
+                                          value={editValue}
+                                          autoFocus
+                                          onChange={(e) => setEditValue(e.target.value)}
+                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'total', editValue)}
+                                        />
+                                        <button onClick={() => handleSaveCell(order.id, 'total', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm font-black text-stone-900">
+                                          {formatCurrency(order.total || order.cart?.total || 0)}
+                                        </span>
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'total' }); setEditValue((order.total || order.cart?.total || 0).toString()); }}
+                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
+                                        >
+                                          <Edit className="w-3 h-3" />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                  <StatusBadge status={order.status} type={order.type} />
+                                </td>
+                                <td className="px-6 py-5 text-right">
+                                   <div className="flex justify-end gap-2">
+                                      <button 
+                                        onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
+                                        className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all shadow-sm"
+                                        title="Ver Detalles"
+                                      >
+                                        <Eye className="w-4 h-4" />
+                                      </button>
+                                      <a 
+                                        href={`https://wa.me/${displayPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage(order))}`} 
+                                        target="_blank" 
+                                        rel="noreferrer"
+                                        className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
+                                        title="Enviar Mensaje Confirmación"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <Phone className="w-4 h-4" />
+                                      </a>
+                                      {order.type === 'order' && (
+                                        <StatusActions 
+                                          currentStatus={order.status} 
+                                          onUpdate={(s) => updateStatus(order.id, s)} 
+                                          onDelete={() => handleDeleteOrder(order.id)}
+                                        />
+                                      )}
+                                      {order.type === 'abandoned' && (
+                                        <button 
+                                          onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
+                                          className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
+                                          title="Eliminar registro"
+                                        >
+                                          <Trash2 className="w-4 h-4" />
+                                        </button>
+                                      )}
+                                    </div>
+                                 </td>
+                              </tr>
+                            );
+                          })
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="analytics"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-8"
+              >
+                {/* Analytics Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Revenue Chart */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <div className="flex justify-between items-center mb-6">
+                      <div>
+                        <h3 className="text-xl font-bold text-stone-900">Ventas e Ingresos (7 días)</h3>
+                        <p className="text-sm text-stone-500">Tendencia de ingresos y volumen de pedidos</p>
+                      </div>
+                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
+                        <TrendingUp className="w-6 h-6" />
+                      </div>
+                    </div>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData}>
+                          <defs>
+                            <linearGradient id="colorIngresos" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
+                              <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
+                          <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
+                          <Tooltip 
+                            contentStyle={{ borderRadius: '1rem', border: 'none', shadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                            formatter={(value: any) => typeof value === 'number' ? formatCurrency(value) : value}
+                          />
+                          <Area type="monotone" dataKey="ingresos" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorIngresos)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Status Distribution */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6">Distribución por Estado</h3>
+                    <div className="h-64 flex flex-col items-center">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={statusDistribution}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {statusDistribution.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5]} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-4">
+                        {statusDistribution.map((entry, index) => (
+                          <div key={index} className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5] }} />
+                            <span className="text-xs font-bold text-stone-600 uppercase tracking-widest">{entry.name}: {entry.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Funnel Chart */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+                       <TrendingUp className="w-5 h-5 text-emerald-500" /> Conversión de Carrito
+                    </h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={funnelStats} layout="vertical" margin={{ left: 20 }}>
+                          <XAxis type="number" hide />
+                          <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} width={150} tick={{ fontSize: 11, fontWeight: 'bold', fill: '#64748b' }} />
+                          <Tooltip cursor={{ fill: 'transparent' }} />
+                          <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={40}>
+                            {funnelStats.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Top Locations */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+                       <MapPin className="w-5 h-5 text-emerald-500" /> Geografía (Ventas por Dpto)
+                    </h3>
+                    <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                      {geoStats.departments.length > 0 ? geoStats.departments.map((dept, i) => (
+                        <div key={i} className="flex items-center justify-between p-3 bg-stone-50 rounded-2xl hover:bg-emerald-50 transition-colors border border-transparent hover:border-emerald-100">
+                          <div className="flex items-center gap-3">
+                            <span className="w-6 h-6 rounded-lg bg-white flex items-center justify-center text-[10px] font-black text-stone-400 border border-stone-100">{i + 1}</span>
+                            <span className="font-bold text-stone-700 text-sm uppercase">{dept.name}</span>
+                          </div>
+                          <span className="px-3 py-1 bg-white rounded-full text-xs font-black text-emerald-600 border border-emerald-100">{dept.count} <span className="text-[10px] text-stone-400">Peds</span></span>
+                        </div>
+                      )) : <p className="text-stone-400 italic text-center py-10">Sin datos geográficos aún</p>}
+                    </div>
+                  </div>
+
+                  {/* Abandoned Products Analysis */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+                       <Package className="w-5 h-5 text-orange-500" /> ¿Dónde se quedan? (Mayores Abandonos)
+                    </h3>
+                    <div className="space-y-4">
+                      {abandonedByProduct.length > 0 ? abandonedByProduct.map((prod, i) => (
+                        <div key={i} className="flex items-center gap-4">
+                          <div className="flex-grow">
+                            <div className="flex justify-between mb-1">
+                              <span className="font-bold text-stone-700 text-xs truncate max-w-[200px]">{prod.name}</span>
+                              <span className="text-[10px] font-black text-orange-600">{prod.count} abandonos</span>
+                            </div>
+                            <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                              <motion.div 
+                                initial={{ width: 0 }}
+                                animate={{ width: `${(prod.count / (abandonedByProduct[0].count || 1)) * 100}%` }}
+                                className="h-full bg-orange-400" 
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )) : <p className="text-stone-400 italic text-center py-10">Sin registros de abandonos</p>}
+                    </div>
+                  </div>
+
+                  {/* Top Products */}
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6">Top 5 Productos Más Vendidos</h3>
+                    <div className="space-y-4">
+                      {topProducts.map((prod, i) => (
+                        <div key={i} className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center font-bold text-stone-500">
+                            {i + 1}
+                          </div>
+                          <div className="flex-grow">
+                            <div className="flex justify-between mb-1">
+                              <span className="font-bold text-stone-900">{prod.name}</span>
+                              <span className="text-sm font-bold text-stone-500">{prod.sales} unidades</span>
+                            </div>
+                            <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                              <motion.div 
+                                initial={{ width: 0 }}
+                                animate={{ width: `${(prod.sales / topProducts[0].sales) * 100}%` }}
+                                className="h-full bg-emerald-500" 
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </main>
 
@@ -757,19 +1057,50 @@ export default function AdminDashboard() {
                        <User className="w-3 h-3" /> Información del Cliente
                     </h4>
                     <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-3">
-                      <p className="font-bold text-stone-900 truncate">{selectedOrder.customer.nombre || selectedOrder.customer.fullName} {selectedOrder.customer.apellido}</p>
-                      <div className="flex items-center gap-2 text-stone-600 text-sm">
-                        <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'N/A'}
+                      <div className="flex items-center gap-2">
+                        <div className="font-bold text-stone-900 leading-tight">
+                          {selectedOrder.customer.nombre || selectedOrder.customer.fullName ? (
+                            `${selectedOrder.customer.nombre || ''} ${selectedOrder.customer.apellido || ''} ${selectedOrder.customer.fullName || ''}`.trim()
+                          ) : 'Cliente sin nombre'}
+                        </div>
                       </div>
                       <div className="flex items-center gap-2 text-stone-600 text-sm">
-                        <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'N/A'}
+                        <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'No proporcionado'}
+                      </div>
+                      <div className="flex items-center gap-2 text-stone-600 text-sm">
+                        <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'No proporcionado'}
                       </div>
                       <div className="flex items-start gap-2 text-stone-600 text-sm">
                         <MapPin className="w-4 h-4 text-stone-400 mt-0.5" /> 
-                        <div>
-                          <p>{selectedOrder.customer.direccion || 'Sin dirección'}</p>
-                          <p className="font-bold text-stone-400">{selectedOrder.customer.ciudad} {selectedOrder.customer.department && `• ${selectedOrder.customer.department}`}</p>
+                        <div className="space-y-1">
+                          <p className="font-medium">{selectedOrder.customer.direccion || selectedOrder.customer.address || 'Sin dirección registrada'}</p>
+                          <div className="flex flex-wrap gap-2">
+                            <span className="px-2 py-0.5 bg-stone-100 rounded text-[10px] font-bold uppercase text-stone-500">
+                              🏠 {selectedOrder.customer.ciudad || selectedOrder.customer.city || 'Ciudad N/A'}
+                            </span>
+                            <span className="px-2 py-0.5 bg-emerald-50 rounded text-[10px] font-bold uppercase text-emerald-600">
+                              📍 {selectedOrder.customer.department || 'Departamento N/A'}
+                            </span>
+                          </div>
                         </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section>
+                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                       <Clock className="w-3 h-3" /> Metadatos del Registro
+                    </h4>
+                    <div className="bg-stone-50 p-4 rounded-3xl border border-stone-100 grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Fecha de Registro</p>
+                        <p className="text-xs font-bold text-stone-700">
+                          {selectedOrder.created_at ? new Date(selectedOrder.created_at).toLocaleString('es-CO') : 'No disponible'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
+                        <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
                       </div>
                     </div>
                   </section>
