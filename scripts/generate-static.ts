@@ -32,7 +32,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} | Zenhogar</title>
     <meta name="description" content="${description}">
-    <link rel="canonical" href="${BASE_URL}${canonical}">
+    <link rel="canonical" href="${BASE_URL}${canonical === '/' ? '/' : canonical.replace(/\/$/, '')}">
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -41,11 +41,16 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <!-- Performance Hints -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Performance & LCP Optimizations -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="low">
+    
+    <!-- Non-blocking Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    </noscript>
 
     <meta property="og:title" content="${title} | Zenhogar">
     <meta property="og:description" content="${description}">
@@ -55,27 +60,21 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="index, follow, max-image-preview:large">
     
-    <script type="application/ld+json" id="schema-main" data-rh="true">${JSON.stringify(graph)}</script>
+    <script type="application/ld+json" id="schema-main" data-static="true" data-rh="true">${JSON.stringify(graph)}</script>
     ${headExtra}
 
-    <!-- Estilos base para que no se vea roto mientras carga JS -->
+    <!-- Critical CSS for Mobile Performance (Instant First Paint) -->
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; color: #1c1917; margin: 0; line-height: 1.5; background: #fafaf9; }
+        :root { --font-sans: 'Inter', system-ui, sans-serif; --font-display: 'Outfit', sans-serif; }
+        body { font-family: var(--font-sans); color: #1c1917; margin: 0; line-height: 1.5; background: #fff; -webkit-font-smoothing: antialiased; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .navbar { height: 112px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; position: sticky; top: 0; z-index: 50; }
-        .logo { height: 80px; }
+        .logo { height: 80px; width: auto; }
         .logo-container { display: flex; align-items: center; gap: 10px; }
-        .logo-text { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; }
+        .logo-text { font-family: var(--font-display); font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; }
         .logo-sub { font-size: 10px; font-weight: bold; color: #059669; letter-spacing: 0.2em; text-transform: uppercase; margin-top: -4px; }
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
-        @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
-        .product-image { width: 100%; border-radius: 24px; background: #f5f5f4; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .badge { background: #ecfdf5; color: #047857; padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
-        .price { color: #059669; font-size: 24px; font-weight: 900; margin: 15px 0; }
-        .benefit-list { list-style: none; padding: 0; }
-        .benefit-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #444; }
-        h1 { font-size: 2.5rem; color: #1c1917; margin: 0 0 15px 0; }
-        .description { color: #57534e; font-size: 1.1rem; line-height: 1.6; }
+        #root { min-height: 100vh; }
+        img { max-width: 100%; height: auto; display: block; }
     </style>
 </head>
 <body>
@@ -188,15 +187,15 @@ const generateHomeHTML = () => {
     });
 
     const content = `
-        <div style="text-align: center; padding: 60px 0;">
-            <p style="text-transform: uppercase; letter-spacing: 0.1em; color: #059669; font-weight: bold; margin-bottom: 10px;">Tu Tienda de Productos Naturales en Colombia</p>
-            <h1 style="font-size: 3.5rem;">Reclama el Control de tu <span style="color: #059669; font-style: italic;">Vitalidad</span></h1>
-            <p class="description" style="font-size: 1.4rem; max-width: 800px; margin: 20px auto;">ZENHOGAR: Soluciones orgánicas de grado premium diseñadas para transformar tu salud desde el interior.</p>
+        <div style="text-align: center; padding: 40px 0 60px;">
+            <p style="text-transform: uppercase; letter-spacing: 0.2em; color: #059669; font-weight: 900; font-size: 12px; margin-bottom: 15px;">Tu Tienda de Productos Naturales en Colombia</p>
+            <h1 style="font-size: 3rem; line-height: 1.1; margin-bottom: 20px;">Sana tu Cuerpo desde la Raíz y Recupera la <span style="color: #047857; font-style: italic;">Energía</span> que te Mereces</h1>
+            <p class="description" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: #57534e;">Descubre el poder de lo orgánico para sanar desde el interior. Resultados reales con los productos naturales más vendidos de Colombia.</p>
         </div>
         <div style="margin-bottom: 60px;">
             <h2 style="text-align: center; margin-bottom: 40px;">Oferta Destacada</h2>
             <div style="background: #1c1917; color: white; padding: 40px; border-radius: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                <img src="${COMBO_OF_THE_MONTH.image}" alt="${COMBO_OF_THE_MONTH.image}" width="600" height="600" loading="eager" fetchpriority="high" style="width: 100%; border-radius: 24px; background: white; padding: 20px;">
+                <img src="${COMBO_OF_THE_MONTH.image}" alt="${COMBO_OF_THE_MONTH.name}" width="600" height="600" loading="eager" fetchpriority="high" decoding="async" style="width: 100%; border-radius: 24px; background: white; padding: 20px; aspect-ratio: 1/1; object-fit: contain;">
                 <div>
                     <span class="badge" style="background: #059669; color: white;">OFERTA DEL MES</span>
                     <h2 style="font-size: 2.5rem; margin: 10px 0;">${COMBO_OF_THE_MONTH.name}</h2>

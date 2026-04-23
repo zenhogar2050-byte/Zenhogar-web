@@ -11,8 +11,9 @@ import { track, markFacebookEntry, initPixel } from './utils/pixel';
 function SEOCleaner() {
   useEffect(() => {
     // Elimina el esquema estático para que no choque con el dinámico de Helmet
-    const staticSchema = document.getElementById('schema-static');
-    if (staticSchema) {
+    // Ahora coincide con el id="schema-main" inyectado por el generador estático
+    const staticSchema = document.getElementById('schema-main');
+    if (staticSchema && staticSchema.getAttribute('data-static') === 'true') {
       staticSchema.remove();
     }
   }, []);
