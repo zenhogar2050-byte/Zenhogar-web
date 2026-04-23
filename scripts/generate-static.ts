@@ -66,7 +66,15 @@ const template = (title: string, description: string, canonical: string, content
         }
         main { min-height: 80vh; opacity: 1 !important; }
         img { max-width: 100%; height: auto; font-style: italic; background: #f5f5f4; border: 0; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .product-image { width: 100%; max-height: 350px; object-fit: contain; background: #fff; border-radius: 16px; border: 1px solid #e7e5e4; }
+        @media (min-width: 768px) {
+            .product-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .product-image { max-height: 500px; }
+        }
+        .description { color: #57534e; font-size: 1.1rem; line-height: 1.6; }
+        .price { font-size: 2rem; font-weight: 900; color: #059669; }
     </style>
 
     <!-- Recursos de Segundo Plano (CSS + Fuentes) -->
