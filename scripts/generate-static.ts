@@ -16,21 +16,16 @@ const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [
 const headExtra = [...linkTags, ...scriptTags].join('\n    ');
 
 const template = (title: string, description: string, canonical: string, content: string, image: string, graph: any) => {
+    // Clasificar scripts del head para mover los pesados al final
+    const headScripts = scriptTags.filter(tag => !tag.includes('fbevents.js') && !tag.includes('gtm'));
+    const deferredScripts = scriptTags.filter(tag => tag.includes('fbevents.js') || tag.includes('gtm'));
+
     return `
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-57BY2PVKF4');
-    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>${title} | Zenhogar</title>
     <meta name="description" content="${description}">
     <link rel="canonical" href="${BASE_URL}${canonical === '/' ? '/' : canonical.replace(/\/$/, '')}">
@@ -42,47 +37,43 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <!-- Performance & LCP Optimizations -->
+    <!-- Pre-conectar con prioridad -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high">
-    <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="low">
     
-    <!-- Non-blocking Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
-    </noscript>
-
-    <meta property="og:title" content="${title} | Zenhogar">
-    <meta property="og:description" content="${description}">
-    <meta property="og:image" content="${BASE_URL}${image}">
-    <meta property="og:url" content="${BASE_URL}${canonical}">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    
-    <script type="application/ld+json" id="schema-main" data-static="true" data-rh="true">${JSON.stringify(graph)}</script>
-    ${headExtra}
-
-    <!-- Critical CSS for Mobile Performance (Instant First Paint) -->
+    <!-- CSS Crítico Inyectado para evitar el bloqueo detectado en PageSpeed -->
     <style>
-        :root { --font-sans: 'Inter', system-ui, sans-serif; --font-display: 'Outfit', sans-serif; }
+        :root { --font-sans: 'Inter', system-ui, -apple-system, sans-serif; --font-display: 'Outfit', sans-serif; }
         body { font-family: var(--font-sans); color: #1c1917; margin: 0; line-height: 1.5; background: #fff; -webkit-font-smoothing: antialiased; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .navbar { height: 112px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; position: sticky; top: 0; z-index: 50; }
-        .logo { height: 80px; width: auto; }
-        .logo-container { display: flex; align-items: center; gap: 10px; }
-        .logo-text { font-family: var(--font-display); font-weight: 900; font-size: 24px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; }
-        .logo-sub { font-size: 10px; font-weight: bold; color: #059669; letter-spacing: 0.2em; text-transform: uppercase; margin-top: -4px; }
-        #root { min-height: 100vh; }
-        img { max-width: 100%; height: auto; display: block; }
+        .navbar { height: 70px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; white-space: nowrap; }
+        .logo { height: 40px; width: auto; object-fit: contain; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-text { font-family: var(--font-display); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; line-height: 1; }
+        .logo-sub { font-size: 8px; font-weight: bold; color: #059669; letter-spacing: 0.1em; text-transform: uppercase; margin-top: -2px; }
+        @media (min-width: 768px) {
+            .navbar { height: 112px; }
+            .logo { height: 80px; }
+            .logo-text { font-size: 24px; }
+            .logo-sub { font-size: 10px; }
+        }
+        main { min-height: 80vh; }
+        img { max-width: 100%; height: auto; font-style: italic; }
     </style>
+
+    <!-- Fuentes con carga no bloqueante -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" media="print" onload="this.media='all'">
+    
+    <script type="application/ld+json" id="schema-main" data-static="true" data-rh="true">${JSON.stringify(graph)}</script>
+    
+    <!-- Solo cargamos scripts ligeros al inicio -->
+    ${[...linkTags, ...headScripts].join('\n    ')}
 </head>
 <body>
     <div id="root">
         <nav class="navbar">
             <div class="logo-container">
-                <img src="/assets/logo/logo-icon.webp" alt="zenhogar Icon" class="logo">
+                <img src="/assets/logo/logo-icon.webp" alt="zenhogar Icon" class="logo" width="80" height="80">
                 <div style="display: flex; flex-direction: column;">
                     <span class="logo-text">Zen Hogar</span>
                     <span class="logo-sub">Salud Vital</span>
@@ -93,27 +84,24 @@ const template = (title: string, description: string, canonical: string, content
             ${content}
         </main>
         
-        <section style="background: #f5f5f4; padding: 40px 20px; text-align: center; border-top: 1px solid #e7e5e4;">
-            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
-                <div>
-                    <h3 style="margin-bottom: 10px;">🛡️ Registro INVIMA</h3>
-                    <p style="font-size: 14px; color: #57534e;">Productos 100% Originales y Certificados</p>
-                </div>
-                <div>
-                    <h3 style="margin-bottom: 10px;">🚚 Envío Gratis</h3>
-                    <p style="font-size: 14px; color: #57534e;">A toda Colombia (2-5 días hábiles)</p>
-                </div>
-                <div>
-                    <h3 style="margin-bottom: 10px;">🤝 Pago Contra Entrega</h3>
-                    <p style="font-size: 14px; color: #57534e;">Paga en efectivo al recibir en tu puerta</p>
-                </div>
-                <div>
-                    <h3 style="margin-bottom: 10px;">⭐ Garantía Total</h3>
-                    <p style="font-size: 14px; color: #57534e;">Satisfacción garantizada en tu compra</p>
-                </div>
+        <section style="background: #f5f5f4; padding: 40px 20px; text-align: center;">
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px;">
+                <div><h3 style="font-size: 1rem;">🛡️ Original</h3><p style="font-size: 12px; color: #57534e;">Certificado INVIMA</p></div>
+                <div><h3 style="font-size: 1rem;">🚚 Gratis</h3><p style="font-size: 12px; color: #57534e;">Toda Colombia</p></div>
+                <div><h3 style="font-size: 1rem;">🤝 Efectivo</h3><p style="font-size: 12px; color: #57534e;">Pago Contra Entrega</p></div>
             </div>
         </section>
     </div>
+
+    <!-- Scripts pesados y rastreo al final para maximizar rendimiento móvil -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-57BY2PVKF4');
+    </script>
+    ${deferredScripts.join('\n    ')}
 </body>
 </html>
 `;
