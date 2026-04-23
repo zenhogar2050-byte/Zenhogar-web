@@ -16,14 +16,15 @@ const linkTags = distIndexHtml.match(/<link\b[^>]*rel="stylesheet"[^>]*>/g) || [
 const headExtra = [...linkTags, ...scriptTags].join('\n    ');
 
 const template = (title: string, description: string, canonical: string, content: string, image: string, graph: any) => {
-    // Clasificar scripts para mantener el orden de ejecución de Vite pero diferir analítica
+    // Clasificar scripts - TODOS al final del body para no bloquear el renderizado
+    // Eliminamos los scripts de analítica del molde estático porque App.tsx ya los carga de forma diferida (esto es clave para el 90+)
     const analyticsIds = ['fbevents.js', 'gtm', 'gtag'];
-    const headScripts = scriptTags.filter(tag => !analyticsIds.some(id => tag.includes(id)));
-    const deferredScripts = scriptTags.filter(tag => analyticsIds.some(id => tag.includes(id)));
+    const filteredScripts = scriptTags.filter(tag => !analyticsIds.some(id => tag.includes(id)));
     
-    // Mantener los links de CSS como bloqueantes pero enviarlos con prioridad
-    // (Vite ya los optimiza, no necesitamos el truco de media=print si inyectamos CSS crítico)
-    const essentialLinks = linkTags.join('\n    ');
+    // Convertir links de CSS en no bloqueantes extremos
+    const nonBlockingLinks = linkTags.map(tag => 
+        tag.replace('rel="stylesheet"', 'rel="stylesheet" media="print" onload="this.media=\'all\'"')
+    );
 
     return `
 <!DOCTYPE html>
@@ -43,11 +44,10 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
     <!-- Optimización de Carga Crítica -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high">
     
-    <!-- CSS Crítico (FCP Instantáneo) -->
+    <!-- CSS Crítico de Alto Impacto (FCP < 1s) -->
     <style>
         :root { --font-sans: 'Inter', system-ui, -apple-system, sans-serif; --font-display: 'Outfit', sans-serif; }
         body { font-family: var(--font-sans); color: #1c1917; margin: 0; line-height: 1.5; background: #fff; -webkit-font-smoothing: antialiased; }
@@ -64,17 +64,14 @@ const template = (title: string, description: string, canonical: string, content
             .logo-sub { font-size: 10px; }
             .container { padding: 20px; }
         }
-        main { min-height: 80vh; }
+        main { min-height: 80vh; opacity: 1 !important; }
         img { max-width: 100%; height: auto; font-style: italic; background: #f5f5f4; border: 0; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 
     </style>
 
-    <!-- Google Fonts con Swap -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="all">
-    
-    <!-- Estilos y Scripts de Vite -->
-    ${essentialLinks}
-    ${headScripts.join('\n    ')}
+    <!-- Recursos de Segundo Plano (CSS + Fuentes) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    ${nonBlockingLinks.join('\n    ')}
     
     <script type="application/ld+json" id="schema-main" data-static="true" data-rh="true">${JSON.stringify(graph)}</script>
 </head>
@@ -102,15 +99,8 @@ const template = (title: string, description: string, canonical: string, content
         </section>
     </div>
 
-    <!-- Scripts de analítica diferidos para liberar el hilo principal -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-57BY2PVKF4');
-    </script>
-    ${deferredScripts.join('\n    ')}
+    <!-- CARGA DE SCRIPTS EXTREMADA (Al final del body para 90+ Score) -->
+    ${filteredScripts.join('\n    ')}
 </body>
 </html>
 `;
