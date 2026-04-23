@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -16,9 +17,10 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
   
-  const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
+  app.use(compression());
   app.use(express.json());
+  
+  const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
   
   // URL Normalization Middleware (Fix Redirect Errors in GSC)
   app.use((req, res, next) => {

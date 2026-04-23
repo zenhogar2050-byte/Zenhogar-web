@@ -51,25 +51,6 @@ function ScrollToTop() {
 export default function App() {
   useEffect(() => {
     markFacebookEntry();
-    
-    // Defer non-critical scripts until first interaction or idle
-    const loadScripts = () => {
-      const idleCallback = (window as any).requestIdleCallback || ((cb: any) => setTimeout(cb, 1));
-      idleCallback(() => {
-        initPixel();
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
-        document.head.appendChild(script);
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        function gtag(..._args: any[]){(window as any).dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-57BY2PVKF4');
-      });
-    };
-
-    const timer = setTimeout(loadScripts, 3000);
-    return () => clearTimeout(timer);
   }, []);
 
   return (

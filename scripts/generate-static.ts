@@ -19,15 +19,6 @@ const template = (title: string, description: string, canonical: string, content
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-57BY2PVKF4');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} | Zenhogar</title>
@@ -41,11 +32,28 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <!-- Performance Hints -->
+    <!-- Performance & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+      // NUCLEAR PERFORMANCE OPTION: Delay non-critical scripts
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var ga = document.createElement('script');
+          ga.async = true;
+          ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
+          document.head.appendChild(ga);
+          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-57BY2PVKF4');
+        }, 4000);
+      });
+    </script>
 
     <meta property="og:title" content="${title} | Zenhogar">
     <meta property="og:description" content="${description}">
@@ -56,8 +64,7 @@ const template = (title: string, description: string, canonical: string, content
     <meta name="robots" content="index, follow, max-image-preview:large">
     
     <script type="application/ld+json" id="schema-main" data-rh="true">${JSON.stringify(graph)}</script>
-    ${headExtra}
-
+    
     <!-- Estilos base para que no se vea roto mientras carga JS -->
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; color: #1c1917; margin: 0; line-height: 1.5; background: #fafaf9; }
@@ -114,6 +121,7 @@ const template = (title: string, description: string, canonical: string, content
             </div>
         </section>
     </div>
+    ${headExtra}
 </body>
 </html>
 `;

@@ -82,10 +82,10 @@ export default function Home() {
             <TrustBar className="mt-8 lg:mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
           </div>
         </div>
-        {/* Abstract organic background elements */}
+        {/* Abstract organic background elements - Optimized blur for mobile performance */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30 pointer-events-none hidden md:block">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100 blur-[60px] lg:blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 blur-[60px] lg:blur-[120px] rounded-full" />
         </div>
       </section>
 
@@ -155,8 +155,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 bg-white border-y border-stone-100">
+      {/* Features - Optimized for performance */}
+      <section className="py-16 bg-white border-y border-stone-100" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="sr-only">Nuestras Ventajas</h2>
           <div className="grid md:grid-cols-3 gap-8">

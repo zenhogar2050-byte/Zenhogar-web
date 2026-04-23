@@ -23,10 +23,40 @@
     <!-- LCP Image Preload - Crucial for Mobile -->
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high" />
 
-    <!-- Fonts - Swap to avoid invisible text -->
+    <!-- Google Fonts with explicit display=swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
 
     <script type="text/javascript">
+      // Delayed Loading of Heavy Scripts (Nuclear Option)
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          // Google Analytics
+          var ga = document.createElement('script');
+          ga.async = true;
+          ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
+          document.head.appendChild(ga);
+          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-57BY2PVKF4');
+
+          // Facebook Pixel (Delayed)
+          if (!window.fbq) {
+            !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+            }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'));
+            fbq('init', '26749410671349006');
+            fbq('track', 'PageView');
+          }
+        }, 4000); // 4 seconds delay to ensure first paint is perfect
+      });
+
+      // SPA Path handling
       (function(l) {
         if (l.search[1] === '/' ) {
           var decoded = l.search.slice(1).split('&').map(function(s) { 
