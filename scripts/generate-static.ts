@@ -66,7 +66,7 @@ const template = (title: string, description: string, canonical: string, content
         }
         main { min-height: 80vh; opacity: 1 !important; }
         img { max-width: 100%; height: auto; font-style: italic; background: #f5f5f4; border: 0; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 
     </style>
 
     <!-- Recursos de Segundo Plano (CSS + Fuentes) -->
