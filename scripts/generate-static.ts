@@ -19,6 +19,11 @@ const template = (title: string, description: string, canonical: string, content
     // Clasificar scripts del head para mover los pesados al final
     const headScripts = scriptTags.filter(tag => !tag.includes('fbevents.js') && !tag.includes('gtm'));
     const deferredScripts = scriptTags.filter(tag => tag.includes('fbevents.js') || tag.includes('gtm'));
+    
+    // Convertir links de CSS en no bloqueantes
+    const nonBlockingLinks = linkTags.map(tag => 
+        tag.replace('rel="stylesheet"', 'rel="stylesheet" media="print" onload="this.media=\'all\'"')
+    );
 
     return `
 <!DOCTYPE html>
@@ -41,39 +46,42 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="/assets/combos/combo-bienestar.webp" as="image" type="image/webp" fetchpriority="high">
     
-    <!-- CSS Crítico Inyectado para evitar el bloqueo detectado en PageSpeed -->
+    <!-- CSS Crítico Inyectado (Bloqueo 0ms) -->
     <style>
         :root { --font-sans: 'Inter', system-ui, -apple-system, sans-serif; --font-display: 'Outfit', sans-serif; }
         body { font-family: var(--font-sans); color: #1c1917; margin: 0; line-height: 1.5; background: #fff; -webkit-font-smoothing: antialiased; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .navbar { height: 70px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 20px; background: white; white-space: nowrap; }
-        .logo { height: 40px; width: auto; object-fit: contain; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+        .navbar { height: 70px; border-bottom: 1px solid #e7e5e4; display: flex; align-items: center; padding: 0 15px; background: white; white-space: nowrap; overflow: hidden; }
+        .logo { height: 40px; width: 40px; object-fit: contain; }
         .logo-container { display: flex; align-items: center; gap: 8px; }
-        .logo-text { font-family: var(--font-display); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: -0.05em; color: #1c1917; line-height: 1; }
-        .logo-sub { font-size: 8px; font-weight: bold; color: #059669; letter-spacing: 0.1em; text-transform: uppercase; margin-top: -2px; }
+        .logo-text { font-family: var(--font-display); font-weight: 900; font-size: 18px; text-transform: uppercase; color: #1c1917; line-height: 1; }
+        .logo-sub { font-size: 8px; font-weight: bold; color: #059669; text-transform: uppercase; margin-top: -2px; }
         @media (min-width: 768px) {
             .navbar { height: 112px; }
-            .logo { height: 80px; }
+            .logo { height: 80px; width: 80px; }
             .logo-text { font-size: 24px; }
             .logo-sub { font-size: 10px; }
+            .container { padding: 20px; }
         }
-        main { min-height: 80vh; }
-        img { max-width: 100%; height: auto; font-style: italic; }
+        main { min-height: 80vh; opacity: 0; animation: fadeIn 0.3s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        img { max-width: 100%; height: auto; font-style: italic; background: #f5f5f4; }
     </style>
 
-    <!-- Fuentes con carga no bloqueante -->
+    <!-- Recursos No Bloqueantes (CSS completo + Fuents) -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@700;900&display=swap" media="print" onload="this.media='all'">
+    ${nonBlockingLinks.join('\n    ')}
     
     <script type="application/ld+json" id="schema-main" data-static="true" data-rh="true">${JSON.stringify(graph)}</script>
     
-    <!-- Solo cargamos scripts ligeros al inicio -->
-    ${[...linkTags, ...headScripts].join('\n    ')}
+    <!-- Scripts críticos livianos -->
+    ${headScripts.join('\n    ')}
 </head>
 <body>
     <div id="root">
         <nav class="navbar">
             <div class="logo-container">
-                <img src="/assets/logo/logo-icon.webp" alt="zenhogar Icon" class="logo" width="80" height="80">
+                <img src="/assets/logo/logo-icon.webp" alt="zenhogar Icon" class="logo" width="80" height="80" fetchpriority="high">
                 <div style="display: flex; flex-direction: column;">
                     <span class="logo-text">Zen Hogar</span>
                     <span class="logo-sub">Salud Vital</span>
@@ -85,15 +93,15 @@ const template = (title: string, description: string, canonical: string, content
         </main>
         
         <section style="background: #f5f5f4; padding: 40px 20px; text-align: center;">
-            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px;">
-                <div><h3 style="font-size: 1rem;">🛡️ Original</h3><p style="font-size: 12px; color: #57534e;">Certificado INVIMA</p></div>
-                <div><h3 style="font-size: 1rem;">🚚 Gratis</h3><p style="font-size: 12px; color: #57534e;">Toda Colombia</p></div>
-                <div><h3 style="font-size: 1rem;">🤝 Efectivo</h3><p style="font-size: 12px; color: #57534e;">Pago Contra Entrega</p></div>
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px;">
+                <div style="padding: 15px; background: white; border-radius: 16px;"><h3 style="font-size: 0.9rem; margin: 0;">🛡️ INVIMA</h3><p style="font-size: 11px; margin: 5px 0 0; color: #57534e;">Certificado Original</p></div>
+                <div style="padding: 15px; background: white; border-radius: 16px;"><h3 style="font-size: 0.9rem; margin: 0;">🚚 Envío Gratis</h3><p style="font-size: 11px; margin: 5px 0 0; color: #57534e;">Toda Colombia</p></div>
+                <div style="padding: 15px; background: white; border-radius: 16px;"><h3 style="font-size: 0.9rem; margin: 0;">🤝 Efectivo</h3><p style="font-size: 11px; margin: 5px 0 0; color: #57534e;">Contra Entrega</p></div>
             </div>
         </section>
     </div>
 
-    <!-- Scripts pesados y rastreo al final para maximizar rendimiento móvil -->
+    <!-- Scripts pesados al final (Diferidos) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
