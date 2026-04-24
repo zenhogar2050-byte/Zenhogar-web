@@ -8,8 +8,8 @@
   --color-brand-secondary: #047857; /* emerald-700 para mejor contraste */
   
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(var(--marquee-end, -50%)); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(var(--marquee-end, -50%), 0, 0); }
   }
   
   --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
