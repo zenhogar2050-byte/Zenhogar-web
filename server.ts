@@ -26,20 +26,40 @@ async function startServer() {
   const distPath = path.resolve(process.cwd(), "dist");
 
   // --- 0. SEO CRITICAL FILES (Direct delivery before anything else) ---
-  // To prevent 404s in GSC, we serve these files on ANY host (www or non-www)
-  app.get("/robots.txt", (req, res) => {
+  // We use regex to be more inclusive and serve directly to avoid any 404/Redirect loops
+  app.get(/^\/robots\.txt\/?$/, (req, res) => {
     res.type('text/plain').set('Cache-Control', 'public, max-age=3600');
     const filePath = path.join(distPath, "robots.txt");
-    if (fs.existsSync(filePath)) return res.sendFile(filePath);
     
-    // Safety Fallback (April 16th logic)
-    res.send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api\nDisallow: /checkout\nDisallow: /gracias\n\nSitemap: https://zenhogar.live/sitemap.xml`);
+    const fallback = `User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /checkout
+Disallow: /gracias
+
+Sitemap: https://zenhogar.live/sitemap.xml`;
+
+    try {
+      if (fs.existsSync(filePath)) {
+        return res.send(fs.readFileSync(filePath, 'utf-8'));
+      }
+    } catch (e) {
+      // Ignore error and use fallback
+    }
+    res.send(fallback);
   });
 
-  app.get("/sitemap.xml", (req, res) => {
+  app.get(/^\/sitemap\.xml\/?$/, (req, res) => {
     res.type('application/xml').set('Cache-Control', 'public, max-age=3600');
     const filePath = path.join(distPath, "sitemap.xml");
-    if (fs.existsSync(filePath)) return res.sendFile(filePath);
+    try {
+      if (fs.existsSync(filePath)) {
+        return res.send(fs.readFileSync(filePath, 'utf-8'));
+      }
+    } catch (e) {
+      // Ignore error
+    }
     res.status(404).end();
   });
 
