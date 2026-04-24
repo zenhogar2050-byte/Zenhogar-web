@@ -694,7 +694,11 @@ Disallow: /api
 Disallow: /checkout
 Disallow: /gracias
 
-# Block AI and Scraper Bots
+# Google-specific directives for AI
+User-agent: Google-Extended
+Disallow: /
+
+# Block other AI and Scraper Bots
 User-agent: Amazonbot
 Disallow: /
 

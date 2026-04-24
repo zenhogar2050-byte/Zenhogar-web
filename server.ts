@@ -69,15 +69,19 @@ Sitemap: https://zenhogar.live/sitemap.xml`;
     // Skip normalization for the SEO files we already served
     if (req.path === '/robots.txt' || req.path === '/sitemap.xml') return next();
 
-    // Force non-www
     const host = req.get('host');
-    if (host && host.startsWith('www.')) {
-      const nonWwwHost = host.slice(4);
-      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-      return res.redirect(301, `${protocol}://${nonWwwHost}${req.originalUrl}`);
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const isWww = host && host.startsWith('www.');
+    const isHttp = protocol === 'http';
+
+    // Force HTTPS OR non-www
+    if (isWww || isHttp) {
+      const nonWwwHost = isWww ? host?.slice(4) : host;
+      // Use 301 for permanent SEO redirection to https://zenhogar.live
+      return res.redirect(301, `https://${nonWwwHost}${req.originalUrl}`);
     }
 
-    // Standardize URL
+    // Standardize URL Path (Remove double slashes and trailing slashes)
     const url = req.originalUrl;
     if (url.includes('//') || (url.length > 1 && url.endsWith('/') && !url.includes('?'))) {
       const newPath = url.replace(/\/+/g, '/').replace(/\/$/, '') || '/';
@@ -123,6 +127,10 @@ Sitemap: https://zenhogar.live/sitemap.xml`;
     
     // SPA Fallback for production
     app.get("*", (req, res) => {
+      // If it's a known non-existent static asset or explicitly handled path, 404
+      if (req.path.includes('.') || req.path.startsWith('/api') || req.path.startsWith('/admin')) {
+        return res.status(404).sendFile(path.resolve(distPath, "404.html"));
+      }
       res.sendFile(path.resolve(distPath, "index.html"));
     });
   }
