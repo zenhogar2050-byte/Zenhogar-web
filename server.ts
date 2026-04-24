@@ -19,6 +19,7 @@ async function startServer() {
   
   app.use(compression());
   app.use(express.json());
+  app.set('trust proxy', true);
   
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
   
@@ -28,7 +29,9 @@ async function startServer() {
     const host = req.get('host');
     if (host && host.startsWith('www.')) {
       const nonWwwHost = host.slice(4);
-      return res.redirect(301, `${req.protocol}://${nonWwwHost}${req.originalUrl}`);
+      // Construct the absolute URL manually to avoid protocol issues
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      return res.redirect(301, `${protocol}://${nonWwwHost}${req.originalUrl}`);
     }
 
     const url = req.originalUrl;
@@ -52,14 +55,31 @@ async function startServer() {
   });
 
   const distPath = path.resolve(__dirname, "dist");
+  const publicPath = path.resolve(__dirname, "public");
 
-  // Explicitly serve robots.txt and sitemap.xml to avoid 404s in some environments
+  // Explicitly serve robots.txt and sitemap.xml with correct headers
   app.get("/robots.txt", (req, res) => {
-    res.sendFile(path.resolve(distPath, "robots.txt"));
+    const filePath = fs.existsSync(path.resolve(distPath, "robots.txt")) 
+      ? path.resolve(distPath, "robots.txt") 
+      : path.resolve(publicPath, "robots.txt");
+    
+    if (fs.existsSync(filePath)) {
+      res.type('text/plain').sendFile(filePath);
+    } else {
+      res.status(404).end();
+    }
   });
 
   app.get("/sitemap.xml", (req, res) => {
-    res.sendFile(path.resolve(distPath, "sitemap.xml"));
+    const filePath = fs.existsSync(path.resolve(distPath, "sitemap.xml")) 
+      ? path.resolve(distPath, "sitemap.xml") 
+      : path.resolve(publicPath, "sitemap.xml");
+    
+    if (fs.existsSync(filePath)) {
+      res.type('application/xml').sendFile(filePath);
+    } else {
+      res.status(404).end();
+    }
   });
 
   // Vite middleware for development

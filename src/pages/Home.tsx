@@ -224,30 +224,30 @@ export default function Home() {
                   </div>
                 </div>
 
-                <button 
-                  onClick={handleComboBuy}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-stone-900 rounded-2xl font-black text-xs lg:text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl shadow-white/5 group"
-                  aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
-                >
-                  <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5 group-hover:scale-110 transition-transform" />
-                  APROVECHAR OFERTA
-                </button>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <button 
+                    onClick={handleComboBuy}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-stone-900 rounded-2xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl group"
+                    aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
+                  >
+                    <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    APROVECHAR OFERTA
+                  </button>
 
-                <div className="mt-6 flex flex-col gap-2">
-                  <div className="flex items-center gap-2 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/10">
+                  <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 shrink-0">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-bold text-emerald-500">Quedan solo {stock} unidades en stock</span>
+                    <span className="text-xs font-bold text-emerald-500">Quedan {stock} unidades</span>
                   </div>
                 </div>
 
                 <div className="mt-8 flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
                   <Zap className="w-5 h-5 fill-current animate-pulse" />
-                  <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
+                  <span>Envío GRATIS + Pago Contra Entrega</span>
                 </div>
               </div>
               
-              <div className="relative mt-4 lg:mt-0">
-                <div className="max-w-full aspect-square flex items-center justify-center">
+              <div className="relative mt-4 lg:mt-0 flex justify-center">
+                <div className="w-full max-w-[500px] aspect-square flex items-center justify-center">
                   <img 
                     src={COMBO_OF_THE_MONTH.image} 
                     alt={COMBO_OF_THE_MONTH.name}
@@ -256,13 +256,10 @@ export default function Home() {
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
-                    className="w-full h-full object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
+                    className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                     referrerPolicy="no-referrer"
                   />
                 </div>
-                {/* Decorative elements */}
-                <div className="absolute -top-6 -right-6 lg:-top-10 lg:-right-10 w-24 h-24 lg:w-40 lg:h-40 bg-emerald-600/20 blur-2xl lg:blur-3xl rounded-full" />
-                <div className="absolute -bottom-6 -left-6 lg:-bottom-10 lg:-left-10 w-24 h-24 lg:w-40 lg:h-40 bg-emerald-600/20 blur-2xl lg:blur-3xl rounded-full" />
               </div>
             </div>
             
