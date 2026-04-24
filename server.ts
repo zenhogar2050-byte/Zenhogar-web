@@ -23,9 +23,32 @@ async function startServer() {
   
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-  // 1. URL Normalization Middleware - FIRST PRIORITY
+  const distPath = path.resolve(process.cwd(), "dist");
+
+  // --- 0. SEO CRITICAL FILES (Direct delivery before anything else) ---
+  // To prevent 404s in GSC, we serve these files on ANY host (www or non-www)
+  app.get("/robots.txt", (req, res) => {
+    res.type('text/plain').set('Cache-Control', 'public, max-age=3600');
+    const filePath = path.join(distPath, "robots.txt");
+    if (fs.existsSync(filePath)) return res.sendFile(filePath);
+    
+    // Safety Fallback (April 16th logic)
+    res.send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api\nDisallow: /checkout\nDisallow: /gracias\n\nSitemap: https://zenhogar.live/sitemap.xml`);
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    res.type('application/xml').set('Cache-Control', 'public, max-age=3600');
+    const filePath = path.join(distPath, "sitemap.xml");
+    if (fs.existsSync(filePath)) return res.sendFile(filePath);
+    res.status(404).end();
+  });
+
+  // 1. URL Normalization Middleware - SECOND PRIORITY
   // This ensures Google hits the correct canonical URL (non-www and clean path)
   app.use((req, res, next) => {
+    // Skip normalization for the SEO files we already served
+    if (req.path === '/robots.txt' || req.path === '/sitemap.xml') return next();
+
     // Force non-www
     const host = req.get('host');
     if (host && host.startsWith('www.')) {
@@ -42,38 +65,6 @@ async function startServer() {
     }
 
     next();
-  });
-
-  const distPath = path.resolve(process.cwd(), "dist");
-
-  // 2. SEO Files - Direct Delivery
-  app.get("/robots.txt", (req, res) => {
-    res.type('text/plain').set('Cache-Control', 'public, max-age=3600');
-    
-    // Attempt local file read first
-    const filePath = path.join(distPath, "robots.txt");
-    if (fs.existsSync(filePath)) {
-      return res.sendFile(filePath);
-    }
-
-    // Guaranteed fallback if file is missing (April 16th logic: Keep it simple but robust)
-    res.send(`User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /api
-Disallow: /checkout
-Disallow: /gracias
-
-Sitemap: https://zenhogar.live/sitemap.xml`);
-  });
-
-  app.get("/sitemap.xml", (req, res) => {
-    res.type('application/xml').set('Cache-Control', 'public, max-age=3600');
-    const filePath = path.join(distPath, "sitemap.xml");
-    if (fs.existsSync(filePath)) {
-      return res.sendFile(filePath);
-    }
-    res.status(404).end();
   });
 
   // Vite middleware for development
