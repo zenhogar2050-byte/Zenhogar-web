@@ -23,114 +23,10 @@ async function startServer() {
   
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-  const distPath = path.resolve(process.cwd(), "dist");
-  const publicPath = path.resolve(process.cwd(), "public");
-
-  // Explicitly serve robots.txt and sitemap.xml with correct headers BEFORE normalization
-  // This ensures Google can find them even if they hit the www version
-  app.get("/robots.txt", (req, res) => {
-    const locations = [
-      path.resolve(distPath, "robots.txt"),
-      path.resolve(publicPath, "robots.txt"),
-      path.resolve(process.cwd(), "public", "robots.txt"),
-      path.resolve(process.cwd(), "dist", "robots.txt")
-    ];
-    
-    const filePath = locations.find(p => fs.existsSync(p));
-    
-    // Add cache headers for SEO
-    res.set('Cache-Control', 'public, max-age=3600'); 
-    
-    if (filePath) {
-      res.type('text/plain').sendFile(filePath);
-    } else {
-      // Fallback robust robots.txt
-      const robots = `User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /api
-Disallow: /checkout
-Disallow: /gracias
-
-# Block AI and Scraper Bots
-User-agent: Amazonbot
-Disallow: /
-User-agent: Applebot-Extended
-Disallow: /
-User-agent: Bytespider
-Disallow: /
-User-agent: CCBot
-Disallow: /
-User-agent: ClaudeBot
-Disallow: /
-User-agent: Claude-Web-Fetcher
-Disallow: /
-User-agent: Diffbot
-Disallow: /
-User-agent: FacebookBot
-Disallow: /
-User-agent: FriendlyCrawler
-Disallow: /
-User-agent: GPTBot
-Disallow: /
-User-agent: Google-Extended
-Disallow: /
-User-agent: ImagesiftBot
-Disallow: /
-User-agent: magpie-crawler
-Disallow: /
-User-agent: Meltwater
-Disallow: /
-User-agent: OMGIBOT
-Disallow: /
-User-agent: OmtrBot/1.0
-Disallow: /
-User-agent: Oubot
-Disallow: /
-User-agent: PerplexityBot
-Disallow: /
-User-agent: PetalBot
-Disallow: /
-User-agent: PiplBot
-Disallow: /
-User-agent: SeekportBot
-Disallow: /
-User-agent: Sidetrade
-Disallow: /
-User-agent: TrendictionBot
-Disallow: /
-User-agent: TurnitinBot
-Disallow: /
-User-agent: YouBot
-Disallow: /
-
-Sitemap: https://zenhogar.live/sitemap.xml`;
-      res.type('text/plain').status(200).send(robots);
-    }
-  });
-
-  app.get("/sitemap.xml", (req, res) => {
-    const locations = [
-      path.resolve(distPath, "sitemap.xml"),
-      path.resolve(publicPath, "sitemap.xml"),
-      path.resolve(process.cwd(), "public", "sitemap.xml"),
-      path.resolve(process.cwd(), "dist", "sitemap.xml")
-    ];
-    
-    const filePath = locations.find(p => fs.existsSync(p));
-    
-    res.set('Cache-Control', 'public, max-age=3600');
-    
-    if (filePath) {
-      res.type('application/xml').sendFile(filePath);
-    } else {
-      res.status(404).json({ error: "Sitemap not found on disk" });
-    }
-  });
-  
-  // URL Normalization Middleware (Fix Redirect Errors in GSC)
+  // 1. URL Normalization Middleware - FIRST PRIORITY
+  // This ensures Google hits the correct canonical URL (non-www and clean path)
   app.use((req, res, next) => {
-    // 1. Force non-www (SEO best practice to avoid duplicate content)
+    // Force non-www
     const host = req.get('host');
     if (host && host.startsWith('www.')) {
       const nonWwwHost = host.slice(4);
@@ -138,24 +34,46 @@ Sitemap: https://zenhogar.live/sitemap.xml`;
       return res.redirect(301, `${protocol}://${nonWwwHost}${req.originalUrl}`);
     }
 
+    // Standardize URL
     const url = req.originalUrl;
-    const searchIndex = url.indexOf('?');
-    const pathPart = searchIndex !== -1 ? url.slice(0, searchIndex) : url;
-    const query = searchIndex !== -1 ? url.slice(searchIndex) : '';
-
-    // 2. Remove trailing slash (except for home page)
-    if (pathPart.length > 1 && pathPart.endsWith('/')) {
-      const newPath = pathPart.slice(0, -1);
-      return res.redirect(301, newPath + query);
-    }
-    
-    // 3. Remove multiple slashes
-    if (pathPart.includes('//')) {
-      const newPath = pathPart.replace(/\/+/g, '/');
-      return res.redirect(301, newPath + query);
+    if (url.includes('//') || (url.length > 1 && url.endsWith('/') && !url.includes('?'))) {
+      const newPath = url.replace(/\/+/g, '/').replace(/\/$/, '') || '/';
+      return res.redirect(301, newPath);
     }
 
     next();
+  });
+
+  const distPath = path.resolve(process.cwd(), "dist");
+
+  // 2. SEO Files - Direct Delivery
+  app.get("/robots.txt", (req, res) => {
+    res.type('text/plain').set('Cache-Control', 'public, max-age=3600');
+    
+    // Attempt local file read first
+    const filePath = path.join(distPath, "robots.txt");
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
+    }
+
+    // Guaranteed fallback if file is missing (April 16th logic: Keep it simple but robust)
+    res.send(`User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /checkout
+Disallow: /gracias
+
+Sitemap: https://zenhogar.live/sitemap.xml`);
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    res.type('application/xml').set('Cache-Control', 'public, max-age=3600');
+    const filePath = path.join(distPath, "sitemap.xml");
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
+    }
+    res.status(404).end();
   });
 
   // Vite middleware for development
