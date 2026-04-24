@@ -22,6 +22,41 @@ async function startServer() {
   app.set('trust proxy', true);
   
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+  const distPath = path.resolve(__dirname, "dist");
+  const publicPath = path.resolve(__dirname, "public");
+
+  // Explicitly serve robots.txt and sitemap.xml with correct headers BEFORE normalization
+  // This ensures Google can find them even if they hit the www version
+  app.get("/robots.txt", (req, res) => {
+    const locations = [
+      path.resolve(distPath, "robots.txt"),
+      path.resolve(publicPath, "robots.txt")
+    ];
+    
+    const filePath = locations.find(p => fs.existsSync(p));
+    
+    if (filePath) {
+      res.type('text/plain').sendFile(filePath);
+    } else {
+      res.status(200).send("User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api\nDisallow: /checkout\nDisallow: /gracias\n\nSitemap: https://zenhogar.live/sitemap.xml");
+    }
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    const locations = [
+      path.resolve(distPath, "sitemap.xml"),
+      path.resolve(publicPath, "sitemap.xml")
+    ];
+    
+    const filePath = locations.find(p => fs.existsSync(p));
+    
+    if (filePath) {
+      res.type('application/xml').sendFile(filePath);
+    } else {
+      res.status(404).end();
+    }
+  });
   
   // URL Normalization Middleware (Fix Redirect Errors in GSC)
   app.use((req, res, next) => {
@@ -51,40 +86,6 @@ async function startServer() {
     }
 
     next();
-  });
-
-  const distPath = path.resolve(__dirname, "dist");
-  const publicPath = path.resolve(__dirname, "public");
-
-  // Explicitly serve robots.txt and sitemap.xml with correct headers
-  app.get("/robots.txt", (req, res) => {
-    const locations = [
-      path.resolve(distPath, "robots.txt"),
-      path.resolve(publicPath, "robots.txt")
-    ];
-    
-    const filePath = locations.find(p => fs.existsSync(p));
-    
-    if (filePath) {
-      res.type('text/plain').sendFile(filePath);
-    } else {
-      res.status(200).send("User-agent: *\nAllow: /\nSitemap: https://zenhogar.live/sitemap.xml");
-    }
-  });
-
-  app.get("/sitemap.xml", (req, res) => {
-    const locations = [
-      path.resolve(distPath, "sitemap.xml"),
-      path.resolve(publicPath, "sitemap.xml")
-    ];
-    
-    const filePath = locations.find(p => fs.existsSync(p));
-    
-    if (filePath) {
-      res.type('application/xml').sendFile(filePath);
-    } else {
-      res.status(404).end();
-    }
   });
 
   // Vite middleware for development
