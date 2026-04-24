@@ -24,18 +24,25 @@ async function startServer() {
   
   // URL Normalization Middleware (Fix Redirect Errors in GSC)
   app.use((req, res, next) => {
+    // 1. Force non-www (SEO best practice to avoid duplicate content)
+    const host = req.get('host');
+    if (host && host.startsWith('www.')) {
+      const nonWwwHost = host.slice(4);
+      return res.redirect(301, `${req.protocol}://${nonWwwHost}${req.originalUrl}`);
+    }
+
     const url = req.originalUrl;
     const searchIndex = url.indexOf('?');
     const path = searchIndex !== -1 ? url.slice(0, searchIndex) : url;
     const query = searchIndex !== -1 ? url.slice(searchIndex) : '';
 
-    // Remove trailing slash (except for home page)
+    // 2. Remove trailing slash (except for home page)
     if (path.length > 1 && path.endsWith('/')) {
       const newPath = path.slice(0, -1);
       return res.redirect(301, newPath + query);
     }
     
-    // Remove multiple slashes
+    // 3. Remove multiple slashes
     if (path.includes('//')) {
       const newPath = path.replace(/\/+/g, '/');
       return res.redirect(301, newPath + query);
@@ -45,6 +52,15 @@ async function startServer() {
   });
 
   const distPath = path.resolve(__dirname, "dist");
+
+  // Explicitly serve robots.txt and sitemap.xml to avoid 404s in some environments
+  app.get("/robots.txt", (req, res) => {
+    res.sendFile(path.resolve(distPath, "robots.txt"));
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    res.sendFile(path.resolve(distPath, "sitemap.xml"));
+  });
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
