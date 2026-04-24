@@ -44,6 +44,42 @@ async function startServer() {
     next();
   });
 
+  const distPath = path.resolve(__dirname, "dist");
+
+  // Vite middleware for development
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+    app.use(vite.middlewares);
+
+    // SPA Fallback for development
+    app.get("*", async (req, res, next) => {
+      const url = req.originalUrl;
+      try {
+        let template = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf-8");
+        template = await vite.transformIndexHtml(url, template);
+        res.status(200).set({ "Content-Type": "text/html" }).end(template);
+      } catch (e) {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      }
+    });
+  } else {
+    // Serve static files from dist with auto-extension and NO directory redirects
+    app.use(express.static(distPath, { 
+      extensions: ['html'],
+      redirect: false,
+      index: 'index.html'
+    }));
+    
+    // SPA Fallback for production
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(distPath, "index.html"));
+    });
+  }
+
   const ORDERS_FILE = path.resolve(__dirname, "orders.json");
 
   // Helper to read/write local orders for the Admin Dashboard
@@ -229,40 +265,6 @@ async function startServer() {
       res.status(500).json({ status: "error" });
     }
   });
-
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-
-    // SPA Fallback for development
-    app.get("*", async (req, res, next) => {
-      const url = req.originalUrl;
-
-      try {
-        // Always read the latest index.html in dev
-        let template = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf-8");
-        template = await vite.transformIndexHtml(url, template);
-        res.status(200).set({ "Content-Type": "text/html" }).end(template);
-      } catch (e) {
-        vite.ssrFixStacktrace(e as Error);
-        next(e);
-      }
-    });
-  } else {
-    const distPath = path.resolve(__dirname, "dist");
-    
-    // Serve static files from dist
-    app.use(express.static(distPath));
-    
-    // SPA Fallback for production
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(distPath, "index.html"));
-    });
-  }
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);

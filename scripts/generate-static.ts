@@ -42,6 +42,7 @@ const template = (title: string, description: string, canonical: string, content
       // NUCLEAR PERFORMANCE OPTION: Delay non-critical scripts
       window.addEventListener('load', function() {
         setTimeout(function() {
+          // Google Analytics
           var ga = document.createElement('script');
           ga.async = true;
           ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
@@ -51,6 +52,17 @@ const template = (title: string, description: string, canonical: string, content
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-57BY2PVKF4');
+
+          // Facebook Pixel (Delayed)
+          if (!window.fbq) {
+            !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+            }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'));
+            fbq('init', '26749410671349006');
+            fbq('track', 'PageView');
+          }
         }, 4000);
       });
     </script>
@@ -486,33 +498,33 @@ console.log('Generado: dist/index.html (Home)');
 
 // 2. Generar Categorías
 CATEGORIES.forEach(cat => {
-    const dir = `dist/categoria/${cat.id}`;
-    ensureDir(dir);
-    fs.writeFileSync(`${dir}/index.html`, generateCategoryHTML(cat));
-    console.log(`Generado: ${dir}/index.html (Categoría: ${cat.id})`);
+    const filePath = `dist/categoria/${cat.id}.html`;
+    ensureDir(path.dirname(filePath));
+    fs.writeFileSync(filePath, generateCategoryHTML(cat));
+    console.log(`Generado: ${filePath} (Categoría: ${cat.id})`);
 });
 
 // 3. Generar productos
 PRODUCTS.forEach(p => {
-    const dir = `dist/producto/${p.id}`;
-    ensureDir(dir);
-    fs.writeFileSync(`${dir}/index.html`, generateProductHTML(p));
-    console.log(`Generado: ${dir}/index.html (Producto: ${p.id})`);
+    const filePath = `dist/producto/${p.id}.html`;
+    ensureDir(path.dirname(filePath));
+    fs.writeFileSync(filePath, generateProductHTML(p));
+    console.log(`Generado: ${filePath} (Producto: ${p.id})`);
 });
 
 // 4. Generar combos
 PROMOTIONS.forEach(c => {
-    const dir = `dist/combo/${c.id}`;
-    ensureDir(dir);
-    fs.writeFileSync(`${dir}/index.html`, generateComboHTML(c));
-    console.log(`Generado: ${dir}/index.html (Combo: ${c.id})`);
+    const filePath = `dist/combo/${c.id}.html`;
+    ensureDir(path.dirname(filePath));
+    fs.writeFileSync(filePath, generateComboHTML(c));
+    console.log(`Generado: ${filePath} (Combo: ${c.id})`);
 });
 
 // 5. Combo del mes
-const comboDir = `dist/combo/${COMBO_OF_THE_MONTH.id}`;
-ensureDir(comboDir);
-fs.writeFileSync(`${comboDir}/index.html`, generateComboHTML(COMBO_OF_THE_MONTH));
-console.log(`Generado: ${comboDir}/index.html (Combo del Mes)`);
+const comboPath = `dist/combo/${COMBO_OF_THE_MONTH.id}.html`;
+ensureDir(path.dirname(comboPath));
+fs.writeFileSync(comboPath, generateComboHTML(COMBO_OF_THE_MONTH));
+console.log(`Generado: ${comboPath} (Combo del Mes)`);
 
 // 6. Generar Páginas Legales e Informativas
 const generateSimplePageHTML = (title: string, description: string, canonical: string, content: string) => {
@@ -592,10 +604,10 @@ const pages = [
 ];
 
 pages.forEach(p => {
-    const dir = `dist/${p.id}`;
-    ensureDir(dir);
-    fs.writeFileSync(`${dir}/index.html`, generateSimplePageHTML(p.title, p.description, `/${p.id}`, p.content));
-    console.log(`Generado: ${dir}/index.html (Página: ${p.id})`);
+    const filePath = `dist/${p.id}.html`;
+    ensureDir(path.dirname(filePath));
+    fs.writeFileSync(filePath, generateSimplePageHTML(p.title, p.description, `/${p.id}`, p.content));
+    console.log(`Generado: ${filePath} (Página: ${p.id})`);
 });
 
 // 7. Generar Sitemap.xml

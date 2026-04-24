@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, PRODUCTS } from '../constants';
+import { PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, PRODUCTS, GENERAL_FAQS } from '../constants';
+import FAQSection from '../components/FAQSection';
 import { ArrowRight, CheckCircle2, ShieldCheck, Truck, Sparkles, ShoppingCart, Zap, Heart, Star, Activity, Flame, Shield, Stethoscope, Gauge } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
@@ -428,6 +429,9 @@ export default function Home() {
           </svg>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQSection generalFaqs={GENERAL_FAQS} />
 
       {/* Footer */}
       <Footer />
