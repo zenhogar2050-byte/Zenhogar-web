@@ -38,7 +38,7 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
     <link rel="preload" href="https://fonts.gstatic.com/s/outfit/v11/Q8Id81ad6drp9ZfB66m-Ylu3F7S7C_S6.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZf9.woff2" as="font" type="font/woff2" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap&font-display=swap" rel="stylesheet">
 
     <script>
       // NUCLEAR PERFORMANCE OPTION: Delay non-critical scripts

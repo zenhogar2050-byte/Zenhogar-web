@@ -23,38 +23,108 @@ async function startServer() {
   
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-  const distPath = path.resolve(__dirname, "dist");
-  const publicPath = path.resolve(__dirname, "public");
+  const distPath = path.resolve(process.cwd(), "dist");
+  const publicPath = path.resolve(process.cwd(), "public");
 
   // Explicitly serve robots.txt and sitemap.xml with correct headers BEFORE normalization
   // This ensures Google can find them even if they hit the www version
   app.get("/robots.txt", (req, res) => {
     const locations = [
       path.resolve(distPath, "robots.txt"),
-      path.resolve(publicPath, "robots.txt")
+      path.resolve(publicPath, "robots.txt"),
+      path.resolve(process.cwd(), "public", "robots.txt"),
+      path.resolve(process.cwd(), "dist", "robots.txt")
     ];
     
     const filePath = locations.find(p => fs.existsSync(p));
     
+    // Add cache headers for SEO
+    res.set('Cache-Control', 'public, max-age=3600'); 
+    
     if (filePath) {
       res.type('text/plain').sendFile(filePath);
     } else {
-      res.status(200).send("User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api\nDisallow: /checkout\nDisallow: /gracias\n\nSitemap: https://zenhogar.live/sitemap.xml");
+      // Fallback robust robots.txt
+      const robots = `User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /checkout
+Disallow: /gracias
+
+# Block AI and Scraper Bots
+User-agent: Amazonbot
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: Claude-Web-Fetcher
+Disallow: /
+User-agent: Diffbot
+Disallow: /
+User-agent: FacebookBot
+Disallow: /
+User-agent: FriendlyCrawler
+Disallow: /
+User-agent: GPTBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: ImagesiftBot
+Disallow: /
+User-agent: magpie-crawler
+Disallow: /
+User-agent: Meltwater
+Disallow: /
+User-agent: OMGIBOT
+Disallow: /
+User-agent: OmtrBot/1.0
+Disallow: /
+User-agent: Oubot
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: PetalBot
+Disallow: /
+User-agent: PiplBot
+Disallow: /
+User-agent: SeekportBot
+Disallow: /
+User-agent: Sidetrade
+Disallow: /
+User-agent: TrendictionBot
+Disallow: /
+User-agent: TurnitinBot
+Disallow: /
+User-agent: YouBot
+Disallow: /
+
+Sitemap: https://zenhogar.live/sitemap.xml`;
+      res.type('text/plain').status(200).send(robots);
     }
   });
 
   app.get("/sitemap.xml", (req, res) => {
     const locations = [
       path.resolve(distPath, "sitemap.xml"),
-      path.resolve(publicPath, "sitemap.xml")
+      path.resolve(publicPath, "sitemap.xml"),
+      path.resolve(process.cwd(), "public", "sitemap.xml"),
+      path.resolve(process.cwd(), "dist", "sitemap.xml")
     ];
     
     const filePath = locations.find(p => fs.existsSync(p));
     
+    res.set('Cache-Control', 'public, max-age=3600');
+    
     if (filePath) {
       res.type('application/xml').sendFile(filePath);
     } else {
-      res.status(404).end();
+      res.status(404).json({ error: "Sitemap not found on disk" });
     }
   });
   

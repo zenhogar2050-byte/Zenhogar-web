@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-    <url><loc>https://zenhogar.live/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
-    <url><loc>https://zenhogar.live/categoria/salud-bienestar</loc><priority>0.8</priority></url>
-    <url><loc>https://zenhogar.live/categoria/belleza-integral</loc><priority>0.8</priority></url>
-    <url><loc>https://zenhogar.live/categoria/salud-sexual</loc><priority>0.8</priority></url>
+    <url>
+        <loc>https://zenhogar.live/</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <url>
+        <loc>https://zenhogar.live/categoria/salud-bienestar</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/categoria/belleza-integral</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/categoria/salud-sexual</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
     
     <url>
         <loc>https://zenhogar.live/producto/rtafull</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/rtafull.webp</image:loc>
@@ -15,6 +38,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/coliplus</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/coliplus.webp</image:loc>
@@ -23,6 +48,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/colageno</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Colagenocitratodemagnesio.webp</image:loc>
@@ -31,6 +58,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/resvis</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Resvisfactor.webp</image:loc>
@@ -39,6 +68,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/cla500</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/CLA500.webp</image:loc>
@@ -47,6 +78,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/cafetolio</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Cafetolio.webp</image:loc>
@@ -55,6 +88,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/locion</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Termoactiva.webp</image:loc>
@@ -63,6 +98,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/c-lagen</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/C-lagen.webp</image:loc>
@@ -71,6 +108,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/citramix</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Citramix.webp</image:loc>
@@ -79,6 +118,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/coffee-colageno</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Coffe+colageno.webp</image:loc>
@@ -87,6 +128,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/creatina</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/creatina100.webp</image:loc>
@@ -95,6 +138,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/iprossmen</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Iprossmen.webp</image:loc>
@@ -103,6 +148,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/kds-10</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Kds10.webp</image:loc>
@@ -111,6 +158,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/liofhim</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Liofhim.webp</image:loc>
@@ -119,6 +168,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/lipoblue</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Lipoblue.webp</image:loc>
@@ -127,6 +178,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/lipetex</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Liteplex.webp</image:loc>
@@ -135,6 +188,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/maxlite-colageno</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Maxlite.webp</image:loc>
@@ -143,6 +198,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/megamac</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Megamac.webp</image:loc>
@@ -151,6 +208,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/resveratrol</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Resveratrol.webp</image:loc>
@@ -159,6 +218,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/eventone</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Eventone.webp</image:loc>
@@ -167,6 +228,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/golden-passion</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Goldenpassion.webp</image:loc>
@@ -175,6 +238,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/hydrastrik</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Hydrastrik.webp</image:loc>
@@ -183,6 +248,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/miskinne</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Miskinne.webp</image:loc>
@@ -191,6 +258,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/tonico-capilar</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/tonico.webp</image:loc>
@@ -199,6 +268,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/tufoff</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Tuffof.webp</image:loc>
@@ -207,6 +278,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/akha</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/akha.webp</image:loc>
@@ -215,6 +288,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/derman</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Derman.webp</image:loc>
@@ -223,6 +298,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/haydar</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/haydar.webp</image:loc>
@@ -231,6 +308,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/instant-virgin</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Instantvirgin.webp</image:loc>
@@ -239,6 +318,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/mamooth</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Mammoth.webp</image:loc>
@@ -247,6 +328,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/tyruss-full</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Tyrussfull.webp</image:loc>
@@ -255,6 +338,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/zafir-energizante</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Zafir.webp</image:loc>
@@ -263,6 +348,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/zeuss</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Zeus.webp</image:loc>
@@ -271,6 +358,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/nad-1</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/+nad.webp</image:loc>
@@ -279,6 +368,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/titan-coffee</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Titancoffee.webp</image:loc>
@@ -287,6 +378,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/producto/hemocream</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/products/Hemocream.webp</image:loc>
@@ -296,6 +389,8 @@
     
     <url>
         <loc>https://zenhogar.live/combo/promo-1</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-1.webp</image:loc>
@@ -304,6 +399,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-2</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-2.webp</image:loc>
@@ -312,6 +409,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-3</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-3.webp</image:loc>
@@ -320,6 +419,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-4</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-4.webp</image:loc>
@@ -328,6 +429,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-5</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-5.webp</image:loc>
@@ -336,6 +439,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-6</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-6.webp</image:loc>
@@ -344,6 +449,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-7</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-7.webp</image:loc>
@@ -352,6 +459,8 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/promo-8</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/promo-8.webp</image:loc>
@@ -360,14 +469,36 @@
     </url>
     <url>
         <loc>https://zenhogar.live/combo/combo-bienestar</loc>
+        <lastmod>2026-04-24</lastmod>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/combo-bienestar.webp</image:loc>
             <image:title>Inmunidad Dual</image:title>
         </image:image>
     </url>
-    <url><loc>https://zenhogar.live/quienes-somos</loc><priority>0.5</priority></url>
-    <url><loc>https://zenhogar.live/politica-privacidad</loc><priority>0.5</priority></url>
-    <url><loc>https://zenhogar.live/condiciones-entrega</loc><priority>0.5</priority></url>
-    <url><loc>https://zenhogar.live/devoluciones-garantia</loc><priority>0.5</priority></url>
+    
+    <url>
+        <loc>https://zenhogar.live/quienes-somos</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/politica-privacidad</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/condiciones-entrega</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/devoluciones-garantia</loc>
+        <lastmod>2026-04-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
 </urlset>
