@@ -29,25 +29,24 @@ async function startServer() {
     const host = req.get('host');
     if (host && host.startsWith('www.')) {
       const nonWwwHost = host.slice(4);
-      // Construct the absolute URL manually to avoid protocol issues
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       return res.redirect(301, `${protocol}://${nonWwwHost}${req.originalUrl}`);
     }
 
     const url = req.originalUrl;
     const searchIndex = url.indexOf('?');
-    const path = searchIndex !== -1 ? url.slice(0, searchIndex) : url;
+    const pathPart = searchIndex !== -1 ? url.slice(0, searchIndex) : url;
     const query = searchIndex !== -1 ? url.slice(searchIndex) : '';
 
     // 2. Remove trailing slash (except for home page)
-    if (path.length > 1 && path.endsWith('/')) {
-      const newPath = path.slice(0, -1);
+    if (pathPart.length > 1 && pathPart.endsWith('/')) {
+      const newPath = pathPart.slice(0, -1);
       return res.redirect(301, newPath + query);
     }
     
     // 3. Remove multiple slashes
-    if (path.includes('//')) {
-      const newPath = path.replace(/\/+/g, '/');
+    if (pathPart.includes('//')) {
+      const newPath = pathPart.replace(/\/+/g, '/');
       return res.redirect(301, newPath + query);
     }
 
@@ -59,23 +58,29 @@ async function startServer() {
 
   // Explicitly serve robots.txt and sitemap.xml with correct headers
   app.get("/robots.txt", (req, res) => {
-    const filePath = fs.existsSync(path.resolve(distPath, "robots.txt")) 
-      ? path.resolve(distPath, "robots.txt") 
-      : path.resolve(publicPath, "robots.txt");
+    const locations = [
+      path.resolve(distPath, "robots.txt"),
+      path.resolve(publicPath, "robots.txt")
+    ];
     
-    if (fs.existsSync(filePath)) {
+    const filePath = locations.find(p => fs.existsSync(p));
+    
+    if (filePath) {
       res.type('text/plain').sendFile(filePath);
     } else {
-      res.status(404).end();
+      res.status(200).send("User-agent: *\nAllow: /\nSitemap: https://zenhogar.live/sitemap.xml");
     }
   });
 
   app.get("/sitemap.xml", (req, res) => {
-    const filePath = fs.existsSync(path.resolve(distPath, "sitemap.xml")) 
-      ? path.resolve(distPath, "sitemap.xml") 
-      : path.resolve(publicPath, "sitemap.xml");
+    const locations = [
+      path.resolve(distPath, "sitemap.xml"),
+      path.resolve(publicPath, "sitemap.xml")
+    ];
     
-    if (fs.existsSync(filePath)) {
+    const filePath = locations.find(p => fs.existsSync(p));
+    
+    if (filePath) {
       res.type('application/xml').sendFile(filePath);
     } else {
       res.status(404).end();
@@ -103,11 +108,17 @@ async function startServer() {
       }
     });
   } else {
-    // Serve static files from dist with auto-extension and NO directory redirects
+    // Serve static files from dist with auto-extension and aggressive caching
     app.use(express.static(distPath, { 
       extensions: ['html'],
       redirect: false,
-      index: 'index.html'
+      index: 'index.html',
+      maxAge: '1d', // Cache standard assets for 1 day
+      setHeaders: (res, path) => {
+        if (path.match(/\.(js|css|webp|png|jpg|jpeg|gif|woff|woff2)$/)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'); // 1 year for versioned assets
+        }
+      }
     }));
     
     // SPA Fallback for production

@@ -664,8 +664,14 @@ console.log('Generado: dist/sitemap.xml y public/sitemap.xml');
 // 8. Generar Robots.txt
 const robots = `User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /checkout
+Disallow: /gracias
+
 Sitemap: ${BASE_URL}/sitemap.xml`;
 
 fs.writeFileSync('dist/robots.txt', robots);
-console.log('Generado: dist/robots.txt');
+fs.writeFileSync('public/robots.txt', robots); // Sincronizar con public para el servidor de desarrollo
+console.log('Generado: dist/robots.txt y public/robots.txt');
 
