@@ -36,6 +36,8 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="https://fonts.gstatic.com/s/outfit/v11/Q8Id81ad6drp9ZfB66m-Ylu3F7S7C_S6.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZf9.woff2" as="font" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
@@ -624,13 +626,27 @@ const escapeXml = (unsafe: string) => {
     });
 };
 
+const today = new Date().toISOString().split('T')[0];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-    <url><loc>${BASE_URL}/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
-    ${CATEGORIES.map(c => `<url><loc>${BASE_URL}/categoria/${c.id}</loc><priority>0.8</priority></url>`).join('\n    ')}
+    <url>
+        <loc>${BASE_URL}/</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    ${CATEGORIES.map(c => `
+    <url>
+        <loc>${BASE_URL}/categoria/${c.id}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>`).join('')}
     ${PRODUCTS.map(p => `
     <url>
         <loc>${BASE_URL}/producto/${p.id}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${p.image}</image:loc>
@@ -640,6 +656,8 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     ${PROMOTIONS.map(c => `
     <url>
         <loc>${BASE_URL}/combo/${c.id}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${c.image}</image:loc>
@@ -648,13 +666,20 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     </url>`).join('')}
     <url>
         <loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}</loc>
+        <lastmod>${today}</lastmod>
         <priority>0.9</priority>
         <image:image>
             <image:loc>${BASE_URL}${COMBO_OF_THE_MONTH.image}</image:loc>
             <image:title>${escapeXml(COMBO_OF_THE_MONTH.name)}</image:title>
         </image:image>
     </url>
-    ${pages.map(p => `<url><loc>${BASE_URL}/${p.id}</loc><priority>0.5</priority></url>`).join('\n    ')}
+    ${pages.map(p => `
+    <url>
+        <loc>${BASE_URL}/${p.id}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>`).join('')}
 </urlset>`;
 
 fs.writeFileSync('dist/sitemap.xml', sitemap);
@@ -669,9 +694,85 @@ Disallow: /api
 Disallow: /checkout
 Disallow: /gracias
 
+# Block AI and Scraper Bots
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web-Fetcher
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: FriendlyCrawler
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: Meltwater
+Disallow: /
+
+User-agent: OMGIBOT
+Disallow: /
+
+User-agent: OmtrBot/1.0
+Disallow: /
+
+User-agent: Oubot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: PiplBot
+Disallow: /
+
+User-agent: SeekportBot
+Disallow: /
+
+User-agent: Sidetrade
+Disallow: /
+
+User-agent: TrendictionBot
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
 Sitemap: ${BASE_URL}/sitemap.xml`;
 
 fs.writeFileSync('dist/robots.txt', robots);
-fs.writeFileSync('public/robots.txt', robots); // Sincronizar con public para el servidor de desarrollo
-console.log('Generado: dist/robots.txt y public/robots.txt');
+fs.writeFileSync('public/robots.txt', robots);
+console.log('Generado: dist/robots.txt y public/robots.txt (Versión Robusta)');
 

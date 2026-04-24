@@ -93,6 +93,7 @@ export const generateSchemaGraph = (params: {
                 "highPrice": productData.highPrice || productData.basePrice,
                 "offerCount": productData.offerCount || "1",
                 "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2026-12-31",
                 "url": fullUrl
             }
         };
