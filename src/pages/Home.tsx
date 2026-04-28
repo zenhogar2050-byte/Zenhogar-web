@@ -80,7 +80,9 @@ export default function Home() {
               </div>
             </div>
             
-            <TrustBar className="mt-8 lg:mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
+            <div className="hidden md:block">
+              <TrustBar className="mt-8 lg:mt-16 bg-white/50 backdrop-blur-sm rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
+            </div>
           </div>
         </div>
         {/* Abstract organic background elements - Optimized blur for mobile performance */}
@@ -130,7 +132,7 @@ export default function Home() {
                 >
                   {/* Unified 3D Capsule Button - Simplified shadows on mobile */}
                   <div className={cn(
-                    "relative overflow-hidden text-white px-8 sm:px-10 py-4 sm:py-5 rounded-full font-black uppercase tracking-widest flex items-center gap-5 transition-all border-b-8 border-t border-white/20 active:border-b-4 active:translate-y-1 shadow-lg md:shadow-2xl",
+                    "relative overflow-hidden text-white px-6 sm:px-10 py-3 sm:py-5 rounded-full font-black uppercase tracking-widest flex items-center gap-4 sm:gap-5 transition-all border-b-8 border-t border-white/20 active:border-b-4 active:translate-y-1 shadow-lg md:shadow-2xl min-w-[240px] sm:min-w-[320px]",
                     colors.bg,
                     category.color === 'emerald' && "border-b-emerald-900",
                     category.color === 'rose' && "border-b-rose-900",
@@ -140,55 +142,75 @@ export default function Home() {
                     {/* Glossy Overlay */}
                     <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
                     
-                    <Icon className="w-8 h-8 sm:w-10 sm:h-10 relative z-10 drop-shadow-md" />
-                    
-                    <div className="flex flex-col relative z-10">
-                      <span className="text-[8px] sm:text-[10px] opacity-80 leading-none mb-1">Ver más productos de</span>
-                      <span className="text-xs sm:text-base leading-tight">{category.name}</span>
+                    <div className="shrink-0 relative z-10 w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-white/30 bg-white/10 flex items-center justify-center p-0.5">
+                      {category.image ? (
+                        <img 
+                          src={category.image} 
+                          alt={category.name}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-md" />
+                      )}
                     </div>
                     
-                    <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 relative z-10 group-hover:translate-x-2 transition-transform" />
+                    <div className="flex flex-col relative z-10 flex-1">
+                      <span className="text-[8px] sm:text-[10px] opacity-80 leading-none mb-1">Ver más productos de</span>
+                      <span className="text-sm sm:text-lg leading-tight truncate">{category.name}</span>
+                    </div>
+                    
+                    <ArrowRight className="w-5 h-5 sm:w-8 sm:h-8 relative z-10 group-hover:translate-x-2 transition-transform shrink-0" />
                   </div>
                 </Link>
               );
             })}
           </div>
+
+          {/* New Mobile-Only Best Sellers Section */}
+          <div className="mt-10 md:hidden">
+            <h2 className="text-xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1">Top 6 Más Vendidos</h2>
+            
+            <div className="grid grid-cols-1 gap-4">
+              {PRODUCTS.slice(0, 6).map((product) => (
+                <Link
+                  key={product.id}
+                  to={`/producto/${product.id}`}
+                  className="flex items-center gap-4 bg-white rounded-3xl p-3 border border-stone-200 shadow-sm active:scale-[0.98] transition-transform"
+                >
+                  <div className="w-24 h-24 rounded-2xl bg-stone-100 flex items-center justify-center p-2 shrink-0">
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-stone-900 mb-0.5 leading-tight">{product.name}</h3>
+                    <p className="text-[11px] text-stone-500 mb-1.5 leading-snug">{product.shortDescription}</p>
+                    <div className="flex flex-col gap-0.5">
+                      <p className="text-sm text-emerald-700 font-black">
+                        <span className="text-[10px] font-normal mr-1 normal-case text-stone-500">Desde</span>
+                        {formatCurrency(product.basePrice)}
+                      </p>
+                      <p className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" /> Incluye envío + obsequio
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                      Ver detalle <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Features - Optimized for performance */}
-      <section className="py-16 bg-white border-y border-stone-100" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 300px' }}>
+      {/* Trust Elements - Consolidado y reposicionado */}
+      <section className="py-8 bg-white md:bg-stone-50 border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="sr-only">Nuestras Ventajas</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
-                  <Truck className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-stone-900 mb-1">Envíos a todo el país</h3>
-                  <p className="text-sm text-stone-500">Llegamos a cada rincón de Colombia con seguridad.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
-                  <ShieldCheck className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-stone-900 mb-1">Pago Contra Entrega</h3>
-                  <p className="text-sm text-stone-500">Paga cuando recibas tu pedido en la puerta de tu casa.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-emerald-50 text-emerald-800">
-                  <Sparkles className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-stone-900 mb-1">Garantía de Calidad</h3>
-                  <p className="text-sm text-stone-500">Productos originales y con registro sanitario.</p>
-                </div>
-              </div>
-          </div>
+          <TrustBar className="bg-white rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
         </div>
       </section>
 
@@ -279,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* Products Grid */}
-      <section id="productos" className="py-24 bg-stone-50">
+      <section id="productos" className="py-24 bg-stone-50 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-[var(--color-brand-primary)] mb-4 font-display">Top 6: Los Más Vendidos</h2>
@@ -345,7 +367,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <div>

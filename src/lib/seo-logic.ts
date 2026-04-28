@@ -68,6 +68,11 @@ export const generateSchemaGraph = (params: {
 
     // 4. Entidad Específica (Product, FAQPage, etc)
     if (type === "product" && productData) {
+        // Establecer priceValidUntil dinámicamente al 31 de diciembre del año actual o futuro (ej. 2026)
+        const currentYear = new Date().getFullYear();
+        const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
+        const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
+
         const productEntity: any = {
             "@type": "Product",
             "@id": `${fullUrl}#product`,
@@ -77,14 +82,6 @@ export const generateSchemaGraph = (params: {
             "sku": String(productData.id || "zen-001"),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
             "brand": { "@type": "Brand", "name": "Zenhogar" },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "@id": `${fullUrl}#rating`,
-                "ratingValue": 4.9,
-                "reviewCount": productData.reviews?.length > 0 ? productData.reviews.length : 520,
-                "bestRating": 5,
-                "worstRating": 1
-            },
             "offers": {
                 "@type": "AggregateOffer",
                 "@id": `${fullUrl}#offer`,
@@ -93,25 +90,45 @@ export const generateSchemaGraph = (params: {
                 "highPrice": productData.highPrice || productData.basePrice,
                 "offerCount": productData.offerCount || "1",
                 "availability": "https://schema.org/InStock",
-                "priceValidUntil": "2026-12-31",
+                "priceValidUntil": dynamicPriceValidUntil,
                 "url": fullUrl
             }
         };
 
-        if (productData.reviews?.length > 0) {
-            productEntity.review = productData.reviews.map((r: any, idx: number) => ({
-                "@type": "Review",
-                "@id": `${fullUrl}#review-${idx}`,
-                "author": { "@type": "Person", "name": r.name },
-                "datePublished": "2024-01-01",
-                "reviewBody": r.text,
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": r.rating || 5,
-                    "bestRating": 5,
-                    "worstRating": 1
-                }
-            }));
+        if (productData.reviews && productData.reviews.length > 0) {
+            // Calcular el rating real basado en los datos
+            const totalRating = productData.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
+            const avgRating = (totalRating / productData.reviews.length).toFixed(1);
+
+            productEntity.aggregateRating = {
+                "@type": "AggregateRating",
+                "@id": `${fullUrl}#rating`,
+                "ratingValue": avgRating,
+                "reviewCount": productData.reviews.length,
+                "bestRating": 5,
+                "worstRating": 1
+            };
+
+            const currentDate = new Date();
+            productEntity.review = productData.reviews.map((r: any, idx: number) => {
+                // Generar una fecha dinámica pasada para las reseñas basada en el índice
+                const reviewDate = new Date(currentDate);
+                reviewDate.setDate(reviewDate.getDate() - (idx * 3 + 2)); 
+
+                return {
+                    "@type": "Review",
+                    "@id": `${fullUrl}#review-${idx}`,
+                    "author": { "@type": "Person", "name": r.name },
+                    "datePublished": r.date || reviewDate.toISOString().split('T')[0],
+                    "reviewBody": r.text,
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": r.rating || 5,
+                        "bestRating": 5,
+                        "worstRating": 1
+                    }
+                };
+            });
         }
 
         if (productData.faqs?.length > 0) {

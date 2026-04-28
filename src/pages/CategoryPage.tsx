@@ -17,8 +17,12 @@ export default function CategoryPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Categoría no encontrada</h1>
-          <button onClick={() => navigate(-1)} className="text-emerald-600 hover:underline flex items-center justify-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Volver
+          <button 
+            onClick={() => navigate(-1)} 
+            className="text-emerald-600 font-black flex items-center justify-center gap-3 p-4 rounded-2xl hover:bg-emerald-50 transition-all active:scale-95 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
+            <span className="text-lg">Volver</span>
           </button>
         </div>
       </div>
@@ -74,25 +78,45 @@ export default function CategoryPage() {
         productData={{ categoryProducts }}
       />
       {/* Header Section */}
-      <section className={cn("py-6 lg:py-10 relative overflow-hidden", theme.bg)}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Volver
-          </button>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+      <section className={cn("py-4 lg:py-6 relative overflow-hidden", theme.bg)}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-12">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="shrink-0 inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-white/50 group"
           >
-            <div className="mb-6">
-              {theme.icon}
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-base sm:text-lg">Volver</span>
+          </button>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-row items-center gap-4 lg:gap-8 flex-1"
+          >
+            <div className="shrink-0">
+              {category.image ? (
+                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl overflow-hidden bg-white shadow-md border-2 border-white">
+                  <img 
+                    src={category.image} 
+                    alt={category.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="scale-50 sm:scale-60 lg:scale-75">
+                  {theme.icon}
+                </div>
+              )}
             </div>
-            <h1 className="text-4xl lg:text-6xl font-bold text-[var(--color-brand-primary)] mb-6 font-display">
-              {category.name}
-            </h1>
-            <p className="text-xl text-stone-600 max-w-2xl leading-relaxed">
-              {category.description}
-            </p>
+            <div className="flex-1">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-black text-[var(--color-brand-primary)] mb-0.5 font-display leading-tight">
+                {category.name}
+              </h1>
+              <p className="text-[9px] sm:text-[10px] lg:text-sm text-stone-600 max-w-xl leading-snug line-clamp-2">
+                {category.description}
+              </p>
+            </div>
           </motion.div>
         </div>
         

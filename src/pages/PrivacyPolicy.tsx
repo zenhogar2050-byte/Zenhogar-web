@@ -17,10 +17,10 @@ export default function PrivacyPolicy() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-stone-500 hover:text-emerald-600 transition-colors mb-8 group"
+          className="flex items-center gap-2 text-stone-500 hover:text-emerald-600 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-stone-50 mb-8 group"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="font-medium">Regresar</span>
+          <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-lg">Regresar</span>
         </button>
         <h1 className="text-4xl font-display font-black text-stone-900 mb-8">Política de Tratamiento de Datos Personales</h1>
         

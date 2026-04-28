@@ -24,11 +24,18 @@ const SEOManager = ({
     const defaultImage = `${baseUrl}/assets/logo/og-image.png`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 
+    const isPending = !productData?.invima || productData.invima.toLowerCase().includes('trámite');
+    const invimaDisplay = isPending ? 'Registro en proceso de verificación' : productData.invima;
+    
+    const finalDescription = productData 
+        ? `${description} Reg. Sant. INVIMA: ${invimaDisplay}.` 
+        : description;
+
     // 2. Generación del Grafo de Esquema Único
     const schemaData = generateSchemaGraph({
         type,
         title,
-        description,
+        description: finalDescription,
         canonicalUrl: fullUrl,
         ogImage: finalImage,
         productData
@@ -38,7 +45,7 @@ const SEOManager = ({
         <Helmet>
             {/* Metadatos Básicos */}
             <title>{fullTitle}</title>
-            <meta name="description" content={description} />
+            <meta name="description" content={finalDescription} />
             <link rel="canonical" href={fullUrl} />
             <meta name="robots" content="index, follow, max-image-preview:large" />
 
@@ -46,7 +53,7 @@ const SEOManager = ({
             <meta property="og:locale" content="es_CO" />
             <meta property="og:type" content={type === "product" ? "og:product" : "website"} />
             <meta property="og:title" content={fullTitle} />
-            <meta property="og:description" content={description} />
+            <meta property="og:description" content={finalDescription} />
             <meta property="og:url" content={fullUrl} />
             <meta property="og:site_name" content="Zenhogar" />
             <meta property="og:image" content={finalImage || defaultImage} />
@@ -58,9 +65,12 @@ const SEOManager = ({
             {/* Twitter Card */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
-            <meta name="twitter:description" content={description} />
+            <meta name="twitter:description" content={finalDescription} />
             <meta name="twitter:image" content={finalImage || defaultImage} />
             
+            {/* LCP Image Preload */}
+            {finalImage && <link rel="preload" as="image" href={finalImage} fetchPriority="high" />}
+
             {/* Datos de Producto para Twitter si aplican */}
             {productData && (
                 <>

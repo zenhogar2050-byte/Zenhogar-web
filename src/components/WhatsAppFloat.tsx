@@ -25,7 +25,7 @@ export default function WhatsAppFloat() {
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"
+      className="fixed bottom-36 sm:bottom-6 right-4 sm:right-6 z-[101] bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"
       aria-label="Contactar por WhatsApp"
     >
       <svg 

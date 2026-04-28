@@ -76,6 +76,8 @@ export default function Footer() {
                 <div className="space-y-1">
                   <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest mb-1">Correos</p>
                   <a href="mailto:ventas@zenhogar.live" className="text-white hover:text-emerald-400 transition-colors block font-medium">ventas@zenhogar.live</a>
+                  <a href="mailto:info@zenhogar.live" className="text-white hover:text-emerald-400 transition-colors block font-medium">info@zenhogar.live</a>
+                  <a href="mailto:soporte@zenhogar.live" className="text-white hover:text-emerald-400 transition-colors block font-medium">soporte@zenhogar.live</a>
                 </div>
               </li>
             </ul>

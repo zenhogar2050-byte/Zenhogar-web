@@ -74,10 +74,18 @@ export default function Navbar() {
   }, [location]);
 
   const getCategoryIcon = (id: string) => {
+    const category = CATEGORIES.find(c => c.id === id);
+    if (category?.image) {
+      return (
+        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full overflow-hidden border border-stone-200 bg-white shrink-0 shadow-sm group-hover:scale-110 transition-transform">
+          <img src={category.image} alt="" className="w-full h-full object-cover" />
+        </div>
+      );
+    }
     switch (id) {
-      case 'salud-bienestar': return <Sparkles className="w-4 h-4 text-emerald-600" />;
-      case 'belleza-integral': return <Heart className="w-4 h-4 text-rose-600" />;
-      case 'salud-sexual': return <Zap className="w-4 h-4 text-purple-600" />;
+      case 'salud-bienestar': return <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-emerald-600 shrink-0" />;
+      case 'belleza-integral': return <Heart className="w-5 h-5 md:w-6 md:h-6 text-rose-600 shrink-0" />;
+      case 'salud-sexual': return <Zap className="w-5 h-5 md:w-6 md:h-6 text-purple-600 shrink-0" />;
       default: return null;
     }
   };
@@ -106,34 +114,35 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Desktop Categories & Search - Moved next to logo */}
-            <div className="hidden md:flex items-center gap-4 lg:gap-6 flex-1 max-w-3xl">
-              <div className="flex items-center gap-4 lg:gap-6 shrink-0">
+            {/* Desktop Categories & Search - Optimized space */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-1">
+              <div className="flex items-center gap-2 lg:gap-4 shrink-0">
                 {CATEGORIES.map((category) => (
                   <Link
                     key={category.id}
                     to={`/categoria/${category.id}`}
-                    className="text-sm font-semibold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+                    className="text-sm lg:text-base font-bold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap"
                   >
                     {getCategoryIcon(category.id)}
-                    {category.name}
+                    <span className="hidden lg:inline">{category.name}</span>
+                    <span className="lg:hidden">{category.id.split('-')[0]}...</span>
                   </Link>
                 ))}
               </div>
 
-              <div className="h-6 w-px bg-stone-200 mx-2 shrink-0" />
+              <div className="h-6 w-px bg-stone-200 mx-1 shrink-0" />
 
               {/* Persistent Search Bar Desktop */}
-              <div className="relative flex-1 max-w-md" ref={searchRef}>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+              <div className="relative flex-[1.5] min-w-[240px] lg:min-w-[400px]" ref={searchRef}>
+                <div className="relative group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
                   <input
                     type="text"
-                    placeholder="Buscar por nombre, síntoma..."
+                    placeholder="Buscar productos..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setIsSearchOpen(true)}
-                    className="w-full pl-10 pr-4 py-2 bg-stone-100 border-2 border-transparent focus:border-emerald-500/20 focus:bg-white rounded-xl text-sm outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-2.5 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-sm outline-none transition-all shadow-inner focus:shadow-md"
                   />
                 </div>
                 

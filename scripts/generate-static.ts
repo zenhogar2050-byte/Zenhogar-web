@@ -3,6 +3,24 @@ import path from 'path';
 import { PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../src/constants';
 import { generateSchemaGraph } from '../src/lib/seo-logic';
 
+// Utilidades SEO
+const escapeXml = (unsafe: string) => {
+    return unsafe.replace(/[<>&'"]/g, (c) => {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+            default: return c;
+        }
+    });
+};
+
+const encodePath = (path: string) => {
+    return path.split('/').map(segment => encodeURIComponent(segment)).join('/').replace(/%3A/g, ':');
+};
+
 const BASE_URL = 'https://zenhogar.live';
 
 // Leer el index.html generado por Vite para obtener los scripts y estilos reales
@@ -38,7 +56,7 @@ const template = (title: string, description: string, canonical: string, content
     <link rel="preload" href="/assets/logo/logo-icon.webp" as="image" type="image/webp" fetchpriority="high">
     <link rel="preload" href="https://fonts.gstatic.com/s/outfit/v11/Q8Id81ad6drp9ZfB66m-Ylu3F7S7C_S6.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZf9.woff2" as="font" type="font/woff2" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap&font-display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
       // NUCLEAR PERFORMANCE OPTION: Delay non-critical scripts
@@ -218,7 +236,7 @@ const generateHomeHTML = () => {
         <div style="margin-bottom: 60px;">
             <h2 style="text-align: center; margin-bottom: 40px;">Oferta Destacada</h2>
             <div style="background: #1c1917; color: white; padding: 40px; border-radius: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                <img src="${COMBO_OF_THE_MONTH.image}" alt="${COMBO_OF_THE_MONTH.image}" width="600" height="600" loading="eager" fetchpriority="high" style="width: 100%; border-radius: 24px; background: white; padding: 20px;">
+                <img src="${COMBO_OF_THE_MONTH.image}" alt="${escapeXml(COMBO_OF_THE_MONTH.name)}" width="600" height="600" loading="eager" fetchpriority="high" style="width: 100%; border-radius: 24px; background: white; padding: 20px;">
                 <div>
                     <span class="badge" style="background: #059669; color: white;">OFERTA DEL MES</span>
                     <h2 style="font-size: 2.5rem; margin: 10px 0;">${COMBO_OF_THE_MONTH.name}</h2>
@@ -226,6 +244,25 @@ const generateHomeHTML = () => {
                     <div style="font-size: 2rem; color: #10b981; font-weight: 900;">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(COMBO_OF_THE_MONTH.price)}</div>
                     <a href="/combo/${COMBO_OF_THE_MONTH.id}" style="display: inline-block; background: white; color: #1c1917; padding: 15px 30px; border-radius: 16px; text-decoration: none; font-weight: 900; margin-top: 20px;">APROVECHAR OFERTA</a>
                 </div>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 60px;">
+            <h2 style="text-align: center; margin-bottom: 40px;">Combos en Promoción</h2>
+            <div style="display: flex; gap: 30px; overflow-x: auto; padding-bottom: 20px;">
+                ${[COMBO_OF_THE_MONTH, ...PROMOTIONS].map(p => `
+                    <div style="flex: 0 0 300px; background: #1e3a8a; color: white; padding: 30px; border-radius: 30px; text-align: center;">
+                        <div style="background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;">
+                            <img src="${p.image}" alt="${p.name}" style="max-width: 100%; max-height: 100%; object-contain;">
+                        </div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px; height: 3em; display: flex; align-items: center; justify-content: center;">${p.name}</h3>
+                        <p style="text-decoration: line-through; opacity: 0.6; font-size: 0.9rem;">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.originalPrice)}</p>
+                        <div style="background: white; color: #1e3a8a; padding: 10px; border-radius: 12px; font-weight: 900; margin-top: 10px;">
+                            Solo por ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p.price)}
+                        </div>
+                        <a href="/combo/${p.id}.html" style="display: block; margin-top: 15px; color: white; text-decoration: underline; font-size: 0.8rem;">Ver Detalles</a>
+                    </div>
+                `).join('')}
             </div>
         </div>
 
@@ -612,21 +649,9 @@ pages.forEach(p => {
     console.log(`Generado: ${filePath} (Página: ${p.id})`);
 });
 
-// 7. Generar Sitemap.xml
-const escapeXml = (unsafe: string) => {
-    return unsafe.replace(/[<>&'"]/g, (c) => {
-        switch (c) {
-            case '<': return '&lt;';
-            case '>': return '&gt;';
-            case '&': return '&amp;';
-            case '\'': return '&apos;';
-            case '"': return '&quot;';
-        }
-        return c;
-    });
-};
 
 const today = new Date().toISOString().split('T')[0];
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
@@ -634,53 +659,53 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
         <lastmod>${today}</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
-    </url>
-    ${CATEGORIES.map(c => `
+    </url>${CATEGORIES.map(c => `
     <url>
-        <loc>${BASE_URL}/categoria/${c.id}</loc>
+        <loc>${BASE_URL}/categoria/${c.id}.html</loc>
         <lastmod>${today}</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>`).join('')}
-    ${PRODUCTS.map(p => `
+        <priority>0.8</priority>${c.image ? `
+        <image:image>
+            <image:loc>${BASE_URL}${encodePath(c.image)}</image:loc>
+            <image:title>${escapeXml(c.name)}</image:title>
+        </image:image>` : ''}
+    </url>`).join('')}${PRODUCTS.map(p => `
     <url>
-        <loc>${BASE_URL}/producto/${p.id}</loc>
+        <loc>${BASE_URL}/producto/${p.id}.html</loc>
         <lastmod>${today}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
-            <image:loc>${BASE_URL}${p.image}</image:loc>
+            <image:loc>${BASE_URL}${encodePath(p.image)}</image:loc>
             <image:title>${escapeXml(p.name)}</image:title>
         </image:image>
-    </url>`).join('')}
-    ${PROMOTIONS.map(c => `
+    </url>`).join('')}${PROMOTIONS.map(c => `
     <url>
-        <loc>${BASE_URL}/combo/${c.id}</loc>
+        <loc>${BASE_URL}/combo/${c.id}.html</loc>
         <lastmod>${today}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
-            <image:loc>${BASE_URL}${c.image}</image:loc>
+            <image:loc>${BASE_URL}${encodePath(c.image)}</image:loc>
             <image:title>${escapeXml(c.name)}</image:title>
         </image:image>
     </url>`).join('')}
     <url>
-        <loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}</loc>
+        <loc>${BASE_URL}/combo/${COMBO_OF_THE_MONTH.id}.html</loc>
         <lastmod>${today}</lastmod>
         <priority>0.9</priority>
         <image:image>
-            <image:loc>${BASE_URL}${COMBO_OF_THE_MONTH.image}</image:loc>
+            <image:loc>${BASE_URL}${encodePath(COMBO_OF_THE_MONTH.image)}</image:loc>
             <image:title>${escapeXml(COMBO_OF_THE_MONTH.name)}</image:title>
         </image:image>
-    </url>
-    ${pages.map(p => `
+    </url>${pages.map(p => `
     <url>
-        <loc>${BASE_URL}/${p.id}</loc>
+        <loc>${BASE_URL}/${p.id}.html</loc>
         <lastmod>${today}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>`).join('')}
-</urlset>`;
+</urlset>`.trim();
 
 fs.writeFileSync('dist/sitemap.xml', sitemap);
 fs.writeFileSync('public/sitemap.xml', sitemap); // Sincronizar con public para el servidor de desarrollo
@@ -694,11 +719,7 @@ Disallow: /api
 Disallow: /checkout
 Disallow: /gracias
 
-# Google-specific directives for AI
-User-agent: Google-Extended
-Disallow: /
-
-# Block other AI and Scraper Bots
+# Block AI and Scraper Bots
 User-agent: Amazonbot
 Disallow: /
 

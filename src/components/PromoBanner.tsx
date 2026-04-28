@@ -51,11 +51,13 @@ export default function PromoBanner() {
                 fetchPriority={index < 3 ? "high" : "low"}
               />
             </div>
-            <div className="flex items-center mb-2 px-4 w-full justify-center">
-              <Sparkles className="mr-2 sm:mr-3 shrink-0 w-4 h-4 sm:w-6 sm:h-6 text-blue-200" />
-              <span className="font-black tracking-widest uppercase truncate text-base sm:text-2xl text-white">
-                {cleanPromoName(promo.name)}
-              </span>
+            <div className="flex items-center mb-2 px-2 sm:px-4 w-full justify-center min-h-[3rem] sm:min-h-[4.5rem]">
+              <Sparkles className="mr-1.5 sm:mr-3 shrink-0 w-3 h-3 sm:w-6 sm:h-6 text-blue-200" />
+              <div className="flex flex-col justify-center">
+                <span className="font-black tracking-widest uppercase text-center text-[13px] sm:text-2xl text-white leading-tight max-w-[192px] sm:max-w-[256px]">
+                  {cleanPromoName(promo.name)}
+                </span>
+              </div>
             </div>
             <div className="flex flex-col items-center gap-1 sm:gap-2">
               <span className="font-bold text-blue-300/80 line-through text-[10px] sm:text-base">
