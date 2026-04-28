@@ -1,13 +1,19 @@
 # ZENHOGAR E-commerce - Pre-Launch Audit & Release Version
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 **Date:** April 28, 2026
 
-## Estado del Proyecto: Listo para Lanzamiento (GO)
+## Estado del Proyecto: Mantenimiento y Parches Finales
 
-Esta versión marca el punto de "Code Freeze" (conghelamiento de código) y auditoría final pre-lanzamiento. Todo el código base, rutas y configuraciones se encuentran estabilizados, optimizados y listos para producción.
+Esta versión incluye todas las optimizaciones previas más los parches y ajustes visuales solicitados antes del despliegue en producción.
 
-### Resumen de la Auditoría Técnica Pre-Despliegue:
+### Resumen de los Útimos Ajustes (v1.0.1):
+
+- ✅ **Ajustes de Navbar en Escritorio:** El menú desplegable "Productos" y la barra de búsqueda ahora conviven armónicamente sin superponerse, y se eliminó el texto redundante de "Buscar productos..." en el buscador desplegable, usando un placeholder más limpio.
+- ✅ **Ajustes Visuales de Páginas de Producto/Combo (Escritorio):** La sección de preguntas frecuentes y el "Por qué elegir este..." se reubicaron en la columna izquierda, *debajo* de los sellos de Invima y de Calidad, logrando una estructura mucho más limpia en pantallas grandes.
+- ✅ **Terminología Ajustada:** Se modificó la nomenclatura de cantidad a "Por unidad" solucionando los "ud".
+
+### Resumen de la Auditoría Técnica Pre-Despliegue (v1.0.0):
 
 1. **Rendimiento (Performance & SEO)**
    - ✅ Generación de páginas estáticas implementada y funcional correctamente a través de `generate-static.ts`.
