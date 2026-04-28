@@ -153,47 +153,66 @@ export default function ProductLanding() {
           </button>
 
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-start">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative lg:sticky lg:top-8"
-            >
-              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl bg-stone-50 flex items-center justify-center p-6 lg:p-8">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  width={800}
-                  height={800}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                  referrerPolicy="no-referrer"
+            <div className="flex flex-col gap-12">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative lg:sticky lg:top-28"
+              >
+                <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl bg-stone-50 flex items-center justify-center p-6 lg:p-8">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    width={800}
+                    height={800}
+                    loading="eager"
+                    fetchPriority="high"
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                
+                <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
+                  <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">
+                    <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-none">Registro INVIMA</span>
+                      <span className="text-[14px] sm:text-base font-bold text-stone-700">
+                        {(!product.invima || product.invima.toLowerCase().includes('trámite')) 
+                          ? 'Registro en proceso de verificación' 
+                          : product.invima}
+                      </span>
+                    </div>
+                  </div>
+                  <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" />
+                </div>
+
+                <div className="absolute -top-6 -right-6 bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-2xl font-black text-lg flex items-center gap-3 z-10">
+                  <Star className="w-6 h-6 fill-current" />
+                  <span>MÁS VENDIDO</span>
+                </div>
+                
+                {/* Decorative background element for the image */}
+                <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-50/50 blur-[100px] rounded-full" />
+              </motion.div>
+
+              {/* Desktop Why Choose & FAQ - Below left column seals */}
+              <div className="hidden lg:block relative z-10">
+                <div className="p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm mb-10">
+                  <h3 className="text-2xl font-black text-emerald-900 mb-4 flex items-center gap-3">
+                    <Info className="w-7 h-7" /> {product.whyChoose?.title || `¿Por qué elegir ${product.name}?`}
+                  </h3>
+                  <p className="text-xl text-emerald-800 leading-relaxed font-medium">
+                    {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes colombianos.'}
+                  </p>
+                </div>
+
+                <FAQSection 
+                  specificFaqs={product.seoFaqs} 
+                  generalFaqs={GENERAL_FAQS} 
                 />
               </div>
-              
-              <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
-                <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">
-                  <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" />
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-none">Registro INVIMA</span>
-                    <span className="text-[14px] sm:text-base font-bold text-stone-700">
-                      {(!product.invima || product.invima.toLowerCase().includes('trámite')) 
-                        ? 'Registro en proceso de verificación' 
-                        : product.invima}
-                    </span>
-                  </div>
-                </div>
-                <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" />
-              </div>
-
-              <div className="absolute -top-6 -right-6 bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-2xl font-black text-lg flex items-center gap-3 z-10">
-                <Star className="w-6 h-6 fill-current" />
-                <span>MÁS VENDIDO</span>
-              </div>
-              
-              {/* Decorative background element for the image */}
-              <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-50/50 blur-[100px] rounded-full" />
-            </motion.div>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -333,20 +352,22 @@ export default function ProductLanding() {
                 <TrustBar className="mt-8" />
               </div>
 
-              {/* Why buy section - Moved here to follow Title/Price on mobile */}
-              <div className="mt-10 p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm">
-                <h3 className="text-2xl font-black text-emerald-900 mb-4 flex items-center gap-3">
-                  <Info className="w-7 h-7" /> {product.whyChoose?.title || `¿Por qué elegir ${product.name}?`}
-                </h3>
-                <p className="text-xl text-emerald-800 leading-relaxed font-medium">
-                  {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes colombianos.'}
-                </p>
-              </div>
+              {/* Why buy section - Mobile only */}
+              <div className="lg:hidden">
+                <div className="mt-10 p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm">
+                  <h3 className="text-2xl font-black text-emerald-900 mb-4 flex items-center gap-3">
+                    <Info className="w-7 h-7" /> {product.whyChoose?.title || `¿Por qué elegir ${product.name}?`}
+                  </h3>
+                  <p className="text-xl text-emerald-800 leading-relaxed font-medium">
+                    {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes colombianos.'}
+                  </p>
+                </div>
 
-              <FAQSection 
-                specificFaqs={product.seoFaqs} 
-                generalFaqs={GENERAL_FAQS} 
-              />
+                <FAQSection 
+                  specificFaqs={product.seoFaqs} 
+                  generalFaqs={GENERAL_FAQS} 
+                />
+              </div>
             </motion.div>
           </div>
         </div>
