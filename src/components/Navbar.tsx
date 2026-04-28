@@ -94,7 +94,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 md:h-28 items-center">
-          <div className="flex items-center gap-4 lg:gap-8 flex-1">
+          <div className="flex items-center gap-4 lg:gap-8 min-w-0">
             <Link to="/" className="flex items-center gap-2 group shrink-0">
               <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
                 <img 
@@ -113,38 +113,40 @@ export default function Navbar() {
                 <span className="text-[10px] md:text-[12px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
               </div>
             </Link>
+          </div>
 
-            {/* Desktop Categories & Search - Optimized space */}
-            <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-1">
-              <div className="flex items-center gap-2 lg:gap-4 shrink-0">
-                {CATEGORIES.map((category) => (
-                  <Link
-                    key={category.id}
-                    to={`/categoria/${category.id}`}
-                    className="text-sm lg:text-base font-bold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap"
-                  >
-                    {getCategoryIcon(category.id)}
-                    <span className="hidden lg:inline">{category.name}</span>
-                    <span className="lg:hidden">{category.id.split('-')[0]}...</span>
-                  </Link>
-                ))}
+          {/* Desktop Central Navigation - Categories & Search */}
+          <div className="hidden md:flex items-center gap-4 lg:gap-8 flex-1 max-w-2xl mx-6 lg:mx-12">
+            <div className="flex items-center gap-3 lg:gap-5 shrink-0">
+              {CATEGORIES.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/categoria/${category.id}`}
+                  className="text-sm lg:text-[15px] font-bold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap group"
+                >
+                  {getCategoryIcon(category.id)}
+                  <span className="hidden lg:inline">{category.name}</span>
+                  <span className="lg:hidden">{category.id.split('-')[0].charAt(0).toUpperCase() + category.id.split('-')[0].slice(1)}</span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="h-6 w-px bg-stone-200 shrink-0" />
+
+            {/* Persistent Search Bar Desktop */}
+            <div className="relative flex-1 min-w-[180px]" ref={searchRef}>
+              <div className="relative pt-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchOpen(true)}
+                  className="w-full pl-11 pr-4 py-2.5 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-sm outline-none transition-all shadow-inner focus:shadow-md"
+                />
               </div>
 
-              <div className="h-6 w-px bg-stone-200 mx-1 shrink-0" />
-
-              {/* Persistent Search Bar Desktop */}
-              <div className="relative flex-[1.5] min-w-[240px] lg:min-w-[400px]" ref={searchRef}>
-                <div className="relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
-                  <input
-                    type="text"
-                    placeholder="Buscar productos..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setIsSearchOpen(true)}
-                    className="w-full pl-11 pr-4 py-2.5 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-sm outline-none transition-all shadow-inner focus:shadow-md"
-                  />
-                </div>
                 
                 <AnimatePresence>
                   {isSearchOpen && (
@@ -229,17 +231,18 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
             </div>
-          </div>
 
           {/* Right Side Actions (Desktop) */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6">
+          <div className="hidden md:flex items-center gap-3 lg:gap-5 shrink-0">
             <div className="relative group">
               <button 
-                className="flex items-center gap-1 text-stone-600 hover:text-emerald-600 font-medium transition-colors"
+                className="flex items-center gap-1.5 text-stone-600 hover:text-emerald-600 font-bold transition-colors py-2"
                 aria-label="Ver lista de productos"
               >
-                Productos <ChevronDown className="w-4 h-4" />
+                <span className="text-sm lg:text-[15px]">Productos</span>
+                <ChevronDown className="w-4 h-4" />
               </button>
+
               <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-stone-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 max-h-[70vh] overflow-y-auto z-50">
                 {PRODUCTS.map(product => (
                   <Link
