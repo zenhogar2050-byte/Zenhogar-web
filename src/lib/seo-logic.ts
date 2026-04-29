@@ -26,6 +26,7 @@ export const generateSchemaGraph = (params: {
 
         const offersBase = {
             "priceCurrency": "COP",
+            "itemCondition": "https://schema.org/NewCondition",
             "availability": "https://schema.org/InStock",
             "priceValidUntil": dynamicPriceValidUntil,
             "url": fullUrl,
@@ -86,6 +87,7 @@ export const generateSchemaGraph = (params: {
             "description": description,
             "sku": String(productData.id || "zen-001"),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
+            "brand": { "@type": "Brand", "name": "Zenhogar" },
             "offers": offers
         };
 
