@@ -41,6 +41,14 @@ const updates = {
 
 let content = fs.readFileSync('src/constants.ts', 'utf8');
 
+// Ensure prices are clean integers (no dots, commas, or decimals)
+// Matches "price: 65000," or "price: 65000 " or "basePrice: 65000," etc.
+// But we want to target strings/numbers with dots like "price: '65.000'" or "price: 65.000"
+content = content.replace(/(basePrice|price)\s*:\s*['"]?(\d{1,3}(?:[.,]\d{3})+)(?:[.,]\d+)?['"]?/g, (match, prefix, amount) => {
+  const cleanNumber = amount.replace(/[.,]/g, '');
+  return `${prefix}: ${cleanNumber}`;
+});
+
 // Remove Lipoblue
 const lipoblueRegex = /\{\s*id:\s*'lipoblue'[\s\S]*?\},/g;
 content = content.replace(lipoblueRegex, '');

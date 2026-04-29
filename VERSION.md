@@ -1,13 +1,21 @@
 # ZENHOGAR E-commerce - Pre-Launch Audit & Release Version
 
-**Version:** 1.0.2
-**Date:** April 28, 2026
+**Version:** 1.1.0
+**Date:** April 29, 2026
 
 ## Estado del Proyecto: Mantenimiento y Parches Finales
 
-Esta versión incluye todas las optimizaciones previas más los parches y ajustes visuales solicitados en la versión móvil antes del despliegue en producción.
+Esta versión incluye todas las optimizaciones previas más una corrección profunda de SEO, limpieza de precios para Merchant Center y cumplimiento de políticas de Ads.
 
-### Resumen de los Últimos Ajustes (v1.0.2):
+### Resumen de los Últimos Ajustes (v1.1.0):
+
+- ✅ **Auditoría de Datos Estructurados (Schema.org):** Corrección de parámetros de precios en metadatos para asegurar formato entero (ej. `65000` en lugar de `65.000` o `$65,000`). Modificación de moneda a "COP".
+- ✅ **Políticas de Envíos y Devoluciones (Merchant Center):** Se integraron automáticamente los objetos `shippingDetails` (envío gratuito a Colombia) y `hasMerchantReturnPolicy` (política a 30 días) en la estructuración Schema.org para productos. Eliminada advertencia de Search Console.
+- ✅ **Lenguaje Cumplidor de Ads (Meta & TikTok):** El contenido pasó por una transformación de "Anti-Sensacionalismo", cambiando términos restrictivos (curar, milagro, adelgazar, quemar grasa, desinflamar) a terminología orientada al "Bienestar y Estilo de Vida" (confortar, optimizar tu figura, promover vitalidad).
+- ✅ **Limpieza Automatizada de Precios:** Actualización del script `clean_data.cjs` para evitar futuros problemas en la importación de precios y garantizar una limpieza automática de separadores de miles/decimales.
+- ✅ **Generación y Despliegue Estático:** `sitemap.xml` y páginas estáticas actualizados y regenerados exitosamente bajo estas nuevas reglas.
+
+### Resumen de los Ajustes Previos (v1.0.2):
 
 - ✅ **Rediseño Mobile de Top 6 Más Vendidos:** Se transformó el layout a un formato de tarjeta apilada verticalmente (imagen arriba, texto abajo) logrando imágenes más protagonistas y texto mucho más legible.
 - ✅ **Resaltado de Precio y Emojis:** Se integraron emojis (🚚 🎁) para hacer el llamado visual de "Envío incluido + Obsequio" más atractivo, y se dio mayor prominencia tipográfica a la etiqueta "Desde" y al precio en sí, removiendo fondos que competían con el CTA principal.

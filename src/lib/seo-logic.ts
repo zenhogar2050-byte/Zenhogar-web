@@ -14,8 +14,14 @@ export const generateSchemaGraph = (params: {
         const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
         const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
 
-        const lowPriceClean = Math.round(Number(productData.lowPrice || productData.basePrice || 0));
-        const highPriceClean = Math.round(Number(productData.highPrice || productData.basePrice || 0));
+        const cleanPrice = (val: any) => {
+            if (!val) return 0;
+            const strVal = String(val).replace(/\./g, "").replace(/,/g, "").replace(/\u00a0/g, "").replace(/[^\d]/g, "");
+            return Math.round(Number(strVal) || 0);
+        };
+
+        const lowPriceClean = cleanPrice(productData.lowPrice || productData.basePrice);
+        const highPriceClean = cleanPrice(productData.highPrice || productData.basePrice);
         const offerCountNum = Number(productData.offerCount || 1);
 
         const offersBase = {
@@ -27,7 +33,7 @@ export const generateSchemaGraph = (params: {
                 "@type": "MerchantReturnPolicy",
                 "applicableCountry": "CO",
                 "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "merchantReturnDays": "5",
+                "merchantReturnDays": "30",
                 "returnMethod": "https://schema.org/ReturnByMail",
                 "returnFees": "https://schema.org/FreeReturn",
                 "url": `${BASE_URL}/devoluciones-garantia`
@@ -80,7 +86,6 @@ export const generateSchemaGraph = (params: {
             "description": description,
             "sku": String(productData.id || "zen-001"),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
-            "brand": { "@type": "Brand", "name": "Zenhogar" },
             "offers": offers
         };
 

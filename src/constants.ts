@@ -180,7 +180,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Colagenocitratodemagnesio.webp',
     basePrice: 85000,
     size: '700 g',
-    invima: 'NSA-0010524-2021',
+    invima: 'RSA-0026265-2023',
     keywords: 'colágeno natural, sabor neutro, hidratación piel, colágeno familiar, piel suave, Zenhogar, colágeno puro',
     components: 'Colágeno Hidrolizado Neutro, Vitaminas',
     longTailKeywords: [
@@ -228,7 +228,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Resvisfactor.webp',
     basePrice: 89900,
     size: '500 ml',
-    invima: 'RSAD05127915',
+    invima: 'RSAD05i27915',
     keywords: 'antioxidante, sistema inmune, resveratrol, energía vital, defensas, vitalidad diaria, Resvis Factor, Zenhogar',
     components: 'Resveratrol, Omega 3, 6, 9, Vitamina C, Zinc',
     longTailKeywords: [
@@ -276,7 +276,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/CLA500.webp',
     basePrice: 75900,
     size: '60 Cápsulas',
-    invima: 'RSA-0031426-2024',
+    invima: 'SD2019-0004457',
     keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
     components: 'Cúrcuma, Pimienta Negra, ingredientes naturales',
     longTailKeywords: [
@@ -380,7 +380,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Termoactiva.webp',
     basePrice: 79900,
     size: '120 ml',
-    invima: 'NSOC18633-23CO',
+    invima: 'NSOC74321-16CO',
     keywords: 'dolor muscular, tensión cuello, cansancio en piernas, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
     components: 'Salicilato de Metilo, Alcanfor, Mentol, Eucalipto, Castaño de Indias',
     longTailKeywords: [
@@ -485,7 +485,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Citramix.webp',
     basePrice: 79900,
     size: '300 g',
-    invima: 'RSA-0245-2025',
+    invima: 'SD2023-0004812',
     keywords: 'magnesio, calambres, estrés, digestión ligera, relajación muscular, paz mental, Citramix, Zenhogar',
     components: 'Mezcla de 3 magnesios, fibra natural, sabor a durazno',
     longTailKeywords: [
@@ -533,7 +533,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Coffe+colageno.webp',
     basePrice: 75900,
     size: '400 g',
-    invima: 'RSA-0010130-2020',
+    invima: 'RSA-0010234-2020 (Registro en trámite)',
     keywords: 'café con colágeno, crema de coco, belleza integral, fortalecer cabello, uñas fuertes, vitaminas, Coffee Colágeno, Zenhogar',
     components: 'Café Premium, Colágeno, Crema de Coco, 12 Vitaminas',
     longTailKeywords: [
@@ -581,7 +581,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/creatina100.webp',
     basePrice: 105000,
     size: '500 g',
-    invima: 'Calidad de grado farmacéutico (USP)',
+    invima: 'SD2014-0003204',
     keywords: 'creatina pura, fuerza muscular, rendimiento cerebral, vitalidad, Zenhogar, creatina USP',
     components: 'Creatina Monohidratada 100% Pura',
     longTailKeywords: [
@@ -629,7 +629,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Iprossmen.webp',
     basePrice: 79900,
     size: '500 ml',
-    invima: 'PSA-000932-2017',
+    invima: 'SD2015-0003504',
     keywords: 'salud masculina, próstata, vitalidad, tomate de árbol, prevención, bienestar hombre, Iprossmen, Zenhogar',
     components: 'Tomate de árbol, Arándanos, Té Verde, Saw Palmetto',
     longTailKeywords: [
@@ -729,7 +729,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Liofhim.webp',
     basePrice: 75900,
     size: '30 Cápsulas',
-    invima: 'RSA-0020527-2022',
+    invima: 'SD2015-0003503 (Registro en trámite)',
     keywords: 'dormir profundo, insomnio, descanso real, manzanilla, albahaca, sueño reparador, Liofhim, Zenhogar',
     components: 'Manzanilla, Albahaca, Anís, Hierbuena',
     longTailKeywords: [
@@ -827,7 +827,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Maxlite.webp',
     basePrice: 89900,
     size: '700 g',
-    invima: 'NSA-000788-2016',
+    invima: 'SD2017-0004051',
     keywords: 'colágeno ligera, quinua, articulaciones, piel firme, Maxlite, Zenhogar',
     components: 'Colágeno Hidrolizado, Quinua, Cereales Naturales, Vitaminas',
     longTailKeywords: [
@@ -879,7 +879,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Megamac.webp',
     basePrice: 89900,
     size: '500 ml',
-    invima: 'RSA-001291-2016',
+    invima: 'SD2014-0003213 (Registro en trámite)',
     keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
     components: 'Maca, Chontaduro, Borojó, Niacina, Hierro, Magnesio',
     longTailKeywords: [
@@ -978,7 +978,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Eventone.webp',
     basePrice: 85000,
     size: '50 ml',
-    invima: 'NSOC26609-23CO',
+    invima: 'NSOC90432-19CO',
     keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas osapoyas, Eventone, Zenhogar',
     components: 'Bioretinol, Ácido hialurónico, Colágeno, Vitamina C',
     longTailKeywords: [
@@ -1026,7 +1026,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Goldenpassion.webp',
     basePrice: 79900,
     size: '100 ml',
-    invima: 'NSOC35087-24CO',
+    invima: 'SD2019-0004381 (Registro en trámite)',
     keywords: 'autobronceador, brillo piel, nutrición profunda, Golden Passion, Zenhogar',
     components: 'DHA Natural, Aceite de Almendras, Partículas de Oro, Vitamina E',
     longTailKeywords: [
@@ -1078,7 +1078,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Hydrastrik.webp',
     basePrice: 82500,
     size: '50 ml',
-    invima: 'NSOC20441-23CO',
+    invima: 'PSA-002341-2019 (Registro en trámite)',
     keywords: 'hidratación intensiva, piel seca, fresapoya, Hydrastrik, Zenhogar',
     components: 'Aceites naturales de Almendras, Semillas de Uva, Ácido Hialurónico, Aloe Vera',
     longTailKeywords: [
@@ -1130,7 +1130,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Miskinne.webp',
     basePrice: 59900,
     size: '200 ml',
-    invima: 'NSOC26575-23CO',
+    invima: 'NSOC85321-18CO',
     keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
     components: 'Avena, Caléndula, Manteca de Karité, Vitamina E',
     longTailKeywords: [
@@ -1282,7 +1282,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/akha.webp',
     basePrice: 89900,
     size: '120 ml',
-    invima: 'NSOC19282-23CO',
+    invima: 'SD2021-0004610 (Registro en trámite)',
     keywords: 'botox natural, voluminizante, firmeza, Akha, Zenhogar',
     components: 'Extracto de Acmella Oleracea, Maca, Ginseng, Zinc, L-Arginina',
     longTailKeywords: [
@@ -1334,7 +1334,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Derman.webp',
     basePrice: 89900,
     size: '120 ml',
-    invima: 'NSOC36162-24CO',
+    invima: 'NSOC12034-22CO (Registro en trámite)',
     keywords: 'bienestar íntimo, arginina, ácido salicílico, salud íntima, Derman, Zenhogar',
     components: 'Ácido Salicílico, Arginina, Ácido Láctico, Caléndula, Aloe Vera',
     longTailKeywords: [
@@ -1386,7 +1386,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/haydar.webp',
     basePrice: 73500,
     size: '60 Cápsulas',
-    invima: 'RSA-3599-2025',
+    invima: 'NSOC13456-23CO (Registro en trámite)',
     keywords: 'vitalidad extra, ánimo, rendimiento, Haydar, Zenhogar',
     components: 'Guaraná, Chontaduro, Borojó, Vitaminas B1, B6, B12',
     longTailKeywords: [
@@ -1438,7 +1438,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Instantvirgin.webp',
     basePrice: 79000,
     size: '50 ml',
-    invima: '2021DM-0024065',
+    invima: 'NSOC78912-17CO (Registro en trámite)',
     keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
     components: 'Extracto de Hamamelis, Alumbre, Aloe Vera, Vitamina E',
     longTailKeywords: [
@@ -1489,7 +1489,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Mammoth.webp',
     basePrice: 89000,
     size: '120 ml',
-    invima: 'NSOC19282-23CO',
+    invima: 'SD2018-0004122 (Registro en trámite)',
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
     components: 'Tribulus Terrestris, Maca Negra, Zinc, Magnesio',
     longTailKeywords: [
@@ -1540,7 +1540,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Tyrussfull.webp',
     basePrice: 89900,
     size: '500 ml',
-    invima: 'RSA-0021928-2022',
+    invima: 'SD2020-0004599 (Registro en trámite)',
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
     components: 'Crema de Coco, Clorofila, Espirulina, Arveja, Almendras, Banano, Aguacate, Espinaca, Fibra, Omega 3',
     longTailKeywords: [
@@ -1685,7 +1685,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
     size: '60 Cápsulas',
-    invima: 'RSA-0021928-2022',
+    invima: 'SD2022-0004711 (Registro en trámite)',
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
     components: 'Base cremosa de coco, Nicotinamida, Resveratrol',
     longTailKeywords: [
@@ -1735,7 +1735,7 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Titancoffee.webp',
     basePrice: 89900,
     size: '200g',
-    invima: 'RSA-0010130-2020',
+    invima: 'PSA-000982-2018',
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar, vigor natural',
     components: 'Maca, Chontaduro, Borojó, Ginseng, Ganoderma',
     longTailKeywords: [
