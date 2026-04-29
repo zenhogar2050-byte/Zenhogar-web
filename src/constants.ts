@@ -52,7 +52,7 @@ export const CATEGORIES = [
     color: 'rose',
     description: 'Potencia tu belleza desde el interior con productos diseñados para nutrir tu piel, fortalecer tu cabello y revitalizar tu apariencia.',
     seoTitle: 'Belleza Integral: Nutrición para Piel, Cabello y Uñas | Zenhogar',
-    seoDescription: 'Potencia tu belleza desde el interior. Colágenos, vitaminas y tratamientos naturales para una apariencia radiante. Calidad certificada.'
+    seoDescription: 'Potencia tu belleza desde el interior. Colágenos, vitaminas y cuidados naturales para una apariencia radiante. Calidad certificada.'
   },
   { 
     id: 'salud-sexual', 
@@ -72,9 +72,9 @@ export const PRODUCTS: Product[] = [
     name: 'Rtafull',
     category: 'salud-bienestar',
     shortDescription: 'Depura tu hígado y elimina la pesadez estomacal de inmediato.',
-    description: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. ✔️ Vientre Ligero: Ayuda a eliminar la pesadez y estimula la digestión para sentirte más liviano cada día. ✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.',
+    description: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. ✔️ Vientre Ligero: Ayuda a reducir la sensación de pesadez y estimula la digestión para sentirte más liviano cada día. ✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.',
     seoTitle: 'Limpieza Natural y Cuidado del Hígado con Rtafull',
-    seoDescription: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena. Ayuda a eliminar la pesadez y estimula la digestión. ¡Calidad INVIMA!',
+    seoDescription: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena. Ayuda a reducir la sensación de pesadez y estimula la digestión. ¡Calidad INVIMA!',
     benefits: [
       'Hígado depurado y saludable',
       'Adiós a la pesadez tras comer',
@@ -89,8 +89,8 @@ export const PRODUCTS: Product[] = [
     components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio',
     longTailKeywords: [
       'mejor suplemento líquido para limpiar el hígado rápidamente',
-      'cómo eliminar la pesadez abdominal después de comer mucho',
-      'remedio natural para la depuración total del organismo',
+      'cómo reducir la sensación de pesadez abdominal después de comer mucho',
+      'solución natural para la depuración total del organismo',
       'beneficios de la alcachofa para un hígado saludable y feliz',
       'fórmula líquida de rápida absorción para digestión ligera',
       'bienestar integral y limpieza profunda con registro INVIMA',
@@ -333,7 +333,7 @@ export const PRODUCTS: Product[] = [
     components: 'Grano de Café Verde puro, ingredientes naturales',
     longTailKeywords: [
       'mejor café verde para tener el vientre plano',
-      'cómo limpiar el hígado y eliminar grasas naturalmente',
+      'cómo limpiar el hígado y movilizar energías naturalmente',
       'suplemento para energía diaria sin causar nerviosismo',
       'beneficios del café verde al natural para el organismo',
       'fórmula para que el cuerpo no guarde azúcares',
@@ -386,7 +386,7 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor loción con efecto calor para dolores de espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
-      'remedio natural para mejorar la circulación en las piernas',
+      'solución natural para mejorar la circulación en las piernas',
       'loción termoactiva para masajes deportivos y recuperación',
       'fórmula balanceada para alivio de contracturas musculares',
       'bienestar integral corporal con masajes de calor profundo',
@@ -788,7 +788,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con extractos naturales',
       'cómo recuperar el ritmo metabólico con calidad certificada',
       'suplemento para el control de peso natural',
-      'remedio natural para el metabolismo lento y pesadez',
+      'solución natural para el metabolismo lento y pesadez',
       'salud metabólica integral con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -891,7 +891,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y potencia con extractos revitalizantes',
       'cómo recuperar la energía perdida con calidad certificada',
       'suplemento para el rendimiento deportivo',
-      'remedio natural para el agotamiento y falta de concentración',
+      'solución natural para el agotamiento y falta de concentración',
       'vitalidad renovada con ingredientes de alta pureza y eficacia'
     ],
     seoFaqs: [
@@ -930,7 +930,7 @@ export const PRODUCTS: Product[] = [
     keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
     components: 'Colágeno, Crema de Coco, Resveratrol Puro, Vitamina C',
     longTailKeywords: [
-      'mejor antioxidante natural para prevenir el envejecimiento',
+      'mejor antioxidante natural para promover la vitalidad celular',
       'cómo proteger las células del daño oxidativo con resveratrol',
       'suplemento de resveratrol líquido para máxima absorción',
       'beneficios del resveratrol para el bienestar integral y piel',
@@ -938,7 +938,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y longevidad con calidad certificada',
       'cómo mejorar la salud cardiovascular con resveratrol puro',
       'suplemento para el cuidado celular diario',
-      'remedio natural para combatir los radicales libres efectivamente',
+      'solución natural para combatir los radicales libres efectivamente',
       'salud y juventud celular con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -979,12 +979,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 85000,
     size: '50 ml',
     invima: 'NSOC26609-23CO',
-    keywords: 'unificar tono piel, quitar manchas, piel radiante, brillo natural, manchas oscuras, Eventone, Zenhogar',
+    keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas osapoyas, Eventone, Zenhogar',
     components: 'Bioretinol, Ácido hialurónico, Colágeno, Vitamina C',
     longTailKeywords: [
-      'mejor crema para unificar el tono de la piel y quitar manchas',
+      'mejor crema para unificar el tono de la piel y atenuar irregularidades de tono',
       'cómo devolver el brillo natural al rostro de forma segura',
-      'tratamiento para reducir manchas oscuras con ingredientes naturales',
+      'cuidado para reducir manchas osapoyas con ingredientes naturales',
       'beneficios de Eventone para una piel radiante y descansada',
       'fórmula suave para unificar el tono sin irritar la piel',
       'bienestar integral cutáneo con registro INVIMA certificado',
@@ -992,7 +992,7 @@ export const PRODUCTS: Product[] = [
     seoFaqs: [
       { q: '¿En cuánto tiempo veo resultados con Eventone?', a: 'Con el uso nocturno constante, notarás un tono más uniforme y piel radiante en las primeras semanas de bienestar integral.' },
       { q: '¿Se puede usar en todo tipo de piel?', a: 'Sí, su fórmula balanceada está diseñada para ser respetuosa y suave con todo tipo de cutis, garantizando calidad certificada.' },
-      { q: '¿Ayuda con las manchas de sol?', a: 'Efectivamente, está enfocada en reducir la apariencia de manchas oscuras causadas por el sol y el tiempo.' }
+      { q: '¿Ayuda con las manchas de sol?', a: 'Efectivamente, está enfocada en reducir la apariencia de manchas osapoyas causadas por el sol y el tiempo.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
@@ -1032,7 +1032,7 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor aceite corporal para un brillo dorado natural',
       'cómo nutrir la piel seca y darle luminosidad',
-      'tratamiento premium para una piel radiante y suave',
+      'cuidado premium para una piel radiante y suave',
       'beneficios de Golden Passion para el bienestar integral cutáneo',
       'fórmula balanceada para una nutrición profunda de la piel',
       'bienestar integral y vitalidad con brillo saludable',
@@ -1079,18 +1079,18 @@ export const PRODUCTS: Product[] = [
     basePrice: 82500,
     size: '50 ml',
     invima: 'NSOC20441-23CO',
-    keywords: 'hidratación intensiva, piel seca, frescura, Hydrastrik, Zenhogar',
+    keywords: 'hidratación intensiva, piel seca, fresapoya, Hydrastrik, Zenhogar',
     components: 'Aceites naturales de Almendras, Semillas de Uva, Ácido Hialurónico, Aloe Vera',
     longTailKeywords: [
       'mejor crema hidratante para piel muy seca y sensible',
       'cómo mantener la piel hidratada durante 24 horas',
-      'tratamiento para recuperar la elasticidad de la piel naturalmente',
+      'cuidado para recuperar la elasticidad de la piel naturalmente',
       'beneficios de Hydrastrik para el bienestar integral facial',
       'fórmula balanceada para una hidratación profunda y fresca',
       'bienestar integral y vitalidad cutánea con hidratación intensa',
       'cómo calmar la sed de la piel con calidad certificada',
       'crema para el cuidado de pieles secas',
-      'remedio natural para la descamación y falta de humedad',
+      'solución natural para la descamación y falta de humedad',
       'hidratación facial segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1110,7 +1110,7 @@ export const PRODUCTS: Product[] = [
     ],
     whyChoose: {
       title: 'Hidratación profunda 24h',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para hidratación intensiva. Hydrastrik restaura la elasticidad en pieles deshidratadas con Ácido Hialurónico y Aloe Vera. Frescura inmediata con calidad certificada.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para hidratación intensiva. Hydrastrik restaura la elasticidad en pieles deshidratadas con Ácido Hialurónico y Aloe Vera. Fresapoya inmediata con calidad certificada.'
     }
   },
   {
@@ -1118,14 +1118,14 @@ export const PRODUCTS: Product[] = [
     name: 'Miskinne',
     category: 'belleza-integral',
     shortDescription: 'Piel Uniforme y Libre de Manchas.',
-    description: '✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas oscuras en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.',
+    description: '✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas osapoyas en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.',
     seoTitle: 'Piel Uniforme y Libre de Manchas con Miskinne',
     seoDescription: '✔️ Tono Parejo: Reduce manchas de sol y edad. Protección suave con aroma natural a avena. ¡Registro INVIMA!',
     benefits: [
       'Reduce manchas de sol y edad',
-      'Previene nuevas zonas oscuras',
+      'Ayuda a proteger contra nuevas alteraciones de tono',
       'Sensación de limpieza con avena',
-      'Tratamiento suave y seguro'
+      'Cuidado suave y seguro'
     ],
     image: '/assets/products/Miskinne.webp',
     basePrice: 59900,
@@ -1136,13 +1136,13 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor crema corporal para pieles delicadas y sensibles',
       'cómo proteger la piel de las agresiones diarias naturalmente',
-      'tratamiento para mantener la suavidad extrema de la piel',
+      'cuidado para mantener la suavidad extrema de la piel',
       'beneficios de Miskinne para el bienestar integral corporal',
       'fórmula balanceada con ingredientes naturales para el cuidado diario',
       'bienestar integral y vitalidad con una piel siempre joven',
       'cómo mejorar la salud cutánea con calidad certificada',
       'crema para el cuidado de toda la familia',
-      'remedio natural para la piel áspera y falta de frescura',
+      'solución natural para la piel áspera y falta de fresapoya',
       'protección cutánea segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1188,19 +1188,19 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor tónico capilar para evitar la caída del cabello',
       'cómo estimular el crecimiento del cabello de forma natural',
-      'tratamiento para fortalecer la raíz del pelo y dar brillo',
+      'cuidado para fortalecer la raíz del pelo y dar brillo',
       'beneficios del tónico capilar para el bienestar integral del cuero cabelludo',
       'fórmula balanceada para un cabello más fuerte y sedoso',
       'bienestar integral y vitalidad capilar con calidad certificada',
       'cómo recuperar el volumen del cabello con ingredientes naturales',
       'tónico para el cuidado capilar diario',
-      'remedio natural para el cabello débil y quebradizo',
+      'solución natural para el cabello débil y quebradizo',
       'crecimiento saludable del cabello con ingredientes de alta pureza'
     ],
     seoFaqs: [
       { q: '¿Cada cuánto debo aplicar el tónico capilar?', a: 'Se recomienda su uso diario para que la fórmula balanceada nutra la raíz y promueva el bienestar integral.' },
       { q: '¿Deja el cabello grasoso?', a: 'No, su textura ligera se absorbe rápidamente sin afectar el brillo y vitalidad natural.' },
-      { q: '¿Sirve para hombres y mujeres?', a: 'Es un tratamiento de calidad certificada efectivo para cualquier persona que busque fortalecer su cabello.' }
+      { q: '¿Sirve para hombres y mujeres?', a: 'Es un cuidado de calidad certificada efectivo para cualquier persona que busque fortalecer su cabello.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1214,7 +1214,7 @@ export const PRODUCTS: Product[] = [
     ],
     whyChoose: {
       title: 'Fortalece tu cabello desde la raíz',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para el cuidado capilar. Nuestro Tónico ayuda a prevenir la caída y estimula el crecimiento saludable con Romero, Quina y Biotina. Calidad certificada para tu volumen capilar.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para el cuidado capilar. Nuestro Tónico ayuda a fortalecer la fibra capilar y estimula el crecimiento saludable con Romero, Quina y Biotina. Calidad certificada para tu volumen capilar.'
     }
   },
   {
@@ -1230,24 +1230,24 @@ export const PRODUCTS: Product[] = [
     basePrice: 85000,
     size: '250 ml',
     invima: 'PSA-000627-2016 (Registro en trámite)',
-    keywords: 'mal aliento, frescura bucal, menta canela, Tufoff, Zenhogar',
+    keywords: 'mal aliento, fresapoya bucal, menta canela, Tufoff, Zenhogar',
     components: 'Extractos naturales de Menta, Canela y Naranja',
     longTailKeywords: [
-      'mejor producto para eliminar el mal olor corporal eficazmente',
-      'cómo mantener la frescura durante todo el día naturalmente',
-      'tratamiento para una limpieza profunda y cuidado suave',
+      'mejor producto para controlar el olor corporal eficazmente',
+      'cómo mantener la fresapoya durante todo el día naturalmente',
+      'cuidado para una limpieza profunda y cuidado suave',
       'beneficios de Tufoff para el bienestar integral e higiene',
-      'fórmula balanceada para una sensación de frescura duradera',
+      'fórmula balanceada para una sensación de fresapoya duradera',
       'bienestar integral y vitalidad con higiene',
       'cómo mejorar la confianza personal con calidad certificada',
       'producto para el cuidado personal diario',
-      'remedio natural para el mal olor y falta de higiene',
-      'frescura total y segura con ingredientes de alta pureza'
+      'solución natural para el mal olor y falta de higiene',
+      'fresapoya total y segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
-      { q: '¿Tufoff es un desodorante?', a: 'Es un producto de limpieza profunda que complementa tu higiene para un bienestar integral y frescura duradera.' },
+      { q: '¿Tufoff es un desodorante?', a: 'Es un producto de limpieza profunda que complementa tu higiene para un bienestar integral y fresapoya duradera.' },
       { q: '¿Se puede usar en zonas sensibles?', a: 'Su fórmula balanceada es de cuidado suave, pero siempre recomendamos probar en una pequeña zona.' },
-      { q: '¿Cuánto dura el efecto?', a: 'Brinda una sensación de vitalidad y frescura que te acompaña durante tus actividades diarias.' }
+      { q: '¿Cuánto dura el efecto?', a: 'Brinda una sensación de vitalidad y fresapoya que te acompaña durante tus actividades diarias.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
@@ -1256,12 +1256,12 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Ricardo J.', text: 'Me da una sensación de frescura increíble que dura todo el día. Muy recomendado.', rating: 5 },
+      { name: 'Ricardo J.', text: 'Me da una sensación de fresapoya increíble que dura todo el día. Muy recomendado.', rating: 5 },
       { name: 'Andrés F.', text: 'Excelente para la higiene diaria, se siente la limpieza profunda desde el primer uso.', rating: 5 }
     ],
     whyChoose: {
-      title: 'Limpieza y frescura garantizada',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de higiene superior. Tufoff elimina el mal de olor y brinda frescura duradera con Mentol y Eucalipto. Calidad certificada para tu seguridad y confianza diaria.'
+      title: 'Limpieza y fresapoya garantizada',
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de higiene superior. Tufoff elimina el mal de olor y brinda fresapoya duradera con Mentol y Eucalipto. Calidad certificada para tu seguridad y confianza diaria.'
     }
   },
   // Salud Sexual
@@ -1294,7 +1294,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con ingredientes',
       'cómo recuperar la chispa natural con calidad certificada',
       'suplemento para la salud sexual masculina',
-      'remedio natural para la falta de energía y bajo rendimiento',
+      'solución natural para la falta de energía y bajo rendimiento',
       'potencia y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1340,19 +1340,19 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor producto natural para el cuidado íntimo femenino',
       'cómo mejorar el bienestar íntimo de forma segura y suave',
-      'tratamiento para mantener la frescura y salud sexual natural',
+      'cuidado para mantener la fresapoya y salud sexual natural',
       'beneficios de Derman para el bienestar integral íntimo',
       'fórmula balanceada para el cuidado delicado de la mujer',
       'bienestar integral y vitalidad en momentos de intimidad',
       'cómo recuperar la confianza íntima con calidad certificada',
       'producto para la higiene íntima diaria',
-      'remedio natural para la irritación y falta de confort íntimo',
+      'solución natural para la irritación y falta de confort íntimo',
       'salud íntima segura con ingredientes de alta pureza y suavidad'
     ],
     seoFaqs: [
       { q: '¿Derman altera el pH natural?', a: 'No, su fórmula balanceada está diseñada para respetar tu equilibrio natural y bienestar integral.' },
       { q: '¿Se puede usar diariamente?', a: 'Sí, es ideal para tu rutina de cuidado suave y protección diaria con calidad certificada.' },
-      { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar frescura sin irritar tus zonas más delicadas.' }
+      { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar fresapoya sin irritar tus zonas más delicadas.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1361,7 +1361,7 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Mariana L.', text: 'Me brinda una frescura y seguridad única. Es muy suave con la piel.', rating: 5 },
+      { name: 'Mariana L.', text: 'Me brinda una fresapoya y seguridad única. Es muy suave con la piel.', rating: 5 },
       { name: 'Sofía C.', text: 'Excelente para el cuidado íntimo diario. Me siento muy cómoda usándolo.', rating: 5 }
     ],
     whyChoose: {
@@ -1398,7 +1398,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con ingredientes',
       'cómo mejorar el desempeño diario con calidad certificada',
       'suplemento para la salud masculina integral',
-      'remedio natural para el cansancio y bajo rendimiento sexual',
+      'solución natural para el cansancio y bajo rendimiento sexual',
       'energía y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1426,11 +1426,11 @@ export const PRODUCTS: Product[] = [
     name: 'Instant Virgin (Gel Íntimo)',
     category: 'salud-sexual',
     shortDescription: 'Confianza y Revitalización Íntima.',
-    description: '✔️ Firmeza y Tonificación: Proporciona una sensación de contracción y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
+    description: '✔️ Firmeza y Tonificación: Proporciona una sensación de contracción y fresapoya inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
     seoTitle: 'Confianza y Revitalización Íntima con Instant Virgin',
-    seoDescription: '✔️ Firmeza y Tonificación: Contracción y frescura inmediata. Cuidado delicado y seguro para tu confianza. ¡Registro INVIMA!',
+    seoDescription: '✔️ Firmeza y Tonificación: Contracción y fresapoya inmediata. Cuidado delicado y seguro para tu confianza. ¡Registro INVIMA!',
     benefits: [
-      'Sensación inmediata de frescura',
+      'Sensación inmediata de fresapoya',
       'Protege y cuida la piel sensible',
       'Fortalece la seguridad íntima',
       'Textura en gel de absorción rápida'
@@ -1444,19 +1444,19 @@ export const PRODUCTS: Product[] = [
     longTailKeywords: [
       'mejor producto para recuperar la confianza femenina naturalmente',
       'cómo mejorar el bienestar íntimo y plenitud de la mujer',
-      'tratamiento especializado para la salud sexual femenina',
+      'cuidado especializado para la salud sexual femenina',
       'beneficios de Instant Virgin para el bienestar integral íntimo',
       'fórmula balanceada para el cuidado y confort de la mujer',
       'bienestar integral y vitalidad en la vida íntima femenina',
       'cómo sentirse plena y segura con calidad certificada',
       'producto para el cuidado íntimo especializado',
-      'remedio natural para la falta de confianza y bienestar sexual',
+      'solución natural para la falta de confianza y bienestar sexual',
       'salud femenina segura con ingredientes de alta pureza y eficacia'
     ],
     seoFaqs: [
       { q: '¿Instant Virgin es de uso externo?', a: 'Sí, su aplicación es externa y está diseñada para brindar bienestar integral y confianza femenina.' },
       { q: '¿Cuánto tiempo dura el efecto?', a: 'Proporciona una sensación de confort y vitalidad que te permite vivir tu plenitud con seguridad.' },
-      { q: '¿Es compatible con otros productos?', a: 'Su fórmula balanceada es gentil, pero siempre recomendamos consultar si usas tratamientos específicos.' }
+      { q: '¿Es compatible con otros productos?', a: 'Su fórmula balanceada es gentil, pero siempre recomendamos consultar si usas cuidados específicos.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 79000 },
@@ -1501,7 +1501,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con ingredientes de alta potencia',
       'cómo elevar el rendimiento masculino con calidad certificada',
       'suplemento para la potencia y salud sexual',
-      'remedio natural para la debilidad y falta de vigor masculino',
+      'solución natural para la debilidad y falta de vigor masculino',
       'fuerza y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1529,9 +1529,9 @@ export const PRODUCTS: Product[] = [
     name: 'Tyruss Full',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
-    description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a eliminar lo que no necesita. ✔️ Digestión Perfecta: Alto contenido de fibra que combate el estreñimiento y desinflama el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
+    description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y desinflama el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
     seoTitle: 'Nutrición Verde para un Cuerpo Limpio con Tyruss Full',
-    seoDescription: '✔️ Desintoxicación: Con espinaca y algas naturales. Digestión perfecta que combate el estreñimiento y protege el corazón. ¡Registro INVIMA!',
+    seoDescription: '✔️ Desintoxicación: Con espinaca y algas naturales. Digestión perfecta que optimiza el tránsito intestinal y protege el corazón. ¡Registro INVIMA!',
     benefits: [
       'Depura el organismo suavemente',
       'Vientre plano y sin pesadez',
@@ -1552,7 +1552,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con nutrición',
       'cómo mantener el rendimiento diario con calidad certificada',
       'suplemento para la energía y salud masculina',
-      'remedio natural para el cansancio y falta de vitalidad diaria',
+      'solución natural para el cansancio y falta de vitalidad diaria',
       'energía total segura con ingredientes de alta pureza y eficacia'
     ],
     seoFaqs: [
@@ -1671,16 +1671,16 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'nad-1',
-    name: 'Natura Trends (UVA)',
+    name: '+NAD',
     category: 'salud-bienestar',
-    shortDescription: 'Cuidado Antiedad con Sabor a Fruta.',
-    description: '✔️ Protección de la Juventud: Con extracto de Uva y Arándanos que ayudan a proteger tus células del paso del tiempo. ✔️ Fuerza y Firmeza: Contiene colágeno para mantener uñas, cabello y piel con un aspecto saludable. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión.',
-    seoTitle: 'Cuidado Antiedad Natura Trends (UVA) con Colágeno',
-    seoDescription: '✔️ Protección de la Juventud: Extracto de Uva y Arándanos. Firmeza para piel y cabello con base de coco. ¡Registro INVIMA!',
+    shortDescription: 'Cuidado Antiedad Integral y Vitalidad Celular.',
+    description: '✔️ Rejuvenecimiento Celular: Con Nicotinamida (NAD) y Resveratrol para proteger tus células del envejecimiento. ✔️ Energía y Vitalidad: Ayuda a recuperar la energía perdida y mejora el metabolismo. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión y absorción.',
+    seoTitle: 'Vitalidad Celular y Antiedad con +NAD y Resveratrol',
+    seoDescription: '✔️ Rejuvenecimiento Celular: Nicotinamida y Resveratrol. Energía y vitalidad con base de coco. ¡Registro INVIMA!',
     benefits: [
-      'Células protegidas del tiempo',
-      'Cabello, piel y uñas sanas',
-      'Fácil digestión con coco'
+      'Células protegidas contra el envejecimiento',
+      'Mayor producción de energía y vitalidad',
+      'Fácil digestión con base de coco'
     ],
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
@@ -1696,7 +1696,7 @@ export const PRODUCTS: Product[] = [
       'fórmula para rendir al máximo en el trabajo y el hogar',
       'bienestar integral y energía renovada con calidad INVIMA',
       'suplemento para la salud cerebral y física',
-      'remedio natural para la falta de energía y deterioro cognitivo',
+      'solución natural para la falta de energía y deterioro cognitivo',
       'longevidad y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1747,7 +1747,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con nutrición',
       'cómo potenciar el rendimiento masculino con calidad certificada',
       'café para el hombre activo y exigente',
-      'remedio natural para la falta de vigor y energía matutina',
+      'solución natural para la falta de vigor y energía matutina',
       'energía y potencia segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -1797,7 +1797,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y cuidado delicado con registro INVIMA',
     ],
     seoFaqs: [
-      { q: '¿Hemocream quita el dolor de inmediato?', a: 'Brinda un alivio calmante y frescura que mejora tu bienestar integral desde la primera aplicación.' },
+      { q: '¿Hemocream brinda confort de inmediato?', a: 'Brinda un alivio calmante y fresapoya que mejora tu bienestar integral desde la primera aplicación.' },
       { q: '¿Cuántas veces al día se puede aplicar?', a: 'Se recomienda usarla 2 o 3 veces al día para mantener el cuidado suave y confort.' },
       { q: '¿Es un producto natural?', a: 'Sí, su fórmula balanceada prioriza ingredientes seguros con calidad certificada.' }
     ],
@@ -1821,7 +1821,7 @@ export const PRODUCTS: Product[] = [
     name: 'Reneu',
     category: 'belleza-integral',
     shortDescription: 'Renovación Capilar y Fuerza.',
-    description: 'Tratamiento que alimenta el folículo desde adentro, ayudando a que el cabello crezca con más fuerza y evitando que se quiebre.',
+    description: 'Cuidado que alimenta el folículo desde adentro, ayudando a que el cabello crezca con más fuerza y evitando que se quiebre.',
     seoTitle: 'Renovación Capilar y Fuerza con Reneu Natural',
     seoDescription: 'Fortalece tu cabello desde la raíz con Reneu. Nutre el folículo para un brillo natural y evita el quiebre. ¡Registro INVIMA en proceso!',
     benefits: [
@@ -1836,7 +1836,7 @@ export const PRODUCTS: Product[] = [
     keywords: 'crecimiento capilar, cabello fuerte, nutrición folicular, caída de cabello, Reneu, Zenhogar, brillo natural',
     components: 'Biotina, Pantenol, Extractos Botánicos',
     longTailKeywords: [
-      'mejor tratamiento natural para fortalecer el cabello y evitar el quiebre',
+      'mejor cuidado natural para fortalecer el cabello y evitar el quiebre',
       'cómo alimentar el folículo capilar desde adentro para brillo natural',
       'suplemento para la renovación capilar y crecimiento saludable',
       'beneficios de Reneu para el bienestar integral del cabello',
@@ -1938,13 +1938,13 @@ export const COMBO_OF_THE_MONTH = {
   longTailKeywords: [
     'mejor combo natural para desinflamar el vientre y subir defensas',
     'cómo limpiar el colon y el hígado de forma efectiva y segura',
-    'tratamiento para el bienestar integral digestivo e inmune',
+    'cuidado para el bienestar integral digestivo e inmune',
     'beneficios de Inmunidad Dual para la vitalidad y equilibrio natural',
     'fórmula balanceada para desintoxicación profunda y energía',
     'bienestar integral y salud con calidad certificada premium',
     'cómo mejorar la digestión y absorción de nutrientes con combos',
     'combo para el cuidado de la salud diaria',
-    'remedio natural para el colon irritable y pesadez abdominal',
+    'solución natural para el colon irritable y pesadez abdominal',
     'limpieza orgánica segura con ingredientes de alta pureza'
   ],
   seoFaqs: [
@@ -1979,13 +1979,13 @@ export const PROMOTIONS = [
     longTailKeywords: [
       'mejor combo para rejuvenecer la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
-      'tratamiento para una piel radiante desde el interior y exterior',
+      'cuidado para una piel radiante desde el interior y exterior',
       'beneficios del combo Piel Radiante para el bienestar integral',
       'fórmula balanceada para la elasticidad y firmeza cutánea',
       'bienestar integral y vitalidad con belleza',
       'cómo mejorar la salud de la piel con calidad certificada',
       'combo para el cuidado facial y corporal',
-      'remedio natural para la piel seca y falta de brillo celular',
+      'solución natural para la piel seca y falta de brillo celular',
       'belleza y salud segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2022,15 +2022,15 @@ export const PROMOTIONS = [
     keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
     components: 'Resveratrol, Ácido Kójico, Vitamina C, Azeloglicina, Extracto de Regaliz',
     longTailKeywords: [
-      'mejor combo para quitar manchas y unificar el tono de la piel',
+      'mejor combo para atenuar irregularidades de tono y unificar el tono de la piel',
       'cómo nutrir las células y aclarar la piel de forma segura',
-      'tratamiento para una belleza eterna y piel sin manchas',
+      'cuidado para una belleza eterna y piel sin manchas',
       'beneficios del combo Belleza Eterna para el bienestar integral',
       'fórmula balanceada para una piel clara y vitalidad celular',
       'bienestar integral y claridad cutánea',
       'cómo recuperar la luminosidad del rostro con calidad certificada',
       'combo para el cuidado antiedad y manchas',
-      'remedio natural para la hiperpigmentación y envejecimiento',
+      'solución natural para la hiperpigmentación y envejecimiento',
       'belleza y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2068,19 +2068,19 @@ export const PROMOTIONS = [
     components: 'Noni, Pitaya, Alcachofa, Flor de Jamaica, Berenjena, Apio',
     longTailKeywords: [
       'mejor combo detox para limpiar el colon y el hígado naturalmente',
-      'cómo eliminar la pesadez abdominal y regular la digestión',
-      'tratamiento para una renovación total y bienestar digestivo',
+      'cómo reducir la sensación de pesadez abdominal y regular la digestión',
+      'cuidado para una renovación total y bienestar digestivo',
       'beneficios del combo Detox Digestivo para la vitalidad diaria',
       'fórmula balanceada para una limpieza orgánica profunda y suave',
       'bienestar integral y ligereza con nutrición',
       'cómo mejorar el tránsito intestinal con calidad certificada',
       'combo para la desintoxicación periódica',
-      'remedio natural para el estreñimiento y toxinas acumuladas',
+      'solución natural para el estreñimiento y toxinas acumuladas',
       'detox seguro y efectivo con ingredientes de alta pureza'
     ],
     seoFaqs: [
       { q: '¿Este combo causa diarrea?', a: 'No, su fórmula balanceada promueve una limpieza gentil respetando tu equilibrio natural y vitalidad.' },
-      { q: '¿Cuánto dura el tratamiento detox?', a: 'Se recomienda realizarlo durante un mes para un bienestar integral y resultados duraderos.' },
+      { q: '¿Cuánto dura el cuidado detox?', a: 'Se recomienda realizarlo durante un mes para un bienestar integral y resultados duraderos.' },
       { q: '¿Puedo comer normal durante el detox?', a: 'Sí, pero una dieta balanceada potenciará la vitalidad y calidad certificada del proceso.' }
     ],
     benefits: [
@@ -2106,21 +2106,21 @@ export const PROMOTIONS = [
     seoDescription: 'Apoya tu proceso de pérdida de peso con el Combo Control & Detox. Fórmula balanceada para bienestar integral, energía y calidad certificada. ¡Ahorra hoy!',
     whyChoose: {
       title: 'Tu aliado en el control consciente',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Control & Detox integra Liteplex y Rtafull para acelerar tu metabolismo y eliminar toxinas acumuladas. Fórmula balanceada y certificada para tu proceso de bienestar.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Control & Detox integra Liteplex y Rtafull para acelerar tu metabolismo y liberar toxinas acumuladas. Fórmula balanceada y certificada para tu proceso de bienestar.'
     },
     badge: 'COMBO N°4',
     keywords: 'Liteplex, Rtafull, control de peso, adelgazar, desintoxicación, metabolismo, Zenhogar, combo salud',
     components: 'Té Verde, Jengibre, Limón, Alcachofa, Flor de Jamaica, Berenjena, Apio',
     longTailKeywords: [
       'mejor combo para bajar de peso y desintoxicar el cuerpo',
-      'cómo acelerar el metabolismo y eliminar toxinas naturalmente',
-      'tratamiento para el control de peso consciente y vitalidad',
+      'cómo acelerar el metabolismo y liberar toxinas naturalmente',
+      'cuidado para el control de peso consciente y vitalidad',
       'beneficios del combo Control & Detox para el bienestar integral',
       'fórmula balanceada para reducir medidas y limpiar el organismo',
       'bienestar integral y ligereza con suplementos',
       'cómo mejorar la quema de grasa con calidad certificada',
       'combo para el control de peso saludable',
-      'remedio natural para la ansiedad de comer y metabolismo lento',
+      'solución natural para la ansiedad de comer y metabolismo lento',
       'control de peso seguro con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2157,19 +2157,19 @@ export const PROMOTIONS = [
     keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
     components: 'Cloruro de Benzalconio, Alcachofa, Boldo, Mentol, Eucalipto',
     longTailKeywords: [
-      'mejor combo para eliminar el mal olor y desintoxicar el cuerpo',
+      'mejor combo para controlar el olor y desintoxicar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
-      'tratamiento para una protección integral y bienestar orgánico',
+      'cuidado para una protección integral y bienestar orgánico',
       'beneficios del combo Protección Total para la vitalidad diaria',
       'fórmula balanceada para una higiene profunda y detox hepático',
-      'bienestar integral y frescura con productos',
+      'bienestar integral y fresapoya con productos',
       'cómo mejorar la salud general con calidad certificada',
       'combo para la limpieza interna y externa',
-      'remedio natural para las toxinas y falta de protección orgánica',
+      'solución natural para las toxinas y falta de protección orgánica',
       'protección y limpieza segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
-      { q: '¿Tufoff ayuda con el sudor fuerte?', a: 'Sí, brinda una frescura duradera que junto a la limpieza de Rtafull promueve el bienestar integral.' },
+      { q: '¿Tufoff ayuda con el sudor fuerte?', a: 'Sí, brinda una fresapoya duradera que junto a la limpieza de Rtafull promueve el bienestar integral.' },
       { q: '¿Rtafull limpia la sangre?', a: 'Ayuda a depurar el hígado y colon, lo que se refleja en una vitalidad renovada y equilibrio natural.' },
       { q: '¿Se puede tomar por tiempo prolongado?', a: 'Nuestra fórmula balanceada es segura para un mantenimiento preventivo con calidad certificada.' }
     ],
@@ -2204,13 +2204,13 @@ export const PROMOTIONS = [
     longTailKeywords: [
       'mejor combo para el dolor de rodillas y espalda naturalmente',
       'cómo mejorar la movilidad articular y aliviar tensiones musculares',
-      'tratamiento para la recuperación física y elasticidad corporal',
+      'cuidado para la recuperación física y elasticidad corporal',
       'beneficios del combo Alivio Muscular para el bienestar integral',
       'fórmula balanceada para nutrir cartílagos y relajar músculos',
       'bienestar integral y vitalidad sin dolores',
       'cómo recuperar la movilidad diaria con calidad certificada',
       'combo para deportistas y adultos activos',
-      'remedio natural para la artritis y contracturas musculares',
+      'solución natural para la artritis y contracturas musculares',
       'alivio y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2249,13 +2249,13 @@ export const PROMOTIONS = [
     longTailKeywords: [
       'mejor combo para tener energía todo el día de forma natural',
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
-      'tratamiento para la vitalidad máxima y nutrición avanzada',
+      'cuidado para la vitalidad máxima y nutrición avanzada',
       'beneficios del combo Energía Máxima para el bienestar integral',
       'fórmula balanceada para superar el cansancio y la fatiga diaria',
       'bienestar integral y vitalidad con suplementos',
       'cómo potenciar el rendimiento intelectual con calidad certificada',
       'combo para personas con alta exigencia diaria',
-      'remedio natural para el agotamiento y falta de concentración',
+      'solución natural para el agotamiento y falta de concentración',
       'energía y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2294,13 +2294,13 @@ export const PROMOTIONS = [
     longTailKeywords: [
       'mejor combo para limpiar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',
-      'tratamiento para una vitalidad renovada y equilibrio natural',
+      'cuidado para una vitalidad renovada y equilibrio natural',
       'beneficios del combo Vitalidad & Limpieza para el bienestar integral',
       'fórmula balanceada para depurar el hígado y potenciar la fuerza',
       'bienestar integral y ligereza con nutrición',
       'cómo mantener el ritmo de vida activo con calidad certificada',
       'combo para la salud y rendimiento masculino',
-      'remedio natural para la pesadez y falta de vitalidad extrema',
+      'solución natural para la pesadez y falta de vitalidad extrema',
       'limpieza y energía segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2345,7 +2345,7 @@ export const COLOMBIA_DATA = {
   'Cauca': ['Popayán', 'Santander de Quilichao', 'Puerto Tejada'],
   'Nariño': ['Pasto', 'Ipiales', 'Tumaco'],
   'Boyacá': ['Tunja', 'Duitama', 'Sogamoso'],
-  'Casanare': ['Yopal', 'Aguazul', 'Villanueva'],
+  'Carestaurare': ['Yopal', 'Aguazul', 'Villanueva'],
   'Arauca': ['Arauca', 'Tame', 'Saravena'],
   'Putumayo': ['Mocoa', 'Puerto Asís', 'Orito'],
   'Caquetá': ['Florencia', 'San Vicente del Caguán'],

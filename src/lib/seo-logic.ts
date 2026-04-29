@@ -8,6 +8,79 @@ export const generateSchemaGraph = (params: {
     const path = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
     const fullUrl = `${BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 
+    // Si es un producto, devolvemos el esquema ATÓMICO del producto para Merchant Center
+    if (type === "product" && productData) {
+        const currentYear = new Date().getFullYear();
+        const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
+        const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
+
+        const lowPriceClean = Math.round(Number(productData.lowPrice || productData.basePrice || 0));
+        const highPriceClean = Math.round(Number(productData.highPrice || productData.basePrice || 0));
+        const offerCountNum = Number(productData.offerCount || 1);
+
+        const offers = offerCountNum > 1 ? {
+            "@type": "AggregateOffer",
+            "priceCurrency": "COP",
+            "lowPrice": lowPriceClean,
+            "highPrice": highPriceClean,
+            "offerCount": offerCountNum,
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": dynamicPriceValidUntil,
+            "url": fullUrl
+        } : {
+            "@type": "Offer",
+            "priceCurrency": "COP",
+            "price": lowPriceClean,
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": dynamicPriceValidUntil,
+            "url": fullUrl
+        };
+
+        const productEntity: any = {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": productData.name,
+            "description": description,
+            "sku": String(productData.id || "zen-001"),
+            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
+            "brand": { "@type": "Brand", "name": "Zenhogar" },
+            "offers": offers
+        };
+
+        if (productData.reviews && productData.reviews.length > 0) {
+            const totalRating = productData.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
+            const avgRating = (totalRating / productData.reviews.length).toFixed(1);
+
+            productEntity.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": avgRating,
+                "reviewCount": productData.reviews.length,
+                "bestRating": 5,
+                "worstRating": 1
+            };
+
+            const currentDate = new Date();
+            productEntity.review = productData.reviews.map((r: any, idx: number) => {
+                const reviewDate = new Date(currentDate);
+                reviewDate.setDate(reviewDate.getDate() - (idx * 3 + 2)); 
+
+                return {
+                    "@type": "Review",
+                    "author": { "@type": "Person", "name": r.name },
+                    "datePublished": r.date || reviewDate.toISOString().split('T')[0],
+                    "reviewBody": r.text,
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "bestRating": 5,
+                        "ratingValue": r.rating || 5,
+                        "worstRating": 1
+                    }
+                };
+            });
+        }
+        return productEntity;
+    }
+
     const graph: any[] = [];
 
     // 1. Entidad WebSite (Global)
@@ -65,106 +138,6 @@ export const generateSchemaGraph = (params: {
         });
     }
     graph.push(webPage);
-
-    // 4. Entidad Específica (Product, FAQPage, etc)
-    if (type === "product" && productData) {
-        // Establecer priceValidUntil dinámicamente al 31 de diciembre del año actual o futuro (ej. 2026)
-        const currentYear = new Date().getFullYear();
-        const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
-        const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
-
-        // Limpiar valores de precios para asegurar que siempre sean números sanos (sin decimales para COP)
-        const lowPriceClean = Math.round(Number(productData.lowPrice || productData.basePrice || 0));
-        const highPriceClean = Math.round(Number(productData.highPrice || productData.basePrice || 0));
-        const offerCountNum = Number(productData.offerCount || 1);
-
-        const offers = offerCountNum > 1 ? {
-            "@type": "AggregateOffer",
-            "@id": `${fullUrl}#offer`,
-            "priceCurrency": "COP",
-            "lowPrice": lowPriceClean,
-            "highPrice": highPriceClean,
-            "offerCount": offerCountNum,
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": dynamicPriceValidUntil,
-            "url": fullUrl
-        } : {
-            "@type": "Offer",
-            "@id": `${fullUrl}#offer`,
-            "priceCurrency": "COP",
-            "price": lowPriceClean,
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": dynamicPriceValidUntil,
-            "url": fullUrl
-        };
-
-        const productEntity: any = {
-            "@type": "Product",
-            "@id": `${fullUrl}#product`,
-            "mainEntityOfPage": { "@id": `${fullUrl}#webpage` },
-            "name": productData.name,
-            "description": description,
-            "sku": String(productData.id || "zen-001"),
-            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
-            "brand": { "@type": "Brand", "name": "Zenhogar" },
-            "offers": offers
-        };
-
-        if (productData.reviews && productData.reviews.length > 0) {
-            // Calcular el rating real basado en los datos
-            const totalRating = productData.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
-            const avgRating = (totalRating / productData.reviews.length).toFixed(1);
-
-            productEntity.aggregateRating = {
-                "@type": "AggregateRating",
-                "@id": `${fullUrl}#rating`,
-                "ratingValue": avgRating,
-                "reviewCount": productData.reviews.length,
-                "bestRating": 5,
-                "worstRating": 1
-            };
-
-            const currentDate = new Date();
-            productEntity.review = productData.reviews.map((r: any, idx: number) => {
-                // Generar una fecha dinámica pasada para las reseñas basada en el índice
-                const reviewDate = new Date(currentDate);
-                reviewDate.setDate(reviewDate.getDate() - (idx * 3 + 2)); 
-
-                return {
-                    "@type": "Review",
-                    "@id": `${fullUrl}#review-${idx}`,
-                    "author": { "@type": "Person", "name": r.name },
-                    "datePublished": r.date || reviewDate.toISOString().split('T')[0],
-                    "reviewBody": r.text,
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": r.rating || 5,
-                        "bestRating": 5,
-                        "worstRating": 1
-                    }
-                };
-            });
-        }
-
-        if (productData.faqs?.length > 0) {
-            productEntity.subjectOf = { "@id": `${fullUrl}#faq` };
-        }
-
-        graph.push(productEntity);
-
-        // FAQs separadas pero vinculadas al producto vía @id o mainEntity
-        if (productData.faqs?.length > 0) {
-            graph.push({
-                "@type": "FAQPage",
-                "@id": `${fullUrl}#faq`,
-                "mainEntity": productData.faqs.map((f: any) => ({
-                    "@type": "Question",
-                    "name": f.q,
-                    "acceptedAnswer": { "@type": "Answer", "text": f.a }
-                }))
-            });
-        }
-    }
 
     // 5. Entidad Colección (Categoría)
     if (type === "category" && productData?.categoryProducts) {
