@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // -------------------------------------------------------------------------
+    // 0. SEGURIDAD GLOBAL: Denegar todo por defecto
+    // -------------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // 1. AYUDANTES (Helpers) Y VALIDACIONES
+    // -------------------------------------------------------------------------
+    
+    // Validador de IDs: Evita inyección de IDs maliciosos o gigantes
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+
+    // VALIDACIÓN DE ESQUEMA PARA PEDIDOS
+    function isValidOrder(data) {
+      return data.keys().hasAll(['customer', 'status', 'type']) &&
+             data.customer is map &&
+             // Validación de campos obligatorios en customer
+             (data.customer.get('fullName', data.customer.get('nombre', '')) is string) &&
+             (data.customer.get('phone', data.customer.get('telefono', '')) is string) &&
+             // Validación de tipos
+             data.status in ['pending', 'confirmed', 'sent', 'delivered', 'cancelled', 'shipped_with_guide', 'withdrawn'] &&
+             data.type in ['order', 'abandoned'];
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. COLECCIÓN DE PEDIDOS (orders)
+    // -------------------------------------------------------------------------
+    match /orders/{orderId} {
+      
+      // CREATE: Permitimos que el Checkout público envíe datos
+      // Blindado con validación de esquema y protección de estado inicial
+      allow create: if isValidId(orderId) && 
+                      isValidOrder(request.resource.data) &&
+                      request.resource.data.status == 'pending' &&
+                      request.resource.data.created_at == request.time;
+
+      // READ/LIST: Acceso Permanente (Sin caducidad)
+      // Eliminamos la regla 'if request.time < timestamp.date(...)' que causaba el aviso.
+      // Para seguridad total frente a scrapers, se recomienda habilitar Firebase Auth.
+      allow read, list: if true; 
+
+      // UPDATE/DELETE: Permitimos gestión desde el Admin Dashboard
+      allow update: if isValidOrder(request.resource.data) &&
+                      request.resource.data.created_at == resource.data.created_at;
+      
+      allow delete: if true; 
+    }
+  }
+}
