@@ -18,22 +18,59 @@ export const generateSchemaGraph = (params: {
         const highPriceClean = Math.round(Number(productData.highPrice || productData.basePrice || 0));
         const offerCountNum = Number(productData.offerCount || 1);
 
+        const offersBase = {
+            "priceCurrency": "COP",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": dynamicPriceValidUntil,
+            "url": fullUrl,
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "CO",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": "5",
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn",
+                "url": `${BASE_URL}/devoluciones-garantia`
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "COP"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "CO"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 1,
+                        "unitCode": "d"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 3,
+                        "unitCode": "d"
+                    }
+                }
+            }
+        };
+
         const offers = offerCountNum > 1 ? {
             "@type": "AggregateOffer",
-            "priceCurrency": "COP",
+            ...offersBase,
             "lowPrice": lowPriceClean,
             "highPrice": highPriceClean,
-            "offerCount": offerCountNum,
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": dynamicPriceValidUntil,
-            "url": fullUrl
+            "offerCount": offerCountNum
         } : {
             "@type": "Offer",
-            "priceCurrency": "COP",
-            "price": lowPriceClean,
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": dynamicPriceValidUntil,
-            "url": fullUrl
+            ...offersBase,
+            "price": lowPriceClean
         };
 
         const productEntity: any = {

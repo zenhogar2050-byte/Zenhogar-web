@@ -155,7 +155,7 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Marta L.', text: 'Sencillamente maravilloso. Por fin encontré una fibra que no me inflama y me ayuda a ir al baño sin dolor.', rating: 5 },
+      { name: 'Marta L.', text: 'Sencillamente maravilloso. Por fin encontré una fibra que no me inflama y me ayuda a ir al baño con facilidad.', rating: 5 },
       { name: 'Jorge I.', text: 'Es muy rendidor y el sabor a manzana es delicioso. Mi digestión mejoró desde la primera semana.', rating: 5 }
     ],
     whyChoose: {
@@ -263,12 +263,12 @@ export const PRODUCTS: Product[] = [
     id: 'cla500',
     name: 'CLA 500',
     category: 'salud-bienestar',
-    shortDescription: 'Desinflama articulaciones y reduce la hinchazón corporal.',
-    description: 'Aprovecha los beneficios de la cúrcuma y la pimienta para desinflamar articulaciones y proteger tu piel del paso del tiempo.',
-    seoTitle: 'Desinflama tus Articulaciones con CLA 500 Cúrcuma y Pimienta',
-    seoDescription: 'Reduce la hinchazón y protege tu piel con CLA 500. Máximo aprovechamiento gracias al toque de pimienta negra. ¡Salud natural con calidad INVIMA!',
+    shortDescription: 'Reconforta articulaciones y reduce la pesadez corporal.',
+    description: 'Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulaciones y proteger tu piel del paso del tiempo.',
+    seoTitle: 'Reconforta tus Articulaciones con CLA 500 Cúrcuma y Pimienta',
+    seoDescription: 'Reduce la pesadez y protege tu piel con CLA 500. Máximo aprovechamiento gracias al toque de pimienta negra. ¡Salud natural con calidad INVIMA!',
     benefits: [
-      'Reduce la hinchazón en articulaciones',
+      'Reduce la pesadez en articulaciones',
       'Máxima absorción gracias a la pimienta',
       'Protección celular contra el paso del tiempo',
       'Ayuda en procesos de tonificación muscular'
@@ -280,11 +280,11 @@ export const PRODUCTS: Product[] = [
     keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
     components: 'Cúrcuma, Pimienta Negra, ingredientes naturales',
     longTailKeywords: [
-      'mejor suplemento de cúrcuma para desinflamar articulaciones',
+      'mejor suplemento de cúrcuma para confortar articulaciones',
       'cómo absorber mejor los beneficios de la cúrcuma con pimienta',
       'suplemento para proteger la piel del envejecimiento natural',
       'beneficios de la cúrcuma para la salud articular integral',
-      'fórmula para reducir la hinchazón de forma natural y segura',
+      'fórmula para reducir la pesadez de forma natural y segura',
       'bienestar integral y cuidado celular con registro INVIMA',
       'CLA 500 para pérdida de grasa saludable',
       'suplemento natural para evitar el efecto rebote en dietas',
@@ -303,8 +303,8 @@ export const PRODUCTS: Product[] = [
     ],
     testimonials: [
       { name: 'Julián Toro', text: 'He bajado dos tallas combinando CLA 500 con ejercicio. Realmente funciona.', rating: 5 },
-      { name: 'Paola V.', text: 'Me ayuda a marcar más los músculos y a quemar esa grasita difícil del abdomen.', rating: 5 },
-      { name: 'Mateo G.', text: 'Buen complemento para el gimnasio. Siento que sudo más y quemo más grasa.', rating: 4 }
+      { name: 'Paola V.', text: 'Me ayuda a marcar más los músculos y a reducir medidas difícil del abdomen.', rating: 5 },
+      { name: 'Mateo G.', text: 'Buen complemento para el gimnasio. Siento que sudo más y movilizo mejor la energía.', rating: 4 }
     ],
     whyChoose: {
       title: 'Esculpe tu mejor versión',
@@ -343,7 +343,7 @@ export const PRODUCTS: Product[] = [
       'energía metabólica segura con ingredientes de origen natural'
     ],
     seoFaqs: [
-      { q: '¿El café verde Cafetolio ayuda a bajar de peso?', a: 'Sí, su efecto termogénico natural ayuda a acelerar el metabolismo y a utilizar las grasas como fuente de energía.' },
+      { q: '¿El café verde Cafetolio ayuda a moldear la figura?', a: 'Sí, su efecto termogénico natural ayuda a acelerar el metabolismo y a utilizar las grasas como fuente de energía.' },
       { q: '¿Contiene mucha cafeína?', a: 'Contiene una dosis equilibrada que brinda energía constante sin los picos de ansiedad del café tradicional.' },
       { q: '¿Cómo se recomienda tomarlo?', a: 'Se recomienda una taza antes de las comidas principales para optimizar el bienestar integral y el metabolismo.' }
     ],
@@ -381,10 +381,10 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '120 ml',
     invima: 'NSOC18633-23CO',
-    keywords: 'dolor muscular, tensión cuello, mala circulación, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
+    keywords: 'dolor muscular, tensión cuello, cansancio en piernas, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
     components: 'Salicilato de Metilo, Alcanfor, Mentol, Eucalipto, Castaño de Indias',
     longTailKeywords: [
-      'mejor loción con efecto calor para dolores de espalda',
+      'mejor loción con efecto calor para tensión en la espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
       'solución natural para mejorar la circulación en las piernas',
       'loción termoactiva para masajes deportivos y recuperación',
@@ -407,12 +407,12 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Roberto J.', text: 'El calor que genera es perfecto para mis dolores de espalda. Alivio inmediato.', rating: 5 },
+      { name: 'Roberto J.', text: 'El calor que genera es perfecto para mis tensión en la espalda. Alivio inmediato.', rating: 5 },
       { name: 'Sandra Milena', text: 'La uso después de entrenar y mis músculos se recuperan mucho más rápido.', rating: 5 }
     ],
     whyChoose: {
       title: 'Alivio que reconforta tu cuerpo',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA e ingredientes botánicos seguros. Nuestra loción termoactiva es ideal para todos los que tienen dolores musculares generados por cansancio, agotamiento o que padecen de dolencias, garantizado por normas de salud.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA e ingredientes botánicos seguros. Nuestra loción termoactiva es ideal para todos los que tienen tensión muscular generados por cansancio, agotamiento o que padecen de desgaste ocasional, garantizado por normas de salud.'
     }
   },
   // New products for Salud y Bienestar
@@ -434,7 +434,7 @@ export const PRODUCTS: Product[] = [
     basePrice: 93500,
     size: '500 g',
     invima: 'RSA-0032379-2024',
-    keywords: 'colágeno marino, dolor de rodillas, salud articular, huesos fuertes, magnesio, movilidad, C-Lagen, Zenhogar',
+    keywords: 'colágeno marino, molestias articulares, salud articular, huesos fuertes, magnesio, movilidad, C-Lagen, Zenhogar',
     components: 'Colágeno de Mar, Magnesio, Vitamina C',
     longTailKeywords: [
       'mejor colágeno marino para fortalecer las rodillas',
@@ -617,11 +617,11 @@ export const PRODUCTS: Product[] = [
     name: 'Iprossmen',
     category: 'salud-bienestar',
     shortDescription: 'Protección Natural para el Hombre.',
-    description: 'Aliado ideal para cuidar la salud masculina, desinflamar la próstata y mantener tu energía a largo plazo.',
+    description: 'Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y mantener tu energía a largo plazo.',
     seoTitle: 'Protección Natural de la Próstata y Vitalidad con Iprossmen',
     seoDescription: 'Cuida tu próstata con el poder del tomate de árbol y arándanos de Iprossmen. Bienestar masculino y prevención garantizada. ¡Calidad INVIMA!',
     benefits: [
-      'Cuida y desinflama la próstata naturalmente',
+      'Cuida y reconforta la zona pélvica naturalmente',
       'Aporta vigor y energía para el día a día',
       'Complemento ideal para la salud masculina',
       'Fórmula rica en extracto de tomate y arándanos'
@@ -633,7 +633,7 @@ export const PRODUCTS: Product[] = [
     keywords: 'salud masculina, próstata, vitalidad, tomate de árbol, prevención, bienestar hombre, Iprossmen, Zenhogar',
     components: 'Tomate de árbol, Arándanos, Té Verde, Saw Palmetto',
     longTailKeywords: [
-      'mejor suplemento natural para desinflamar la próstata',
+      'mejor suplemento natural para confortar la zona pélvica',
       'cómo cuidar la salud masculina de forma natural y segura',
       'suplemento de tomate de árbol para el bienestar del hombre',
       'beneficios del saw palmetto para la prevención masculina',
@@ -641,7 +641,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y salud del hombre con registro INVIMA',
     ],
     seoFaqs: [
-      { q: '¿Iprossmen ayuda con la salud de la próstata?', a: 'Sí, su fórmula balanceada está diseñada para apoyar el bienestar integral del sistema reproductor masculino.' },
+      { q: '¿Iprossmen ayuda con la salud de la zona pélvica?', a: 'Sí, su fórmula balanceada está diseñada para apoyar el bienestar integral del sistema reproductor masculino.' },
       { q: '¿A qué edad se recomienda empezar a tomarlo?', a: 'Es ideal para hombres a partir de los 40 años como parte de su rutina de salud preventiva.' },
       { q: '¿Tiene contraindicaciones?', a: 'Es un producto natural con calidad certificada; se recomienda consultar al médico si hay condiciones preexistentes.' }
     ],
@@ -657,7 +657,7 @@ export const PRODUCTS: Product[] = [
     ],
     whyChoose: {
       title: 'Equilibrio hormonal para el hombre',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alta precisión. Iprossmen es una fórmula balanceada enfocada en el bienestar integral de la próstata mediante ingredientes de origen natural.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alta precisión. Iprossmen es una fórmula balanceada enfocada en el bienestar integral de la zona pélvica mediante ingredientes de origen natural.'
     }
   },
   {
@@ -792,7 +792,7 @@ export const PRODUCTS: Product[] = [
       'salud metabólica integral con ingredientes de alta pureza'
     ],
     seoFaqs: [
-      { q: '¿Liteplex ayuda a quemar grasa?', a: 'Sí, su fórmula balanceada apoya los procesos metabólicos naturales para una mejor utilización de las grasas.' },
+      { q: '¿Liteplex ayuda a optimizar tu figura?', a: 'Sí, su fórmula balanceada apoya los procesos metabólicos naturales para una mejor utilización de las grasas.' },
       { q: '¿Cómo se debe consumir?', a: 'Se recomienda tomarlo diariamente para mantener un bienestar integral y metabolismo activo.' },
       { q: '¿Es apto para personas con diabetes?', a: 'Es un producto natural con calidad certificada, pero siempre recomendamos consultar a su médico.' }
     ],
@@ -844,7 +844,7 @@ export const PRODUCTS: Product[] = [
     ],
     seoFaqs: [
       { q: '¿Qué hace a Maxlite diferente de otros colágenos?', a: 'Su fórmula balanceada de alta absorción permite que los nutrientes lleguen más rápido a tus tejidos para un bienestar integral.' },
-      { q: '¿Ayuda con el dolor de rodillas?', a: 'Sí, al nutrir el cartílago y las articulaciones, contribuye a una mejor movilidad y vitalidad.' },
+      { q: '¿Ayuda con el molestias articulares?', a: 'Sí, al nutrir el cartílago y las articulaciones, contribuye a una mejor movilidad y vitalidad.' },
       { q: '¿Se disuelve fácilmente?', a: 'Totalmente, está diseñado para una preparación rápida y sin grumos, garantizando calidad certificada.' }
     ],
     promos: [
@@ -1237,7 +1237,7 @@ export const PRODUCTS: Product[] = [
       'cómo mantener la fresapoya durante todo el día naturalmente',
       'cuidado para una limpieza profunda y cuidado suave',
       'beneficios de Tufoff para el bienestar integral e higiene',
-      'fórmula balanceada para una sensación de fresapoya duradera',
+      'fórmula balanceada para una sensación de frescura duradera',
       'bienestar integral y vitalidad con higiene',
       'cómo mejorar la confianza personal con calidad certificada',
       'producto para el cuidado personal diario',
@@ -1256,7 +1256,7 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Ricardo J.', text: 'Me da una sensación de fresapoya increíble que dura todo el día. Muy recomendado.', rating: 5 },
+      { name: 'Ricardo J.', text: 'Me da una sensación de frescura increíble que dura todo el día. Muy recomendado.', rating: 5 },
       { name: 'Andrés F.', text: 'Excelente para la higiene diaria, se siente la limpieza profunda desde el primer uso.', rating: 5 }
     ],
     whyChoose: {
@@ -1352,7 +1352,7 @@ export const PRODUCTS: Product[] = [
     seoFaqs: [
       { q: '¿Derman altera el pH natural?', a: 'No, su fórmula balanceada está diseñada para respetar tu equilibrio natural y bienestar integral.' },
       { q: '¿Se puede usar diariamente?', a: 'Sí, es ideal para tu rutina de cuidado suave y protección diaria con calidad certificada.' },
-      { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar fresapoya sin irritar tus zonas más delicadas.' }
+      { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar frescura sin irritar tus zonas más delicadas.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1361,7 +1361,7 @@ export const PRODUCTS: Product[] = [
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Mariana L.', text: 'Me brinda una fresapoya y seguridad única. Es muy suave con la piel.', rating: 5 },
+      { name: 'Mariana L.', text: 'Me brinda una frescura y seguridad única. Es muy suave con la piel.', rating: 5 },
       { name: 'Sofía C.', text: 'Excelente para el cuidado íntimo diario. Me siento muy cómoda usándolo.', rating: 5 }
     ],
     whyChoose: {
@@ -1426,7 +1426,7 @@ export const PRODUCTS: Product[] = [
     name: 'Instant Virgin (Gel Íntimo)',
     category: 'salud-sexual',
     shortDescription: 'Confianza y Revitalización Íntima.',
-    description: '✔️ Firmeza y Tonificación: Proporciona una sensación de contracción y fresapoya inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
+    description: '✔️ Firmeza y Tonificación: Proporciona una sensación de tono y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
     seoTitle: 'Confianza y Revitalización Íntima con Instant Virgin',
     seoDescription: '✔️ Firmeza y Tonificación: Contracción y fresapoya inmediata. Cuidado delicado y seguro para tu confianza. ¡Registro INVIMA!',
     benefits: [
@@ -1529,7 +1529,7 @@ export const PRODUCTS: Product[] = [
     name: 'Tyruss Full',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
-    description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y desinflama el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
+    description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y reconforta el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
     seoTitle: 'Nutrición Verde para un Cuerpo Limpio con Tyruss Full',
     seoDescription: '✔️ Desintoxicación: Con espinaca y algas naturales. Digestión perfecta que optimiza el tránsito intestinal y protege el corazón. ¡Registro INVIMA!',
     benefits: [
@@ -1773,9 +1773,9 @@ export const PRODUCTS: Product[] = [
     name: 'Hemocream',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Suave con Hierbas Naturales.',
-    description: 'Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y sin dolor al ir al baño.',
+    description: 'Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y con facilidad al ir al baño.',
     seoTitle: 'Alivio del Ardor y Picazón con Hemocream Natural',
-    seoDescription: 'Calma rápidamente la molestia con Caléndula y Aloe Vera. Hemocream usa 11 plantas para un proceso sin dolor. ¡Cuidado delicado con calidad INVIMA!',
+    seoDescription: 'Calma rápidamente la molestia con Caléndula y Aloe Vera. Hemocream usa 11 plantas para un proceso con facilidad. ¡Cuidado delicado con calidad INVIMA!',
     benefits: [
       'Alivio de ardor y picazón',
       'Facilita el proceso de evacuación',
@@ -1790,7 +1790,7 @@ export const PRODUCTS: Product[] = [
     components: 'Caléndula, Aloe Vera, 11 plantas medicinales',
     longTailKeywords: [
       'mejor crema natural para quitar el ardor rápidamente',
-      'cómo ir al baño de forma natural y sin dolor',
+      'cómo ir al baño de forma natural y con facilidad',
       'crema de caléndula y aloe vera para picazón persistente',
       'beneficios de las 11 plantas para el cuidado de la piel',
       'fórmula botánica suave para alivio inmediato',
@@ -1813,7 +1813,7 @@ export const PRODUCTS: Product[] = [
     ],
     whyChoose: {
       title: 'Alivio y confort inmediato',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Hemocream ayuda a calmar el ardor y la inflamación gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Hemocream ayuda a calmar el ardor y la pesadez gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
     }
   },
   {
@@ -1915,16 +1915,16 @@ export const PRODUCTS: Product[] = [
 export const COMBO_OF_THE_MONTH = {
   id: 'combo-bienestar',
   name: 'Inmunidad Dual',
-  description: 'Resvisfactor y Coliplus: la combinación perfecta para desinflamar tu vientre, sentirte mas ligero y libre de molestias.',
+  description: 'Resvisfactor y Coliplus: la combinación perfecta para confortar tu vientre, sentirte mas ligero y libre de molestias.',
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
   products: ['resvis', 'coliplus'],
-  seoTitle: 'Cómo solucionar la inflamación abdominal y defensas bajas con Inmunidad Dual',
-  seoDescription: 'Desinflama tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
+  seoTitle: 'Cómo solucionar la pesadez abdominal y defensas bajas con Inmunidad Dual',
+  seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
   whyChoose: {
     title: 'El dúo dinámico de tu bienestar',
-    description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción desinflamatoria de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para desinflamar tu vientre y fortalecer tus defensas con calidad garantizada.'
+    description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción reconfortatoria de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para confortar tu vientre y fortalecer tus defensas con calidad garantizada.'
   },
   badge: 'OFERTA DEL MES',
   benefits: [
@@ -1936,7 +1936,7 @@ export const COMBO_OF_THE_MONTH = {
   keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
   components: 'Resveratrol, Omega 3, Noni, Pitaya, Linaza, Vitaminas',
   longTailKeywords: [
-    'mejor combo natural para desinflamar el vientre y subir defensas',
+    'mejor combo natural para confortar el vientre y subir defensas',
     'cómo limpiar el colon y el hígado de forma efectiva y segura',
     'cuidado para el bienestar integral digestivo e inmune',
     'beneficios de Inmunidad Dual para la vitalidad y equilibrio natural',
@@ -1949,7 +1949,7 @@ export const COMBO_OF_THE_MONTH = {
   ],
   seoFaqs: [
     { q: '¿Por qué este combo es el más recomendado?', a: 'Porque combina el poder antioxidante de Resvis Factor con el bienestar digestivo de Coliplus para una salud integral total.' },
-    { q: '¿En cuánto tiempo veré resultados?', a: 'La mayoría siente una desinflamación y mayor vitalidad desde la primera semana de uso constante.' },
+    { q: '¿En cuánto tiempo veré resultados?', a: 'La mayoría siente una reconfortación y mayor vitalidad desde la primera semana de uso constante.' },
     { q: '¿Es seguro para personas con gastritis?', a: 'Sí, su fórmula balanceada es gentil con el estómago, promoviendo el equilibrio natural.' }
   ],
   testimonials: [
@@ -2109,10 +2109,10 @@ export const PROMOTIONS = [
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Control & Detox integra Liteplex y Rtafull para acelerar tu metabolismo y liberar toxinas acumuladas. Fórmula balanceada y certificada para tu proceso de bienestar.'
     },
     badge: 'COMBO N°4',
-    keywords: 'Liteplex, Rtafull, control de peso, adelgazar, desintoxicación, metabolismo, Zenhogar, combo salud',
+    keywords: 'Liteplex, Rtafull, control de peso, controlar medidas, desintoxicación, metabolismo, Zenhogar, combo salud',
     components: 'Té Verde, Jengibre, Limón, Alcachofa, Flor de Jamaica, Berenjena, Apio',
     longTailKeywords: [
-      'mejor combo para bajar de peso y desintoxicar el cuerpo',
+      'mejor combo para moldear la figura y desintoxicar el cuerpo',
       'cómo acelerar el metabolismo y liberar toxinas naturalmente',
       'cuidado para el control de peso consciente y vitalidad',
       'beneficios del combo Control & Detox para el bienestar integral',
@@ -2125,7 +2125,7 @@ export const PROMOTIONS = [
     ],
     seoFaqs: [
       { q: '¿Liteplex quita el hambre?', a: 'Ayuda a controlar la ansiedad, promoviendo un bienestar integral y control consciente.' },
-      { q: '¿Rtafull ayuda a bajar de peso?', a: 'Al limpiar el hígado y colon, mejora el metabolismo y la vitalidad para tu equilibrio natural.' },
+      { q: '¿Rtafull ayuda a moldear la figura?', a: 'Al limpiar el hígado y colon, mejora el metabolismo y la vitalidad para tu equilibrio natural.' },
       { q: '¿Tiene efecto rebote?', a: 'Nuestra fórmula balanceada prioriza la salud, evitando efectos negativos con calidad certificada.' }
     ],
     benefits: [
@@ -2135,7 +2135,7 @@ export const PROMOTIONS = [
       'Mejora la absorción de nutrientes'
     ],
     testimonials: [
-      { name: 'Claudia Patricia', text: 'Me ha ayudado mucho en mi proceso de bajar de peso.', rating: 5 },
+      { name: 'Claudia Patricia', text: 'Me ha ayudado mucho en mi proceso de moldear la figura.', rating: 5 },
       { name: 'Ricardo Jose', text: 'Siento mucha más energía y menos ansiedad.', rating: 4 }
     ]
   },
@@ -2169,7 +2169,7 @@ export const PROMOTIONS = [
       'protección y limpieza segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
-      { q: '¿Tufoff ayuda con el sudor fuerte?', a: 'Sí, brinda una fresapoya duradera que junto a la limpieza de Rtafull promueve el bienestar integral.' },
+      { q: '¿Tufoff ayuda con el sudor fuerte?', a: 'Sí, brinda una frescura duradera que junto a la limpieza de Rtafull promueve el bienestar integral.' },
       { q: '¿Rtafull limpia la sangre?', a: 'Ayuda a depurar el hígado y colon, lo que se refleja en una vitalidad renovada y equilibrio natural.' },
       { q: '¿Se puede tomar por tiempo prolongado?', a: 'Nuestra fórmula balanceada es segura para un mantenimiento preventivo con calidad certificada.' }
     ],
@@ -2192,22 +2192,22 @@ export const PROMOTIONS = [
     price: 123675,
     originalPrice: 164900,
     products: ['locion', 'colageno'],
-    seoTitle: 'Cómo solucionar el dolor muscular y articular con Combo Alivio Muscular',
+    seoTitle: 'Cómo solucionar la incomodidad muscular y articular con Combo Alivio Muscular',
     seoDescription: 'Recupera tu movilidad con el Combo Alivio Muscular. Fórmula balanceada para bienestar integral, nutrición articular y calidad certificada. ¡Pídelo hoy!',
     whyChoose: {
       title: 'Libertad de movimiento total',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo nutre tus articulaciones con Colágeno y alivia el dolor muscular con la Loción Termoactiva (Salicilato de Metilo). Calidad certificada para tu movilidad.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo nutre tus articulaciones con Colágeno y alivia la incomodidad muscular con la Loción Termoactiva (Salicilato de Metilo). Calidad certificada para tu movilidad.'
     },
     badge: 'COMBO N°6',
     keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
     components: 'Salicilato de Metilo, Colágeno Hidrolizado, Citrato de Magnesio, Alcanfor, Mentol',
     longTailKeywords: [
-      'mejor combo para el dolor de rodillas y espalda naturalmente',
+      'mejor combo para el molestias articulares y espalda naturalmente',
       'cómo mejorar la movilidad articular y aliviar tensiones musculares',
       'cuidado para la recuperación física y elasticidad corporal',
       'beneficios del combo Alivio Muscular para el bienestar integral',
       'fórmula balanceada para nutrir cartílagos y relajar músculos',
-      'bienestar integral y vitalidad sin dolores',
+      'bienestar integral y vitalidad con facilidades',
       'cómo recuperar la movilidad diaria con calidad certificada',
       'combo para deportistas y adultos activos',
       'solución natural para la artritis y contracturas musculares',
@@ -2216,7 +2216,7 @@ export const PROMOTIONS = [
     seoFaqs: [
       { q: '¿La loción se puede usar antes de hacer ejercicio?', a: 'Sí, su efecto termoactivo prepara los músculos para el bienestar integral y vitalidad.' },
       { q: '¿El colágeno ayuda a los huesos?', a: 'Efectivamente, nutre el sistema óseo y articular promoviendo un equilibrio natural duradero.' },
-      { q: '¿Sirve para dolores crónicos?', a: 'Nuestra fórmula balanceada es un excelente apoyo para el alivio constante con calidad certificada.' }
+      { q: '¿Sirve para desgaste prolongado?', a: 'Nuestra fórmula balanceada es un excelente apoyo para el alivio constante con calidad certificada.' }
     ],
     benefits: [
       'Alivio muscular y articular',
