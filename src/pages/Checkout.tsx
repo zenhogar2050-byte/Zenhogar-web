@@ -18,6 +18,7 @@ export default function Checkout() {
     fullName: '',
     email: '',
     phone: '',
+    identification: '',
     address: '',
     department: '',
     city: '',
@@ -193,6 +194,7 @@ export default function Checkout() {
         `*TOTAL A PAGAR:* ${formatCurrency(total)}\n\n` +
         `*DATOS DEL CLIENTE:*\n` +
         `👤 *Nombre:* ${formData.fullName}\n` +
+        `🪪 *Cédula:* ${formData.identification}\n` +
         `📧 *Email:* ${formData.email}\n` +
         `📱 *Teléfono:* ${formData.phone}\n\n` +
         `*DIRECCIÓN DE ENVÍO:*\n` +
@@ -343,6 +345,7 @@ export default function Checkout() {
                 <input type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Nombre Completo" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Correo Electrónico (Opcional)" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp / Teléfono" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
+                <input type="text" name="identification" value={formData.identification} onChange={handleInputChange} placeholder="Identificación / Cédula (Opcional)" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 <input required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Dirección Exacta" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
                 
                 <div className="grid grid-cols-2 gap-4">

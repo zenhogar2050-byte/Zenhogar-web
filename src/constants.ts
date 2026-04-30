@@ -169,7 +169,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'colageno',
     name: 'Colágeno + Citrato de Magnesio',
-    mastershopId: 181083,
+    mastershopId: 11312,
     category: 'salud-bienestar',
     shortDescription: 'Fortalece tus articulaciones y mejora la calidad de tu sueño.',
     description: 'Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para todas las edades y enfocado en la hidratación de tu piel.',
@@ -529,7 +529,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'coffee-colageno',
     name: 'Coffee + Colágeno',
-    mastershopId: 26845,
+    mastershopId: 23012,
     category: 'salud-bienestar',
     shortDescription: 'Café con Vitaminas para tu Belleza.',
     description: 'Combina tu café matutino con el poder del colágeno y crema de coco para fortalecer tu cabello, uñas y defensas sin caer pesado.',
@@ -1855,7 +1855,7 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const COMBO_OF_THE_MONTH = {
-  id: 'combo-bienestar',
+  id: 'combo-inmunidad-dual',
   mastershopId: 211176,
   name: 'Inmunidad Dual',
   description: 'Resvisfactor y Coliplus: la combinación perfecta para confortar tu vientre, sentirte mas ligero y libre de molestias.',
@@ -2044,7 +2044,7 @@ export const PROMOTIONS = [
     image: '/assets/combos/promo-4.webp',
     price: 119850,
     originalPrice: 159800,
-    products: ['lipetex', 'rtafull'],
+    products: ['liteplex', 'rtafull'],
     seoTitle: 'Cómo solucionar el sobrepeso y metabolismo lento con Combo Control & Detox',
     seoDescription: 'Apoya tu proceso de pérdida de peso con el Combo Control & Detox. Fórmula balanceada para bienestar integral, energía y calidad certificada. ¡Ahorra hoy!',
     whyChoose: {

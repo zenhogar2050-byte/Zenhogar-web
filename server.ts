@@ -85,6 +85,73 @@ async function startServer() {
         throw new Error("Datos de orden incompletos");
       }
 
+      console.log("[Mastershop Incoming Order]:", { ticket, customer: formData.fullName, itemsCount: items.length });
+
+      // --- LÓGICA DE PRECIOS EXACTOS PARA MASTERSHOP ---
+      // 1. Valores de Obsequio
+      const GIFT_ID = 11253; // Termoactiva
+      const GIFT_PRICE = 1500; // Valor solicitado para evitar rechazo
+      const TOTAL_PAID = Number(total) || 0;
+
+      // 2. Calcular valor a distribuir entre productos
+      const remainingForProducts = Math.max(0, TOTAL_PAID - GIFT_PRICE);
+      const totalUnits = items.reduce((acc: number, it: any) => acc + (Number(it.quantity) || 1), 0);
+
+      const mastershopItems: any[] = [];
+
+      if (totalUnits > 0) {
+          // 3. Distribución equitativa con ajuste de redondeo
+          const baseUnitPrice = Math.floor(remainingForProducts / totalUnits);
+          let currentTotalDistribution = 0;
+
+          items.forEach((item: any, idx: number) => {
+              const qty = Number(item.quantity) || 1;
+              const mastershopId = Number(item.mastershopId) || 11323;
+              
+              mastershopItems.push({
+                  "id_variant": null,
+                  "id_product": mastershopId,
+                  "quantity": qty,
+                  "sku": item.productId || 'GENERIC',
+                  "name": item.productName || "Producto",
+                  "weight": 1,
+                  "price": baseUnitPrice
+              });
+              currentTotalDistribution += baseUnitPrice * qty;
+          });
+
+          // 4. Ajustar la diferencia de pesos en el primer item
+          const diff = remainingForProducts - currentTotalDistribution;
+          if (diff !== 0 && mastershopItems.length > 0) {
+              const first = mastershopItems[0];
+              if (first.quantity > 1) {
+                  // Si el primer item tiene varias unidades, separamos 1 para el ajuste
+                  const originalQty = first.quantity;
+                  first.quantity = 1;
+                  first.price += diff;
+                  // El resto de unidades quedan con el precio base
+                  mastershopItems.splice(1, 0, {
+                      ...first,
+                      quantity: originalQty - 1,
+                      price: baseUnitPrice
+                  });
+              } else {
+                  first.price += diff;
+              }
+          }
+      }
+
+      // 5. Agregar Obsequio al final
+      mastershopItems.push({
+          "id_variant": null,
+          "id_product": GIFT_ID,
+          "quantity": 1,
+          "sku": "OBSEQUIO",
+          "name": "Obsequio Termoactiva (Cortesia)",
+          "weight": 0.1,
+          "price": GIFT_PRICE
+      });
+
       const firstName = formData.fullName?.split(' ')[0] || "Cliente";
       const lastName = formData.fullName?.split(' ').slice(1).join(' ') || "Zenhogar";
 
@@ -130,27 +197,11 @@ async function startServer() {
             "last_name": lastName,
             "email": formData.email || "noreply@zenhogar.live",
             "phone": formData.phone || "",
-            "tags": [],
+            "tags": ["WEB_ZENHOGAR"],
             "documentType": "CC",
-            "documentNumber": "0"
+            "documentNumber": formData.identification || "0"
         },
-        "order_items": items && items.length > 0 ? items.map((item: any) => ({
-            "id_variant": null,
-            "id_product": Number(item.mastershopId) || 11323, // Require user to fill this mapped ID in constants.ts
-            "quantity": Number(item.quantity) || 1,
-            "sku": item.productId || 'GENERIC',
-            "name": item.productName || "Producto",
-            "weight": 1,
-            "price": Number(item.price) || 0
-        })) : [{
-            "id_variant": null,
-            "id_product": 11323,
-            "quantity": 1,
-            "sku": "GENERIC",
-            "name": "Pedido Zenhogar",
-            "weight": 1,
-            "price": Number(total) || 0
-        }],
+        "order_items": mastershopItems,
         "additional_charge": [] // Dejar vacío si el envío ya está incluido en los precios
       };
 

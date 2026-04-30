@@ -63,6 +63,7 @@ interface Order {
     email?: string;
     telefono?: string;
     phone?: string;
+    identification?: string;
     ciudad?: string;
     direccion?: string;
     department?: string;
@@ -1218,6 +1219,9 @@ export default function AdminDashboard() {
                       </div>
                       <div className="flex items-center gap-2 text-stone-600 text-sm">
                         <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'No proporcionado'}
+                      </div>
+                      <div className="flex items-center gap-2 text-stone-600 text-sm">
+                        <span className="text-[10px] font-black text-stone-400">CC:</span> {selectedOrder.customer.identification || 'No proporcionada'}
                       </div>
                       <div className="flex items-center gap-2 text-stone-600 text-sm">
                         <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'No proporcionado'}
