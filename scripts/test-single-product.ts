@@ -10,11 +10,11 @@ async function run() {
   };
 
   const res1 = await fetch(url1, { headers: h });
-  const data1 = await res1.json();
+  const data1: any = await res1.json();
   console.log(`page=1 len:`, data1.results?.length);
 
   const res2 = await fetch(url2, { headers: h });
-  const data2 = await res2.json();
+  const data2: any = await res2.json();
   console.log(`page=2 len:`, data2.results?.length);
   if (data2.results?.length) {
     console.log('Sample ids page 2:', data2.results.slice(0, 3).map((r: any) => r.idProduct));

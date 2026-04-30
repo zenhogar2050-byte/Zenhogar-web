@@ -76,7 +76,7 @@ async function startServer() {
 
   app.post("/api/mastershop/order", async (req, res) => {
     try {
-      const apiKey = process.env.MASTERSHOP_API_KEY;
+      const apiKey = process.env.MASTERSHOP_API_KEY || process.env.VITE_MASTERSHOP_API_KEY;
       if (!apiKey) throw new Error("Mastershop API Key no configurada");
 
       const { ticket, formData, items, total } = req.body;
@@ -237,7 +237,7 @@ async function startServer() {
   // Inventory check
   app.get("/api/mastershop/inventory", async (req, res) => {
     try {
-      const apiKey = process.env.MASTERSHOP_API_KEY;
+      const apiKey = process.env.MASTERSHOP_API_KEY || process.env.VITE_MASTERSHOP_API_KEY;
       if (!apiKey) throw new Error("Mastershop API Key no configurada");
 
       let allProducts: any[] = [];
