@@ -1,12 +1,9 @@
-export const onRequestPost: PagesFunction<{ 
-  GOOGLE_SHEETS_ORDERS_WEBHOOK: string,
-  SHEETS_SECURITY_TOKEN: string
-}> = async (context) => {
+export const onRequestPost: PagesFunction = async (context) => {
   const env = context.env as any;
-  const webhookUrlRaw = env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-  const webhookUrl = webhookUrlRaw?.trim();
+  const webhookUrl = (env.GOOGLE_SHEETS_ORDERS_WEBHOOK || env.VITE_GOOGLE_SHEETS_ORDERS_WEBHOOK || "")?.trim();
+  
   if (!webhookUrl) {
-    return new Response(JSON.stringify({ error: "Webhook URL not configured in Cloudflare" }), {
+    return new Response(JSON.stringify({ error: "Webhook URL de Google Sheets no configurada en Cloudflare" }), {
       status: 500,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
@@ -16,7 +13,7 @@ export const onRequestPost: PagesFunction<{
     const body: any = await context.request.json();
     const payload = {
       ...body,
-      token: env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
+      token: env.SHEETS_SECURITY_TOKEN || env.VITE_SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
       timestamp: new Date().toLocaleString()
     };
 

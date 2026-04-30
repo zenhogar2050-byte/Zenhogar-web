@@ -1,15 +1,13 @@
-export const onRequestGet: PagesFunction<{ 
-  MASTERSHOP_API_KEY: string,
-  VITE_MASTERSHOP_API_KEY: string 
-}> = async (context) => {
+export const onRequestGet: PagesFunction = async (context) => {
   const env = context.env as any;
-  const apiKeyRaw = env.MASTERSHOP_API_KEY || env.VITE_MASTERSHOP_API_KEY;
-  const apiKey = apiKeyRaw?.trim();
+  // Buscar la clave con o sin prefijo VITE_
+  const apiKey = (env.MASTERSHOP_API_KEY || env.VITE_MASTERSHOP_API_KEY || "")?.trim();
 
   if (!apiKey) {
     return new Response(JSON.stringify({ 
       error: "Mastershop API Key no configurada en Cloudflare",
-      debug: { present_keys: Object.keys(env) }
+      ayuda: "Asegúrate de agregar MASTERSHOP_API_KEY en 'Settings > Variables' de tu proyecto en Cloudflare Pages.",
+      keys_encontradas: Object.keys(env)
     }), {
       status: 500,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
@@ -22,8 +20,8 @@ export const onRequestGet: PagesFunction<{
     let hasMore = true;
     let safeguard = 0;
 
-    // Reducimos a 5 páginas para asegurar velocidad en Cloudflare
-    while (hasMore && safeguard < 5) {
+    // Limitamos a 4 páginas para asegurar que no exceda el tiempo de ejecución de Cloudflare Free
+    while (hasMore && safeguard < 4) {
       safeguard++;
       const response = await fetch(`https://prod.api.mastershop.com/api/products?page=${page}`, {
         method: 'GET',
@@ -35,7 +33,7 @@ export const onRequestGet: PagesFunction<{
 
       if (!response.ok) {
         const text = await response.text();
-        throw new Error(`Mastershop API error (pág ${page}): ${response.status} - ${text}`);
+        throw new Error(`Error en pág ${page}: ${response.status} - ${text}`);
       }
 
       const data: any = await response.json();
@@ -56,13 +54,16 @@ export const onRequestGet: PagesFunction<{
 
     return new Response(JSON.stringify(inventory), {
       headers: { 
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", 
         "Access-Control-Allow-Origin": "*",
         "Cache-Control": "no-cache"
       }
     });
   } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message, context: "Inventory CF" }), {
+    return new Response(JSON.stringify({ 
+      error: error.message, 
+      context: "Cloudflare Inventory Function" 
+    }), {
       status: 500,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
