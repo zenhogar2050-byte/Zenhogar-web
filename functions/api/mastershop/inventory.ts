@@ -2,12 +2,13 @@ export const onRequestGet: PagesFunction<{
   MASTERSHOP_API_KEY: string,
   VITE_MASTERSHOP_API_KEY: string 
 }> = async (context) => {
-  const apiKey = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const apiKeyRaw = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const apiKey = apiKeyRaw?.trim();
 
   if (!apiKey) {
     return new Response(JSON.stringify({ 
       error: "Mastershop API Key no configurada en Cloudflare",
-      debug_env_keys: Object.keys(context.env) 
+      env_keys: Object.keys(context.env)
     }), {
       status: 500,
       headers: { 
@@ -21,22 +22,22 @@ export const onRequestGet: PagesFunction<{
     let allProducts: any[] = [];
     let page = 1;
     let hasMore = true;
-    let safeguard = 0; // Evitar bucles infinitos
+    let safeguard = 0;
 
-    while (hasMore && safeguard < 20) {
+    // Solo pedimos hasta 10 páginas para evitar timeouts en Cloudflare Free
+    while (hasMore && safeguard < 10) {
       safeguard++;
       const response = await fetch(`https://prod.api.mastershop.com/api/products?page=${page}`, {
         method: 'GET',
         headers: {
           'ms-api-key': apiKey,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         }
       });
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Mastershop API error: ${response.status} - ${errorText}`);
+        throw new Error(`Mastershop API (pág ${page}) error: ${response.status} - ${errorText}`);
       }
 
       const data: any = await response.json();
@@ -65,7 +66,8 @@ export const onRequestGet: PagesFunction<{
   } catch (error: any) {
     return new Response(JSON.stringify({ 
       error: error.message,
-      stack: error.stack
+      context: "Error en inventory fetch de Cloudflare",
+      safeguard_reached: safeguard
     }), {
       status: 500,
       headers: { 

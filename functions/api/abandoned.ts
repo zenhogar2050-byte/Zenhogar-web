@@ -2,7 +2,8 @@ export const onRequestPost: PagesFunction<{
   GOOGLE_SHEETS_ORDERS_WEBHOOK: string,
   SHEETS_SECURITY_TOKEN: string
 }> = async (context) => {
-  const webhookUrl = context.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
+  const webhookUrlRaw = context.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
+  const webhookUrl = webhookUrlRaw?.trim();
   if (!webhookUrl) {
     return new Response(JSON.stringify({ error: "Webhook URL not configured in Cloudflare" }), {
       status: 500,

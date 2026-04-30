@@ -2,7 +2,8 @@ export const onRequestPost: PagesFunction<{
   MASTERSHOP_API_KEY: string,
   VITE_MASTERSHOP_API_KEY: string 
 }> = async (context) => {
-  const apiKey = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const apiKeyRaw = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const apiKey = apiKeyRaw?.trim();
 
   if (!apiKey) {
     return new Response(JSON.stringify({ error: "Mastershop API Key no configurada en Cloudflare" }), {
