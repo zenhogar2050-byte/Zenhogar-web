@@ -5,9 +5,9 @@ export const onRequestPost: PagesFunction<{
   const apiKey = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
 
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: "Mastershop API Key no configurada" }), {
+    return new Response(JSON.stringify({ error: "Mastershop API Key no configurada en Cloudflare" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
@@ -15,11 +15,11 @@ export const onRequestPost: PagesFunction<{
     const body: any = await context.request.json();
     const { ticket, formData, items, total } = body;
 
+    // --- MISMAS VALIDACIONES ---
     if (!formData || !items) {
       throw new Error("Datos de orden incompletos");
     }
 
-    // --- LÓGICA DE PRECIOS EXACTOS (Idéntica a server.ts) ---
     const GIFT_ID = 11253; 
     const GIFT_PRICE = 1500; 
     const TOTAL_PAID = Number(total) || 0;
@@ -94,19 +94,23 @@ export const onRequestPost: PagesFunction<{
 
     const response = await fetch("https://prod.api.mastershop.com/api/orders", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "ms-api-key": apiKey },
+      headers: { 
+        "Content-Type": "application/json", 
+        "Accept": "application/json",
+        "ms-api-key": apiKey 
+      },
       body: JSON.stringify(payload)
     });
 
     const result = await response.json();
     return new Response(JSON.stringify(result), {
       status: response.ok ? 200 : response.status,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 };

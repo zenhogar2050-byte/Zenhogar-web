@@ -4,9 +4,9 @@ export const onRequestPost: PagesFunction<{
 }> = async (context) => {
   const webhookUrl = context.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
   if (!webhookUrl) {
-    return new Response(JSON.stringify({ error: "Webhook URL not configured" }), {
+    return new Response(JSON.stringify({ error: "Webhook URL not configured in Cloudflare" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
@@ -27,12 +27,12 @@ export const onRequestPost: PagesFunction<{
 
     const result = await response.json();
     return new Response(JSON.stringify(result), {
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 };
