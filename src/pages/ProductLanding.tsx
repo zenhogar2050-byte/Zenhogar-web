@@ -13,12 +13,14 @@ import OrderBump from '../components/OrderBump';
 import FAQSection from '../components/FAQSection';
 import { track } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
+import { useInventory } from '../hooks/useInventory';
 
 export default function ProductLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { addToCart, addComboToCart } = useCart();
+  const { getClientStockStatus, loading: loadingInventory } = useInventory();
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
   const [showSticky, setShowSticky] = useState(false);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
@@ -227,6 +229,35 @@ export default function ProductLanding() {
                 <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
                 <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-2">Verificado</span>
               </div>
+              
+              {product && (
+                <div className="mb-3">
+                  {(() => {
+                    const status = getClientStockStatus(product.mastershopId);
+                    if (loadingInventory) {
+                      return <span className="inline-block px-3 py-1 bg-stone-100 text-stone-500 rounded-lg text-xs font-bold animate-pulse">Consultando disponibilidad...</span>;
+                    }
+                    if (!status) return null;
+                    return (
+                      <span className={cn(
+                        "inline-flex items-center px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest",
+                        status.color === 'green' && "bg-emerald-100 text-emerald-800",
+                        status.color === 'orange' && "bg-orange-100 text-orange-800",
+                        status.color === 'red' && "bg-red-100 text-red-800"
+                      )}>
+                        <div className={cn(
+                          "w-2 h-2 rounded-full mr-2",
+                          status.color === 'green' && "bg-emerald-500",
+                          status.color === 'orange' && "bg-orange-500",
+                          status.color === 'red' && "bg-red-500"
+                        )} />
+                        {status.label}
+                      </span>
+                    );
+                  })()}
+                </div>
+              )}
+
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-1 leading-tight font-display">
                 {product.name} - {product.shortDescription}
               </h1>

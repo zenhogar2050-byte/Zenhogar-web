@@ -11,11 +11,13 @@ import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import { track } from '../utils/pixel';
 import { useEffect, useState } from 'react';
+import { useInventory } from '../hooks/useInventory';
 
 export default function ComboLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addComboToCart } = useCart();
+  const { getClientStockStatus, loading: loadingInventory } = useInventory();
 
   const combo = PROMOTIONS.find(p => p.id === id) || (COMBO_OF_THE_MONTH.id === id ? COMBO_OF_THE_MONTH : null);
 
@@ -161,6 +163,35 @@ export default function ComboLanding() {
               <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest mb-4">
                 {combo.badge}
               </div>
+
+              {combo && (combo as any).mastershopId && (
+                <div className="mb-3">
+                  {(() => {
+                    const status = getClientStockStatus((combo as any).mastershopId);
+                    if (loadingInventory) {
+                      return <span className="inline-block px-3 py-1 bg-stone-100 text-stone-500 rounded-lg text-xs font-bold animate-pulse">Consultando disponibilidad...</span>;
+                    }
+                    if (!status) return null;
+                    return (
+                      <span className={cn(
+                        "inline-flex items-center px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest",
+                        status.color === 'green' && "bg-emerald-100 text-emerald-800",
+                        status.color === 'orange' && "bg-orange-100 text-orange-800",
+                        status.color === 'red' && "bg-red-100 text-red-800"
+                      )}>
+                        <div className={cn(
+                          "w-2 h-2 rounded-full mr-2",
+                          status.color === 'green' && "bg-emerald-500",
+                          status.color === 'orange' && "bg-orange-500",
+                          status.color === 'red' && "bg-red-500"
+                        )} />
+                        {status.label}
+                      </span>
+                    );
+                  })()}
+                </div>
+              )}
+
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
                 {cleanPromoName(combo.name)}
               </h1>

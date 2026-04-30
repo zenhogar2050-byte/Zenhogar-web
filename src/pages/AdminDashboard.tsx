@@ -45,11 +45,14 @@ import {
   Clipboard,
   FileText,
   MapPin,
-  Calendar
+  Calendar,
+  Activity
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, db } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { useInventory } from '../hooks/useInventory';
+import { PRODUCTS } from '../constants';
 
 interface Order {
   id: string;
@@ -91,7 +94,9 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'analytics'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'webhooks'>('orders');
+  const [webhookLogs, setWebhookLogs] = useState<any[]>([]);
+  const { inventory, loading: loadingInventory, getStockStatus } = useInventory();
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -188,6 +193,25 @@ export default function AdminDashboard() {
     
     return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n${ticket}*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${customer.direccion || 'N/A'}\n🏙️ Ciudad: ${customer.ciudad || 'N/A'}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
   };
+
+  const fetchWebhookLogs = async () => {
+    try {
+      const res = await fetch('/api/mastershop/webhook-logs');
+      if (res.ok) {
+        setWebhookLogs(await res.json());
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'webhooks') {
+      fetchWebhookLogs();
+      const interval = setInterval(fetchWebhookLogs, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [activeTab]);
 
   const handleDeleteOrder = async (orderId: string) => {
     if (!window.confirm('¿Estás seguro de que deseas eliminar este cliente/pedido? Esta acción no se puede deshacer.')) return;
@@ -435,6 +459,24 @@ export default function AdminDashboard() {
             )}
           >
             <TrendingUp className="w-5 h-5" /> Analítica
+          </button>
+          <button 
+            onClick={() => setActiveTab('inventory')}
+            className={cn(
+              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
+              activeTab === 'inventory' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+            )}
+          >
+            <Package className="w-5 h-5" /> Inventario
+          </button>
+          <button 
+            onClick={() => setActiveTab('webhooks')}
+            className={cn(
+              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
+              activeTab === 'webhooks' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+            )}
+          >
+            <Activity className="w-5 h-5" /> Webhooks (Mastershop)
           </button>
         </nav>
 
@@ -840,7 +882,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </motion.div>
-            ) : (
+            ) : activeTab === 'analytics' ? (
               <motion.div
                 key="analytics"
                 initial={{ opacity: 0, y: 10 }}
@@ -1009,7 +1051,105 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </motion.div>
-            )}
+            ) : activeTab === 'inventory' ? (
+               <motion.div
+                key="inventory"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6"
+              >
+                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold">Estado del Inventario (Mastershop)</h2>
+                    {loadingInventory && <span className="text-sm text-stone-500 animate-pulse">Sincronizando...</span>}
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-stone-50/50 border-b border-stone-100">
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">ID / Código Mastershop</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Producto</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Unidades</th>
+                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-100">
+                        {PRODUCTS.map(product => {
+                           const status = getStockStatus(product.mastershopId);
+                           const stockStr = status ? status.stock.toLocaleString('es-CO') : '---';
+                           return (
+                             <tr key={product.id} className="hover:bg-stone-50/50 transition-colors">
+                                <td className="px-6 py-4 text-xs font-mono text-stone-500">#{product.mastershopId}</td>
+                                <td className="px-6 py-4 font-bold text-sm">{product.name}</td>
+                                <td className="px-6 py-4 font-mono text-sm">{stockStr}</td>
+                                <td className="px-6 py-4">
+                                  {status ? (
+                                    <span className={cn(
+                                      "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest",
+                                      status.color === 'green' && "bg-emerald-100 text-emerald-700",
+                                      status.color === 'orange' && "bg-orange-100 text-orange-700",
+                                      status.color === 'red' && "bg-red-100 text-red-700"
+                                    )}>
+                                      {status.label}
+                                    </span>
+                                  ) : (
+                                    <span className="text-[10px] text-stone-400">CARGANDO</span>
+                                  )}
+                                </td>
+                             </tr>
+                           )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </motion.div>
+            ) : activeTab === 'webhooks' ? (
+              <motion.div
+                key="webhooks"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6"
+              >
+                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold flex items-center gap-2">
+                       <Activity className="w-6 h-6 text-emerald-500" />
+                       Últimos Webhooks Recibidos
+                    </h2>
+                    <button 
+                      onClick={fetchWebhookLogs}
+                      className="px-4 py-2 bg-stone-100 text-stone-600 rounded-xl text-sm font-bold hover:bg-stone-200 transition-colors"
+                    >
+                      Actualizar
+                    </button>
+                  </div>
+                  
+                  {webhookLogs.length === 0 ? (
+                    <div className="text-center py-12 text-stone-400">
+                      <p>Aún no se han recibido webhooks.</p>
+                      <p className="text-xs mt-2">Configura la URL <strong>https://zenhogar.live/api/mastershop/webhook</strong> en Mastershop.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {webhookLogs.map((log, index) => (
+                        <div key={index} className="bg-stone-50 border border-stone-200 rounded-2xl p-4">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-xs font-black text-stone-500 uppercase tracking-widest">{new Date(log.receivedAt).toLocaleString('es-CO')}</span>
+                            <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg font-bold">RECIBIDO</span>
+                          </div>
+                          <pre className="bg-stone-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto">
+                            {JSON.stringify(log.payload, null, 2)}
+                          </pre>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ) : null}
           </AnimatePresence>
         </div>
       </main>
@@ -1039,12 +1179,24 @@ export default function AdminDashboard() {
                   <p className="text-[10px] uppercase font-black text-stone-400 tracking-widest">{selectedOrder.id.slice(-8)} • {selectedOrder.type === 'order' ? 'Venta Directa' : 'Abandono'}</p>
                 </div>
               </div>
-              <button 
-                onClick={() => setSelectedOrder(null)}
-                className="w-10 h-10 rounded-xl bg-stone-200 text-stone-500 flex items-center justify-center hover:bg-stone-300 transition-all"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => {
+                    handleDeleteOrder(selectedOrder.id);
+                    setSelectedOrder(null);
+                  }}
+                  title="Eliminar Pedido"
+                  className="w-10 h-10 rounded-xl bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-200 transition-all group"
+                >
+                  <Trash2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                </button>
+                <button 
+                  onClick={() => setSelectedOrder(null)}
+                  className="w-10 h-10 rounded-xl bg-stone-200 text-stone-500 flex items-center justify-center hover:bg-stone-300 transition-all"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Modal Body */}
@@ -1239,13 +1391,19 @@ function StatusBadge({ status, type }: { status: string, type: string }) {
   );
 
   const config: any = {
-    pending: { label: "PEDIDO PENDIENTE DE CONFIRMACIÓN", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
-    confirmed: { label: "PEDIDO CONFIRMADO", bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500" },
-    sent: { label: "Enviado", bg: "bg-blue-100", text: "text-blue-700", dot: "bg-blue-500" },
-    shipped_with_guide: { label: "Guía Asignada", bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
-    delivered: { label: "Entregado", bg: "bg-emerald-600 text-white", text: "text-white", dot: "bg-white" },
-    cancelled: { label: "Cancelado", bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
-    withdrawn: { label: "Desistió", bg: "bg-stone-200", text: "text-stone-700", dot: "bg-stone-500" },
+    pending: { label: "PENDIENTE CONFIRMACIÓN", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
+    confirmed: { label: "CONFIRMADO / POR ALISTAR", bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500" },
+    ready_to_ship: { label: "PEDIDO POR ALISTAR", bg: "bg-blue-50", text: "text-blue-700", dot: "bg-blue-500" },
+    waiting_collection: { label: "POR RECOLECTAR", bg: "bg-indigo-50", text: "text-indigo-700", dot: "bg-indigo-500" },
+    collected: { label: "RECOLECTADO", bg: "bg-indigo-100", text: "text-indigo-700", dot: "bg-indigo-600" },
+    in_transit: { label: "EN TRÁNSITO", bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
+    out_for_delivery: { label: "EN REPARTO", bg: "bg-emerald-100", text: "text-emerald-700", dot: "bg-emerald-500" },
+    at_office: { label: "EN OFICINA", bg: "bg-stone-100", text: "text-stone-700", dot: "bg-stone-500" },
+    delivered: { label: "ENTREGADO", bg: "bg-emerald-600", text: "text-white", dot: "bg-white" },
+    with_issue: { label: "CON NOVEDAD", bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
+    cancelled: { label: "CANCELADO", bg: "bg-red-50", text: "text-red-600", dot: "bg-red-400" },
+    withdrawn: { label: "DESISTIÓ", bg: "bg-stone-200", text: "text-stone-600", dot: "bg-stone-400" },
+    shipped_with_guide: { label: "GUÍA ASIGNADA", bg: "bg-purple-50", text: "text-purple-600", dot: "bg-purple-400" },
   };
 
   const c = config[status] || config.pending;
@@ -1262,10 +1420,12 @@ function StatusActions({ currentStatus, onUpdate, onDelete }: { currentStatus: s
 
   const options = [
     { id: 'pending', label: 'Pend. Conf.', icon: Clock },
-    { id: 'confirmed', label: 'Confirmado', icon: CheckCircle2 },
-    { id: 'sent', label: 'Enviado', icon: TrendingUp },
-    { id: 'shipped_with_guide', label: 'Guía Asignada', icon: Truck },
+    { id: 'confirmed', label: 'Por Alistar', icon: FileText },
+    { id: 'waiting_collection', label: 'Por Recolectar', icon: Package },
+    { id: 'in_transit', label: 'En Tránsito', icon: Truck },
+    { id: 'out_for_delivery', label: 'En Reparto', icon: Activity },
     { id: 'delivered', label: 'Entregado', icon: CheckCircle2 },
+    { id: 'with_issue', label: 'Novedad', icon: XCircle },
     { id: 'cancelled', label: 'Cancelado', icon: XCircle },
     { id: 'withdrawn', label: 'Desistió', icon: Trash2 },
   ];

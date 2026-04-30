@@ -165,6 +165,23 @@ export default function Checkout() {
         ticket_number: currentTicket
       });
 
+      // Mastershop Sync
+      try {
+        await fetch('/api/mastershop/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ticket: currentTicket,
+            formData: formData,
+            items: items,
+            total: total
+          })
+        });
+      } catch (mastershopErr) {
+        console.error("Error al sincronizar con Mastershop:", mastershopErr);
+        // Fallar silenciosamente para no bloquear la redirección
+      }
+
       // SI HABÍA UN REGISTRO DE ABANDONO PREVIO, LO ELIMINAMOS PARA EVITAR DUPLICADOS
       if (abandonedId) {
         const { deleteOrderFromFirebase } = await import('../lib/firebase');

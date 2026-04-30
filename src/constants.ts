@@ -8,6 +8,7 @@ export interface Product {
   basePrice: number;
   size?: string;
   category: string;
+  mastershopId?: number;
   promos: {
     id: string;
     label: string;
@@ -70,6 +71,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'rtafull',
     name: 'Rtafull',
+    mastershopId: 11323,
     category: 'salud-bienestar',
     shortDescription: 'Depura tu hígado y elimina la pesadez estomacal de inmediato.',
     description: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. ✔️ Vientre Ligero: Ayuda a reducir la sensación de pesadez y estimula la digestión para sentirte más liviano cada día. ✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.',
@@ -118,6 +120,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'coliplus',
     name: 'Coliplus',
+    mastershopId: 11341,
     category: 'salud-bienestar',
     shortDescription: 'Regula tu tránsito intestinal y limpia el colon naturalmente.',
     description: 'Mezcla de fibras naturales para una digestión fácil y regular. Apto para diabéticos y con un rendimiento de hasta 2 meses.',
@@ -166,6 +169,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'colageno',
     name: 'Colágeno + Citrato de Magnesio',
+    mastershopId: 181083,
     category: 'salud-bienestar',
     shortDescription: 'Fortalece tus articulaciones y mejora la calidad de tu sueño.',
     description: 'Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para todas las edades y enfocado en la hidratación de tu piel.',
@@ -214,6 +218,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'resvis',
     name: 'Resvifactor (Calostro Bovino)',
+    mastershopId: 211106,
     category: 'salud-bienestar',
     shortDescription: 'Aumenta tus defensas y protege tu cuerpo contra virus.',
     description: '✔️ Escudo Natural: Con Calostro Bovino y Hongos Naturales (Shiitake) para fortalecer tu sistema inmunológico. ✔️ Energía para Todos: Ideal para adultos mayores y jóvenes que buscan protección contra virus y bacterias. ✔️ Bienestar diario: Ayuda a la recuperación del cuerpo y aporta vitalidad inmediata.',
@@ -262,6 +267,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'cla500',
     name: 'CLA 500',
+    mastershopId: 61652,
     category: 'salud-bienestar',
     shortDescription: 'Reconforta articulaciones y reduce la pesadez corporal.',
     description: 'Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulaciones y proteger tu piel del paso del tiempo.',
@@ -314,6 +320,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'cafetolio',
     name: 'Café Verde Cafetolio',
+    mastershopId: 11262,
     category: 'salud-bienestar',
     shortDescription: 'Activa tu metabolismo y controla la ansiedad de picar.',
     description: 'Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu vientre plano y darte energía.',
@@ -366,6 +373,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'locion',
     name: 'Loción Termoactiva',
+    mastershopId: 11236,
     category: 'salud-bienestar',
     shortDescription: 'Alivio Rápido para Músculos y Articulaciones.',
     description: '✔️ Calma el Dolor: Con extractos de Uña de Gato y Caléndula que alivian golpes, torceduras y calambres. ✔️ Relajación Total: Ideal para aplicar después del ejercicio o tras un día de mucho esfuerzo físico. ✔️ Efecto Rápido: Se absorbe velozmente proporcionando alivio y descanso en la zona afectada.',
@@ -419,6 +427,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'c-lagen',
     name: 'C-Lagen',
+    mastershopId: 144660,
     category: 'salud-bienestar',
     shortDescription: 'Refuerzo del Mar para tus Rodillas.',
     description: 'Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos y mejorar tu movilidad diaria.',
@@ -471,6 +480,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'citramix',
     name: 'Citramix',
+    mastershopId: 129312,
     category: 'salud-bienestar',
     shortDescription: 'Relajante de Músculos y Nervios.',
     description: 'Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar calambres y mantener la calma diaria.',
@@ -519,6 +529,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'coffee-colageno',
     name: 'Coffee + Colágeno',
+    mastershopId: 26845,
     category: 'salud-bienestar',
     shortDescription: 'Café con Vitaminas para tu Belleza.',
     description: 'Combina tu café matutino con el poder del colágeno y crema de coco para fortalecer tu cabello, uñas y defensas sin caer pesado.',
@@ -567,6 +578,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'creatina',
     name: 'Creatina 100%',
+    mastershopId: 164776,
     category: 'salud-bienestar',
     shortDescription: 'Fuerza para tus Músculos y Cerebro.',
     description: 'Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despierta y concentrada.',
@@ -615,6 +627,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'iprossmen',
     name: 'Iprossmen',
+    mastershopId: 11299,
     category: 'salud-bienestar',
     shortDescription: 'Protección Natural para el Hombre.',
     description: 'Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y mantener tu energía a largo plazo.',
@@ -663,6 +676,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'kds-10',
     name: 'KDS 10',
+    mastershopId: 129333,
     category: 'salud-bienestar',
     shortDescription: 'Fórmula avanzada multivitamínica.',
     description: 'KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.',
@@ -715,6 +729,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'liofhim',
     name: 'Liofhim',
+    mastershopId: 57848,
     category: 'salud-bienestar',
     shortDescription: 'Bebida de Plantas para Dormir Profundo.',
     description: 'Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar renovado cada mañana.',
@@ -763,6 +778,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'liteplex',
     name: 'Liteplex',
+    mastershopId: 26272,
     category: 'salud-bienestar',
     shortDescription: 'Alivio Natural para tu Digestión.',
     description: '✔️ Bienestar Estomacal: Con Jengibre, Limón y Albahaca que ayudan a calmar la pesadez y la acidez de forma natural. ✔️ Recuperación: Ideal para cuidar tu sistema digestivo después de comidas pesadas o molestias persistentes. ✔️ Sin Azúcar: Endulzado con Estevia, perfecto para cuidar tu salud sin sumar calorías.',
@@ -814,6 +830,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'maxlite-colageno',
     name: 'Maxlite',
+    mastershopId: 11264,
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Integral para Huesos y Piel.',
     description: '✔️ Cuidado de Articulaciones: Con colágeno y quinua para mantener tus huesos y articulaciones fuertes y sanos. ✔️ Piel y Cabello: Ayuda a mejorar la apariencia de la piel y fortalecer el cabello desde adentro. ✔️ Multivitamínico: Aporta las vitaminas esenciales para que tu cuerpo funcione con vitalidad.',
@@ -865,6 +882,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'megamac',
     name: 'Megamac',
+    mastershopId: 11247,
     category: 'salud-bienestar',
     shortDescription: 'Energía Renovada y Vitalidad Física.',
     description: '✔️ Potencia Natural: Con Maca, Borojó y Chontaduro para combatir el cansancio y la debilidad diaria. ✔️ Energía Física: Ideal para personas que buscan un extra de fuerza y rendimiento en sus actividades. ✔️ Bienestar General: Ayuda a fortalecer las defensas y mantener el cerebro despierto y rápido.',
@@ -917,6 +935,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'resveratrol',
     name: 'Resveratrol',
+    mastershopId: 129297,
     category: 'salud-bienestar',
     shortDescription: 'El poder del resveratrol.',
     description: 'Potente antioxidante para el cuidado celular y antienvejecimiento.',
@@ -964,6 +983,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'eventone',
     name: 'Eventone',
+    mastershopId: 23015,
     category: 'belleza-integral',
     shortDescription: 'Hidratación Intensa y Firmeza Facial.',
     description: '✔️ Efecto Relleno: Ayuda a que la piel retenga su humedad natural, suavizando las líneas de expresión. ✔️ Firmeza Real: Fortalece la estructura del rostro para que luzca más joven y terso. ✔️ Calma la Piel: Con extracto de Manzanilla que alivia la irritación y mejora la textura diaria.',
@@ -1012,6 +1032,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'golden-passion',
     name: 'Golden Passion',
+    mastershopId: 61681,
     category: 'belleza-integral',
     shortDescription: 'Bronceado Natural sin necesidad de Sol.',
     description: '✔️ Color Saludable: Logra un tono canela envidiable en pocas horas sin arriesgar tu piel a los rayos del sol. ✔️ Sin Manchas: Su fórmula de rápida absorción asegura un color uniforme en todo el cuerpo. ✔️ Rico en Vitaminas: Contiene vitamina E para hidratar la piel mientras luce un color radiante.',
@@ -1064,6 +1085,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'hydrastrik',
     name: 'Hydrastrik',
+    mastershopId: 11346,
     category: 'belleza-integral',
     shortDescription: 'Hidratación Profunda contra las Estrías.',
     description: '✔️ Piel Elástica: Mezcla aceites de coco, almendras y aguacate que preparan la piel para evitar estiramientos bruscos. ✔️ Regeneración Celular: Ayuda a mejorar la textura de la piel, haciéndola sentir más suave y flexible. ✔️ Uso Versátil: Perfecto para masajes relajantes gracias a su agradable sensación sensorial.',
@@ -1116,6 +1138,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'miskinne',
     name: 'Miskinne',
+    mastershopId: 11290,
     category: 'belleza-integral',
     shortDescription: 'Piel Uniforme y Libre de Manchas.',
     description: '✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas osapoyas en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.',
@@ -1168,6 +1191,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'tonico-capilar',
     name: 'Tónico Capilar (Extractos Mágicos)',
+    mastershopId: 11260,
     category: 'belleza-integral',
     shortDescription: 'Fortalece y Estimula el Crecimiento de tu Cabello.',
     description: '✔️ Cabello más fuerte: Su fórmula avanzada ayuda a recuperar el vigor desde la raíz, evitando que se quiebre o se caiga. ✔️ Nacimiento de nuevo cabello: Ideal para poblar zonas delgadas en el cuero cabelludo, cejas o barba. ✔️ Nutrición Herbal: Contiene una mezcla de 16 extractos de plantas que mantienen el cabello sano y brillante.',
@@ -1220,6 +1244,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'tufoff',
     name: 'Tufoff',
+    mastershopId: 68746,
     category: 'belleza-integral',
     shortDescription: 'Refresca el aliento al instante.',
     description: 'Producto especializado que refresca el aliento al instante con sabores naturales de menta, canela y naranja.',
@@ -1268,6 +1293,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'akha',
     name: 'Akha (Crema Voluminizante)',
+    mastershopId: 61195,
     category: 'salud-sexual',
     shortDescription: 'Mejora la Apariencia y Firmeza de la Piel.',
     description: '✔️ Piel con más Cuerpo: Su alto poder hidratante ayuda a que la piel se vea más rellena y saludable. ✔️ Efecto Antioxidante: Protege la piel del envejecimiento, mejorando su elasticidad en zonas específicas del cuerpo. ✔️ Para Toda Piel: Una crema suave que se absorbe rápido y no genera grasa.',
@@ -1320,6 +1346,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'derman',
     name: 'Derman (Mascarilla Íntima)',
+    mastershopId: 61835,
     category: 'salud-sexual',
     shortDescription: 'Higiene y Protección para tu Zona Íntima.',
     description: '✔️ Adiós a la Irritación: Calma la piel después de la depilación o el afeitado, evitando brotes o molestias. ✔️ Protección Natural: Ayuda a mantener el equilibrio y la salud de la piel en áreas delicadas. ✔️ Hidratación Especializada: Mantiene la zona suave y flexible, promoviendo el confort diario.',
@@ -1372,6 +1399,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'haydar',
     name: 'Haydar (Bebida Energizante)',
+    mastershopId: 166801,
     category: 'salud-sexual',
     shortDescription: 'Energía y Vitalidad en un Solo Sorbo.',
     description: '✔️ Impulso Natural: Con Borojó y Maca que te dan ese ánimo extra que necesitas antes de una actividad importante. ✔️ Mente Despierta: Contiene vitaminas del complejo B que ayudan a mantener la concentración y el enfoque. ✔️ Sabor Refrescante: Disfruta de un delicioso sabor a mora azul sin necesidad de grandes volúmenes de líquido.',
@@ -1424,6 +1452,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'instant-virgin',
     name: 'Instant Virgin (Gel Íntimo)',
+    mastershopId: 60017,
     category: 'salud-sexual',
     shortDescription: 'Confianza y Revitalización Íntima.',
     description: '✔️ Firmeza y Tonificación: Proporciona una sensación de tono y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
@@ -1476,6 +1505,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'mamooth',
     name: 'Mammoth (Crema Voluminizante)',
+    mastershopId: 11360,
     category: 'salud-sexual',
     shortDescription: 'Firmeza y Apariencia Saludable para tu Piel.',
     description: '✔️ Efecto Volumen: Ayuda a mejorar la textura y apariencia de la piel en las zonas donde más lo necesitas. ✔️ Hidratación Extrema: Sus aceites naturales mantienen la piel elástica, evitando que luzca seca o sin vida. ✔️ Rápida Absorción: Una fórmula profesional que no deja sensación grasosa y actúa desde la primera aplicación.',
@@ -1527,6 +1557,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'tyruss-full',
     name: 'Tyruss Full',
+    mastershopId: 52600,
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
     description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y reconforta el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
@@ -1578,6 +1609,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'zafir',
     name: 'Zafir Energizante',
+    mastershopId: 166802,
     category: 'salud-sexual',
     shortDescription: 'Tu Impulso de Energía Natural.',
     description: '✔️ Vitalidad Inmediata: Gracias a la Maca y el Borojó, te ayuda a recuperar el ánimo y la fuerza antes de cualquier actividad importante. ✔️ Concentración: Sus componentes naturales mantienen tu mente alerta y enfocada. ✔️ Sabor Delicioso: Disfruta de una mezcla refrescante de arándanos y frutas que te recarga sin pesadez.',
@@ -1625,6 +1657,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'zeus',
     name: 'Zeus',
+    mastershopId: 61653,
     category: 'salud-sexual',
     shortDescription: 'Máxima Potencia y Resistencia Diaria.',
     description: '✔️ Vigor Natural: Con Borojó y Chontaduro que elevan tus niveles de energía y potencia física de forma natural. ✔️ Escudo de Defensas: Fortalece tu sistema inmunológico para protegerte contra virus y debilidad. ✔️ Recuperación: Ideal para combatir el cansancio crónico y sentirte joven y activo nuevamente.',
@@ -1672,6 +1705,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'nad-1',
     name: '+NAD',
+    mastershopId: 129308,
     category: 'salud-bienestar',
     shortDescription: 'Cuidado Antiedad Integral y Vitalidad Celular.',
     description: '✔️ Rejuvenecimiento Celular: Con Nicotinamida (NAD) y Resveratrol para proteger tus células del envejecimiento. ✔️ Energía y Vitalidad: Ayuda a recuperar la energía perdida y mejora el metabolismo. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión y absorción.',
@@ -1722,6 +1756,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'titan-coffee',
     name: 'Titan Coffee',
+    mastershopId: 23013,
     category: 'salud-sexual',
     shortDescription: 'Café Energizante para un Rendimiento Máximo.',
     description: '✔️ Desayuno de Campeones: Combina el sabor del café con el poder de la Maca y el Chontaduro para empezar el día con fuerza. ✔️ Energía Duradera: Ayuda a reducir la fatiga física y mental durante largas jornadas de trabajo. ✔️ Base Saludable: Elaborado sobre una base de crema de coco, siendo suave con tu estómago y fácil de digerir.',
@@ -1771,6 +1806,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'hemocream',
     name: 'Hemocream',
+    mastershopId: 58626,
     category: 'salud-bienestar',
     shortDescription: 'Alivio Suave con Hierbas Naturales.',
     description: 'Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y con facilidad al ir al baño.',
@@ -1815,105 +1851,12 @@ export const PRODUCTS: Product[] = [
       title: 'Alivio y confort inmediato',
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Hemocream ayuda a calmar el ardor y la pesadez gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
     }
-  },
-  {
-    id: 'reneu',
-    name: 'Reneu',
-    category: 'belleza-integral',
-    shortDescription: 'Renovación Capilar y Fuerza.',
-    description: 'Cuidado que alimenta el folículo desde adentro, ayudando a que el cabello crezca con más fuerza y evitando que se quiebre.',
-    seoTitle: 'Renovación Capilar y Fuerza con Reneu Natural',
-    seoDescription: 'Fortalece tu cabello desde la raíz con Reneu. Nutre el folículo para un brillo natural y evita el quiebre. ¡Registro INVIMA en proceso!',
-    benefits: [
-      'Cabello fuerte: Ayuda a que crezca con más fuerza',
-      'Nutrición total: Alimenta el folículo desde adentro',
-      'Fácil de usar: Agrégalo a tu rutina para resultados constantes'
-    ],
-    image: '/assets/products/reneu.webp',
-    basePrice: 89900,
-    size: '120 ml',
-    invima: 'Registro en proceso de verificación',
-    keywords: 'crecimiento capilar, cabello fuerte, nutrición folicular, caída de cabello, Reneu, Zenhogar, brillo natural',
-    components: 'Biotina, Pantenol, Extractos Botánicos',
-    longTailKeywords: [
-      'mejor cuidado natural para fortalecer el cabello y evitar el quiebre',
-      'cómo alimentar el folículo capilar desde adentro para brillo natural',
-      'suplemento para la renovación capilar y crecimiento saludable',
-      'beneficios de Reneu para el bienestar integral del cabello',
-      'fórmula para una nutrición total del folículo y volumen capilar',
-      'bienestar integral y vitalidad capilar con calidad certificada',
-    ],
-    seoFaqs: [
-      { q: '¿Cuándo noto mi cabello más fuerte?', a: 'Muchos usuarios ven una mejora en la resistencia y brillo de su cabello tras las primeras semanas de bienestar integral.' },
-      { q: '¿Se aplica en el cuero cabelludo?', a: 'Sí, su fórmula está diseñada para nutrir directamente la raíz del problema con calidad certificada.' },
-      { q: '¿Es apto para todo tipo de cabello?', a: 'Absolutamente, Reneu respeta el equilibrio natural de tu cabello sin importar su textura.' }
-    ],
-    promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 134850 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
-    ],
-    testimonials: [
-      { name: 'Diana R.', text: 'Mi cabello se siente mucho más grueso y ya no se me cae tanto. Muy feliz.', rating: 5 },
-      { name: 'Andrés K.', text: 'Excelente para darle vida al cabello opaco. Se nota la nutrición real.', rating: 5 }
-    ],
-    whyChoose: {
-      title: 'Renovación capilar profunda',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para tu belleza. Reneu alimenta tu cabello desde la raíz para una fuerza y brillo inigualables. Calidad certificada para tu confianza capilar.'
-    }
-  },
-  {
-    id: 'evemen',
-    name: 'Evemen',
-    category: 'salud-sexual',
-    shortDescription: 'Vitalidad Masculina Diaria.',
-    description: 'Mezcla natural diseñada para darte la energía constante que necesitas para rendir al máximo en el trabajo y el hogar.',
-    seoTitle: 'Vitalidad Masculina Diaria con Evemen Natural',
-    seoDescription: 'Mantén el ritmo sin agotarte con Evemen. Energía constante y bienestar masculino con ingredientes 100% seguros y certificados. ¡Registro INVIMA!',
-    benefits: [
-      'Energía constante: Mantén el ritmo sin agotarte',
-      'Bienestar Masculino: Apoya la salud del hombre moderno',
-      '100% Seguro: Con ingredientes naturales certificados'
-    ],
-    image: '/assets/products/evemen.webp',
-    basePrice: 89900,
-    size: '60 Cápsulas',
-    invima: 'Registro en proceso de verificación',
-    keywords: 'vitalidad masculina, energía diaria, rendimiento hombre, salud masculina, Evemen, Zenhogar, vigor natural',
-    components: 'Maca, Ginseng, Vitaminas, Minerales',
-    longTailKeywords: [
-      'mejor suplemento natural para energía constante del hombre',
-      'cómo rendir al máximo en el trabajo y el hogar sin agotarse',
-      'suplemento para el bienestar masculino y vitalidad diaria',
-      'beneficios de Evemen para el equilibrio natural del hombre',
-      'fórmula segura con ingredientes certificados para el hombre moderno',
-      'bienestar integral y vitalidad masculina con calidad certificada',
-    ],
-    seoFaqs: [
-      { q: '¿Me da energía para todo el día?', a: 'Sí, su fórmula balanceada asegura un flujo constante de vitalidad para tu bienestar integral.' },
-      { q: '¿Cómo debo tomar Evemen?', a: 'Se recomienda el consumo diario para mantener un equilibrio natural y rendimiento óptimo en tus labores.' },
-      { q: '¿Es un producto certificado?', a: 'Cumplimos con altos estándares de calidad certificada para brindarte un producto 100% seguro.' }
-    ],
-    promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 134850 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 179800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 269700, badge: '🔥 Mejor Oferta' }
-    ],
-    testimonials: [
-      { name: 'Jorge M.', text: 'Por fin un producto que me da energía real sin ponerme nervioso. Muy bueno.', rating: 5 },
-      { name: 'Ricardo F.', text: 'Excelente para el día a día. Siento que rindo mucho más en la oficina.', rating: 5 }
-    ],
-    whyChoose: {
-      title: 'Vitalidad para tu ritmo de vida',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para tu plenitud. Evemen te brinda la energía y el bienestar que el hombre moderno necesita mediante ingredientes naturales de alta pureza. Vitalidad constante con calidad certificada.'
-    }
   }
 ];
 
 export const COMBO_OF_THE_MONTH = {
   id: 'combo-bienestar',
+  mastershopId: 211176,
   name: 'Inmunidad Dual',
   description: 'Resvisfactor y Coliplus: la combinación perfecta para confortar tu vientre, sentirte mas ligero y libre de molestias.',
   image: '/assets/combos/combo-bienestar.webp',
