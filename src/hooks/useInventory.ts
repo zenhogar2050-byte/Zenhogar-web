@@ -10,7 +10,15 @@ export function useInventory() {
       try {
         const response = await fetch('/api/mastershop/inventory');
         if (!response.ok) {
-          throw new Error('Failed to fetch inventory');
+          try {
+            const errorData: any = await response.json();
+            throw new Error(errorData.error || 'Error al conectar con Mastershop');
+          } catch (e: any) {
+            if (e.message.includes('JSON')) {
+              throw new Error('Error en el servidor de inventario');
+            }
+            throw e;
+          }
         }
         const data = await response.json();
         setInventory(data);

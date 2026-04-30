@@ -84,10 +84,14 @@ export const generateSchemaGraph = (params: {
             "@context": "https://schema.org",
             "@type": "Product",
             "name": productData.name,
-            "description": description,
-            "sku": String(productData.id || "zen-001"),
+            "description": productData.description || description,
+            "sku": String(productData.id || "zen-" + (productData.name || "prod").toLowerCase().replace(/\s+/g, '-')),
+            "mpn": String(productData.id || "zen-" + (productData.name || "prod").toLowerCase().replace(/\s+/g, '-')),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
-            "brand": { "@type": "Brand", "name": "Zenhogar" },
+            "brand": { 
+                "@type": "Brand", 
+                "name": "Zenhogar" 
+            },
             "offers": offers
         };
 

@@ -150,7 +150,7 @@ export default function Checkout() {
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(sheetsPayload),
         });
-        const result = await response.json();
+        const result: any = await response.json();
         currentTicket = result.ticket || "N/A";
       } catch (err) {
         console.error("Error fetching ticket:", err);

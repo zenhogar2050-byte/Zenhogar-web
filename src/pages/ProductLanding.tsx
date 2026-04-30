@@ -133,6 +133,7 @@ export default function ProductLanding() {
         productData={{
           id: product.id,
           name: product.name,
+          description: product.description,
           category: product.category,
           lowPrice: product.promos[0].price,
           highPrice: product.promos[product.promos.length - 1].price,
