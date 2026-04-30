@@ -2,19 +2,17 @@ export const onRequestGet: PagesFunction<{
   MASTERSHOP_API_KEY: string,
   VITE_MASTERSHOP_API_KEY: string 
 }> = async (context) => {
-  const apiKeyRaw = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const env = context.env as any;
+  const apiKeyRaw = env.MASTERSHOP_API_KEY || env.VITE_MASTERSHOP_API_KEY;
   const apiKey = apiKeyRaw?.trim();
 
   if (!apiKey) {
     return new Response(JSON.stringify({ 
       error: "Mastershop API Key no configurada en Cloudflare",
-      env_keys: Object.keys(context.env)
+      debug: { present_keys: Object.keys(env) }
     }), {
       status: 500,
-      headers: { 
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
@@ -24,8 +22,8 @@ export const onRequestGet: PagesFunction<{
     let hasMore = true;
     let safeguard = 0;
 
-    // Solo pedimos hasta 10 páginas para evitar timeouts en Cloudflare Free
-    while (hasMore && safeguard < 10) {
+    // Reducimos a 5 páginas para asegurar velocidad en Cloudflare
+    while (hasMore && safeguard < 5) {
       safeguard++;
       const response = await fetch(`https://prod.api.mastershop.com/api/products?page=${page}`, {
         method: 'GET',
@@ -36,8 +34,8 @@ export const onRequestGet: PagesFunction<{
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Mastershop API (pág ${page}) error: ${response.status} - ${errorText}`);
+        const text = await response.text();
+        throw new Error(`Mastershop API error (pág ${page}): ${response.status} - ${text}`);
       }
 
       const data: any = await response.json();
@@ -64,16 +62,9 @@ export const onRequestGet: PagesFunction<{
       }
     });
   } catch (error: any) {
-    return new Response(JSON.stringify({ 
-      error: error.message,
-      context: "Error en inventory fetch de Cloudflare",
-      safeguard_reached: safeguard
-    }), {
+    return new Response(JSON.stringify({ error: error.message, context: "Inventory CF" }), {
       status: 500,
-      headers: { 
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 };

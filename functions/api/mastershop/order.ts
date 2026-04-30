@@ -2,7 +2,8 @@ export const onRequestPost: PagesFunction<{
   MASTERSHOP_API_KEY: string,
   VITE_MASTERSHOP_API_KEY: string 
 }> = async (context) => {
-  const apiKeyRaw = context.env.MASTERSHOP_API_KEY || context.env.VITE_MASTERSHOP_API_KEY;
+  const env = context.env as any;
+  const apiKeyRaw = env.MASTERSHOP_API_KEY || env.VITE_MASTERSHOP_API_KEY;
   const apiKey = apiKeyRaw?.trim();
 
   if (!apiKey) {

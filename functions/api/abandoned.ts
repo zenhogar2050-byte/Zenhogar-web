@@ -2,7 +2,8 @@ export const onRequestPost: PagesFunction<{
   GOOGLE_SHEETS_ORDERS_WEBHOOK: string,
   SHEETS_SECURITY_TOKEN: string
 }> = async (context) => {
-  const webhookUrlRaw = context.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
+  const env = context.env as any;
+  const webhookUrlRaw = env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
   const webhookUrl = webhookUrlRaw?.trim();
   if (!webhookUrl) {
     return new Response(JSON.stringify({ error: "Webhook URL not configured in Cloudflare" }), {
@@ -16,7 +17,7 @@ export const onRequestPost: PagesFunction<{
     const payload = {
       ...body,
       type: "abandoned",
-      token: context.env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
+      token: env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
       timestamp: new Date().toLocaleString()
     };
 
