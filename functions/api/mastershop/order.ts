@@ -22,36 +22,43 @@ export const onRequestPost: PagesFunction = async (context) => {
     const GIFT_PRICE = 1500; 
     const TOTAL_PAID = Number(total) || 0;
     const remainingForProducts = Math.max(0, TOTAL_PAID - GIFT_PRICE);
-    const totalUnits = items.reduce((acc: number, it: any) => acc + (Number(it.quantity) || 1), 0);
+    
+    // Calculamos el total de unidades físicas (por ejemplo, si es pague 2 lleve 3, son 3 unidades)
+    const totalPhysicalUnits = items.reduce((acc: number, it: any) => acc + ((Number(it.units) || 1) * (Number(it.quantity) || 1)), 0);
 
     const mastershopItems: any[] = [];
-    if (totalUnits > 0) {
-        const baseUnitPrice = Math.floor(remainingForProducts / totalUnits);
+    if (totalPhysicalUnits > 0) {
+        const baseUnitPrice = Math.floor(remainingForProducts / totalPhysicalUnits);
         let currentTotalDistribution = 0;
 
         items.forEach((item: any) => {
-            const qty = Number(item.quantity) || 1;
+            const unitsPerItem = Number(item.units) || 1;
+            const quantityInCart = Number(item.quantity) || 1;
+            const totalQtyForMastershop = unitsPerItem * quantityInCart;
+            
             const mastershopId = Number(item.mastershopId) || 11323;
+            
             mastershopItems.push({
                 "id_variant": null,
                 "id_product": mastershopId,
-                "quantity": qty,
+                "quantity": totalQtyForMastershop,
                 "sku": item.productId || 'GENERIC',
                 "name": item.productName || "Producto",
                 "weight": 1,
                 "price": baseUnitPrice
             });
-            currentTotalDistribution += baseUnitPrice * qty;
+            currentTotalDistribution += baseUnitPrice * totalQtyForMastershop;
         });
 
         const diff = remainingForProducts - currentTotalDistribution;
         if (diff !== 0 && mastershopItems.length > 0) {
             const first = mastershopItems[0];
+            // Ajuste de centavos/pesos en la primera unidad
             if (first.quantity > 1) {
-                const originalQty = first.quantity;
+                const originalTotalQty = first.quantity;
                 first.quantity = 1;
                 first.price += diff;
-                mastershopItems.splice(1, 0, { ...first, quantity: originalQty - 1, price: baseUnitPrice });
+                mastershopItems.splice(1, 0, { ...first, quantity: originalTotalQty - 1, price: baseUnitPrice });
             } else {
                 first.price += diff;
             }
