@@ -4,12 +4,14 @@ export function useInventory() {
   const [inventory, setInventory] = useState<Record<string, { stock: number }>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [apiStatus, setApiStatus] = useState<{ connected: boolean, message?: string } | null>(null);
 
   const fetchInventory = async () => {
     setLoading(true);
     try {
       const response = await fetch('/api/mastershop/inventory');
       if (!response.ok) {
+        setApiStatus({ connected: false, message: `Error ${response.status}: ${response.statusText}` });
         try {
           const errorData: any = await response.json();
           throw new Error(errorData.error || 'Error al conectar con Mastershop');
@@ -22,8 +24,10 @@ export function useInventory() {
       }
       const data = await response.json();
       setInventory(data);
+      setApiStatus({ connected: true });
     } catch (err: any) {
       setError(err.message);
+      if (!apiStatus) setApiStatus({ connected: false, message: err.message });
     } finally {
       setLoading(false);
     }
@@ -63,5 +67,5 @@ export function useInventory() {
     return { label: 'Disponible', color: 'green' };
   };
 
-  return { inventory, loading, error, getStock, getStockStatus, getClientStockStatus, refetch: fetchInventory };
+  return { inventory, loading, error, apiStatus, getStock, getStockStatus, getClientStockStatus, refetch: fetchInventory };
 }

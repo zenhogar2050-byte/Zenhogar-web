@@ -115,7 +115,7 @@ export default function AdminDashboard() {
   const [webhookLogs, setWebhookLogs] = useState<any[]>([]);
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
-  const { inventory, loading: loadingInventory, getStockStatus, refetch: refetchInventory } = useInventory();
+  const { inventory, loading: loadingInventory, apiStatus, getStockStatus, refetch: refetchInventory } = useInventory();
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -703,8 +703,8 @@ export default function AdminDashboard() {
               <Lock className="w-8 h-8 text-emerald-600" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-center mb-1">Panel de Administración</h1>
-          <p className="text-[9px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.2.0 - Inventory Smartv2</p>
+          <h1 className="text-2xl font-display font-bold text-center mb-1">Panel de Administración</h1>
+          <p className="text-[10px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.3.0 - Resilience Edition</p>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-2 px-1">Contraseña de acceso</label>
@@ -877,14 +877,29 @@ export default function AdminDashboard() {
                activeTab === 'inventory' ? 'Inventario' : 'Webhooks'}
             </h1>
             <div className="h-4 w-px bg-stone-200 hidden sm:block" />
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.0</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v1.3.0</p>
           </div>
-          <button 
-            onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
-            className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors"
-          >
-            Cerrar Sesión
-          </button>
+          <div className="flex items-center gap-4">
+            {apiStatus && (
+              <div className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all",
+                apiStatus.connected 
+                  ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
+                  : "bg-red-50 text-red-700 border-red-100"
+              )}>
+                <div className={cn("w-1.5 h-1.5 rounded-full", apiStatus.connected ? "bg-emerald-500 animate-pulse" : "bg-red-500")} />
+                <span className="text-[9px] font-black uppercase tracking-widest">
+                  {apiStatus.connected ? 'MS API: Conectado' : 'MS API: Desconectado'}
+                </span>
+              </div>
+            )}
+            <button 
+              onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
+              className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors border border-transparent hover:border-red-100 rounded-xl"
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </header>
 
         <div className="p-4 lg:p-8">
@@ -1305,7 +1320,7 @@ export default function AdminDashboard() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                   <div>
-                    <h2 className="text-2xl font-black text-stone-900 tracking-tight flex items-center gap-3">
+                    <h2 className="text-2xl font-display font-black text-stone-900 tracking-tight flex items-center gap-3">
                       <TrendingUp className="w-8 h-8 text-emerald-500" />
                       Analítica de Negocio
                     </h2>
@@ -1372,10 +1387,10 @@ export default function AdminDashboard() {
                 {/* Analytics Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Revenue Chart */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
                     <div className="flex justify-between items-center mb-6">
                       <div>
-                        <h3 className="text-xl font-bold text-stone-900">
+                        <h3 className="text-xl font-display font-bold text-stone-900">
                           {startDate && endDate ? 'Ventas e Ingresos (Periodo)' : 'Ventas e Ingresos (7 días)'}
                         </h3>
                         <p className="text-sm text-stone-500">Tendencia de ingresos y volumen de pedidos</p>
@@ -1407,8 +1422,8 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Status Distribution */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
-                    <h3 className="text-xl font-bold text-stone-900 mb-6">Distribución por Estado</h3>
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
+                    <h3 className="text-xl font-display font-bold text-stone-900 mb-6">Distribución por Estado</h3>
                     <div className="h-64 flex flex-col items-center">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -1440,8 +1455,8 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Funnel Chart */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
-                    <h3 className="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
+                    <h3 className="text-xl font-display font-bold text-stone-900 mb-6 flex items-center gap-2">
                        <TrendingUp className="w-5 h-5 text-emerald-500" /> Conversión de Carrito
                     </h3>
                     <div className="h-64">
@@ -1540,18 +1555,18 @@ export default function AdminDashboard() {
                 exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
-                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
+                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow p-6">
                   <div className="flex justify-between items-center mb-6">
                     <div className="flex items-center gap-4">
-                      <h2 className="text-xl font-bold">Estado del Inventario</h2>
-                      {loadingInventory && <span className="text-[10px] font-black text-blue-500 animate-pulse bg-blue-50 px-2 py-1 rounded-md uppercase tracking-widest">Sincronizando...</span>}
+                      <h2 className="text-xl font-display font-bold">Estado del Inventario</h2>
+                      {loadingInventory && <span className="text-[10px] font-black text-emerald-600 animate-pulse bg-emerald-50 px-2 py-1 rounded-md uppercase tracking-widest">Sincronizando...</span>}
                     </div>
                     <button 
                       onClick={() => refetchInventory()}
                       disabled={loadingInventory}
-                      className="flex items-center gap-2 px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                      className="flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                     >
-                      <Activity className={cn("w-3 h-3", loadingInventory && "animate-spin")} />
+                      <Activity className={cn("w-3 h-3 text-emerald-600", loadingInventory && "animate-spin")} />
                       Actualizar Stock
                     </button>
                   </div>
@@ -1561,8 +1576,8 @@ export default function AdminDashboard() {
                         <tr>
                           <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">ID MS</th>
                           <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Producto</th>
-                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Inventario</th>
-                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
+                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest text-center">Inventario</th>
+                          <th className="px-6 py-4 text-center text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-100">
@@ -1572,30 +1587,30 @@ export default function AdminDashboard() {
                            const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
                            
                            return (
-                             <tr key={product.id} className="hover:bg-stone-50/50 transition-colors">
+                             <tr key={product.id} className="hover:bg-emerald-50/20 transition-colors">
                                 <td className="px-6 py-4 text-xs font-mono text-stone-400">#{product.mastershopId}</td>
                                 <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
                                   <Package className="w-3 h-3 text-stone-400" />
                                   {product.name}
                                 </td>
-                                <td className="px-6 py-4 font-mono text-xs text-stone-500 font-medium">
-                                  <div className="flex items-center gap-1">
+                                <td className="px-6 py-4 font-mono text-xs text-stone-500 font-medium text-center">
+                                  <div className="flex items-center justify-center gap-1">
                                     <Package className="w-3 h-3 text-stone-300" />
                                     {stockStr}
                                   </div>
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-center">
                                   {status ? (
                                     <span className={cn(
-                                      "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest",
-                                      status.color === 'green' && "bg-emerald-100 text-emerald-700",
-                                      status.color === 'orange' && "bg-orange-100 text-orange-700",
-                                      status.color === 'red' && "bg-red-100 text-red-700"
+                                      "text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest inline-block border",
+                                      status.color === 'green' && "bg-emerald-100 text-emerald-800 border-emerald-200",
+                                      status.color === 'orange' && "bg-orange-100 text-orange-800 border-orange-200",
+                                      status.color === 'red' && "bg-red-50 text-red-700 border-red-100"
                                     )}>
                                       {status.label}
                                     </span>
                                   ) : (
-                                    <span className="text-[10px] text-stone-400">CARGANDO</span>
+                                    <span className="text-[10px] text-stone-400 animate-pulse">CARGANDO...</span>
                                   )}
                                 </td>
                              </tr>
@@ -1614,30 +1629,30 @@ export default function AdminDashboard() {
                            const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
 
                            return (
-                             <tr key={gift.id} className="hover:bg-amber-50/30 transition-colors bg-amber-50/10">
+                             <tr key={gift.id} className="hover:bg-amber-50/20 transition-colors bg-amber-50/5">
                                 <td className="px-6 py-4 text-xs font-mono text-amber-600/70">#{gift.mastershopId}</td>
                                 <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
                                   <ShoppingBag className="w-3 h-3 text-amber-500" />
                                   {gift.name}
                                 </td>
-                                <td className="px-6 py-4 font-mono text-xs text-amber-900/40 font-medium">
-                                  <div className="flex items-center gap-1">
+                                <td className="px-6 py-4 font-mono text-xs text-amber-900/60 font-medium text-center">
+                                  <div className="flex items-center justify-center gap-1">
                                     <Package className="w-3 h-3 text-amber-200" />
                                     {stockStr}
                                   </div>
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-center">
                                   {status ? (
                                     <span className={cn(
-                                      "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest",
-                                      status.color === 'green' && "bg-emerald-100 text-emerald-700",
-                                      status.color === 'orange' && "bg-orange-100 text-orange-700",
-                                      status.color === 'red' && "bg-red-100 text-red-700"
+                                      "text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest inline-block border",
+                                      status.color === 'green' && "bg-emerald-100 text-emerald-800 border-emerald-200",
+                                      status.color === 'orange' && "bg-orange-100 text-orange-800 border-orange-200",
+                                      status.color === 'red' && "bg-red-50 text-red-700 border-red-100"
                                     )}>
                                       {status.label}
                                     </span>
                                   ) : (
-                                    <span className="text-[10px] text-stone-400">CARGANDO</span>
+                                    <span className="text-[10px] text-stone-400 animate-pulse">CARGANDO...</span>
                                   )}
                                 </td>
                              </tr>
@@ -2115,19 +2130,19 @@ export default function AdminDashboard() {
 
 function StatCard({ label, value, icon, color }: { label: string, value: string | number, icon: any, color: string }) {
   const colors: any = {
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
-    blue: "bg-blue-50 text-blue-600 border-blue-100",
-    orange: "bg-orange-50 text-orange-600 border-orange-100",
-    amber: "bg-amber-50 text-amber-600 border-amber-100",
+    emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    blue: "bg-blue-50 text-blue-700 border-blue-100",
+    orange: "bg-orange-50 text-orange-700 border-orange-100",
+    amber: "bg-amber-50 text-amber-700 border-amber-100",
   };
   return (
-    <div className="bg-white p-3.5 rounded-[1.5rem] border border-stone-100 shadow-sm flex items-center gap-3">
-      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center border shrink-0", colors[color])}>
+    <div className="bg-white p-5 rounded-[2rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-all flex items-center gap-4">
+      <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border shrink-0 shadow-sm", colors[color])}>
         {icon}
       </div>
       <div className="flex flex-col min-w-0">
-        <div className="text-[10px] font-normal text-black uppercase tracking-tighter truncate opacity-70">{label}</div>
-        <div className="text-sm font-normal text-black truncate">{value}</div>
+        <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest truncate">{label}</div>
+        <div className="text-xl font-display font-bold text-stone-900 truncate">{value}</div>
       </div>
     </div>
   );
