@@ -337,9 +337,13 @@ async function startServer() {
               
               if (prodRes.ok) {
                 const pData: any = await prodRes.json();
-                const found = pData.results?.[0] || pData.data || pData;
-                if (found) {
-                  if (!found.id && found.idProduct) found.id = found.idProduct;
+                // Mastershop individual endpoint sometimes returns { data: {...} }, { results: [...] } or the object directly
+                let found = pData.data || (pData.results && pData.results[0]) || pData;
+                
+                // Si el objeto "found" tiene "data" adentro (anidamiento doble raro), lo sacamos
+                if (found.data && !found.id && !found.idProduct) found = found.data;
+
+                if (found && (found.id || found.idProduct || found.id_product)) {
                   allProducts.push(found);
                 }
               }
@@ -363,10 +367,24 @@ async function startServer() {
       }
 
       const inventory = allProducts.reduce((acc: Record<string, any>, product: any) => {
-         const id = product.idProduct || product.id;
+         // Mastershop a veces usa id, idProduct o id_product
+         const id = product.idProduct || product.id || product.id_product;
+         
          if (id) {
+           // Búsqueda exhaustiva de campo de stock en el payload de Mastershop
+           // Priorizamos stockTotal que suele ser el agregado real
+           const stockValue = 
+             product.stockTotal !== undefined ? product.stockTotal :
+             product.stock_total !== undefined ? product.stock_total :
+             product.total_stock !== undefined ? product.total_stock :
+             product.stock !== undefined ? product.stock :
+             product.quantity !== undefined ? product.quantity :
+             product.available !== undefined ? product.available :
+             0;
+
            acc[id.toString()] = {
-             stock: product.stockTotal !== undefined ? product.stockTotal : (product.stock || 0)
+             stock: Number(stockValue) || 0,
+             lastUpdated: new Date().toISOString()
            };
          }
          return acc;

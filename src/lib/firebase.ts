@@ -32,9 +32,14 @@ export async function saveOrderToFirebase(orderData: any) {
     if (sanitized.id) {
       const orderRef = doc(db, collections.ORDERS, sanitized.id);
       const { id, ...cleanData } = sanitized;
+      
+      // Si el tipo es 'order' pero no tiene status, forzamos 'pending'
+      // Si es otro tipo (abandoned) y no tiene status, forzamos 'abandoned'
+      const finalStatus = cleanData.status || (cleanData.type === 'order' ? 'pending' : 'abandoned');
+
       await setDoc(orderRef, {
         ...cleanData,
-        status: cleanData.status || 'abandoned',
+        status: finalStatus,
         created_at: serverTimestamp()
       }, { merge: true });
       return true;

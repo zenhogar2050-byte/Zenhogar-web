@@ -180,14 +180,15 @@ export default function Checkout() {
         console.error("Error al obtener ticket de Sheets:", err);
       }
 
-      // Firebase Saving (Critical for Cloudflare persistence)
+      // Firebase Saving (Critical for Persistence)
       await saveOrderToFirebase({
-        id: checkoutId, // Usamos el MISMO ID para convertir el abandono en pedido real
+        id: checkoutId, 
         customer: formData,
         order_details: orderDetails,
         total: total,
         cart: { items, total },
         type: 'order',
+        status: 'pending', // CRITICAL: Mark as real order
         ticket_number: currentTicket,
         updated_at: new Date().toISOString()
       });
