@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(false);
+  const location = useLocation();
   
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 6000);
@@ -12,8 +14,21 @@ export default function WhatsAppFloat() {
 
   if (!isVisible) return null;
 
+  // Detect product context from URL
+  let productContext = '';
+  if (location.pathname.startsWith('/producto/')) {
+    const id = location.pathname.split('/').pop() || '';
+    productContext = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  } else if (location.pathname.startsWith('/combo/')) {
+    const id = location.pathname.split('/').pop() || '';
+    productContext = `Combo ${id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`;
+  }
+
   const whatsappNumber = '573024102568'; 
-  const message = 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
+  const message = productContext 
+    ? `Hola *ZENHOGAR*! 👋\n\nEstoy interesado en el producto: *${productContext}*\n\nMe gustaría recibir más información. ¿Podrían ayudarme?`
+    : 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
+    
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
 
   return (

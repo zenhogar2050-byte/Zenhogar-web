@@ -71,20 +71,50 @@ export const onRequestPost: PagesFunction = async (context) => {
     const firstName = formData.fullName?.split(' ')[0] || "Cliente";
     const lastName = formData.fullName?.split(' ').slice(1).join(' ') || "Zenhogar";
 
+    const rawPhone = formData.phone?.replace(/\D/g, '') || "";
+    const cleanPhone = rawPhone.length === 10 ? `57${rawPhone}` : rawPhone;
+    const fullAddress = `${formData.address}${formData.additionalInfo ? ` - ${formData.additionalInfo}` : ''}${formData.label ? ` (${formData.label})` : ''}${formData.isOffice ? ' [ENTREGAR EN OFICINA]' : ''}`;
+    
+    // Construir tags dinámicas según las opciones seleccionadas
+    const dynamicTags = ["WEB_ZENHOGAR"];
+    if (formData.isOffice) dynamicTags.push("OFICINA_TRANSPORTE");
+    if (formData.label) dynamicTags.push(`LABEL_${formData.label.toUpperCase().replace(/\s/g, '_')}`);
+
+    const addressObj = {
+        "country": "CO", 
+        "state": formData.department || "", 
+        "city": formData.city || "",
+        "address1": fullAddress, 
+        "address2": null,
+        "company": null,
+        "zip": null,
+        "full_name": formData.fullName || "",
+        "first_name": firstName, 
+        "last_name": lastName, 
+        "phone": cleanPhone
+    };
+
     const payload = {
       "id_order": String(ticket || `ZEN-${Date.now()}`),
-      "shipping_address": {
-          "country": "CO", "state": formData.department || "", "city": formData.city || "",
-          "address1": formData.address || "N/A", "full_name": formData.fullName || "",
-          "first_name": firstName, "last_name": lastName, "phone": formData.phone || ""
-      },
+      "notes": formData.notes ? [formData.notes] : [],
+      "tags": dynamicTags,
+      "shipping_address": addressObj,
+      "billing_address": addressObj,
       "order_transaction": {
-          "total": Number(total) || 0, "currency": "COP", "payment_method": "cod", "payment_gateway": "Contraentrega"
+          "total": Number(total) || 0, 
+          "currency": "COP", 
+          "payment_method": "cod", 
+          "payment_gateway": "Contraentrega"
       },
       "customer": {
-          "full_name": formData.fullName || "", "first_name": firstName, "last_name": lastName,
-          "email": formData.email || "noreply@zenhogar.live", "phone": formData.phone || "",
-          "tags": ["WEB_ZENHOGAR"], "documentType": "CC", "documentNumber": formData.identification || "0"
+          "full_name": formData.fullName || "", 
+          "first_name": firstName, 
+          "last_name": lastName,
+          "email": formData.email || "noreply@zenhogar.live", 
+          "phone": cleanPhone,
+          "tags": dynamicTags, 
+          "documentType": "CC", 
+          "documentNumber": formData.identification || "0"
       },
       "order_items": mastershopItems,
       "additional_charge": []

@@ -48,8 +48,9 @@ service cloud.firestore {
       allow read, list: if true; 
 
       // UPDATE/DELETE: Permitimos gestión desde el Admin Dashboard
-      allow update: if isValidOrder(request.resource.data) &&
-                      request.resource.data.created_at == resource.data.created_at;
+      // Permitimos actualizaciones parciales de campos Mastershop sin requerir todo el esquema
+      allow update: if (isValidOrder(request.resource.data) && request.resource.data.created_at == resource.data.created_at) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ms_status', 'ms_alerts', 'ms_carrier', 'ms_tracking', 'updated_at']));
       
       allow delete: if true; 
     }

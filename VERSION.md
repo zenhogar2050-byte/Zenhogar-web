@@ -1,13 +1,20 @@
 # ZENHOGAR E-commerce - Pre-Launch Audit & Release Version
 
-**Version:** 1.1.0
-**Date:** April 29, 2026
+**Version:** 1.2.0
+**Date:** May 2, 2026
 
 ## Estado del Proyecto: Mantenimiento y Parches Finales
 
-Esta versión incluye todas las optimizaciones previas más una corrección profunda de SEO, limpieza de precios para Merchant Center y cumplimiento de políticas de Ads.
+Esta versión incluye todas las optimizaciones previas más mejoras críticas en la sincronización de inventario y gestión administrativa.
 
-### Resumen de los Últimos Ajustes (v1.1.0):
+### Resumen de Mejoras de Inventario y Admin (v1.2.0):
+
+- ✅ **Resiliencia de Inventario (Anti-403):** Se implementó una lógica de "Pull Individual" en el servidor. Si Mastershop bloquea la lectura masiva del catálogo (Error 403), el sistema detecta el bloqueo y consulta los IDs de productos más importantes uno por uno, garantizando que el dashboard siempre muestre stock real.
+- ✅ **Exportación Mastershop (XLSM):** Se añadió un motor de exportación compatible con Excel en el Admin Dashboard. Ahora los pedidos se pueden descargar directamente en formato Excel con las columnas requeridas por Mastershop para cargas masivas.
+- ✅ **Ajuste de Precios e Impuestos:** Optimización de la distribución de precios en el envío a Mastershop, incluyendo cargos adicionales (Obsequio Termoactiva) distribuidos de forma que el total pagado coincida exactamente con la factura del cliente.
+- ✅ **Limpieza de Datos de Panel:** Se añadió la funcionalidad de "Limpiar Pedidos Antiguos" en el Dashboard para permitir al administrador eliminar registros de prueba o pedidos finalizados de forma segura.
+
+### Resumen de los Ajustes Previos (v1.1.0):
 
 - ✅ **Auditoría de Datos Estructurados (Schema.org):** Corrección de parámetros de precios en metadatos para asegurar formato entero (ej. `65000` en lugar de `65.000` o `$65,000`). Modificación de moneda a "COP".
 - ✅ **Políticas de Envíos y Devoluciones (Merchant Center):** Se integraron automáticamente los objetos `shippingDetails` (envío gratuito a Colombia) y `hasMerchantReturnPolicy` (política a 30 días) en la estructuración Schema.org para productos. Eliminada advertencia de Search Console.

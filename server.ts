@@ -48,6 +48,57 @@ async function startServer() {
     }
   });
 
+  // Helper to update MS Sync Status in Firebase
+  const updateMsSyncStatus = async (ticket: string, status: 'synced' | 'failed', errorMsg?: string) => {
+    try {
+      if (!ticket || ticket === "N/A" || !ticket.trim()) return;
+      
+      const fbConfig = {
+        projectId: "gen-lang-client-0672500796",
+        databaseId: "ai-studio-46279a17-9caa-4819-b2d9-023c3691a10a",
+        apiKey: "AIzaSyBvvxXWXRBQLtpsl07tx-v3YEphMw_jpJs"
+      };
+
+      // Search for document by ticket_number
+      const queryUrl = `https://firestore.googleapis.com/v1/projects/${fbConfig.projectId}/databases/${fbConfig.databaseId}/documents:runQuery?key=${fbConfig.apiKey}`;
+      const queryRes = await fetch(queryUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: "orders" }],
+            where: { fieldFilter: { 
+              field: { fieldPath: "ticket_number" }, 
+              op: "EQUAL", 
+              value: { stringValue: String(ticket) } 
+            }},
+            limit: 1
+          }
+        })
+      });
+
+      const queryData: any = await queryRes.json();
+      const docPath = queryData?.[0]?.document?.name;
+
+      if (docPath) {
+        const updateUrl = `https://firestore.googleapis.com/v1/${docPath}?key=${fbConfig.apiKey}&updateMask.fieldPaths=ms_sync_status&updateMask.fieldPaths=ms_sync_error`;
+        await fetch(updateUrl, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fields: {
+              ms_sync_status: { stringValue: status },
+              ms_sync_error: { stringValue: errorMsg || "" }
+            }
+          })
+        });
+        console.log(`[Firebase Status Update] Ticket ${ticket} -> ${status}`);
+      }
+    } catch (e) {
+      console.error("[Firebase Status Update Error]", e);
+    }
+  };
+
   app.post("/api/abandoned", async (req, res) => {
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
@@ -75,36 +126,52 @@ async function startServer() {
   });
 
   app.post("/api/mastershop/order", async (req, res) => {
+    const { ticket, formData, items, total } = req.body;
     try {
       const apiKey = process.env.MASTERSHOP_API_KEY || process.env.VITE_MASTERSHOP_API_KEY;
       if (!apiKey) throw new Error("Mastershop API Key no configurada");
-
-      const { ticket, formData, items, total } = req.body;
 
       if (!formData || !items) {
         throw new Error("Datos de orden incompletos");
       }
 
+      // Sanitización de datos para Mastershop (Campos obligatorios)
+      const cleanPhone = (formData.phone || "0").replace(/\D/g, '').slice(-10);
+      const cleanID = (formData.identification || "0").replace(/\D/g, '') || "0";
+      const cleanState = (formData.department || "BOGOTA").toUpperCase();
+      const cleanCity = (formData.city || "BOGOTA").toUpperCase();
+      const cleanAddress = (formData.address || "N/A").trim();
+
       console.log("[Mastershop Incoming Order]:", { ticket, customer: formData.fullName, itemsCount: items.length });
 
-      // --- LÓGICA DE PRECIOS EXACTOS PARA MASTERSHOP ---
-      // 1. Valores de Obsequio
-      const GIFT_ID = 11253; // Termoactiva
-      const GIFT_PRICE = 1500; // Valor solicitado para evitar rechazo
+      // --- LÓGICA DE PRECIOS EXACTOS PARA MASTERSHOP (V3 - Redondeo y Ajuste en Obsequio) ---
       const TOTAL_PAID = Number(total) || 0;
+      
+      // Mapeo detallado de Obsequios según fotos de Mastershop
+      const GIFT_MAP: Record<string, any> = {
+        "11253": { id: 11253, name: "Obsequio Termoactiva", target: 1500, sku: "OBS-TERMO" },
+        "11301": { id: 11301, name: "Obsequio Gratis Repolarizador", target: 100, sku: "OBS-REPO" },
+        "26846": { id: 26846, name: "Obsequio Titan Coffe", target: 1000, sku: "OBS-TITAN" },
+        "49603": { id: 49603, name: "Obsequio Coli Plus", target: 1000, sku: "OBS-COLI" },
+        "76365": { id: 76365, name: "OBSEQUIO PAÑITOS DAMPY", target: 1000, sku: "OBS-DAMPY" }
+      };
 
-      // 2. Calcular valor a distribuir entre productos
-      const remainingForProducts = Math.max(0, TOTAL_PAID - GIFT_PRICE);
+      // Por ahora usamos Termoactiva como principal, pero el sistema ya reconoce los demás IDs
+      const selectedGift = GIFT_MAP["11253"]; 
+      const TARGET_GIFT_PRICE = selectedGift.target;
+      
+      const remainingForProducts = Math.max(0, TOTAL_PAID - TARGET_GIFT_PRICE);
       const totalUnits = items.reduce((acc: number, it: any) => acc + (Number(it.quantity) || 1), 0);
 
       const mastershopItems: any[] = [];
+      let accumulatedProductTotal = 0;
 
       if (totalUnits > 0) {
-          // 3. Distribución equitativa con ajuste de redondeo
+          // 1. Calcular precio unitario base redondeado hacia abajo
           const baseUnitPrice = Math.floor(remainingForProducts / totalUnits);
-          let currentTotalDistribution = 0;
 
-          items.forEach((item: any, idx: number) => {
+          // 2. Asignar este precio a todos los productos
+          items.forEach((item: any) => {
               const qty = Number(item.quantity) || 1;
               const mastershopId = Number(item.mastershopId) || 11323;
               
@@ -117,39 +184,21 @@ async function startServer() {
                   "weight": 1,
                   "price": baseUnitPrice
               });
-              currentTotalDistribution += baseUnitPrice * qty;
+              accumulatedProductTotal += (baseUnitPrice * qty);
           });
-
-          // 4. Ajustar la diferencia de pesos en el primer item
-          const diff = remainingForProducts - currentTotalDistribution;
-          if (diff !== 0 && mastershopItems.length > 0) {
-              const first = mastershopItems[0];
-              if (first.quantity > 1) {
-                  // Si el primer item tiene varias unidades, separamos 1 para el ajuste
-                  const originalQty = first.quantity;
-                  first.quantity = 1;
-                  first.price += diff;
-                  // El resto de unidades quedan con el precio base
-                  mastershopItems.splice(1, 0, {
-                      ...first,
-                      quantity: originalQty - 1,
-                      price: baseUnitPrice
-                  });
-              } else {
-                  first.price += diff;
-              }
-          }
       }
 
-      // 5. Agregar Obsequio al final
+      // 3. El Obsequio absorbe la diferencia exacta para cuadrar el centavo/peso
+      const finalGiftPrice = Math.max(0, TOTAL_PAID - accumulatedProductTotal);
+
       mastershopItems.push({
           "id_variant": null,
-          "id_product": GIFT_ID,
+          "id_product": selectedGift.id,
           "quantity": 1,
-          "sku": "OBSEQUIO",
-          "name": "Obsequio Termoactiva (Cortesia)",
+          "sku": selectedGift.sku,
+          "name": selectedGift.name, // Nombre exacto de Mastershop
           "weight": 0.1,
-          "price": GIFT_PRICE
+          "price": finalGiftPrice
       });
 
       const firstName = formData.fullName?.split(' ')[0] || "Cliente";
@@ -161,29 +210,29 @@ async function startServer() {
         "tags": [],
         "shipping_address": {
             "country": "CO",
-            "state": formData.department || "",
-            "city": formData.city || "",
-            "address1": formData.address || "N/A",
+            "state": cleanState,
+            "city": cleanCity,
+            "address1": cleanAddress,
             "address2": "",
             "company": "",
             "zip": "",
             "full_name": formData.fullName || "",
             "first_name": firstName,
             "last_name": lastName,
-            "phone": formData.phone || ""
+            "phone": cleanPhone
         },
         "billing_address": {
             "country": "CO",
-            "state": formData.department || "",
-            "city": formData.city || "",
-            "address1": formData.address || "N/A",
+            "state": cleanState,
+            "city": cleanCity,
+            "address1": cleanAddress,
             "address2": "",
             "company": "",
             "zip": "",
             "full_name": formData.fullName || "",
             "first_name": firstName,
             "last_name": lastName,
-            "phone": formData.phone || ""
+            "phone": cleanPhone
         },
         "order_transaction": {
             "total": Number(total) || 0,
@@ -196,10 +245,10 @@ async function startServer() {
             "first_name": firstName,
             "last_name": lastName,
             "email": formData.email || "noreply@zenhogar.live",
-            "phone": formData.phone || "",
+            "phone": cleanPhone,
             "tags": ["WEB_ZENHOGAR"],
             "documentType": "CC",
-            "documentNumber": formData.identification || "0"
+            "documentNumber": cleanID
         },
         "order_items": mastershopItems,
         "additional_charge": [] // Dejar vacío si el envío ya está incluido en los precios
@@ -225,11 +274,15 @@ async function startServer() {
       if (!response.ok) {
         console.error("Mastershop Rechazó (Status " + response.status + "):", result);
         console.error("Payload intentado:", JSON.stringify(payload, null, 2));
+        await updateMsSyncStatus(ticket, 'failed', JSON.stringify(result));
+      } else {
+        await updateMsSyncStatus(ticket, 'synced');
       }
 
       res.json(result);
     } catch (error) {
       console.error("[Mastershop API Error]", error);
+      await updateMsSyncStatus(ticket, 'failed', error instanceof Error ? error.message : "Error desconocido");
       res.status(500).json({ status: "error", message: error instanceof Error ? error.message : "Error enviando a Mastershop" });
     }
   });
@@ -237,21 +290,64 @@ async function startServer() {
   // Inventory check
   app.get("/api/mastershop/inventory", async (req, res) => {
     try {
-      const apiKey = process.env.MASTERSHOP_API_KEY || process.env.VITE_MASTERSHOP_API_KEY;
-      if (!apiKey) throw new Error("Mastershop API Key no configurada");
+      const rawKey = process.env.MASTERSHOP_API_KEY || process.env.VITE_MASTERSHOP_API_KEY;
+      if (!rawKey) throw new Error("Mastershop API Key no configurada");
+      
+      const apiKey = rawKey.trim();
 
       let allProducts: any[] = [];
       let page = 1;
       let hasMore = true;
+      let safeguard = 0;
 
-      while (hasMore) {
+      const commonHeaders: Record<string, string> = {
+        'ms-api-key': apiKey,
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      };
+
+      const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+      while (hasMore && safeguard < 8) {
+        safeguard++;
         const response = await fetch(`https://prod.api.mastershop.com/api/products?page=${page}`, {
           method: 'GET',
-          headers: {
-            'ms-api-key': apiKey,
-            'Content-Type': 'application/json'
-          }
+          headers: commonHeaders
         });
+
+        if (response.status === 403 || response.status === 401) {
+          console.warn(`[Inventory Sync] Intento ${safeguard} - Acceso denegado (${response.status}). Probando productos individuales...`);
+          const commonIds = [
+            11323, 11341, 11312, 211106, 61652, 11262, 11236, 144660, 129312, 23012, 
+            164776, 11299, 129333, 57848, 26272, 11264, 11247, 129297, 23015, 61681, 
+            11346, 11290, 11260, 68746, 61195, 61835, 166801, 60017, 11360, 52600, 
+            166802, 61653, 129308, 23013, 58626, 211176,
+            11253, 11301, 26846, 49603, 76365
+          ];
+          
+          for (const id of commonIds) {
+            try {
+              // Retardo con un poco de aleatoriedad
+              await delay(200 + Math.random() * 200);
+              
+              const prodRes = await fetch(`https://prod.api.mastershop.com/api/products/${id}`, {
+                method: 'GET',
+                headers: commonHeaders
+              });
+              
+              if (prodRes.ok) {
+                const pData: any = await prodRes.json();
+                const found = pData.results?.[0] || pData.data || pData;
+                if (found) {
+                  if (!found.id && found.idProduct) found.id = found.idProduct;
+                  allProducts.push(found);
+                }
+              }
+            } catch (e) {}
+          }
+          hasMore = false;
+          break;
+        }
 
         if (!response.ok) {
           throw new Error(`Mastershop API error: ${response.status}`);
@@ -266,8 +362,13 @@ async function startServer() {
         }
       }
 
-      const inventory = allProducts.reduce((acc: Record<string, number>, product: any) => {
-         acc[product.idProduct.toString()] = product.stockTotal;
+      const inventory = allProducts.reduce((acc: Record<string, any>, product: any) => {
+         const id = product.idProduct || product.id;
+         if (id) {
+           acc[id.toString()] = {
+             stock: product.stockTotal !== undefined ? product.stockTotal : (product.stock || 0)
+           };
+         }
          return acc;
       }, {});
 

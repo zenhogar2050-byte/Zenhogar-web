@@ -1,7 +1,7 @@
 {
   "name": "zenhogar-store",
   "private": true,
-  "version": "1.0.2",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
@@ -29,7 +29,8 @@
     "react-router-dom": "^7.13.1",
     "recharts": "^3.8.1",
     "resend": "^6.12.2",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260430.1",

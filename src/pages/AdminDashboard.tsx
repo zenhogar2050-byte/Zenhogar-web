@@ -26,6 +26,7 @@ import {
   Search, 
   Filter, 
   MoreVertical, 
+  RefreshCw,
   DollarSign, 
   TrendingUp,
   User,
@@ -46,13 +47,15 @@ import {
   FileText,
   MapPin,
   Calendar,
-  Activity
+  Activity,
+  ShoppingBag
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
-import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, db } from '../lib/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
+import { doc, updateDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
 import { useInventory } from '../hooks/useInventory';
-import { PRODUCTS } from '../constants';
+import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
+import * as XLSX from 'xlsx';
 
 interface Order {
   id: string;
@@ -65,8 +68,11 @@ interface Order {
     phone?: string;
     identification?: string;
     ciudad?: string;
+    city?: string;
     direccion?: string;
+    address?: string;
     department?: string;
+    departamento?: string;
   };
   cart?: {
     items: any[];
@@ -79,6 +85,12 @@ interface Order {
   status: 'pending' | 'confirmed' | 'sent' | 'delivered' | 'cancelled' | 'shipped_with_guide' | 'withdrawn';
   type: 'order' | 'abandoned';
   created_at: string;
+  ms_sync_status?: 'synced' | 'failed';
+  ms_sync_error?: string;
+  ms_status?: string;
+  ms_alerts?: string[];
+  ms_carrier?: string;
+  ms_tracking?: string;
 }
 
 export default function AdminDashboard() {
@@ -90,6 +102,10 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'order' | 'abandoned'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [editingCell, setEditingCell] = useState<{ id: string, field: string } | null>(null);
   const [editValue, setEditValue] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -97,7 +113,9 @@ export default function AdminDashboard() {
   const [copying, setCopying] = useState(false);
   const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'webhooks'>('orders');
   const [webhookLogs, setWebhookLogs] = useState<any[]>([]);
-  const { inventory, loading: loadingInventory, getStockStatus } = useInventory();
+  const [isEditingCustomer, setIsEditingCustomer] = useState(false);
+  const [editedCustomer, setEditedCustomer] = useState<any>(null);
+  const { inventory, loading: loadingInventory, getStockStatus, refetch: refetchInventory } = useInventory();
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -168,6 +186,20 @@ export default function AdminDashboard() {
     handleSaveCell(orderId, 'order_details', editValue);
   };
 
+  const handleSaveCustomer = async () => {
+    if (!selectedOrder || !editedCustomer) return;
+    try {
+      const orderRef = doc(db, 'orders', selectedOrder.id);
+      await updateDoc(orderRef, { customer: editedCustomer });
+      setSelectedOrder({ ...selectedOrder, customer: editedCustomer });
+      setIsEditingCustomer(false);
+      fetchOrders();
+    } catch (err) {
+      console.error('Error saving customer:', err);
+      alert('Error al guardar los datos del cliente');
+    }
+  };
+
   const handleUpdateTracking = async (orderId: string) => {
     try {
       const orderRef = doc(db, 'orders', orderId);
@@ -176,6 +208,40 @@ export default function AdminDashboard() {
       fetchOrders();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleManualSync = async (order: any) => {
+    if (!confirm('¿Deseas forzar la sincronización de este pedido con Mastershop?')) return;
+    
+    try {
+      const res = await fetch('/api/mastershop/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ticket: order.ticket_number,
+          formData: order.customer,
+          items: order.cart?.items || [],
+          total: order.total || order.cart?.total || 0,
+          force: true
+        })
+      });
+      const result: any = await res.json();
+      if (result.status === 'error' || result.error) {
+        alert('Error: ' + (result.message || result.error || 'Error desconocido'));
+      } else {
+        alert('Sincronización forzada con éxito.');
+        fetchOrders();
+        // Update selected order if open
+        if (selectedOrder && selectedOrder.id === order.id) {
+          const updatedOrders = await getOrdersFromFirebase();
+          const match = updatedOrders.find(o => o.id === order.id);
+          if (match) setSelectedOrder(match);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error de conexión.');
     }
   };
 
@@ -188,11 +254,21 @@ export default function AdminDashboard() {
   const generateClientMessage = (order: Order) => {
     const customer = order.customer || {};
     const name = customer.nombre || customer.fullName || 'Cliente';
-    const items = order.cart?.items?.map((i: any) => `- ${i.quantity || 1}x ${i.name || i.productName}`).join('\n') || order.order_details || '';
+    const items = order.cart?.items?.map((i: any) => {
+      const q = i.quantity || i.qty || 1;
+      const label = i.promoLabel || i.label || '';
+      return `- ${q}x ${i.name || i.productName}${label ? ` (${label})` : ''}`;
+    }).join('\n') || order.order_details || '';
+    
+    const address = customer.direccion || customer.address || 'N/A';
+    const city = customer.ciudad || customer.city || 'N/A';
+    const dept = customer.departamento || customer.department || '';
+    const fullLocation = dept ? `${city} • ${dept}` : city;
+    
     const guide = order.tracking_guide ? `🚚 Tu número de guía es: *${order.tracking_guide}*\nPuedes rastrearlo en la transportadora correspondiente.\n` : '';
     const ticket = order.ticket_number ? `🔖 Ticket: *#${order.ticket_number}*\n` : '';
     
-    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n${ticket}*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${customer.direccion || 'N/A'}\n🏙️ Ciudad: ${customer.ciudad || 'N/A'}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
+    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n${ticket}*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${address}\n🏙️ Ciudad: ${fullLocation}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
   };
 
   const fetchWebhookLogs = async () => {
@@ -224,37 +300,182 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleClearAllOrders = async () => {
+    if (!window.confirm('¡ATENCIÓN! EstÁS a punto de borrar TODOS los pedidos de la base de datos. Esta acción es definitiva. ¿Deseas continuar?')) return;
+    
+    setLoading(true);
+    try {
+      const ordersRef = collection(db, 'orders');
+      const querySnapshot = await getDocs(ordersRef);
+      const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(deletePromises);
+      alert('Base de datos purgada completamente.');
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+      alert('Error técnico al borrar pedidos.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cleanOldOrders = async () => {
+    if (!window.confirm('¿Deseas eliminar todos los pedidos y carritos DE MUESTRA y anteriores a los últimos 10 días?')) return;
+    
+    setLoading(true);
+    try {
+      const tenDaysAgo = new Date();
+      tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+      
+      const ordersRef = collection(db, 'orders');
+      const querySnapshot = await getDocs(ordersRef);
+      
+      let deletedCount = 0;
+      const deletePromises = querySnapshot.docs.filter(docSnap => {
+        const data = docSnap.data();
+        const createdAt = data.created_at?.toDate ? data.created_at.toDate() : new Date(data.created_at);
+        // Delete if older than 10 days OR if it identifies as "Prueba" or "Test"
+        const isTest = (data.customer?.fullName || '').toLowerCase().includes('prueba') || 
+                       (data.order_details || '').toLowerCase().includes('test');
+        
+        return createdAt < tenDaysAgo || isTest;
+      }).map(docSnap => {
+        deletedCount++;
+        return deleteDoc(docSnap.ref);
+      });
+
+      await Promise.all(deletePromises);
+      alert(`Limpieza completada. Se eliminaron ${deletedCount} registros antiguos o de prueba.`);
+      fetchOrders();
+    } catch (err) {
+      console.error(err);
+      alert('Error al realizar la limpieza selectiva.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const downloadExcel = () => {
-    const headers = ['Ticket', 'Fecha', 'Tipo', 'Cliente', 'WhatsApp', 'Email', 'Dirección', 'Ciudad', 'Departamento', 'Contenido', 'Monto', 'Estado'];
-    const rows = filteredOrders.map(o => {
+    // MasterShop Template Headers (17 columns) - Exact match for the template provided in screenshots
+    const headers = [
+      "IDENTIFICADOR",
+      "NOMBRES",
+      "APELLIDOS",
+      "CEDULA (OPCIONAL)",
+      "TELÉFONO",
+      "DIRECCIÓN Y BARRIO",
+      "DEPARTAMENTO",
+      "CIUDAD",
+      "ID DE PRODUCTO",
+      "ID DE VARIACION",
+      "CANTIDAD",
+      "PRECIO UNITARIO (SIN PUNTOS NI COMAS)",
+      "OTROS CARGOS",
+      "VALOR OTROS CARGOS",
+      "CON RECAUDO (SI/NO)",
+      "NOTA",
+      "EMAIL (OPCIONAL)"
+    ];
+
+    const rows: any[] = [];
+
+    filteredOrders.forEach(o => {
       const customer = o.customer || {};
-      const items = o.cart?.items?.map((i: any) => `${i.quantity}x ${i.name}`).join(', ') || o.order_details || 'N/A';
-      return [
-        o.ticket_number || 'N/A',
-        o.created_at ? new Date(o.created_at).toLocaleString() : 'N/A',
-        o.type === 'order' ? 'PEDIDO' : 'ABANDONADO',
-        customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || 'N/A'),
-        customer.telefono || customer.phone || 'N/A',
-        customer.email || 'N/A',
-        customer.direccion || 'N/A',
-        customer.ciudad || 'N/A',
-        customer.department || 'N/A',
-        items,
-        o.total || o.cart?.total || 0,
-        o.status || 'N/A'
-      ];
+      
+      // Clean and split names
+      const fullName = (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || '')).trim();
+      const nameParts = fullName.split(' ');
+      const firstName = nameParts[0] || 'Cliente';
+      const lastName = nameParts.slice(1).join(' ') || 'N/A';
+
+      // Clean phone
+      const phone = (customer.telefono || customer.phone || '').replace(/\s/g, '');
+
+      // Content for Nota
+      const orderNote = o.order_details || '';
+
+      // Iterate through items to create one row per product
+      const items = o.cart?.items || [];
+      
+      if (items.length === 0) {
+        // Fallback for abandoned carts or simplified orders
+        rows.push([
+          o.ticket_number || o.id.slice(0, 8),
+          firstName,
+          lastName,
+          customer.identification || '',
+          phone,
+          customer.direccion || customer.address || 'Pendiente',
+          customer.department || 'Pendiente',
+          customer.ciudad || customer.city || 'Pendiente',
+          'PRODUCTO', // Default ref
+          '', 
+          1,
+          Math.round(o.total || o.cart?.total || 0).toString().replace(/\D/g, ''),
+          '',
+          0,
+          'SI',
+          orderNote,
+          customer.email || ''
+        ]);
+      } else {
+        items.forEach((item: any) => {
+          const quantityInCart = item.quantity || 1;
+          const unitsPerItem = item.units || 1;
+          const totalPhysicalUnits = unitsPerItem * quantityInCart;
+          
+          const totalPriceForItem = (item.price || 0) * quantityInCart;
+          const calculatedUnitPrice = totalPhysicalUnits > 0 ? Math.round(totalPriceForItem / totalPhysicalUnits) : (item.price || 0);
+
+          let finalProductId = item.mastershopId || item.productId || item.id;
+          
+          if (!finalProductId || (typeof finalProductId === 'string' && isNaN(Number(finalProductId)))) {
+             const prod = PRODUCTS.find(p => p.id === item.productId);
+             if (prod?.mastershopId) {
+               finalProductId = prod.mastershopId;
+             } else if (item.productId === COMBO_OF_THE_MONTH.id) {
+               finalProductId = COMBO_OF_THE_MONTH.mastershopId;
+             } else {
+               const promo = PROMOTIONS.find(p => p.id === item.productId);
+               if (promo && (promo as any).mastershopId) {
+                 finalProductId = (promo as any).mastershopId;
+               }
+             }
+          }
+
+          rows.push([
+            o.ticket_number || o.id.slice(0, 8),
+            firstName,
+            lastName,
+            customer.identification || '',
+            phone,
+            customer.direccion || customer.address || 'Pendiente',
+            customer.department || 'Pendiente',
+            customer.ciudad || customer.city || 'Pendiente',
+            finalProductId || 'PRODUCTO',
+            item.variantId || '', 
+            totalPhysicalUnits,
+            calculatedUnitPrice.toString().replace(/\D/g, ''),
+            '', 
+            0,
+            'SI', 
+            orderNote,
+            customer.email || ''
+          ]);
+        });
+      }
     });
 
-    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", `pedidos_zenhogar_${new Date().toISOString().slice(0,10)}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const now = new Date();
+    const dateFormatted = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+
+    // Create Excel workbook and sheet
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
+
+    // Write file as .xlsm
+    XLSX.writeFile(wb, `Plantilla-de-carga-Master-Shop-${dateFormatted}.xlsm`, { bookType: 'xlsm' });
   };
 
   useEffect(() => {
@@ -359,6 +580,29 @@ export default function AdminDashboard() {
   const filteredOrders = useMemo(() => (orders || [])
     .filter(o => o && (filter === 'all' || o.type === filter))
     .filter(o => {
+      if (selectedStatuses.length === 0) return true;
+      return selectedStatuses.includes(o.status);
+    })
+    .filter(o => {
+      if (!startDate && !endDate) return true;
+      const orderDate = o.created_at ? new Date(o.created_at) : new Date();
+      orderDate.setHours(0, 0, 0, 0);
+      
+      if (startDate) {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        if (orderDate < start) return false;
+      }
+      
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        if (orderDate > end) return false;
+      }
+      
+      return true;
+    })
+    .filter(o => {
       const search = (searchTerm || '').toLowerCase();
       if (!search) return true;
       const customer = o.customer || {};
@@ -375,7 +619,7 @@ export default function AdminDashboard() {
         email.includes(search) ||
         ticket.includes(search)
       );
-    }), [orders, filter, searchTerm]);
+    }), [orders, filter, searchTerm, startDate, endDate, selectedStatuses]);
 
   if (!isAuthenticated) {
     return (
@@ -390,7 +634,8 @@ export default function AdminDashboard() {
               <Lock className="w-8 h-8 text-emerald-600" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-center mb-6">Panel de Administración</h1>
+          <h1 className="text-2xl font-bold text-center mb-1">Panel de Administración</h1>
+          <p className="text-[9px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.2.0 - Inventory Smartv2</p>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-2 px-1">Contraseña de acceso</label>
@@ -434,69 +679,139 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-50 pb-20 lg:pb-0">
+      {/* Mobile Header */}
+      <div className="lg:hidden bg-stone-900 text-white p-4 flex items-center justify-between sticky top-0 z-50">
+        <div className="flex items-center gap-2">
+          <img src="/favicon.png" className="w-6 h-6 object-contain" alt="Logo" />
+          <span className="font-bold text-sm tracking-tight">ZENHOGAR Admin</span>
+        </div>
+        <button 
+          onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
+          className="text-[10px] font-black uppercase text-stone-400"
+        >
+          Salir
+        </button>
+      </div>
+
       {/* Sidebar Desktop */}
-      <aside className="fixed left-0 top-0 bottom-0 w-64 bg-stone-900 text-white p-6 hidden lg:block z-50">
-        <div className="flex items-center gap-3 mb-10">
-          <img src="/favicon.png" className="w-8 h-8 object-contain" alt="Logo" />
-          <span className="font-bold tracking-tight text-xl">ZENHOGAR Admin</span>
+      <aside className="fixed left-0 top-0 bottom-0 w-20 bg-stone-900 text-white p-4 hidden lg:flex flex-col items-center z-50 transition-all duration-300">
+        <div className="mb-8 p-1">
+          <img src="/favicon.png" className="w-10 h-10 object-contain mx-auto" alt="Logo" />
         </div>
         
-        <nav className="space-y-2">
+        <nav className="space-y-4 flex flex-col items-center">
           <button 
             onClick={() => setActiveTab('orders')}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
-              activeTab === 'orders' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'orders' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
             )}
+            title="Pedidos"
           >
-            <LayoutDashboard className="w-5 h-5" /> Pedidos
+            <LayoutDashboard className="w-6 h-6" />
           </button>
+          
           <button 
             onClick={() => setActiveTab('analytics')}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
-              activeTab === 'analytics' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'analytics' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
             )}
+            title="Analítica"
           >
-            <TrendingUp className="w-5 h-5" /> Analítica
+            <TrendingUp className="w-6 h-6" />
           </button>
+
           <button 
             onClick={() => setActiveTab('inventory')}
             className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
-              activeTab === 'inventory' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'inventory' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
             )}
+            title="Inventario"
           >
-            <Package className="w-5 h-5" /> Inventario
+            <Package className="w-6 h-6" />
           </button>
-          <button 
-            onClick={() => setActiveTab('webhooks')}
-            className={cn(
-              "w-full flex items-center gap-3 p-3 rounded-xl font-medium transition-all",
-              activeTab === 'webhooks' ? "bg-white/10 text-emerald-400" : "hover:bg-white/5 text-stone-400"
-            )}
-          >
-            <Activity className="w-5 h-5" /> Webhooks (Mastershop)
-          </button>
+
+          <div className="pt-4 border-t border-stone-800 w-full flex justify-center">
+             <button 
+              onClick={() => setActiveTab('webhooks')}
+              className={cn(
+                "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+                activeTab === 'webhooks' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
+              )}
+              title="Webhooks"
+            >
+              <Activity className="w-6 h-6" />
+            </button>
+          </div>
         </nav>
 
-        <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/5 rounded-2xl border border-white/10">
-          <p className="text-[10px] uppercase font-black text-stone-500 tracking-widest mb-1">Versión</p>
-          <p className="text-xs font-bold">2.0.0 (Automation)</p>
+        <div className="absolute bottom-6 left-2 right-2 p-2 bg-white/5 rounded-xl border border-white/10 text-center">
+          <p className="text-[7px] uppercase font-black text-stone-500 tracking-tighter">v2.1.0 (Stable)</p>
         </div>
       </aside>
 
+      {/* Mobile Nav Bar */}
+      <nav className="lg:hidden fixed bottom-6 left-4 right-4 bg-stone-900 text-white rounded-2xl flex items-center justify-around p-2 z-50 shadow-2xl border border-white/10">
+        <button 
+          onClick={() => setActiveTab('orders')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'orders' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <ShoppingBag className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Pedidos</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('inventory')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'inventory' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <Package className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Stock</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('webhooks')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'webhooks' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <Activity className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">MS</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('analytics')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'analytics' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <TrendingUp className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Ventas</span>
+        </button>
+      </nav>
+
       {/* Main Content */}
-      <main className="lg:pl-64 min-h-screen">
-        <header className="bg-white border-b border-stone-200 p-4 lg:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-40">
-          <div>
-            <h1 className="text-2xl font-bold text-stone-900">Gestión de Pedidos</h1>
-            <p className="text-sm text-stone-500">Supervisa tus ventas y carritos abandonados</p>
+      <main className="lg:pl-20 min-h-screen">
+        <header className="bg-white border-b border-stone-200 p-4 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-40">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold text-stone-900 tracking-tight">
+              {activeTab === 'orders' ? 'Pedidos' : 
+               activeTab === 'analytics' ? 'Analítica' : 
+               activeTab === 'inventory' ? 'Inventario' : 'Webhooks'}
+            </h1>
+            <div className="h-4 w-px bg-stone-200 hidden sm:block" />
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.0</p>
           </div>
           <button 
             onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
-            className="px-4 py-2 text-stone-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest"
+            className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors"
           >
             Cerrar Sesión
           </button>
@@ -516,64 +831,191 @@ export default function AdminDashboard() {
                   <StatCard 
                     label="Ingresos Estimados" 
                     value={formatCurrency(totalRevenue)} 
-                    icon={<DollarSign className="w-6 h-6" />}
+                    icon={<DollarSign className="w-5 h-5" />}
                     color="emerald"
                   />
                   <StatCard 
                     label="Pedidos Totales" 
                     value={(orders || []).filter(o => o && o.type === 'order').length} 
-                    icon={<Package className="w-6 h-6" />}
+                    icon={<Package className="w-5 h-5" />}
                     color="blue"
                   />
                   <StatCard 
                     label="Carritos Abandonados" 
                     value={(orders || []).filter(o => o && o.type === 'abandoned').length} 
-                    icon={<Trash2 className="w-6 h-6" />}
+                    icon={<Trash2 className="w-5 h-5" />}
                     color="orange"
                   />
                   <StatCard 
                     label="Pendientes de Envío" 
                     value={(orders || []).filter(o => o && o.status === 'pending' && o.type === 'order').length} 
-                    icon={<Clock className="w-6 h-6" />}
+                    icon={<Clock className="w-5 h-5" />}
                     color="amber"
                   />
                 </div>
 
-                {/* Filters & Search */}
-                <div className="bg-white p-4 rounded-[2rem] border border-stone-200 shadow-sm mb-6 flex flex-col lg:flex-row gap-4 items-center">
-                  <div className="relative flex-grow w-full">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
-                    <input 
-                      type="text" 
-                      placeholder="Buscar por nombre, correo o teléfono..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-12 pr-4 py-3 bg-stone-50 border border-stone-100 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium text-sm"
-                    />
+                {/* Filters & Search - Redesigned */}
+                <div className="bg-white p-3 rounded-[1.5rem] border border-stone-100 shadow-sm mb-6 flex flex-col gap-3">
+                  <div className="flex flex-wrap items-center gap-3">
+                    {/* Search - Compact */}
+                    <div className="relative flex-grow min-w-[200px] max-w-sm">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+                      <input 
+                        type="text" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Buscar cliente o ticket..."
+                        className="w-full pl-9 pr-4 py-1.5 bg-stone-50 border border-stone-100 rounded-xl text-[11px] focus:ring-2 focus:ring-emerald-500 outline-none"
+                      />
+                    </div>
+
+                    {/* Filter Dropdown with Checkboxes */}
+                    <div className="relative">
+                      <button 
+                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                        className={cn(
+                          "px-3 py-1.5 bg-stone-50 border border-stone-100 rounded-xl text-[11px] font-bold uppercase flex items-center gap-2 hover:bg-stone-100 transition-all",
+                          selectedStatuses.length > 0 ? "text-emerald-600 border-emerald-100 bg-emerald-50" : "text-stone-500"
+                        )}
+                      >
+                        <Filter className="w-3.5 h-3.5" />
+                        {selectedStatuses.length > 0 ? `Estatus (${selectedStatuses.length})` : 'Estatus'}
+                      </button>
+
+                      <AnimatePresence>
+                        {isFilterOpen && (
+                          <>
+                            <div className="fixed inset-0 z-10" onClick={() => setIsFilterOpen(false)} />
+                            <motion.div 
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 10 }}
+                              className="absolute left-0 mt-2 w-64 bg-white border border-stone-100 rounded-2xl shadow-xl z-20 p-2 max-h-80 overflow-y-auto"
+                            >
+                              <div className="flex items-center justify-between mb-2 p-2 border-b border-stone-50">
+                                <span className="text-[10px] font-black uppercase text-stone-400 tracking-widest">Estatus</span>
+                                <button 
+                                  onClick={() => setSelectedStatuses([])}
+                                  className="text-[9px] font-black uppercase text-red-500 hover:underline"
+                                >
+                                  Borrar Filtros
+                                </button>
+                              </div>
+                              <div className="grid grid-cols-1 gap-1">
+                                {[
+                                  { id: 'pending', label: 'Pendiente' },
+                                  { id: 'confirmed', label: 'Confirmado' },
+                                  { id: 'ready_to_ship', label: 'Por Alistar' },
+                                  { id: 'shipped_with_guide', label: 'Guía Asignada' },
+                                  { id: 'in_transit', label: 'En Tránsito' },
+                                  { id: 'delivered', label: 'Entregado' },
+                                  { id: 'with_issue', label: 'Novedad' },
+                                  { id: 'cancelled', label: 'Cancelado' }
+                                ].map((status) => (
+                                  <label key={status.id} className="flex items-center gap-2 p-2 hover:bg-stone-50 rounded-lg cursor-pointer transition-colors">
+                                    <div className={cn(
+                                      "w-4 h-4 rounded border flex items-center justify-center transition-colors",
+                                      selectedStatuses.includes(status.id) ? "bg-emerald-500 border-emerald-500" : "border-stone-300 bg-white"
+                                    )}>
+                                      {selectedStatuses.includes(status.id) && <CheckCircle2 className="w-3 h-3 text-white" />}
+                                    </div>
+                                    <input 
+                                      type="checkbox"
+                                      className="hidden"
+                                      checked={selectedStatuses.includes(status.id)}
+                                      onChange={() => {
+                                        if (selectedStatuses.includes(status.id)) {
+                                          setSelectedStatuses(selectedStatuses.filter(s => s !== status.id));
+                                        } else {
+                                          setSelectedStatuses([...selectedStatuses, status.id]);
+                                        }
+                                      }}
+                                    />
+                                    <span className="text-[11px] font-normal text-stone-600">{status.label}</span>
+                                  </label>
+                                ))}
+                              </div>
+                            </motion.div>
+                          </>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Date Filters */}
+                    <div className="flex items-center gap-2 bg-stone-50 border border-stone-100 px-3 py-1.5 rounded-xl">
+                      <Calendar className="w-3.5 h-3.5 text-stone-400" />
+                      <div className="flex items-center gap-1.5">
+                        <input 
+                          type="date" 
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          className="bg-transparent text-[11px] font-normal text-black outline-none w-28 cursor-pointer"
+                        />
+                        <span className="text-stone-300">/</span>
+                        <input 
+                          type="date" 
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          className="bg-transparent text-[11px] font-normal text-black outline-none w-28 cursor-pointer"
+                        />
+                      </div>
+                      {(startDate || endDate) && (
+                        <button 
+                          onClick={() => { setStartDate(''); setEndDate(''); }}
+                          className="p-1 hover:text-red-500 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0">
-                    <FilterTab active={filter === 'all'} label="Todos" onClick={() => setFilter('all')} />
-                    <FilterTab active={filter === 'order'} label="Ventas" onClick={() => setFilter('order')} />
-                    <FilterTab active={filter === 'abandoned'} label="Abandonados" onClick={() => setFilter('abandoned')} />
-                  </div>
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={downloadExcel}
-                      className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl hover:bg-emerald-100 transition-all flex items-center gap-2 font-bold text-xs uppercase tracking-widest"
-                      title="Descargar Excel"
-                    >
-                      <FileSpreadsheet className="w-5 h-5" />
-                      <span className="hidden sm:inline">Exportar</span>
-                    </button>
-                    <button 
-                      onClick={fetchOrders}
-                      className="p-3 bg-stone-100 text-stone-600 rounded-2xl hover:bg-emerald-50 hover:text-emerald-600 transition-all flex-shrink-0"
-                      title="Actualizar datos"
-                    >
-                      <TrendingUp className="w-5 h-5" />
-                    </button>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-stone-50">
+                    <div className="flex gap-1.5">
+                      <button 
+                        onClick={() => setFilter('all')}
+                        className={cn("px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter transition-all", filter === 'all' ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-500 hover:bg-stone-200")}
+                      >Todo</button>
+                      <button 
+                        onClick={() => setFilter('order')}
+                        className={cn("px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter transition-all", filter === 'order' ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-500 hover:bg-stone-200")}
+                      >Ventas</button>
+                      <button 
+                        onClick={() => setFilter('abandoned')}
+                        className={cn("px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter transition-all", filter === 'abandoned' ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-500 hover:bg-stone-200")}
+                      >Abandonos</button>
+                    </div>
+
+                    <div className="flex gap-2">
+                       <button 
+                        onClick={fetchOrders}
+                        className="px-3 py-1.5 bg-stone-100 text-stone-600 rounded-lg font-bold text-[10px] uppercase hover:bg-emerald-50 hover:text-emerald-600 transition-all flex items-center gap-1.5"
+                        title="Actualizar datos"
+                      >
+                        <RefreshCw className="w-3 h-3" />
+                      </button>
+                      <button 
+                        onClick={downloadExcel}
+                        className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg font-bold text-[10px] uppercase hover:bg-emerald-100 transition-all flex items-center gap-1.5"
+                      >
+                        <Download className="w-3 h-3" /> Exportar
+                      </button>
+                      <button 
+                        onClick={cleanOldOrders}
+                        className="px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg font-bold text-[10px] uppercase hover:bg-amber-100 transition-all flex items-center gap-1.5"
+                      >
+                        <Trash2 className="w-3 h-3" /> Limpiar
+                      </button>
+                      <button 
+                        onClick={handleClearAllOrders}
+                        className="px-3 py-1.5 bg-red-50 text-red-600 rounded-lg font-bold text-[10px] uppercase hover:bg-red-100 transition-all flex items-center gap-1.5"
+                      >
+                        <XCircle className="w-3 h-3" /> Purgar Todo
+                      </button>
+                    </div>
                   </div>
                 </div>
+
 
                 {/* Orders Table */}
                 <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm overflow-hidden">
@@ -581,22 +1023,24 @@ export default function AdminDashboard() {
                     <table className="w-full text-left">
                       <thead>
                         <tr className="bg-stone-50/50 border-b border-stone-100">
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ticket</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Cliente</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">WhatsApp</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Dirección</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Ciudad</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Departamento</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Contenido</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Monto</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest text-right">Acciones</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-16">Ticket</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Fecha</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Tipo</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest min-w-[140px]">Cliente</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">WhatsApp</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest">Dirección</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">Ciudad</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">Depto</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest">Contenido</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Monto</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest text-center w-24">Estado</th>
+                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest text-right w-24">Acciones</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-100">
                         {filteredOrders.length === 0 ? (
                           <tr>
-                            <td colSpan={10} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
+                            <td colSpan={12} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
                           </tr>
                         ) : (
                           filteredOrders.map((order) => {
@@ -605,273 +1049,110 @@ export default function AdminDashboard() {
                               ? `${customer.nombre} ${customer.apellido || ''}`
                               : (customer.fullName || 'Cliente sin nombre');
                             const displayPhone = customer.telefono || customer.phone || 'N/A';
-                            const initial = (customer.nombre?.[0] || customer.fullName?.[0] || '?').toUpperCase();
+                            const hasAlerts = order.ms_sync_status === 'failed' || order.status === 'with_issue' || (order.ms_alerts && order.ms_alerts.length > 0);
 
                             return (
                               <tr 
                                 key={order.id} 
                                 className="hover:bg-stone-50/50 transition-colors group cursor-pointer"
-                                onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
+                                onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || order.ms_tracking || ''); }}
                               >
-                                <td className="px-6 py-5">
-                                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
-                                    #{order.ticket_number || '---'}
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black">
+                                    {order.ticket_number || '---'}
                                   </span>
                                 </td>
-                                <td className="px-6 py-5">
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
-                                      {initial}
-                                    </div>
-                                    <div className="group/edit relative">
-                                      {editingCell?.id === order.id && editingCell?.field === 'customer.fullName' ? (
-                                        <div className="flex items-center gap-2">
-                                          <input 
-                                            className="text-sm font-bold text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
-                                            value={editValue}
-                                            autoFocus
-                                            onChange={(e) => setEditValue(e.target.value)}
-                                            onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.fullName', editValue)}
-                                          />
-                                          <button onClick={() => handleSaveCell(order.id, 'customer.fullName', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                        </div>
-                                      ) : (
-                                        <div className="flex items-center gap-2">
-                                          <div className="font-bold text-stone-900 leading-tight">{displayName}</div>
-                                          <button 
-                                            onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.fullName' }); setEditValue(customer.fullName || customer.nombre || ''); }}
-                                            className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                          >
-                                            <Edit className="w-3 h-3" />
-                                          </button>
-                                        </div>
-                                      )}
-                                      <div className="flex items-center gap-2 mt-1">
-                                        <span className={cn(
-                                          "text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest",
-                                          order.type === 'order' ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
-                                        )}>
-                                          {order.type === 'order' ? 'PEDIDO' : 'ABANDONADO'}
-                                        </span>
-                                        <span className="text-[10px] font-bold text-stone-400">
-                                          {order.created_at ? new Date(order.created_at).toLocaleDateString('es-CO') : 'Reciente'}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black whitespace-nowrap">
+                                    {order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Hoy'}
+                                  </span>
                                 </td>
-                                <td className="px-6 py-5">
-                                  <div className="group/edit relative">
-                                    {editingCell?.id === order.id && editingCell?.field === 'customer.phone' ? (
-                                      <div className="flex items-center gap-2">
-                                        <input 
-                                          className="text-xs font-mono bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-28"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.phone', editValue)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'customer.phone', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-sm font-mono text-stone-600 bg-stone-100 px-2 py-1 rounded-lg">
-                                          {displayPhone}
-                                        </span>
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.phone' }); setEditValue(customer.phone || customer.telefono || ''); }}
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black uppercase tracking-tighter">
+                                    {order.type === 'order' ? 'Venta' : 'Abandonado'}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[120px]">
+                                    {displayName}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2 text-center">
+                                  <span className="text-[11px] font-normal text-black whitespace-nowrap">
+                                    {displayPhone}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[150px]">
+                                    {customer.address || customer.direccion || '---'}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2 text-center">
+                                  <span className="text-[11px] font-normal text-black truncate max-w-[100px] block">
+                                    {customer.city || customer.ciudad || '---'}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2 text-center">
+                                  <span className="text-[11px] font-normal text-black truncate max-w-[100px] block">
+                                    {customer.department || '---'}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[180px]">
+                                    {order.cart?.items?.length 
+                                      ? order.cart.items.map((i: any) => {
+                                          const q = i.quantity || i.qty || 1;
+                                          const name = i.name || i.productName || 'Producto';
+                                          const label = i.promoLabel || i.label || '';
+                                          return `${q}x ${name}${label ? ` (${label})` : ''}`;
+                                        }).join(', ') 
+                                      : (order.order_details || '---')
+                                    }
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2">
+                                  <span className="text-[11px] font-normal text-black whitespace-nowrap">
+                                    {formatCurrency(order.total || order.cart?.total || 0)}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-2">
+                                  <div className="flex flex-col gap-0.5 items-center">
+                                    <StatusBadge 
+                                      status={order.status} 
+                                      type={order.type} 
+                                      msStatus={order.ms_status} 
+                                      syncStatus={order.ms_sync_status}
+                                    />
+                                    {hasAlerts && (
+                                       <span className="text-[11px] font-normal text-black uppercase underline decoration-red-500 underline-offset-2">Alerta MS</span>
                                     )}
                                   </div>
                                 </td>
-                                <td className="px-6 py-5">
-                                  <div className="group/edit relative">
-                                    {editingCell?.id === order.id && editingCell?.field === 'customer.address' ? (
-                                      <div className="flex items-center gap-2">
-                                        <input 
-                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-32"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.address', editValue)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'customer.address', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-2">
-                                        <p className="text-xs text-stone-600">{customer.address || customer.direccion || 'N/A'}</p>
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.address' }); setEditValue(customer.address || customer.direccion || ''); }}
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5">
-                                  <div className="group/edit relative">
-                                    {editingCell?.id === order.id && editingCell?.field === 'customer.city' ? (
-                                      <div className="flex items-center gap-2">
-                                        <input 
-                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.city', editValue)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'customer.city', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-2">
-                                        <p className="text-xs text-stone-600">{customer.city || customer.ciudad || 'N/A'}</p>
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.city' }); setEditValue(customer.city || customer.ciudad || ''); }}
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5">
-                                  <div className="group/edit relative">
-                                    {editingCell?.id === order.id && editingCell?.field === 'customer.department' ? (
-                                      <div className="flex items-center gap-2">
-                                        <input 
-                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'customer.department', editValue)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'customer.department', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-2">
-                                        <p className="text-xs text-stone-600">{customer.department || 'N/A'}</p>
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'customer.department' }); setEditValue(customer.department || ''); }}
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5">
-                                  <div className="max-w-xs relative group/edit">
-                                    {editingCell?.id === order.id && editingCell?.field === 'order_details' ? (
-                                      <div className="flex items-center gap-2">
-                                        <textarea 
-                                          className="text-xs bg-emerald-50 border border-emerald-500 rounded-lg p-2 flex-grow outline-none w-48"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'order_details', editValue)} className="p-1 text-emerald-600 hover:scale-110">
-                                          <Save className="w-4 h-4" />
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex justify-between items-start">
-                                        <p className="text-xs text-stone-600 line-clamp-2">
-                                          {order.cart?.items?.length 
-                                            ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
-                                            : order.order_details || 'Sin detalles'
-                                          }
-                                        </p>
-                                        <button 
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setEditingCell({ id: order.id, field: 'order_details' });
-                                            setEditValue(order.cart?.items?.length 
-                                              ? order.cart.items.map((i: any) => `${i.quantity || i.qty || 1}x ${i.name || i.productName || 'Producto'}`).join(', ') 
-                                              : order.order_details || ''
-                                            );
-                                          }} 
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600 transition-all"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5">
-                                  <div className="group/edit relative">
-                                    {editingCell?.id === order.id && editingCell?.field === 'total' ? (
-                                      <div className="flex items-center gap-2">
-                                        <input 
-                                          type="number"
-                                          className="text-sm font-black text-stone-900 bg-emerald-50 border border-emerald-500 rounded p-1 outline-none w-24"
-                                          value={editValue}
-                                          autoFocus
-                                          onChange={(e) => setEditValue(e.target.value)}
-                                          onKeyDown={(e) => e.key === 'Enter' && handleSaveCell(order.id, 'total', editValue)}
-                                        />
-                                        <button onClick={() => handleSaveCell(order.id, 'total', editValue)} className="text-emerald-600"><Save className="w-3 h-3"/></button>
-                                      </div>
-                                    ) : (
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-sm font-black text-stone-900">
-                                          {formatCurrency(order.total || order.cart?.total || 0)}
-                                        </span>
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); setEditingCell({ id: order.id, field: 'total' }); setEditValue((order.total || order.cart?.total || 0).toString()); }}
-                                          className="opacity-0 group-hover/edit:opacity-100 p-1 text-stone-400 hover:text-emerald-600"
-                                        >
-                                          <Edit className="w-3 h-3" />
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5">
-                                  <StatusBadge status={order.status} type={order.type} />
-                                </td>
-                                <td className="px-6 py-5 text-right">
-                                   <div className="flex justify-end gap-2">
+                                <td className="px-2 py-2 text-right">
+                                   <div className="flex justify-end gap-1">
                                       <button 
-                                        onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
-                                        className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all shadow-sm"
+                                        onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }}
+                                        className="w-7 h-7 rounded-lg bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all"
                                         title="Ver Detalles"
                                       >
-                                        <Eye className="w-4 h-4" />
+                                        <Eye className="w-3.5 h-3.5" />
                                       </button>
-                                      <a 
-                                        href={`https://wa.me/${displayPhone.replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage(order))}`} 
-                                        target="_blank" 
-                                        rel="noreferrer"
-                                        className="w-9 h-9 rounded-xl bg-stone-100 text-stone-500 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all shadow-sm"
-                                        title="Enviar Mensaje Confirmación"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        <Phone className="w-4 h-4" />
-                                      </a>
-                                      {order.type === 'order' && (
-                                        <StatusActions 
-                                          currentStatus={order.status} 
-                                          onUpdate={(s) => updateStatus(order.id, s)} 
-                                          onDelete={() => handleDeleteOrder(order.id)}
-                                        />
-                                      )}
-                                      {order.type === 'abandoned' && (
+                                      {order.status !== 'success' && (
                                         <button 
-                                          onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
-                                          className="w-9 h-9 rounded-xl bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-red-50 hover:text-red-600 transition-all"
-                                          title="Eliminar registro"
+                                          onClick={(e) => { e.stopPropagation(); handleManualSync(order); }}
+                                          className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center hover:bg-emerald-200 transition-all"
+                                          title="Forzar Sincronización"
                                         >
-                                          <Trash2 className="w-4 h-4" />
+                                          <RefreshCw className="w-3.5 h-3.5" />
                                         </button>
                                       )}
+                                      <button 
+                                        onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
+                                        className="w-7 h-7 rounded-lg bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
+                                        title="Borrar"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
                                     </div>
                                  </td>
                               </tr>
@@ -1062,28 +1343,88 @@ export default function AdminDashboard() {
               >
                 <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold">Estado del Inventario (Mastershop)</h2>
-                    {loadingInventory && <span className="text-sm text-stone-500 animate-pulse">Sincronizando...</span>}
+                    <div className="flex items-center gap-4">
+                      <h2 className="text-xl font-bold">Estado del Inventario</h2>
+                      {loadingInventory && <span className="text-[10px] font-black text-blue-500 animate-pulse bg-blue-50 px-2 py-1 rounded-md uppercase tracking-widest">Sincronizando...</span>}
+                    </div>
+                    <button 
+                      onClick={() => refetchInventory()}
+                      disabled={loadingInventory}
+                      className="flex items-center gap-2 px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                    >
+                      <Activity className={cn("w-3 h-3", loadingInventory && "animate-spin")} />
+                      Actualizar Stock
+                    </button>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                      <thead>
-                        <tr className="bg-stone-50/50 border-b border-stone-100">
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">ID / Código Mastershop</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Producto</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Unidades</th>
-                          <th className="px-6 py-4 text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
+                      <thead className="bg-stone-50 border-b border-stone-100">
+                        <tr>
+                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">ID MS</th>
+                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Producto</th>
+                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Inventario</th>
+                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-stone-100">
                         {PRODUCTS.map(product => {
                            const status = getStockStatus(product.mastershopId);
-                           const stockStr = status ? status.stock.toLocaleString('es-CO') : '---';
+                           const stockStr = status ? `${status.stock.toLocaleString('es-CO')} unds.` : '---';
+                           
                            return (
                              <tr key={product.id} className="hover:bg-stone-50/50 transition-colors">
-                                <td className="px-6 py-4 text-xs font-mono text-stone-500">#{product.mastershopId}</td>
-                                <td className="px-6 py-4 font-bold text-sm">{product.name}</td>
-                                <td className="px-6 py-4 font-mono text-sm">{stockStr}</td>
+                                <td className="px-6 py-4 text-xs font-mono text-stone-400">#{product.mastershopId}</td>
+                                <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
+                                  <Package className="w-3 h-3 text-stone-400" />
+                                  {product.name}
+                                </td>
+                                <td className="px-6 py-4 font-mono text-xs text-stone-500 font-medium">
+                                  <div className="flex items-center gap-1">
+                                    <Package className="w-3 h-3 text-stone-300" />
+                                    {stockStr}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  {status ? (
+                                    <span className={cn(
+                                      "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest",
+                                      status.color === 'green' && "bg-emerald-100 text-emerald-700",
+                                      status.color === 'orange' && "bg-orange-100 text-orange-700",
+                                      status.color === 'red' && "bg-red-100 text-red-700"
+                                    )}>
+                                      {status.label}
+                                    </span>
+                                  ) : (
+                                    <span className="text-[10px] text-stone-400">CARGANDO</span>
+                                  )}
+                                </td>
+                             </tr>
+                           )
+                        })}
+
+                        {/* Divider for Gifts */}
+                        <tr className="bg-stone-100/50">
+                          <td colSpan={4} className="px-6 py-2 text-[9px] font-black text-stone-500 uppercase tracking-[0.3em]">Sección de Obsequios</td>
+                        </tr>
+
+                        {/* Render Gifts */}
+                        {GIFT_PRODUCTS.map(gift => {
+                           const status = getStockStatus(gift.mastershopId);
+                           const stockStr = status ? `${status.stock.toLocaleString('es-CO')} unds.` : '---';
+
+                           return (
+                             <tr key={gift.id} className="hover:bg-amber-50/30 transition-colors bg-amber-50/10">
+                                <td className="px-6 py-4 text-xs font-mono text-amber-600/70">#{gift.mastershopId}</td>
+                                <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
+                                  <ShoppingBag className="w-3 h-3 text-amber-500" />
+                                  {gift.name}
+                                </td>
+                                <td className="px-6 py-4 font-mono text-xs text-amber-900/40 font-medium">
+                                  <div className="flex items-center gap-1">
+                                    <Package className="w-3 h-3 text-amber-200" />
+                                    {stockStr}
+                                  </div>
+                                </td>
                                 <td className="px-6 py-4">
                                   {status ? (
                                     <span className={cn(
@@ -1161,7 +1502,7 @@ export default function AdminDashboard() {
           <motion.div 
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
-            onClick={() => setSelectedOrder(null)}
+            onClick={() => { setSelectedOrder(null); setIsEditingCustomer(false); }}
             className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" 
           />
           <motion.div 
@@ -1185,6 +1526,7 @@ export default function AdminDashboard() {
                   onClick={() => {
                     handleDeleteOrder(selectedOrder.id);
                     setSelectedOrder(null);
+                    setIsEditingCustomer(false);
                   }}
                   title="Eliminar Pedido"
                   className="w-10 h-10 rounded-xl bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-200 transition-all group"
@@ -1192,7 +1534,7 @@ export default function AdminDashboard() {
                   <Trash2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 </button>
                 <button 
-                  onClick={() => setSelectedOrder(null)}
+                  onClick={() => { setSelectedOrder(null); setIsEditingCustomer(false); }}
                   className="w-10 h-10 rounded-xl bg-stone-200 text-stone-500 flex items-center justify-center hover:bg-stone-300 transition-all"
                 >
                   <X className="w-5 h-5" />
@@ -1206,40 +1548,146 @@ export default function AdminDashboard() {
                 {/* Info Column */}
                 <div className="space-y-8">
                   <section>
-                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                       <User className="w-3 h-3" /> Información del Cliente
-                    </h4>
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                        <User className="w-3 h-3" /> Información del Cliente
+                      </h4>
+                      <button 
+                        onClick={() => {
+                          if (isEditingCustomer) {
+                            setIsEditingCustomer(false);
+                          } else {
+                            setEditedCustomer({ ...selectedOrder.customer });
+                            setIsEditingCustomer(true);
+                          }
+                        }}
+                        className="text-[10px] font-black uppercase text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+                      >
+                        {isEditingCustomer ? (
+                          <><X className="w-3 h-3" /> Cancelar</>
+                        ) : (
+                          <><Edit className="w-3 h-3" /> Editar</>
+                        )}
+                      </button>
+                    </div>
+
                     <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="font-bold text-stone-900 leading-tight">
-                          {selectedOrder.customer.nombre || selectedOrder.customer.fullName ? (
-                            `${selectedOrder.customer.nombre || ''} ${selectedOrder.customer.apellido || ''} ${selectedOrder.customer.fullName || ''}`.trim()
-                          ) : 'Cliente sin nombre'}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 text-stone-600 text-sm">
-                        <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'No proporcionado'}
-                      </div>
-                      <div className="flex items-center gap-2 text-stone-600 text-sm">
-                        <span className="text-[10px] font-black text-stone-400">CC:</span> {selectedOrder.customer.identification || 'No proporcionada'}
-                      </div>
-                      <div className="flex items-center gap-2 text-stone-600 text-sm">
-                        <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'No proporcionado'}
-                      </div>
-                      <div className="flex items-start gap-2 text-stone-600 text-sm">
-                        <MapPin className="w-4 h-4 text-stone-400 mt-0.5" /> 
-                        <div className="space-y-1">
-                          <p className="font-medium">{selectedOrder.customer.direccion || selectedOrder.customer.address || 'Sin dirección registrada'}</p>
-                          <div className="flex flex-wrap gap-2">
-                            <span className="px-2 py-0.5 bg-stone-100 rounded text-[10px] font-bold uppercase text-stone-500">
-                              🏠 {selectedOrder.customer.ciudad || selectedOrder.customer.city || 'Ciudad N/A'}
-                            </span>
-                            <span className="px-2 py-0.5 bg-emerald-50 rounded text-[10px] font-bold uppercase text-emerald-600">
-                              📍 {selectedOrder.customer.department || 'Departamento N/A'}
-                            </span>
+                      {isEditingCustomer ? (
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Nombre/Razón Social</label>
+                              <input 
+                                type="text"
+                                value={editedCustomer.nombre || editedCustomer.fullName || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, nombre: e.target.value, fullName: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Identificación (CC/NIT)</label>
+                              <input 
+                                type="text"
+                                value={editedCustomer.identification || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, identification: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
                           </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Teléfono</label>
+                              <input 
+                                type="text"
+                                value={editedCustomer.telefono || editedCustomer.phone || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, telefono: e.target.value, phone: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Email</label>
+                              <input 
+                                type="email"
+                                value={editedCustomer.email || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, email: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Dirección</label>
+                            <input 
+                              type="text"
+                              value={editedCustomer.direccion || editedCustomer.address || ''}
+                              onChange={(e) => setEditedCustomer({ ...editedCustomer, direccion: e.target.value, address: e.target.value })}
+                              className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad</label>
+                              <input 
+                                type="text"
+                                value={editedCustomer.ciudad || editedCustomer.city || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, ciudad: e.target.value, city: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento</label>
+                              <input 
+                                type="text"
+                                value={editedCustomer.department || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, department: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
+                              />
+                            </div>
+                          </div>
+
+                          <button 
+                            onClick={handleSaveCustomer}
+                            className="w-full py-2.5 bg-emerald-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2"
+                          >
+                            <Save className="w-3 h-3" /> Guardar Cambios
+                          </button>
                         </div>
-                      </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <div className="font-bold text-stone-900 leading-tight">
+                              {selectedOrder.customer.nombre || selectedOrder.customer.fullName ? (
+                                `${selectedOrder.customer.nombre || ''} ${selectedOrder.customer.apellido || ''} ${selectedOrder.customer.fullName || ''}`.trim()
+                              ) : 'Cliente sin nombre'}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-stone-600 text-sm">
+                            <Mail className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.email || 'No proporcionado'}
+                          </div>
+                          <div className="flex items-center gap-2 text-stone-600 text-sm">
+                            <span className="text-[10px] font-black text-stone-400">CC:</span> {selectedOrder.customer.identification || 'No proporcionada'}
+                          </div>
+                          <div className="flex items-center gap-2 text-stone-600 text-sm">
+                            <Phone className="w-4 h-4 text-stone-400" /> {selectedOrder.customer.telefono || selectedOrder.customer.phone || 'No proporcionado'}
+                          </div>
+                          <div className="flex items-start gap-2 text-stone-600 text-sm">
+                            <MapPin className="w-4 h-4 text-stone-400 mt-0.5" /> 
+                            <div className="space-y-1">
+                              <p className="font-medium">{selectedOrder.customer.direccion || selectedOrder.customer.address || 'Sin dirección registrada'}</p>
+                              <div className="flex flex-wrap gap-2">
+                                <span className="px-2 py-0.5 bg-stone-100 rounded text-[10px] font-bold uppercase text-stone-500">
+                                  🏠 {selectedOrder.customer.ciudad || selectedOrder.customer.city || 'Ciudad N/A'}
+                                </span>
+                                <span className="px-2 py-0.5 bg-emerald-50 rounded text-[10px] font-bold uppercase text-emerald-600">
+                                  📍 {selectedOrder.customer.department || selectedOrder.customer.departamento || 'Departamento N/A'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </section>
 
@@ -1256,10 +1704,73 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
-                        <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
+                        <StatusBadge status={selectedOrder.status} type={selectedOrder.type} msStatus={selectedOrder.ms_status} />
                       </div>
                     </div>
                   </section>
+
+                  {selectedOrder.status !== 'success' && (
+                    <section className="bg-emerald-50 p-6 rounded-[2rem] border-2 border-emerald-200 border-dashed">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                          <RefreshCw className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-black text-emerald-700 uppercase">Sincronización Manual</h4>
+                          <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Forzar envío a Mastershop después de corregir datos</p>
+                        </div>
+                      </div>
+                      {selectedOrder.ms_sync_status === 'failed' && (
+                        <div className="bg-white/50 p-3 rounded-xl text-xs font-mono text-red-800 mb-4 overflow-x-auto border border-red-100">
+                          Error previo: {selectedOrder.ms_sync_error || "Desconocido"}
+                        </div>
+                      )}
+                      <button 
+                        onClick={() => handleManualSync(selectedOrder)}
+                        className="w-full py-3 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg"
+                      >
+                         <Activity className="w-4 h-4" /> Forzar Envío Mastershop
+                      </button>
+                    </section>
+                  )}
+
+                  {selectedOrder.ms_status && (
+                    <section className="bg-blue-50 p-6 rounded-[2rem] border border-blue-100">
+                      <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <Activity className="w-3 h-3" /> Estado Logístico (Mastershop)
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
+                          <span className="text-xs font-bold text-stone-500 uppercase">Estado MS</span>
+                          <StatusBadge status={selectedOrder.status} type={selectedOrder.type} msStatus={selectedOrder.ms_status} />
+                        </div>
+                        {selectedOrder.ms_carrier && (
+                          <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
+                            <span className="text-xs font-bold text-stone-500 uppercase">Transportadora</span>
+                            <span className="text-xs font-black text-blue-700">{selectedOrder.ms_carrier}</span>
+                          </div>
+                        )}
+                        {(selectedOrder.ms_tracking || selectedOrder.tracking_guide) && (
+                          <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
+                            <span className="text-xs font-bold text-stone-500 uppercase">Número de Guía</span>
+                            <span className="text-xs font-mono font-black text-blue-700">{selectedOrder.ms_tracking || selectedOrder.tracking_guide}</span>
+                          </div>
+                        )}
+                        {selectedOrder.ms_alerts && selectedOrder.ms_alerts.length > 0 && (
+                          <div className="bg-red-50 p-3 rounded-xl border border-red-200">
+                             <span className="text-[10px] font-black text-red-700 uppercase tracking-widest mb-2 block">Alertas de Novedad</span>
+                             <ul className="space-y-1">
+                               {selectedOrder.ms_alerts.map((alert, idx) => (
+                                 <li key={idx} className="text-[10px] text-red-600 font-bold flex items-center gap-2">
+                                   <XCircle className="w-3 h-3" /> {alert}
+                                 </li>
+                               ))}
+                             </ul>
+                          </div>
+                        )}
+                      </div>
+                    </section>
+                  )}
 
                   <section>
                     <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
@@ -1268,15 +1779,22 @@ export default function AdminDashboard() {
                     <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 italic text-sm text-stone-600">
                       {selectedOrder.cart?.items?.length ? (
                         <ul className="space-y-2">
-                          {selectedOrder.cart.items.map((item, idx) => (
-                            <li key={idx} className="flex justify-between border-b border-stone-200/50 pb-2 last:border-0 last:pb-0">
-                              <span>{item.quantity || 1}x {item.name || item.productName}</span>
-                              <span className="font-black text-stone-400">{formatCurrency(item.price || 0)}</span>
-                            </li>
-                          ))}
+                          {selectedOrder.cart.items.map((item: any, idx: number) => {
+                             const q = item.quantity || item.qty || 1;
+                             const label = item.promoLabel || item.label || '';
+                             return (
+                               <li key={idx} className="flex justify-between border-b border-stone-200/50 pb-2 last:border-0 last:pb-0">
+                                 <div className="flex flex-col">
+                                   <span className="font-bold text-stone-800">{q}x {item.name || item.productName}</span>
+                                   {label && <span className="text-[10px] text-stone-500 font-medium uppercase tracking-wider">{label}</span>}
+                                 </div>
+                                 <span className="font-black text-emerald-600">{formatCurrency(item.price ? (item.price * q) : 0)}</span>
+                               </li>
+                             );
+                          })}
                         </ul>
                       ) : (
-                        <p>{selectedOrder.order_details || 'Sin detalles registrados'}</p>
+                        <div className="whitespace-pre-wrap">{selectedOrder.order_details || 'Sin detalles registrados'}</div>
                       )}
                       <div className="mt-4 pt-4 border-t-2 border-dashed border-stone-200 flex justify-between items-center font-black text-lg text-stone-900">
                         <span>TOTAL</span>
@@ -1360,12 +1878,14 @@ function StatCard({ label, value, icon, color }: { label: string, value: string 
     amber: "bg-amber-50 text-amber-600 border-amber-100",
   };
   return (
-    <div className="bg-white p-6 rounded-[2.5rem] border border-stone-200 shadow-sm">
-      <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center mb-4 border transition-transform hover:scale-110", colors[color])}>
+    <div className="bg-white p-3.5 rounded-[1.5rem] border border-stone-100 shadow-sm flex items-center gap-3">
+      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center border shrink-0", colors[color])}>
         {icon}
       </div>
-      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">{label}</div>
-      <div className="text-2xl font-black text-stone-900">{value}</div>
+      <div className="flex flex-col min-w-0">
+        <div className="text-[10px] font-normal text-black uppercase tracking-tighter truncate opacity-70">{label}</div>
+        <div className="text-sm font-normal text-black truncate">{value}</div>
+      </div>
     </div>
   );
 }
@@ -1386,35 +1906,39 @@ function FilterTab({ active, label, onClick }: { active: boolean, label: string,
   );
 }
 
-function StatusBadge({ status, type }: { status: string, type: string }) {
+function StatusBadge({ status, type, msStatus, syncStatus }: { status: string, type: string, msStatus?: string, syncStatus?: string }) {
   if (type === 'abandoned') return (
-    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100">
-      <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-      <span className="text-[10px] font-black uppercase tracking-widest text-orange-700">Abandono</span>
+    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-50 border border-orange-100">
+      <span className="text-[11px] font-normal uppercase text-black">Abandono</span>
+    </div>
+  );
+
+  if (syncStatus === 'failed') return (
+    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-red-50 border border-red-100">
+      <span className="text-[11px] font-normal uppercase text-black">SUBIR MANUAL</span>
     </div>
   );
 
   const config: any = {
-    pending: { label: "PENDIENTE CONFIRMACIÓN", bg: "bg-amber-100", text: "text-amber-700", dot: "bg-amber-500" },
-    confirmed: { label: "CONFIRMADO / POR ALISTAR", bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-500" },
-    ready_to_ship: { label: "PEDIDO POR ALISTAR", bg: "bg-blue-50", text: "text-blue-700", dot: "bg-blue-500" },
-    waiting_collection: { label: "POR RECOLECTAR", bg: "bg-indigo-50", text: "text-indigo-700", dot: "bg-indigo-500" },
-    collected: { label: "RECOLECTADO", bg: "bg-indigo-100", text: "text-indigo-700", dot: "bg-indigo-600" },
-    in_transit: { label: "EN TRÁNSITO", bg: "bg-purple-100", text: "text-purple-700", dot: "bg-purple-500" },
-    out_for_delivery: { label: "EN REPARTO", bg: "bg-emerald-100", text: "text-emerald-700", dot: "bg-emerald-500" },
-    at_office: { label: "EN OFICINA", bg: "bg-stone-100", text: "text-stone-700", dot: "bg-stone-500" },
-    delivered: { label: "ENTREGADO", bg: "bg-emerald-600", text: "text-white", dot: "bg-white" },
-    with_issue: { label: "CON NOVEDAD", bg: "bg-red-100", text: "text-red-700", dot: "bg-red-500" },
-    cancelled: { label: "CANCELADO", bg: "bg-red-50", text: "text-red-600", dot: "bg-red-400" },
-    withdrawn: { label: "DESISTIÓ", bg: "bg-stone-200", text: "text-stone-600", dot: "bg-stone-400" },
-    shipped_with_guide: { label: "GUÍA ASIGNADA", bg: "bg-purple-50", text: "text-purple-600", dot: "bg-purple-400" },
+    pending: { label: "PENDIENTE", bg: "bg-amber-50", border: "border-amber-100" },
+    confirmed: { label: "CONFIRMADO", bg: "bg-emerald-50", border: "border-emerald-100" },
+    ready_to_ship: { label: "POR ALISTAR", bg: "bg-blue-50", border: "border-blue-100" },
+    waiting_collection: { label: "POR RECOLECTAR", bg: "bg-indigo-50", border: "border-indigo-100" },
+    collected: { label: "RECOLECTADO", bg: "bg-indigo-50", border: "border-indigo-100" },
+    in_transit: { label: "EN TRÁNSITO", bg: "bg-purple-50", border: "border-purple-100" },
+    out_for_delivery: { label: "EN REPARTO", bg: "bg-emerald-50", border: "border-emerald-100" },
+    at_office: { label: "EN OFICINA", bg: "bg-stone-50", border: "border-stone-100" },
+    delivered: { label: "ENTREGADO", bg: "bg-emerald-100", border: "border-emerald-200" },
+    with_issue: { label: "CON NOVEDAD", bg: "bg-red-50", border: "border-red-100" },
+    cancelled: { label: "CANCELADO", bg: "bg-red-50", border: "border-red-100" },
+    withdrawn: { label: "DESISTIÓ", bg: "bg-stone-100", border: "border-stone-200" },
+    shipped_with_guide: { label: "GUÍA ASIGNADA", bg: "bg-purple-50", border: "border-purple-100" },
   };
 
-  const c = config[status] || config.pending;
+  const c = config[msStatus || status] || config[status] || config.pending;
   return (
-    <div className={cn("inline-flex items-center gap-2 px-3 py-1 rounded-full", c.bg)}>
-      <div className={cn("w-1.5 h-1.5 rounded-full", c.dot, "animate-pulse")} />
-      <span className={cn("text-[10px] font-black uppercase tracking-widest", c.text)}>{c.label}</span>
+    <div className={cn("inline-flex items-center px-2 py-0.5 rounded-md border", c.bg, c.border)}>
+      <span className="text-[11px] font-normal uppercase text-black">{c.label}</span>
     </div>
   );
 }

@@ -9,14 +9,29 @@ export const collections = {
   ORDERS: 'orders'
 };
 
+// Función para limpiar datos antes de enviar a Firebase (Firestore no acepta undefined)
+function sanitizeData(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(v => sanitizeData(v));
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.fromEntries(
+      Object.entries(obj)
+        .filter(([_, v]) => v !== undefined)
+        .map(([k, v]) => [k, sanitizeData(v)])
+    );
+  }
+  return obj;
+}
+
 export async function saveOrderToFirebase(orderData: any) {
   try {
     const ordersRef = collection(db, collections.ORDERS);
+    const sanitized = sanitizeData(orderData);
     
     // Si viene con un ID (caso carrito abandonado para evitar duplicados)
-    if (orderData.id) {
-      const orderRef = doc(db, collections.ORDERS, orderData.id);
-      const { id, ...cleanData } = orderData;
+    if (sanitized.id) {
+      const orderRef = doc(db, collections.ORDERS, sanitized.id);
+      const { id, ...cleanData } = sanitized;
       await setDoc(orderRef, {
         ...cleanData,
         status: cleanData.status || 'abandoned',
@@ -27,8 +42,8 @@ export async function saveOrderToFirebase(orderData: any) {
 
     // Pedido normal
     await addDoc(ordersRef, {
-      ...orderData,
-      status: orderData.status || 'pending',
+      ...sanitized,
+      status: sanitized.status || 'pending',
       created_at: serverTimestamp()
     });
     return true;
@@ -85,6 +100,41 @@ export async function deleteOrderFromFirebase(orderId: string) {
     return true;
   } catch (error) {
     console.error('Error deleting order:', error);
+    return false;
+  }
+}
+
+export async function clearAllOrdersFromFirebase() {
+  try {
+    const ordersRef = collection(db, collections.ORDERS);
+    const querySnapshot = await getDocs(ordersRef);
+    const deletePromises = querySnapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    return true;
+  } catch (error) {
+    console.error('Error clearing orders:', error);
+    return false;
+  }
+}
+
+export async function updateOrderByTicketNumber(ticketNumber: string, updateData: any) {
+  try {
+    const ordersRef = collection(db, collections.ORDERS);
+    const { where, query, getDocs } = await import('firebase/firestore');
+    const q = query(ordersRef, where('ticket_number', '==', ticketNumber));
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) return false;
+    
+    const docId = querySnapshot.docs[0].id;
+    const orderRef = doc(db, collections.ORDERS, docId);
+    await updateDoc(orderRef, {
+      ...updateData,
+      updated_at: serverTimestamp()
+    });
+    return true;
+  } catch (error) {
+    console.error('Error updating by ticket number:', error);
     return false;
   }
 }

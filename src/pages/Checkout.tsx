@@ -14,6 +14,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { items, total, updateQuantity, removeFromCart, clearCart, addComboToCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = React.useRef(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -28,10 +29,10 @@ export default function Checkout() {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    if (timeLeft <= 0 || items.length === 0) return;
     const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
     return () => clearInterval(timer);
-  }, [timeLeft]);
+  }, [timeLeft, items.length]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -66,9 +67,17 @@ export default function Checkout() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              customer: formData,
+              type: 'abandoned',
+              fullName: formData.fullName || "Pte. Nombre",
+              email: formData.email || "contacto@zenhogar.live",
+              phone: formData.phone || "3000000000",
+              identification: formData.identification || "123456789",
+              address: formData.address || "Pte. Dirección",
+              city: formData.city || "Pte. Ciudad",
+              department: formData.department || "Pte. Depto",
               order_details: orderDetails,
-              total: formatCurrency(total),
+              items: items.map(i => ({ name: i.productName, qty: i.quantity, price: i.price })),
+              total: total.toString()
             }),
           });
           
@@ -114,19 +123,20 @@ export default function Checkout() {
     addComboToCart(bumpOpportunity.targetCombo);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target as any;
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
       ...(name === 'department' ? { city: '' } : {}),
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0) return;
+    if (items.length === 0 || submittingRef.current) return;
     
+    submittingRef.current = true;
     setIsSubmitting(true);
 
     const orderDetails = items.map(item => 
@@ -136,24 +146,32 @@ export default function Checkout() {
     try {
       const sheetsPayload = {
         token: "zenhogar_secret_2026",
-        customer: formData,
-        order_details: orderDetails,
-        total: formatCurrency(total),
+        type: 'order',
+        nombre: formData.fullName || "Cliente",
+        email: formData.email || "contacto@zenhogar.live",
+        telefono: formData.phone || "3000000000",
+        cedula: formData.identification || "123456789",
+        direccion: formData.address || "Dirección pendiente",
+        ciudad: formData.city || "Barranquilla",
+        departamento: formData.department || "Atlántico",
+        detalles: orderDetails,
+        total: total.toString()
       };
-
-      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqnSdoy7ValvFcaQDXegyc511rd4g1RSqhzecQWvx1QFgICPful7Wpgcdq1P_Cw8yR_Q/exec";
 
       let currentTicket = "N/A";
       try {
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
+        const response = await fetch('/api/orders', {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(sheetsPayload),
         });
         const result: any = await response.json();
+        
+        // El servidor devuelve el ticket formateado (con PO-) si el script lo envió
         currentTicket = result.ticket || "N/A";
+        console.log("Ticket desde Sheets:", currentTicket);
       } catch (err) {
-        console.error("Error fetching ticket:", err);
+        console.error("Error al obtener ticket de Sheets:", err);
       }
 
       // Firebase Saving (Critical for Cloudflare persistence)
@@ -238,6 +256,7 @@ export default function Checkout() {
         } 
       });
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -258,15 +277,17 @@ export default function Checkout() {
               </h1>
 
               {/* Countdown Urgency */}
-              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                  <p className="text-xs font-bold text-amber-900 uppercase tracking-wider">Tu descuento está reservado por:</p>
+              {items.length > 0 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    <p className="text-xs font-bold text-amber-900 uppercase tracking-wider">Tu descuento está reservado por:</p>
+                  </div>
+                  <div className="bg-white px-4 py-1.5 rounded-xl border border-amber-200 text-amber-700 font-mono font-black text-lg">
+                    {formatTime(timeLeft)}
+                  </div>
                 </div>
-                <div className="bg-white px-4 py-1.5 rounded-xl border border-amber-200 text-amber-700 font-mono font-black text-lg">
-                  {formatTime(timeLeft)}
-                </div>
-              </div>
+              )}
 
               <div className="space-y-6">
                 <AnimatePresence mode="popLayout">
@@ -342,21 +363,51 @@ export default function Checkout() {
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100 sticky top-24">
               <h2 className="text-2xl font-bold text-stone-900 mb-8">Envío y Pago</h2>
               <form onSubmit={handleSubmit} className="space-y-5">
-                <input type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Nombre Completo" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Correo Electrónico (Opcional)" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp / Teléfono" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input type="text" name="identification" value={formData.identification} onChange={handleInputChange} placeholder="Identificación / Cédula (Opcional)" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                <input required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Dirección Exacta" className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all" />
-                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">Nombre Completo</label>
+                    <input type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Ingresa el nombre completo" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">Correo</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Ingresa el correo" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">WhatsApp / Teléfono</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold text-sm">+57</span>
+                      <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Tu número de celular" className="w-full pl-12 pr-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">Cédula o Documento</label>
+                    <input type="text" name="identification" value={formData.identification} onChange={handleInputChange} placeholder="Ingresa el documento" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-bold text-stone-500 ml-2">Dirección Exacta</label>
+                  <input required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Ej: Calle 1 # 32 - 21" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
-                  <select required name="department" value={formData.department} onChange={handleInputChange} className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 appearance-none">
-                    <option value="">Departamento</option>
-                    {departments.map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
-                  <select required name="city" value={formData.city} onChange={handleInputChange} disabled={!formData.department} className="w-full px-5 py-4 rounded-2xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 disabled:opacity-50 appearance-none">
-                    <option value="">Ciudad</option>
-                    {cities.map((c: string) => <option key={c} value={c}>{c}</option>)}
-                  </select>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">Departamento</label>
+                    <select required name="department" value={formData.department} onChange={handleInputChange} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 appearance-none text-sm">
+                      <option value="">Departamento</option>
+                      {departments.map(d => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs font-bold text-stone-500 ml-2">Ciudad</label>
+                    <select required name="city" value={formData.city} onChange={handleInputChange} disabled={!formData.department} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 disabled:opacity-50 appearance-none text-sm">
+                      <option value="">Ciudad</option>
+                      {cities.map((c: string) => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                  </div>
                 </div>
 
                 {bumpOpportunity && (
