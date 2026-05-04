@@ -41,14 +41,14 @@ import {
   Edit,
   Save,
   Truck,
+  ShoppingBag,
   X,
   ClipboardCheck,
   Clipboard,
   FileText,
   MapPin,
   Calendar,
-  Activity,
-  ShoppingBag
+  Activity
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const savedPass = password || localStorage.getItem('admin_pass');
-      const expectedPass = "Jacobo0812"; // Fallback if env is not reachable on client
+      const expectedPass = "Jacobo0812"; 
 
       if (!savedPass) {
         setError('Por favor, ingresa la contraseña.');
@@ -138,12 +138,10 @@ export default function AdminDashboard() {
         return;
       }
 
-      // Fetch from Firebase (Cloud Discovery)
       const data = await getOrdersFromFirebase();
       setOrders(data as any);
       setIsAuthenticated(true);
       localStorage.setItem('admin_pass', savedPass);
-      
     } catch (err: any) {
       setError(err.message || 'Error al conectar con la base de datos de Firebase.');
       console.error(err);
@@ -200,11 +198,22 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleUpdateTracking = async (orderId: string) => {
+  const handleUpdateTracking = async (orderId: string, customStatus?: string) => {
     try {
       const orderRef = doc(db, 'orders', orderId);
-      await updateDoc(orderRef, { tracking_guide: trackingInput });
-      setSelectedOrder(prev => prev ? { ...prev, tracking_guide: trackingInput } : null);
+      const newStatus = customStatus || (trackingInput ? 'shipped_with_guide' : undefined);
+      
+      const updateData: any = { tracking_guide: trackingInput };
+      if (newStatus) {
+        updateData.status = newStatus;
+      }
+      
+      await updateDoc(orderRef, updateData);
+      setSelectedOrder(prev => prev ? { 
+        ...prev, 
+        tracking_guide: trackingInput,
+        status: newStatus || prev.status
+      } : null);
       fetchOrders();
     } catch (err) {
       console.error(err);
@@ -212,7 +221,11 @@ export default function AdminDashboard() {
   };
 
   const handleManualSync = async (order: any) => {
-    if (!confirm('¿Deseas forzar la sincronización de este pedido con Mastershop?')) return;
+    if (order.ms_sync_status === 'synced') {
+      if (!confirm('Este pedido ya aparece como SINCRONIZADO. ¿Deseas forzar un REENVÍO a Mastershop?')) return;
+    } else {
+      if (!confirm('¿Deseas forzar la sincronización de este pedido con Mastershop?')) return;
+    }
     
     try {
       const res = await fetch('/api/mastershop/order', {
@@ -230,13 +243,24 @@ export default function AdminDashboard() {
       if (result.status === 'error' || result.error) {
         alert('Error: ' + (result.message || result.error || 'Error desconocido'));
       } else {
+        // Actualizar en Firebase para marcar como sincronizado inmediatamente
+        const orderRef = doc(db, 'orders', order.id);
+        const updateData: any = { 
+          ms_sync_status: 'synced',
+          updated_at: new Date().toISOString()
+        };
+        
+        // Si Mastershop nos devolvió un ID de pedido nuevo y no teníamos uno
+        if ((result.id_order || result.id) && !order.ticket_number) {
+          updateData.ticket_number = String(result.id_order || result.id);
+        }
+
+        await updateDoc(orderRef, updateData);
         alert('Sincronización forzada con éxito.');
         fetchOrders();
-        // Update selected order if open
+        
         if (selectedOrder && selectedOrder.id === order.id) {
-          const updatedOrders = await getOrdersFromFirebase();
-          const match = updatedOrders.find(o => o.id === order.id);
-          if (match) setSelectedOrder(match);
+          setSelectedOrder(prev => prev ? { ...prev, ...updateData } : null);
         }
       }
     } catch (e) {
@@ -485,98 +509,6 @@ export default function AdminDashboard() {
     }
   }, []);
 
-  const totalRevenue = useMemo(() => (orders || [])
-    .filter(o => o && (o.status === 'delivered' || (o.status === 'pending' && o.type === 'order')))
-    .reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0), [orders]);
-
-  const chartData = useMemo(() => {
-    const last7Days = [...Array(7)].map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      return d.toISOString().split('T')[0];
-    }).reverse();
-
-    return last7Days.map(date => {
-      const dayOrders = orders.filter(o => o.created_at?.startsWith(date) && o.type === 'order');
-      return {
-        name: date.split('-').slice(1).reverse().join('/'),
-        ventas: dayOrders.length,
-        ingresos: dayOrders.reduce((acc, curr) => acc + (Number(curr.total) || Number(curr.cart?.total) || 0), 0)
-      };
-    });
-  }, [orders]);
-
-  const statusDistribution = useMemo(() => {
-    const stats: any = {};
-    orders.filter(o => o.type === 'order').forEach(o => {
-      stats[o.status] = (stats[o.status] || 0) + 1;
-    });
-    return Object.entries(stats).map(([name, value]) => ({ name, value }));
-  }, [orders]);
-
-  const topProducts = useMemo(() => {
-    const products: any = {};
-    orders.filter(o => o.type === 'order').forEach(o => {
-      o.cart?.items?.forEach((item: any) => {
-        const name = item.name || item.productName || 'Desconocido';
-        products[name] = (products[name] || 0) + (item.quantity || 1);
-      });
-    });
-    return Object.entries(products)
-      .map(([name, sales]) => ({ name, sales: sales as number }))
-      .sort((a, b) => b.sales - a.sales)
-      .slice(0, 10);
-  }, [orders]);
-
-  const geoStats = useMemo(() => {
-    const departments: any = {};
-    const cities: any = {};
-    
-    orders.filter(o => o.type === 'order').forEach(o => {
-      const dept = o.customer?.department || 'No especificado';
-      const city = o.customer?.city || 'No especificada';
-      departments[dept] = (departments[dept] || 0) + 1;
-      cities[city] = (cities[city] || 0) + 1;
-    });
-
-    const sortedDepts = Object.entries(departments)
-      .map(([name, count]) => ({ name, count: count as number }))
-      .sort((a, b) => b.count - a.count);
-
-    const sortedCities = Object.entries(cities)
-      .map(([name, count]) => ({ name, count: count as number }))
-      .sort((a, b) => b.count - a.count);
-
-    return { departments: sortedDepts, cities: sortedCities };
-  }, [orders]);
-
-  const funnelStats = useMemo(() => {
-    const totalCheckouts = orders.length;
-    const completed = orders.filter(o => o.type === 'order').length;
-    const abandoned = orders.filter(o => o.type === 'abandoned').length;
-    const conversionRate = totalCheckouts > 0 ? (completed / totalCheckouts) * 100 : 0;
-
-    return [
-      { name: 'Checkouts Iniciados', value: totalCheckouts, fill: '#94a3b8' },
-      { name: 'Ventas Finalizadas', value: completed, fill: '#10b981' },
-      { name: 'Carritos Abandonados', value: abandoned, fill: '#f59e0b' }
-    ];
-  }, [orders]);
-
-  const abandonedByProduct = useMemo(() => {
-    const products: any = {};
-    orders.filter(o => o.type === 'abandoned').forEach(o => {
-      o.cart?.items?.forEach((item: any) => {
-        const name = item.name || item.productName || 'Desconocido';
-        products[name] = (products[name] || 0) + 1;
-      });
-    });
-    return Object.entries(products)
-      .map(([name, count]) => ({ name, count: count as number }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
-  }, [orders]);
-
   const filteredOrders = useMemo(() => (orders || [])
     .filter(o => o && (filter === 'all' || o.type === filter))
     .filter(o => {
@@ -621,13 +553,150 @@ export default function AdminDashboard() {
       );
     }), [orders, filter, searchTerm, startDate, endDate, selectedStatuses]);
 
+  const stats = useMemo(() => {
+    const ordersOnly = filteredOrders.filter(o => o.type === 'order');
+    const checkoutsOnly = filteredOrders.filter(o => o.type === 'checkout');
+    
+    return {
+      ingresosEstimados: ordersOnly.reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0),
+      pedidosTotales: ordersOnly.length,
+      carritosAbandonados: checkoutsOnly.length,
+      pendientesEnvio: ordersOnly.filter(o => ['pending', 'pending_validation'].includes(o.status) || o.ms_sync_status !== 'synced').length
+    };
+  }, [filteredOrders]);
+
+  const chartData = useMemo(() => {
+    let daysToDisplay: string[] = [];
+    
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const current = new Date(start);
+      
+      // Limit to max 31 days to avoid chart overflow
+      let count = 0;
+      while (current <= end && count < 31) {
+        daysToDisplay.push(current.toISOString().split('T')[0]);
+        current.setDate(current.getDate() + 1);
+        count++;
+      }
+    } else {
+      daysToDisplay = [...Array(7)].map((_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        return d.toISOString().split('T')[0];
+      }).reverse();
+    }
+
+    return daysToDisplay.map(date => {
+      const dayOrders = filteredOrders.filter(o => o.created_at?.startsWith(date) && o.type === 'order');
+      return {
+        name: date.split('-').slice(1).reverse().join('/'),
+        ventas: dayOrders.length,
+        ingresos: dayOrders.reduce((acc, curr) => acc + (Number(curr.total) || Number(curr.cart?.total) || 0), 0)
+      };
+    });
+  }, [filteredOrders, startDate, endDate]);
+
+  const statusDistribution = useMemo(() => {
+    const stats: any = {};
+    filteredOrders.filter(o => o.type === 'order').forEach(o => {
+      stats[o.status] = (stats[o.status] || 0) + 1;
+    });
+    return Object.entries(stats).map(([name, value]) => ({ name, value }));
+  }, [filteredOrders]);
+
+  const topProducts = useMemo(() => {
+    const products: any = {};
+    filteredOrders.filter(o => o.type === 'order').forEach(o => {
+      o.cart?.items?.forEach((item: any) => {
+        const name = item.name || item.productName || 'Desconocido';
+        products[name] = (products[name] || 0) + (item.quantity || 1);
+      });
+    });
+    return Object.entries(products)
+      .map(([name, sales]) => ({ name, sales: sales as number }))
+      .sort((a, b) => b.sales - a.sales)
+      .slice(0, 10);
+  }, [filteredOrders]);
+
+  const geoStats = useMemo(() => {
+    const departments: any = {};
+    const cities: any = {};
+    
+    filteredOrders.filter(o => o.type === 'order').forEach(o => {
+      const dept = o.customer?.department || 'No especificado';
+      const city = o.customer?.city || 'No especificada';
+      departments[dept] = (departments[dept] || 0) + 1;
+      cities[city] = (cities[city] || 0) + 1;
+    });
+
+    const sortedDepts = Object.entries(departments)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count);
+
+    const sortedCities = Object.entries(cities)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count);
+
+    return { departments: sortedDepts, cities: sortedCities };
+  }, [filteredOrders]);
+
+  const funnelStats = useMemo(() => {
+    const totalCheckouts = filteredOrders.length;
+    const completed = filteredOrders.filter(o => o.type === 'order').length;
+    const abandoned = filteredOrders.filter(o => o.type === 'abandoned').length;
+    
+    return [
+      { name: 'Checkouts Iniciados', value: totalCheckouts, fill: '#94a3b8' },
+      { name: 'Ventas Finalizadas', value: completed, fill: '#10b981' },
+      { name: 'Carritos Abandonados', value: abandoned, fill: '#f59e0b' }
+    ];
+  }, [filteredOrders]);
+
+  const abandonedByProduct = useMemo(() => {
+    const products: any = {};
+    filteredOrders.filter(o => o.type === 'abandoned').forEach(o => {
+      o.cart?.items?.forEach((item: any) => {
+        const name = item.name || item.productName || 'Desconocido';
+        products[name] = (products[name] || 0) + 1;
+      });
+    });
+    return Object.entries(products)
+      .map(([name, count]) => ({ name, count: count as number }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+  }, [filteredOrders]);
+
+  const filteredWebhookLogs = useMemo(() => {
+    return webhookLogs.filter(log => {
+      if (!startDate && !endDate) return true;
+      const logDate = new Date(log.receivedAt);
+      logDate.setHours(0, 0, 0, 0);
+      
+      if (startDate) {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        if (logDate < start) return false;
+      }
+      
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        if (logDate > end) return false;
+      }
+      
+      return true;
+    });
+  }, [webhookLogs, startDate, endDate]);
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md"
+          className="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md text-center"
         >
           <div className="flex justify-center mb-8">
             <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center">
@@ -665,6 +734,7 @@ export default function AdminDashboard() {
                 </p>
               )}
             </div>
+
             <button 
               onClick={fetchOrders}
               disabled={loading}
@@ -830,25 +900,25 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   <StatCard 
                     label="Ingresos Estimados" 
-                    value={formatCurrency(totalRevenue)} 
+                    value={formatCurrency(stats.ingresosEstimados)} 
                     icon={<DollarSign className="w-5 h-5" />}
                     color="emerald"
                   />
                   <StatCard 
                     label="Pedidos Totales" 
-                    value={(orders || []).filter(o => o && o.type === 'order').length} 
+                    value={stats.pedidosTotales.toString()} 
                     icon={<Package className="w-5 h-5" />}
                     color="blue"
                   />
                   <StatCard 
                     label="Carritos Abandonados" 
-                    value={(orders || []).filter(o => o && o.type === 'abandoned').length} 
+                    value={stats.carritosAbandonados.toString()} 
                     icon={<Trash2 className="w-5 h-5" />}
                     color="orange"
                   />
                   <StatCard 
                     label="Pendientes de Envío" 
-                    value={(orders || []).filter(o => o && o.status === 'pending' && o.type === 'order').length} 
+                    value={stats.pendientesEnvio.toString()} 
                     icon={<Clock className="w-5 h-5" />}
                     color="amber"
                   />
@@ -906,9 +976,12 @@ export default function AdminDashboard() {
                                   { id: 'pending', label: 'Pendiente' },
                                   { id: 'confirmed', label: 'Confirmado' },
                                   { id: 'ready_to_ship', label: 'Por Alistar' },
-                                  { id: 'shipped_with_guide', label: 'Guía Asignada' },
+                                  { id: 'shipped_with_guide', label: 'Guía Generada' },
                                   { id: 'in_transit', label: 'En Tránsito' },
                                   { id: 'delivered', label: 'Entregado' },
+                                  { id: 'completed', label: 'Cumplida' },
+                                  { id: 'waiting_delivery', label: 'Esperando Entrega' },
+                                  { id: 'declined', label: 'Declinada' },
                                   { id: 'with_issue', label: 'Novedad' },
                                   { id: 'cancelled', label: 'Cancelado' }
                                 ].map((status) => (
@@ -941,7 +1014,6 @@ export default function AdminDashboard() {
                       </AnimatePresence>
                     </div>
 
-                    {/* Date Filters */}
                     <div className="flex items-center gap-2 bg-stone-50 border border-stone-100 px-3 py-1.5 rounded-xl">
                       <Calendar className="w-3.5 h-3.5 text-stone-400" />
                       <div className="flex items-center gap-1.5">
@@ -968,6 +1040,19 @@ export default function AdminDashboard() {
                         </button>
                       )}
                     </div>
+
+                    <button 
+                      onClick={() => {
+                        setStartDate('');
+                        setEndDate('');
+                        setSelectedStatuses([]);
+                        setSearchTerm('');
+                      }}
+                      className="px-3 py-1.5 text-stone-400 hover:text-red-500 transition-colors"
+                      title="Limpiar todos los filtros"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-stone-50">
@@ -1018,29 +1103,31 @@ export default function AdminDashboard() {
 
 
                 {/* Orders Table */}
-                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="bg-stone-50/50 border-b border-stone-100">
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-16">Ticket</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Fecha</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Tipo</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest min-w-[140px]">Cliente</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">WhatsApp</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest">Dirección</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">Ciudad</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-24 text-center">Depto</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest">Contenido</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest w-20">Monto</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest text-center w-24">Estado</th>
-                          <th className="px-2 py-2 text-[11px] font-normal text-black uppercase tracking-widest text-right w-24">Acciones</th>
+                        <tr className="bg-[#e2efda] border-b border-stone-300">
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-12 border-r border-stone-300">Ticket N°</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-24 border-r border-stone-300">Fecha y Hora</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-12 text-center border-r border-stone-300">Tipo</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight min-w-[120px] border-r border-stone-300">Nombre</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-20 text-center border-r border-stone-300">Celular</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight min-w-[120px] border-r border-stone-300 text-center">Email</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight border-r border-stone-300">Dirección</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-20 text-center border-r border-stone-300">Ciudad</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-20 text-center border-r border-stone-300">Departamento</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-24 border-r border-stone-300">Guía</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight border-r border-stone-300">Producto</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-20 border-r border-stone-300">Valor</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight text-center w-24 border-r border-stone-300">Estado</th>
+                          <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight text-right w-20">Acciones</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-stone-100">
+                      <tbody>
                         {filteredOrders.length === 0 ? (
                           <tr>
-                            <td colSpan={12} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
+                            <td colSpan={14} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
                           </tr>
                         ) : (
                           filteredOrders.map((order) => {
@@ -1048,57 +1135,85 @@ export default function AdminDashboard() {
                             const displayName = customer.nombre 
                               ? `${customer.nombre} ${customer.apellido || ''}`
                               : (customer.fullName || 'Cliente sin nombre');
-                            const displayPhone = customer.telefono || customer.phone || 'N/A';
+                            const displayPhone = customer.telefono || customer.phone || '---';
+                            const displayEmail = customer.email || '---';
                             const hasAlerts = order.ms_sync_status === 'failed' || order.status === 'with_issue' || (order.ms_alerts && order.ms_alerts.length > 0);
 
                             return (
                               <tr 
                                 key={order.id} 
-                                className="hover:bg-stone-50/50 transition-colors group cursor-pointer"
+                                className="hover:bg-stone-50 transition-colors group cursor-pointer border-b border-stone-200"
                                 onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || order.ms_tracking || ''); }}
                               >
-                                <td className="px-2 py-2">
-                                  <span className="text-[11px] font-normal text-black">
+                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                  <span className={cn(
+                                    "text-[10px] font-mono font-black border px-1.5 py-0.5 rounded transition-all block text-center",
+                                    (order.ms_sync_status === 'synced' || order.tracking_guide) 
+                                      ? "bg-emerald-500 border-emerald-600 text-white" 
+                                      : order.ms_sync_status === 'failed'
+                                        ? "bg-red-50 border-red-200 text-red-600"
+                                        : "bg-white border-stone-100 text-stone-400"
+                                  )}>
                                     {order.ticket_number || '---'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
+                                <td className="px-2 py-1.5 border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black whitespace-nowrap">
                                     {order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Hoy'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
-                                  <span className="text-[11px] font-normal text-black uppercase tracking-tighter">
-                                    {order.type === 'order' ? 'Venta' : 'Abandonado'}
+                                <td className="px-2 py-1.5 text-center border-r border-stone-200">
+                                  <span className="text-[10px] font-bold text-stone-500 uppercase tracking-tighter">
+                                    {order.type === 'order' ? 'Venta' : 'Abnd'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
-                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[120px]">
+                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px]">
                                     {displayName}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2 text-center">
-                                  <span className="text-[11px] font-normal text-black whitespace-nowrap">
+                                <td className="px-2 py-1.5 text-center border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black">
                                     {displayPhone}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
-                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[150px]">
+                                <td className="px-2 py-1.5 text-center border-r border-stone-200">
+                                  <span className="text-[10px] font-normal text-stone-500 line-clamp-2 max-w-[120px] block break-all">
+                                    {displayEmail}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[180px]">
                                     {customer.address || customer.direccion || '---'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2 text-center">
-                                  <span className="text-[11px] font-normal text-black truncate max-w-[100px] block">
+                                <td className="px-2 py-1.5 text-center border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black line-clamp-2 max-w-[80px] block">
                                     {customer.city || customer.ciudad || '---'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2 text-center">
-                                  <span className="text-[11px] font-normal text-black truncate max-w-[100px] block">
-                                    {customer.department || '---'}
+                                <td className="px-2 py-1.5 text-center border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black line-clamp-2 max-w-[80px] block">
+                                    {customer.department || customer.departamento || '---'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
-                                  <span className="text-[11px] font-normal text-black leading-tight block min-w-[180px]">
+                                <td className="px-2 py-1.5 border-r border-stone-200 min-w-[120px]">
+                                   <div className="relative group/guide">
+                                      <input 
+                                        type="text"
+                                        value={order.tracking_guide || ''}
+                                        onChange={(e) => {
+                                          e.stopPropagation();
+                                          handleSaveCell(order.id, 'tracking_guide', e.target.value);
+                                        }}
+                                        onClick={(e) => e.stopPropagation()}
+                                        placeholder="Pegar guía..."
+                                        className="w-full bg-stone-50 border border-stone-200 hover:border-emerald-300 focus:bg-white focus:border-emerald-500 rounded px-2 py-1 text-[10px] font-mono outline-none transition-all shadow-sm"
+                                      />
+                                   </div>
+                                </td>
+                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[200px]">
                                     {order.cart?.items?.length 
                                       ? order.cart.items.map((i: any) => {
                                           const q = i.quantity || i.qty || 1;
@@ -1110,48 +1225,64 @@ export default function AdminDashboard() {
                                     }
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
+                                <td className="px-2 py-1.5 border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black whitespace-nowrap">
                                     {formatCurrency(order.total || order.cart?.total || 0)}
                                   </span>
                                 </td>
-                                <td className="px-2 py-2">
-                                  <div className="flex flex-col gap-0.5 items-center">
-                                    <StatusBadge 
-                                      status={order.status} 
-                                      type={order.type} 
-                                      msStatus={order.ms_status} 
-                                      syncStatus={order.ms_sync_status}
-                                    />
-                                    {hasAlerts && (
-                                       <span className="text-[11px] font-normal text-black uppercase underline decoration-red-500 underline-offset-2">Alerta MS</span>
-                                    )}
+                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                  <div className="flex items-center justify-center min-h-[40px]" onClick={(e) => e.stopPropagation()}>
+                                    <select 
+                                      value={order.status}
+                                      onChange={(e) => updateStatus(order.id, e.target.value)}
+                                      className={cn(
+                                        "appearance-none bg-transparent border-0 text-center cursor-pointer outline-none focus:ring-0",
+                                        "text-[10px] font-black w-full h-full py-1 text-black whitespace-normal leading-tight"
+                                      )}
+                                    >
+                                      <option value="pending">Pendiente</option>
+                                      <option value="confirmed">Confirmado</option>
+                                      <option value="ready_to_ship">Por Alistar</option>
+                                      <option value="shipped_with_guide">Guía Generada</option>
+                                      <option value="in_transit">En Tránsito</option>
+                                      <option value="delivered">Entregado</option>
+                                      <option value="completed">Cumplida</option>
+                                      <option value="waiting_delivery">Espera Entrega</option>
+                                      <option value="declined">Declinada</option>
+                                      <option value="cancelled">Cancelado</option>
+                                      <option value="with_issue">Con Novedad</option>
+                                    </select>
                                   </div>
+                                  {hasAlerts && (
+                                     <div className="text-center mt-0.5">
+                                       <span className="text-[8px] font-black text-white bg-red-500 px-1 rounded animate-pulse">ALERTA MS</span>
+                                     </div>
+                                  )}
                                 </td>
-                                <td className="px-2 py-2 text-right">
+                                <td className="px-2 py-1.5 text-right">
                                    <div className="flex justify-end gap-1">
                                       <button 
                                         onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }}
-                                        className="w-7 h-7 rounded-lg bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all"
+                                        className="w-6 h-6 rounded bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all"
                                         title="Ver Detalles"
                                       >
-                                        <Eye className="w-3.5 h-3.5" />
+                                        <Eye className="w-3 h-3" />
                                       </button>
                                       {order.status !== 'success' && (
                                         <button 
                                           onClick={(e) => { e.stopPropagation(); handleManualSync(order); }}
-                                          className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center hover:bg-emerald-200 transition-all"
+                                          className="w-6 h-6 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center hover:bg-emerald-200 transition-all"
                                           title="Forzar Sincronización"
                                         >
-                                          <RefreshCw className="w-3.5 h-3.5" />
+                                          <RefreshCw className="w-3 h-3" />
                                         </button>
                                       )}
                                       <button 
                                         onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
-                                        className="w-7 h-7 rounded-lg bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
+                                        className="w-6 h-6 rounded bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
                                         title="Borrar"
                                       >
-                                        <Trash2 className="w-3.5 h-3.5" />
+                                        <Trash2 className="w-3 h-3" />
                                       </button>
                                     </div>
                                  </td>
@@ -1172,13 +1303,81 @@ export default function AdminDashboard() {
                 exit={{ opacity: 0, y: -10 }}
                 className="space-y-8"
               >
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                  <div>
+                    <h2 className="text-2xl font-black text-stone-900 tracking-tight flex items-center gap-3">
+                      <TrendingUp className="w-8 h-8 text-emerald-500" />
+                      Analítica de Negocio
+                    </h2>
+                    <p className="text-sm text-stone-500 mt-1 uppercase font-black tracking-widest text-[10px]">
+                      {startDate && endDate ? `Datos del ${startDate} al ${endDate}` : 'Últimos 7 días activos'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-white border border-stone-100 px-4 py-2 rounded-2xl shadow-sm">
+                    <Calendar className="w-4 h-4 text-stone-400" />
+                    <div className="flex items-center gap-2">
+                       <input 
+                         type="date" 
+                         value={startDate}
+                         onChange={(e) => setStartDate(e.target.value)}
+                         className="bg-transparent text-[11px] font-black text-stone-800 outline-none w-28 cursor-pointer uppercase"
+                       />
+                       <span className="text-stone-200">/</span>
+                       <input 
+                         type="date" 
+                         value={endDate}
+                         onChange={(e) => setEndDate(e.target.value)}
+                         className="bg-transparent text-[11px] font-black text-stone-800 outline-none w-28 cursor-pointer uppercase"
+                       />
+                    </div>
+                    {(startDate || endDate) && (
+                      <button 
+                        onClick={() => { setStartDate(''); setEndDate(''); }}
+                        className="p-1 hover:text-red-500 transition-colors ml-2"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <StatCard 
+                    label="Ingresos Estimados" 
+                    value={formatCurrency(stats.ingresosEstimados)} 
+                    icon={<DollarSign className="w-5 h-5" />}
+                    color="emerald"
+                  />
+                  <StatCard 
+                    label="Pedidos Totales" 
+                    value={stats.pedidosTotales.toString()} 
+                    icon={<ShoppingBag className="w-5 h-5" />}
+                    color="blue"
+                  />
+                  <StatCard 
+                    label="Carritos Abandonados" 
+                    value={stats.carritosAbandonados.toString()} 
+                    icon={<Trash2 className="w-5 h-5" />}
+                    color="orange"
+                  />
+                  <StatCard 
+                    label="Pendientes de Envío" 
+                    value={stats.pendientesEnvio.toString()} 
+                    icon={<Clock className="w-5 h-5" />}
+                    color="amber"
+                  />
+                </div>
+
                 {/* Analytics Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Revenue Chart */}
                   <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
                     <div className="flex justify-between items-center mb-6">
                       <div>
-                        <h3 className="text-xl font-bold text-stone-900">Ventas e Ingresos (7 días)</h3>
+                        <h3 className="text-xl font-bold text-stone-900">
+                          {startDate && endDate ? 'Ventas e Ingresos (Periodo)' : 'Ventas e Ingresos (7 días)'}
+                        </h3>
                         <p className="text-sm text-stone-500">Tendencia de ingresos y volumen de pedidos</p>
                       </div>
                       <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
@@ -1369,7 +1568,8 @@ export default function AdminDashboard() {
                       <tbody className="divide-y divide-stone-100">
                         {PRODUCTS.map(product => {
                            const status = getStockStatus(product.mastershopId);
-                           const stockStr = status ? `${status.stock.toLocaleString('es-CO')} unds.` : '---';
+                           const stockValue = status?.stock;
+                           const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
                            
                            return (
                              <tr key={product.id} className="hover:bg-stone-50/50 transition-colors">
@@ -1410,7 +1610,8 @@ export default function AdminDashboard() {
                         {/* Render Gifts */}
                         {GIFT_PRODUCTS.map(gift => {
                            const status = getStockStatus(gift.mastershopId);
-                           const stockStr = status ? `${status.stock.toLocaleString('es-CO')} unds.` : '---';
+                           const stockValue = status?.stock;
+                           const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
 
                            return (
                              <tr key={gift.id} className="hover:bg-amber-50/30 transition-colors bg-amber-50/10">
@@ -1457,30 +1658,43 @@ export default function AdminDashboard() {
               >
                 <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold flex items-center gap-2">
-                       <Activity className="w-6 h-6 text-emerald-500" />
-                       Últimos Webhooks Recibidos
-                    </h2>
+                    <div>
+                      <h2 className="text-xl font-bold flex items-center gap-2 text-stone-900">
+                        <Activity className="w-6 h-6 text-emerald-500" />
+                        Webhooks de Mastershop
+                      </h2>
+                      <p className="text-[10px] text-stone-400 mt-1 uppercase font-black tracking-widest">
+                        {filteredWebhookLogs.length} eventos en el periodo seleccionado
+                      </p>
+                    </div>
                     <button 
                       onClick={fetchWebhookLogs}
-                      className="px-4 py-2 bg-stone-100 text-stone-600 rounded-xl text-sm font-bold hover:bg-stone-200 transition-colors"
+                      className="px-4 py-2 bg-stone-100 text-stone-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-stone-200 transition-colors flex items-center gap-2"
                     >
-                      Actualizar
+                      <RefreshCw className="w-3.5 h-3.5" /> Actualizar
                     </button>
                   </div>
                   
-                  {webhookLogs.length === 0 ? (
-                    <div className="text-center py-12 text-stone-400">
-                      <p>Aún no se han recibido webhooks.</p>
-                      <p className="text-xs mt-2">Configura la URL <strong>https://zenhogar.live/api/mastershop/webhook</strong> en Mastershop.</p>
+                  {filteredWebhookLogs.length === 0 ? (
+                    <div className="text-center py-16 bg-stone-50/50 rounded-3xl border border-dashed border-stone-200">
+                      <p className="text-stone-400 text-sm">No se encontraron eventos para los filtros seleccionados.</p>
+                      {webhookLogs.length === 0 && (
+                        <div className="mt-4">
+                          <p className="text-[10px] font-mono text-stone-400 uppercase tracking-widest font-black">Endpoint Mastershop</p>
+                          <p className="text-[11px] font-mono text-emerald-600 bg-emerald-50 px-3 py-1 rounded inline-block mt-1">https://zenhogar.live/api/mastershop/webhook</p>
+                        </div>
+                      )}
                     </div>
                   ) : (
-                    <div className="space-y-4">
-                      {webhookLogs.map((log, index) => (
+                    <div className="grid gap-4">
+                      {filteredWebhookLogs.map((log, index) => (
                         <div key={index} className="bg-stone-50 border border-stone-200 rounded-2xl p-4">
                           <div className="flex justify-between items-center mb-2">
                             <span className="text-xs font-black text-stone-500 uppercase tracking-widest">{new Date(log.receivedAt).toLocaleString('es-CO')}</span>
-                            <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg font-bold">RECIBIDO</span>
+                            <div className="flex items-center gap-2">
+                               <span className="text-[9px] font-mono text-stone-400 bg-stone-100 px-2 py-0.5 rounded uppercase">ID: {log.orderId}</span>
+                               <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg font-bold">RECIBIDO</span>
+                            </div>
                           </div>
                           <pre className="bg-stone-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto">
                             {JSON.stringify(log.payload, null, 2)}
@@ -1727,9 +1941,19 @@ export default function AdminDashboard() {
                       )}
                       <button 
                         onClick={() => handleManualSync(selectedOrder)}
-                        className="w-full py-3 bg-emerald-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-lg"
+                        disabled={selectedOrder.ms_sync_status === 'synced'}
+                        className={cn(
+                          "w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg",
+                          selectedOrder.ms_sync_status === 'synced'
+                            ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200"
+                            : "bg-emerald-600 text-white hover:bg-emerald-700 active:scale-[0.98]"
+                        )}
                       >
-                         <Activity className="w-4 h-4" /> Forzar Envío Mastershop
+                         {selectedOrder.ms_sync_status === 'synced' ? (
+                           <> <CheckCircle2 className="w-4 h-4" /> Pedido Ya Generado</>
+                         ) : (
+                           <> <Activity className="w-4 h-4" /> Forzar Envío Mastershop </>
+                         )}
                       </button>
                     </section>
                   )}
@@ -1810,7 +2034,7 @@ export default function AdminDashboard() {
                     <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                        <Truck className="w-3 h-3" /> Seguimiento y Guía
                     </h4>
-                    <div className="space-y-3">
+    <div className="space-y-3">
                       <div className="relative">
                         <input 
                           type="text" 
@@ -1820,12 +2044,31 @@ export default function AdminDashboard() {
                           className="w-full px-5 py-4 bg-stone-50 border border-stone-200 rounded-2xl outline-none focus:ring-2 focus:ring-purple-500 transition-all font-mono text-sm"
                         />
                       </div>
-                      <button 
-                        onClick={() => handleUpdateTracking(selectedOrder.id)}
-                        className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-purple-700 transition-all shadow-lg shadow-purple-600/20"
-                      >
-                         Guardar Número de Guía
-                      </button>
+                      
+                      <div className="grid grid-cols-2 gap-2">
+                        <select 
+                          value={selectedOrder.status}
+                          onChange={(e) => handleUpdateTracking(selectedOrder.id, e.target.value)}
+                          className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl outline-none focus:ring-2 focus:ring-purple-500 transition-all text-xs font-bold uppercase tracking-wider text-stone-600 appearance-none cursor-pointer"
+                        >
+                          <option value="pending">Pendiente</option>
+                          <option value="confirmed">Confirmado</option>
+                          <option value="ready_to_ship">Por Alistar</option>
+                          <option value="waiting_collection">Por Recolectar</option>
+                          <option value="in_transit">En Tránsito</option>
+                          <option value="shipped_with_guide">Guía Asignada</option>
+                          <option value="delivered">Entregado</option>
+                          <option value="with_issue">Con Novedad</option>
+                          <option value="cancelled">Cancelado</option>
+                          <option value="withdrawn">Desistió</option>
+                        </select>
+                        <button 
+                          onClick={() => handleUpdateTracking(selectedOrder.id)}
+                          className="w-full py-4 bg-purple-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-purple-700 transition-all shadow-lg shadow-purple-600/20"
+                        >
+                           Actualizar
+                        </button>
+                      </div>
                     </div>
                   </section>
 
@@ -1929,10 +2172,13 @@ function StatusBadge({ status, type, msStatus, syncStatus }: { status: string, t
     out_for_delivery: { label: "EN REPARTO", bg: "bg-emerald-50", border: "border-emerald-100" },
     at_office: { label: "EN OFICINA", bg: "bg-stone-50", border: "border-stone-100" },
     delivered: { label: "ENTREGADO", bg: "bg-emerald-100", border: "border-emerald-200" },
+    completed: { label: "CUMPLIDA", bg: "bg-blue-100", border: "border-blue-200" },
+    waiting_delivery: { label: "ESPERA ENTREGA", bg: "bg-amber-100", border: "border-amber-200" },
+    declined: { label: "DECLINADA", bg: "bg-red-100", border: "border-red-200" },
     with_issue: { label: "CON NOVEDAD", bg: "bg-red-50", border: "border-red-100" },
     cancelled: { label: "CANCELADO", bg: "bg-red-50", border: "border-red-100" },
     withdrawn: { label: "DESISTIÓ", bg: "bg-stone-100", border: "border-stone-200" },
-    shipped_with_guide: { label: "GUÍA ASIGNADA", bg: "bg-purple-50", border: "border-purple-100" },
+    shipped_with_guide: { label: "GUÍA GENERADA", bg: "bg-purple-50", border: "border-purple-100" },
   };
 
   const c = config[msStatus || status] || config[status] || config.pending;

@@ -46,7 +46,7 @@ export function useInventory() {
     const data = getStockData(mastershopId);
     if (!data) return null;
     
-    const { stock } = data;
+    const stock = Number(data.stock) || 0;
     
     if (stock < 0) return { label: 'Negativo', color: 'red', stock };
     if (stock === 0) return { label: 'Agotado', color: 'red', stock };

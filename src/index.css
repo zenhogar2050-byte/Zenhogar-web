@@ -13,10 +13,31 @@
   }
   
   --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
+
+  --shadow-bento: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-bento-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
 .animate-marquee {
   will-change: transform;
+}
+
+@utility shadow-bento {
+  box-shadow: var(--shadow-bento);
+}
+
+@utility shadow-bento-hover {
+  box-shadow: var(--shadow-bento-hover);
+}
+
+@layer base {
+  body {
+    @apply text-stone-800 bg-stone-50;
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-stone-900;
+  }
 }
 
 @utility pause-animation {

@@ -2266,11 +2266,13 @@ export const PROMOTIONS = [
 
 
 export const GIFT_PRODUCTS = [
-  { id: 'gift-termo', name: 'Obsequio Termoactiva', mastershopId: 11253 },
-  { id: 'gift-repo', name: 'Obsequio Gratis Repolarizador', mastershopId: 11301 },
+  { id: 'gift-coli', name: 'Obsequio Coliplus', mastershopId: 49603 },
   { id: 'gift-titan', name: 'Obsequio Titan Coffe', mastershopId: 26846 },
-  { id: 'gift-coli', name: 'Obsequio Coli Plus', mastershopId: 49603 },
+  { id: 'gift-coffee-col', name: 'Obsequio Coffe Colageno', mastershopId: 26845 },
   { id: 'gift-dampy', name: 'Obsequio Pañitos Dampy', mastershopId: 76365 },
+  { id: 'gift-repo', name: 'Obsequio Gratis Repolarizador', mastershopId: 11301 },
+  { id: 'gift-shampoo', name: 'Obsequio Shampoo Sin sal', mastershopId: 11270 },
+  { id: 'gift-termo', name: 'Obsequio termoactiva', mastershopId: 11236 },
 ];
 
 export const COLOMBIA_DATA = {

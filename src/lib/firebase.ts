@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, setDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, setDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc, limit, where } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -56,8 +56,8 @@ export async function saveOrderToFirebase(orderData: any) {
 export async function getOrdersFromFirebase() {
   try {
     const ordersRef = collection(db, collections.ORDERS);
-    // Intentamos obtener los documentos
-    const q = query(ordersRef, orderBy('created_at', 'desc'));
+    // Limitamos a 500 registros para mantener fluidez (aprox 2 meses según volumen)
+    const q = query(ordersRef, orderBy('created_at', 'desc'), limit(500));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => {
       const data = doc.data();
@@ -89,6 +89,7 @@ export async function updateOrderStatusInFirebase(orderId: string, status: strin
     });
     return true;
   } catch (error) {
+    console.error('Error updating status:', error);
     return false;
   }
 }
@@ -120,7 +121,6 @@ export async function clearAllOrdersFromFirebase() {
 export async function updateOrderByTicketNumber(ticketNumber: string, updateData: any) {
   try {
     const ordersRef = collection(db, collections.ORDERS);
-    const { where, query, getDocs } = await import('firebase/firestore');
     const q = query(ordersRef, where('ticket_number', '==', ticketNumber));
     const querySnapshot = await getDocs(q);
     

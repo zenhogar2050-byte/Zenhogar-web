@@ -24,8 +24,16 @@ export default function Checkout() {
     department: '',
     city: '',
   });
-  const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
-  const [abandonedId, setAbandonedId] = useState<string | null>(null);
+  
+  // ID único para esta sesión de checkout para evitar duplicados
+  const [checkoutId] = useState(() => {
+    const savedId = sessionStorage.getItem('checkout_session_id');
+    if (savedId) return savedId;
+    const newId = `chk_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+    sessionStorage.setItem('checkout_session_id', newId);
+    return newId;
+  });
+
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   useEffect(() => {
@@ -40,30 +48,30 @@ export default function Checkout() {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  // Rastreo de Carrito Abandonado / Actualización Proactiva
   useEffect(() => {
     if (items.length === 0 || isSubmitting) return;
 
-    // Solo trackear si al menos tiene nombre y teléfono
-    if (formData.fullName.length > 3 && formData.phone.length > 6) {
+    // Solo trackear si ya empezó a llenar datos críticos
+    if (formData.fullName.length > 3 || formData.phone.length > 6) {
       const timer = setTimeout(async () => {
         try {
           const orderDetails = items.map(item => 
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
 
-          // Generar un ID único basado en el teléfono para evitar duplicados del mismo cliente
-          const uniqueId = `abandoned_${formData.phone.replace(/\D/g, '')}`;
-
-          // Firebase Tracking (NEW for 2.0/Cloudflare)
+          // Firebase Tracking (Actualiza el mismo documento siempre)
           await saveOrderToFirebase({
-            id: uniqueId, // Usamos ID fijo para sobrescribir si el cliente sigue en el checkout
+            id: checkoutId,
             customer: formData,
             order_details: orderDetails,
             total: formatCurrency(total),
-            type: 'abandoned'
+            type: 'abandoned',
+            updated_at: new Date().toISOString()
           });
 
-          await fetch('/api/abandoned', {
+          // Google Sheets Tracking (Solo para carritos abandonados si es necesario)
+          fetch('/api/abandoned', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -79,18 +87,16 @@ export default function Checkout() {
               items: items.map(i => ({ name: i.productName, qty: i.quantity, price: i.price })),
               total: total.toString()
             }),
-          });
+          }).catch(err => console.log("Silent error in Sheets abandoned:", err));
           
-          setHasTrackedAbandoned(true);
-          setAbandonedId(uniqueId);
         } catch (e) {
-          console.error("Error tracking abandoned cart:", e);
+          console.error("Error tracking checkout progress:", e);
         }
-      }, 1800000); // 30 MINUTOS de inactividad total antes de declarar abandono
+      }, 5000); // 5 SEGUNDOS de inactividad para registrar/actualizar el avance
 
       return () => clearTimeout(timer);
     }
-  }, [formData.fullName, formData.phone, items, total, isSubmitting]);
+  }, [formData, items, total, isSubmitting, checkoutId]);
 
   const departments = Object.keys(COLOMBIA_DATA || {});
   const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
@@ -176,12 +182,14 @@ export default function Checkout() {
 
       // Firebase Saving (Critical for Cloudflare persistence)
       await saveOrderToFirebase({
+        id: checkoutId, // Usamos el MISMO ID para convertir el abandono en pedido real
         customer: formData,
         order_details: orderDetails,
         total: total,
         cart: { items, total },
         type: 'order',
-        ticket_number: currentTicket
+        ticket_number: currentTicket,
+        updated_at: new Date().toISOString()
       });
 
       // Mastershop Sync
@@ -201,11 +209,8 @@ export default function Checkout() {
         // Fallar silenciosamente para no bloquear la redirección
       }
 
-      // SI HABÍA UN REGISTRO DE ABANDONO PREVIO, LO ELIMINAMOS PARA EVITAR DUPLICADOS
-      if (abandonedId) {
-        const { deleteOrderFromFirebase } = await import('../lib/firebase');
-        await deleteOrderFromFirebase(abandonedId);
-      }
+      // Limpiamos la sesión de checkout después de éxito
+      sessionStorage.removeItem('checkout_session_id');
 
       const message = `*🛍️ PEDIDO #${currentTicket} - ZENHOGAR*\n\n` +
         `*PRODUCTOS:*\n${orderDetails}\n\n` +

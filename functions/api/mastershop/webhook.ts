@@ -106,6 +106,24 @@ export const onRequestPost: PagesFunction = async (context) => {
       } else {
         console.warn(`[Webhook Mastershop]: No se encontró el pedido ${orderId} en Firebase para sincronizar.`);
       }
+
+      // --- GUARDAR LOG DEL WEBHOOK PARA EL DASHBOARD ---
+      const logUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/${firebaseConfig.databaseId}/documents/webhook_logs?key=${firebaseConfig.apiKey}`;
+      const logBody = {
+        fields: {
+          receivedAt: { timestampValue: new Date().toISOString() },
+          payload: { stringValue: JSON.stringify(payload) },
+          orderId: { stringValue: String(orderId || "unknown") },
+          status: { stringValue: String(newStatus || "unknown") }
+        }
+      };
+
+      await fetch(logUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(logBody)
+      });
+
     } catch (fbErr: any) {
       console.error("[Webhook Mastershop Firebase Error]:", fbErr.message);
     }

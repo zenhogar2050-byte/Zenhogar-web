@@ -18,61 +18,74 @@ export const onRequestPost: PagesFunction = async (context) => {
       throw new Error("Datos de orden incompletos");
     }
 
-    const GIFT_ID = 11253; 
-    const GIFT_PRICE = 1500; 
-    const TOTAL_PAID = Number(total) || 0;
-    const remainingForProducts = Math.max(0, TOTAL_PAID - GIFT_PRICE);
-    
-    // Calculamos el total de unidades físicas (por ejemplo, si es pague 2 lleve 3, son 3 unidades)
+    // --- NUEVA LÓGICA DE OBSEQUIOS Y MATEMÁTICA DE PRECISIÓN ---
+    const giftList = [
+        { id: 49603, name: "Obsequio Coliplus", basePrice: 1000 },
+        { id: 26846, name: "Obsequio Titan Coffe", basePrice: 1000 },
+        { id: 26845, name: "Obsequio Coffe Colageno", basePrice: 1000 },
+        { id: 76365, name: "Obsequio Pañitos Dampy", basePrice: 1000 },
+        { id: 11301, name: "Obsequio Gratis Repolarizador", basePrice: 1 },
+        { id: 11270, name: "Obsequio Shampoo Sin sal", basePrice: 1 },
+        { id: 11236, name: "Obsequio termoactiva", basePrice: 1500 }
+    ];
+
     const totalPhysicalUnits = items.reduce((acc: number, it: any) => acc + ((Number(it.units) || 1) * (Number(it.quantity) || 1)), 0);
+    const TOTAL_PAID = Number(total) || 0;
 
+    // 1. Determinar el Obsequio según reglas de volumen
+    let selectedGift: any;
+    if (totalPhysicalUnits === 1) {
+        const ones = giftList.filter(g => g.basePrice === 1);
+        selectedGift = ones[Math.floor(Math.random() * ones.length)];
+    } else if (totalPhysicalUnits === 2) {
+        const thousands = giftList.filter(g => g.basePrice === 1000);
+        selectedGift = thousands[Math.floor(Math.random() * thousands.length)];
+    } else {
+        selectedGift = giftList.find(g => g.basePrice === 1500) || giftList[giftList.length - 1];
+    }
+
+    // 2. Matemática Comodín: El obsequio absorbe la diferencia
+    const reserveForGift = selectedGift.basePrice;
+    const amountForProducts = Math.max(1, TOTAL_PAID - reserveForGift);
+    
     const mastershopItems: any[] = [];
-    if (totalPhysicalUnits > 0) {
-        const baseUnitPrice = Math.floor(remainingForProducts / totalPhysicalUnits);
-        let currentTotalDistribution = 0;
+    let distributedProductTotal = 0;
 
+    if (totalPhysicalUnits > 0) {
+        const baseUnitPrice = Math.floor(amountForProducts / totalPhysicalUnits);
+        
         items.forEach((item: any) => {
             const unitsPerItem = Number(item.units) || 1;
             const quantityInCart = Number(item.quantity) || 1;
             const totalQtyForMastershop = unitsPerItem * quantityInCart;
-            
             const mastershopId = Number(item.mastershopId) || 11323;
             
+            const itemTotalPrice = baseUnitPrice * totalQtyForMastershop;
+            distributedProductTotal += itemTotalPrice;
+
             mastershopItems.push({
                 "id_variant": null,
                 "id_product": mastershopId,
                 "quantity": totalQtyForMastershop,
-                "sku": item.productId || 'GENERIC',
-                "name": item.productName || "Producto",
+                sku: item.productId || item.sku || 'GENERIC',
+                "name": item.productName || item.name || "Producto",
                 "weight": 1,
                 "price": baseUnitPrice
             });
-            currentTotalDistribution += baseUnitPrice * totalQtyForMastershop;
         });
-
-        const diff = remainingForProducts - currentTotalDistribution;
-        if (diff !== 0 && mastershopItems.length > 0) {
-            const first = mastershopItems[0];
-            // Ajuste de centavos/pesos en la primera unidad
-            if (first.quantity > 1) {
-                const originalTotalQty = first.quantity;
-                first.quantity = 1;
-                first.price += diff;
-                mastershopItems.splice(1, 0, { ...first, quantity: originalTotalQty - 1, price: baseUnitPrice });
-            } else {
-                first.price += diff;
-            }
-        }
     }
+
+    // El OBSEQUIO es el comodín (Buffer)
+    const finalGiftPrice = TOTAL_PAID - distributedProductTotal;
 
     mastershopItems.push({
         "id_variant": null,
-        "id_product": GIFT_ID,
+        "id_product": selectedGift.id,
         "quantity": 1,
         "sku": "OBSEQUIO",
-        "name": "Obsequio Termoactiva (Cortesia)",
+        "name": `${selectedGift.name} (Cortesia)`,
         "weight": 0.1,
-        "price": GIFT_PRICE
+        "price": Math.max(1, finalGiftPrice) // Mínimo 1 para evitar problemas en Mastershop
     });
 
     const firstName = formData.fullName?.split(' ')[0] || "Cliente";

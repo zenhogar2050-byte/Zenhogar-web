@@ -1,11 +1,18 @@
 # ZENHOGAR E-commerce - Pre-Launch Audit & Release Version
 
-**Version:** 1.2.0
-**Date:** May 2, 2026
+**Version:** 1.3.0
+**Date:** May 4, 2026
 
-## Estado del Proyecto: Mantenimiento y Parches Finales
+## Estado del Proyecto: Versión de Resiliencia y Seguridad
 
-Esta versión incluye todas las optimizaciones previas más mejoras críticas en la sincronización de inventario y gestión administrativa.
+Esta versión marca un hito en la robustez operativa de la tienda, eliminando problemas de duplicación de datos y blindando la base de datos contra accesos no autorizados.
+
+### Resumen de Mejoras de Sincronización y Seguridad (v1.3.0):
+
+- ✅ **Sincronización Proactiva (Anti-Abandono):** El Checkout ahora sincroniza el progreso del cliente cada 5 segundos de inactividad. Esto garantiza que si un cliente cierra la pestaña, sus datos ya están a salvo en el Panel Admin sin esperar a los 30 minutos previos.
+- ✅ **ID de Sesión de Pago (Anti-Duplicados):** Se implementó un `checkout_session_id` único por navegación. Esto evita que un mismo pedido aparezca varias veces como "Abandonado" y luego como "Pedido", convirtiendo el registro existente en lugar de crear uno nuevo.
+- ✅ **Blindaje de Firestore (Hardened Rules):** Se actualizaron las reglas de seguridad para validar no solo quién escribe, sino QUÉ escribe. Se añadieron límites de tamaño de caracteres para evitar ataques de inyección de datos basura.
+- ✅ **Auditoría de Acceso Administrativo:** Limpieza completa de métodos de autenticación antiguos y consolidación del sistema de acceso basado en credenciales seguras.
 
 ### Resumen de Mejoras de Inventario y Admin (v1.2.0):
 
