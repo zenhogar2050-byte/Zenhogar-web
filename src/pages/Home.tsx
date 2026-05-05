@@ -175,9 +175,9 @@ export default function Home() {
                 <Link
                   key={product.id}
                   to={`/producto/${product.id}`}
-                  className="flex flex-col bg-white rounded-[2rem] p-5 border border-stone-200 shadow-bento hover:shadow-bento-hover active:scale-[0.98] transition-all group"
+                  className="flex flex-col bg-white rounded-[2rem] p-5 border border-stone-200 shadow-md active:scale-[0.98] transition-all group"
                 >
-                  <div className="w-full aspect-[4/3] rounded-3xl bg-stone-50 flex items-center justify-center p-6 mb-5 group-hover:bg-stone-100 transition-colors">
+                  <div className="w-full aspect-[4/3] rounded-3xl bg-stone-50 flex items-center justify-center p-6 mb-5 group-active:bg-stone-100 transition-colors">
                     <img 
                       src={product.image} 
                       alt={product.name} 
@@ -220,7 +220,7 @@ export default function Home() {
       <section id="oferta-del-mes" className="pt-8 pb-4 lg:pt-12 lg:pb-6 bg-white hidden sm:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16 shadow-2xl hover:shadow-emerald-900/20 transition-shadow duration-500"
+            className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16"
           >
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
               <div className="text-center lg:text-left">
@@ -317,7 +317,7 @@ export default function Home() {
                 className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all"
               >
                 <Link to={`/producto/${product.id}`} className="block">
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative shadow-inner">
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative">
                     <img
                       src={product.image}
                       alt={product.name}

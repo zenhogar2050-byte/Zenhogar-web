@@ -53,7 +53,6 @@ import {
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
 import { doc, updateDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
-import { useInventory } from '../hooks/useInventory';
 import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import * as XLSX from 'xlsx';
 
@@ -82,15 +81,9 @@ interface Order {
   tracking_guide?: string;
   ticket_number?: string;
   total?: number;
-  status: 'pending' | 'confirmed' | 'sent' | 'delivered' | 'cancelled' | 'shipped_with_guide' | 'withdrawn';
+  status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
   type: 'order' | 'abandoned';
   created_at: string;
-  ms_sync_status?: 'synced' | 'failed';
-  ms_sync_error?: string;
-  ms_status?: string;
-  ms_alerts?: string[];
-  ms_carrier?: string;
-  ms_tracking?: string;
 }
 
 export default function AdminDashboard() {
@@ -111,18 +104,36 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'webhooks'>('orders');
-  const [webhookLogs, setWebhookLogs] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics'>('orders');
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
-  const { inventory, loading: loadingInventory, apiStatus, getStockStatus, refetch: refetchInventory } = useInventory();
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopying(true);
+    setTimeout(() => setCopying(false), 2000);
+  };
+
+  const generateClientMessage = (order: Order) => {
+    if (!order) return '';
+    const ticketStr = order.ticket_number ? `*#${order.ticket_number}*` : '';
+    const guideStr = order.tracking_guide ? `\n📦 *Guía de Seguimiento:* ${order.tracking_guide}` : '';
+    
+    return `¡Hola ${order.customer.nombre || order.customer.fullName || ''}! Te saludamos de *Zenhogar*. 🌿
+
+Confirmamos que tu pedido ${ticketStr} ha sido procesado correctamente.${guideStr}
+
+Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios. Cualquier duda, estamos para ayudarte.
+
+*¡Gracias por confiar en nosotros!*`;
+  };
 
   const fetchOrders = async () => {
     setLoading(true);
     setError(null);
     try {
       const savedPass = password || localStorage.getItem('admin_pass');
-      const expectedPass = "Jacobo0812"; 
+      const expectedPass = "Jacobo0812"; // Fallback if env is not reachable on client
 
       if (!savedPass) {
         setError('Por favor, ingresa la contraseña.');
@@ -138,10 +149,12 @@ export default function AdminDashboard() {
         return;
       }
 
+      // Fetch from Firebase (Cloud Discovery)
       const data = await getOrdersFromFirebase();
       setOrders(data as any);
       setIsAuthenticated(true);
       localStorage.setItem('admin_pass', savedPass);
+      
     } catch (err: any) {
       setError(err.message || 'Error al conectar con la base de datos de Firebase.');
       console.error(err);
@@ -220,100 +233,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleManualSync = async (order: any) => {
-    if (order.ms_sync_status === 'synced') {
-      if (!confirm('Este pedido ya aparece como SINCRONIZADO. ¿Deseas forzar un REENVÍO a Mastershop?')) return;
-    } else {
-      if (!confirm('¿Deseas forzar la sincronización de este pedido con Mastershop?')) return;
-    }
-    
-    try {
-      const res = await fetch('/api/mastershop/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ticket: order.ticket_number,
-          formData: order.customer,
-          items: order.cart?.items || [],
-          total: order.total || order.cart?.total || 0,
-          force: true
-        })
-      });
-      const result: any = await res.json();
-      if (result.status === 'error' || result.error) {
-        alert('Error: ' + (result.message || result.error || 'Error desconocido'));
-      } else {
-        // Actualizar en Firebase para marcar como sincronizado inmediatamente
-        const orderRef = doc(db, 'orders', order.id);
-        const updateData: any = { 
-          ms_sync_status: 'synced',
-          updated_at: new Date().toISOString()
-        };
-        
-        // Si Mastershop nos devolvió un ID de pedido nuevo y no teníamos uno
-        if ((result.id_order || result.id) && !order.ticket_number) {
-          updateData.ticket_number = String(result.id_order || result.id);
-        }
-
-        await updateDoc(orderRef, updateData);
-        alert('Sincronización forzada con éxito.');
-        fetchOrders();
-        
-        if (selectedOrder && selectedOrder.id === order.id) {
-          setSelectedOrder(prev => prev ? { ...prev, ...updateData } : null);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-      alert('Error de conexión.');
-    }
-  };
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopying(true);
-    setTimeout(() => setCopying(false), 2000);
-  };
-
-  const generateClientMessage = (order: Order) => {
-    const customer = order.customer || {};
-    const name = customer.nombre || customer.fullName || 'Cliente';
-    const items = order.cart?.items?.map((i: any) => {
-      const q = i.quantity || i.qty || 1;
-      const label = i.promoLabel || i.label || '';
-      return `- ${q}x ${i.name || i.productName}${label ? ` (${label})` : ''}`;
-    }).join('\n') || order.order_details || '';
-    
-    const address = customer.direccion || customer.address || 'N/A';
-    const city = customer.ciudad || customer.city || 'N/A';
-    const dept = customer.departamento || customer.department || '';
-    const fullLocation = dept ? `${city} • ${dept}` : city;
-    
-    const guide = order.tracking_guide ? `🚚 Tu número de guía es: *${order.tracking_guide}*\nPuedes rastrearlo en la transportadora correspondiente.\n` : '';
-    const ticket = order.ticket_number ? `🔖 Ticket: *#${order.ticket_number}*\n` : '';
-    
-    return `Hola *${name}*! 👋\n\nTe hablamos de *ZENHOGAR*. Queremos informarte que tu pedido ha sido procesado con éxito.\n\n${ticket}*Detalles del pedido:*\n${items}\n\n*Datos de envío:*\n📍 Dirección: ${address}\n🏙️ Ciudad: ${fullLocation}\n\n${guide}\n¡Gracias por tu compra! ✨\n\n_ZENHOGAR - Salud y Bienestar_`;
-  };
-
-  const fetchWebhookLogs = async () => {
-    try {
-      const res = await fetch('/api/mastershop/webhook-logs');
-      if (res.ok) {
-        setWebhookLogs(await res.json());
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  useEffect(() => {
-    if (activeTab === 'webhooks') {
-      fetchWebhookLogs();
-      const interval = setInterval(fetchWebhookLogs, 10000);
-      return () => clearInterval(interval);
-    }
-  }, [activeTab]);
-
   const handleDeleteOrder = async (orderId: string) => {
     if (!window.confirm('¿Estás seguro de que deseas eliminar este cliente/pedido? Esta acción no se puede deshacer.')) return;
     try {
@@ -380,49 +299,37 @@ export default function AdminDashboard() {
   };
 
   const downloadExcel = () => {
-    // MasterShop Template Headers (17 columns) - Exact match for the template provided in screenshots
+    // Standard Excel Export Headers
     const headers = [
       "IDENTIFICADOR",
       "NOMBRES",
       "APELLIDOS",
       "CEDULA (OPCIONAL)",
       "TELÉFONO",
-      "DIRECCIÓN Y BARRIO",
+      "DIRECCIÓN",
       "DEPARTAMENTO",
       "CIUDAD",
-      "ID DE PRODUCTO",
-      "ID DE VARIACION",
+      "PRODUCTO",
+      " VARIACION",
       "CANTIDAD",
-      "PRECIO UNITARIO (SIN PUNTOS NI COMAS)",
-      "OTROS CARGOS",
-      "VALOR OTROS CARGOS",
-      "CON RECAUDO (SI/NO)",
+      "PRECIO TOTAL",
       "NOTA",
-      "EMAIL (OPCIONAL)"
+      "EMAIL"
     ];
 
     const rows: any[] = [];
 
     filteredOrders.forEach(o => {
       const customer = o.customer || {};
-      
-      // Clean and split names
       const fullName = (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || '')).trim();
       const nameParts = fullName.split(' ');
       const firstName = nameParts[0] || 'Cliente';
       const lastName = nameParts.slice(1).join(' ') || 'N/A';
-
-      // Clean phone
       const phone = (customer.telefono || customer.phone || '').replace(/\s/g, '');
-
-      // Content for Nota
       const orderNote = o.order_details || '';
-
-      // Iterate through items to create one row per product
       const items = o.cart?.items || [];
       
       if (items.length === 0) {
-        // Fallback for abandoned carts or simplified orders
         rows.push([
           o.ticket_number || o.id.slice(0, 8),
           firstName,
@@ -432,41 +339,15 @@ export default function AdminDashboard() {
           customer.direccion || customer.address || 'Pendiente',
           customer.department || 'Pendiente',
           customer.ciudad || customer.city || 'Pendiente',
-          'PRODUCTO', // Default ref
+          'PRODUCTO',
           '', 
           1,
-          Math.round(o.total || o.cart?.total || 0).toString().replace(/\D/g, ''),
-          '',
-          0,
-          'SI',
+          Math.round(o.total || o.cart?.total || 0),
           orderNote,
           customer.email || ''
         ]);
       } else {
         items.forEach((item: any) => {
-          const quantityInCart = item.quantity || 1;
-          const unitsPerItem = item.units || 1;
-          const totalPhysicalUnits = unitsPerItem * quantityInCart;
-          
-          const totalPriceForItem = (item.price || 0) * quantityInCart;
-          const calculatedUnitPrice = totalPhysicalUnits > 0 ? Math.round(totalPriceForItem / totalPhysicalUnits) : (item.price || 0);
-
-          let finalProductId = item.mastershopId || item.productId || item.id;
-          
-          if (!finalProductId || (typeof finalProductId === 'string' && isNaN(Number(finalProductId)))) {
-             const prod = PRODUCTS.find(p => p.id === item.productId);
-             if (prod?.mastershopId) {
-               finalProductId = prod.mastershopId;
-             } else if (item.productId === COMBO_OF_THE_MONTH.id) {
-               finalProductId = COMBO_OF_THE_MONTH.mastershopId;
-             } else {
-               const promo = PROMOTIONS.find(p => p.id === item.productId);
-               if (promo && (promo as any).mastershopId) {
-                 finalProductId = (promo as any).mastershopId;
-               }
-             }
-          }
-
           rows.push([
             o.ticket_number || o.id.slice(0, 8),
             firstName,
@@ -476,13 +357,10 @@ export default function AdminDashboard() {
             customer.direccion || customer.address || 'Pendiente',
             customer.department || 'Pendiente',
             customer.ciudad || customer.city || 'Pendiente',
-            finalProductId || 'PRODUCTO',
-            item.variantId || '', 
-            totalPhysicalUnits,
-            calculatedUnitPrice.toString().replace(/\D/g, ''),
+            item.name || item.productName || 'Producto',
             '', 
-            0,
-            'SI', 
+            item.quantity || 1,
+            Math.round(item.price ? (item.price * (item.quantity || 1)) : 0),
             orderNote,
             customer.email || ''
           ]);
@@ -493,13 +371,10 @@ export default function AdminDashboard() {
     const now = new Date();
     const dateFormatted = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
 
-    // Create Excel workbook and sheet
     const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
-
-    // Write file as .xlsm
-    XLSX.writeFile(wb, `Plantilla-de-carga-Master-Shop-${dateFormatted}.xlsm`, { bookType: 'xlsm' });
+    XLSX.writeFile(wb, `Ventas-Zenhogar-${dateFormatted}.xlsx`);
   };
 
   useEffect(() => {
@@ -561,7 +436,7 @@ export default function AdminDashboard() {
       ingresosEstimados: ordersOnly.reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0),
       pedidosTotales: ordersOnly.length,
       carritosAbandonados: checkoutsOnly.length,
-      pendientesEnvio: ordersOnly.filter(o => ['pending', 'pending_validation'].includes(o.status) || o.ms_sync_status !== 'synced').length
+      pendientesEnvio: ordersOnly.filter(o => ['pending', 'pending_validation'].includes(o.status)).length
     };
   }, [filteredOrders]);
 
@@ -668,43 +543,21 @@ export default function AdminDashboard() {
       .slice(0, 5);
   }, [filteredOrders]);
 
-  const filteredWebhookLogs = useMemo(() => {
-    return webhookLogs.filter(log => {
-      if (!startDate && !endDate) return true;
-      const logDate = new Date(log.receivedAt);
-      logDate.setHours(0, 0, 0, 0);
-      
-      if (startDate) {
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
-        if (logDate < start) return false;
-      }
-      
-      if (endDate) {
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
-        if (logDate > end) return false;
-      }
-      
-      return true;
-    });
-  }, [webhookLogs, startDate, endDate]);
-
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md text-center"
+          className="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md"
         >
           <div className="flex justify-center mb-8">
             <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center">
               <Lock className="w-8 h-8 text-emerald-600" />
             </div>
           </div>
-          <h1 className="text-2xl font-display font-bold text-center mb-1">Panel de Administración</h1>
-          <p className="text-[10px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.3.0 - Resilience Edition</p>
+          <h1 className="text-2xl font-bold text-center mb-1">Panel de Administración</h1>
+          <p className="text-[9px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.2.0 - Inventory Smartv2</p>
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-2 px-1">Contraseña de acceso</label>
@@ -734,7 +587,6 @@ export default function AdminDashboard() {
                 </p>
               )}
             </div>
-
             <button 
               onClick={fetchOrders}
               disabled={loading}
@@ -792,35 +644,7 @@ export default function AdminDashboard() {
           >
             <TrendingUp className="w-6 h-6" />
           </button>
-
-          <button 
-            onClick={() => setActiveTab('inventory')}
-            className={cn(
-              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
-              activeTab === 'inventory' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
-            )}
-            title="Inventario"
-          >
-            <Package className="w-6 h-6" />
-          </button>
-
-          <div className="pt-4 border-t border-stone-800 w-full flex justify-center">
-             <button 
-              onClick={() => setActiveTab('webhooks')}
-              className={cn(
-                "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
-                activeTab === 'webhooks' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
-              )}
-              title="Webhooks"
-            >
-              <Activity className="w-6 h-6" />
-            </button>
-          </div>
         </nav>
-
-        <div className="absolute bottom-6 left-2 right-2 p-2 bg-white/5 rounded-xl border border-white/10 text-center">
-          <p className="text-[7px] uppercase font-black text-stone-500 tracking-tighter">v2.1.0 (Stable)</p>
-        </div>
       </aside>
 
       {/* Mobile Nav Bar */}
@@ -834,26 +658,6 @@ export default function AdminDashboard() {
         >
           <ShoppingBag className="w-5 h-5" />
           <span className="text-[8px] font-black uppercase">Pedidos</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('inventory')}
-          className={cn(
-            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
-            activeTab === 'inventory' ? "text-emerald-400 bg-white/10" : "text-stone-500"
-          )}
-        >
-          <Package className="w-5 h-5" />
-          <span className="text-[8px] font-black uppercase">Stock</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('webhooks')}
-          className={cn(
-            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
-            activeTab === 'webhooks' ? "text-emerald-400 bg-white/10" : "text-stone-500"
-          )}
-        >
-          <Activity className="w-5 h-5" />
-          <span className="text-[8px] font-black uppercase">MS</span>
         </button>
         <button 
           onClick={() => setActiveTab('analytics')}
@@ -872,34 +676,17 @@ export default function AdminDashboard() {
         <header className="bg-white border-b border-stone-200 p-4 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-40">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold text-stone-900 tracking-tight">
-              {activeTab === 'orders' ? 'Pedidos' : 
-               activeTab === 'analytics' ? 'Analítica' : 
-               activeTab === 'inventory' ? 'Inventario' : 'Webhooks'}
+              {activeTab === 'orders' ? 'Pedidos' : 'Analítica'}
             </h1>
             <div className="h-4 w-px bg-stone-200 hidden sm:block" />
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v1.3.0</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.0</p>
           </div>
-          <div className="flex items-center gap-4">
-            {apiStatus && (
-              <div className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all",
-                apiStatus.connected 
-                  ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
-                  : "bg-red-50 text-red-700 border-red-100"
-              )}>
-                <div className={cn("w-1.5 h-1.5 rounded-full", apiStatus.connected ? "bg-emerald-500 animate-pulse" : "bg-red-500")} />
-                <span className="text-[9px] font-black uppercase tracking-widest">
-                  {apiStatus.connected ? 'MS API: Conectado' : 'MS API: Desconectado'}
-                </span>
-              </div>
-            )}
-            <button 
-              onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
-              className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors border border-transparent hover:border-red-100 rounded-xl"
-            >
-              Cerrar Sesión
-            </button>
-          </div>
+          <button 
+            onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
+            className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors"
+          >
+            Cerrar Sesión
+          </button>
         </header>
 
         <div className="p-4 lg:p-8">
@@ -1152,29 +939,27 @@ export default function AdminDashboard() {
                               : (customer.fullName || 'Cliente sin nombre');
                             const displayPhone = customer.telefono || customer.phone || '---';
                             const displayEmail = customer.email || '---';
-                            const hasAlerts = order.ms_sync_status === 'failed' || order.status === 'with_issue' || (order.ms_alerts && order.ms_alerts.length > 0);
+                            const hasAlerts = order.status === 'with_issue';
 
                             return (
                               <tr 
                                 key={order.id} 
                                 className="hover:bg-stone-50 transition-colors group cursor-pointer border-b border-stone-200"
-                                onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || order.ms_tracking || ''); }}
+                                onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
                               >
                                 <td className="px-2 py-1.5 border-r border-stone-200">
                                   <span className={cn(
                                     "text-[10px] font-mono font-black border px-1.5 py-0.5 rounded transition-all block text-center",
-                                    (order.ms_sync_status === 'synced' || order.tracking_guide) 
+                                    order.tracking_guide
                                       ? "bg-emerald-500 border-emerald-600 text-white" 
-                                      : order.ms_sync_status === 'failed'
-                                        ? "bg-red-50 border-red-200 text-red-600"
-                                        : "bg-white border-stone-100 text-stone-400"
+                                      : "bg-white border-stone-100 text-stone-400"
                                   )}>
                                     {order.ticket_number || '---'}
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black whitespace-nowrap">
-                                    {order.created_at ? new Date(order.created_at).toLocaleDateString() : 'Hoy'}
+                                    {order.created_at ? new Date(order.created_at).toLocaleString() : 'Hoy'}
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 text-center border-r border-stone-200">
@@ -1246,13 +1031,17 @@ export default function AdminDashboard() {
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200">
-                                  <div className="flex items-center justify-center min-h-[40px]" onClick={(e) => e.stopPropagation()}>
+                                  <div className="flex items-center justify-center h-full" onClick={(e) => e.stopPropagation()}>
                                     <select 
                                       value={order.status}
                                       onChange={(e) => updateStatus(order.id, e.target.value)}
                                       className={cn(
                                         "appearance-none bg-transparent border-0 text-center cursor-pointer outline-none focus:ring-0",
-                                        "text-[10px] font-black w-full h-full py-1 text-black whitespace-normal leading-tight"
+                                        "text-[10px] font-black w-full h-full py-1",
+                                        order.status === 'delivered' || order.status === 'completed' ? "text-emerald-600" :
+                                        order.status === 'cancelled' || order.status === 'declined' ? "text-red-600" :
+                                        order.status === 'shipped_with_guide' ? "text-purple-600" :
+                                        "text-stone-800"
                                       )}
                                     >
                                       <option value="pending">Pendiente</option>
@@ -1270,7 +1059,7 @@ export default function AdminDashboard() {
                                   </div>
                                   {hasAlerts && (
                                      <div className="text-center mt-0.5">
-                                       <span className="text-[8px] font-black text-white bg-red-500 px-1 rounded animate-pulse">ALERTA MS</span>
+                                       <span className="text-[8px] font-black text-white bg-red-500 px-1 rounded animate-pulse">NOVEDAD</span>
                                      </div>
                                   )}
                                 </td>
@@ -1283,15 +1072,6 @@ export default function AdminDashboard() {
                                       >
                                         <Eye className="w-3 h-3" />
                                       </button>
-                                      {order.status !== 'success' && (
-                                        <button 
-                                          onClick={(e) => { e.stopPropagation(); handleManualSync(order); }}
-                                          className="w-6 h-6 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center hover:bg-emerald-200 transition-all"
-                                          title="Forzar Sincronización"
-                                        >
-                                          <RefreshCw className="w-3 h-3" />
-                                        </button>
-                                      )}
                                       <button 
                                         onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
                                         className="w-6 h-6 rounded bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
@@ -1320,7 +1100,7 @@ export default function AdminDashboard() {
               >
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                   <div>
-                    <h2 className="text-2xl font-display font-black text-stone-900 tracking-tight flex items-center gap-3">
+                    <h2 className="text-2xl font-black text-stone-900 tracking-tight flex items-center gap-3">
                       <TrendingUp className="w-8 h-8 text-emerald-500" />
                       Analítica de Negocio
                     </h2>
@@ -1387,10 +1167,10 @@ export default function AdminDashboard() {
                 {/* Analytics Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Revenue Chart */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
                     <div className="flex justify-between items-center mb-6">
                       <div>
-                        <h3 className="text-xl font-display font-bold text-stone-900">
+                        <h3 className="text-xl font-bold text-stone-900">
                           {startDate && endDate ? 'Ventas e Ingresos (Periodo)' : 'Ventas e Ingresos (7 días)'}
                         </h3>
                         <p className="text-sm text-stone-500">Tendencia de ingresos y volumen de pedidos</p>
@@ -1422,8 +1202,8 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Status Distribution */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
-                    <h3 className="text-xl font-display font-bold text-stone-900 mb-6">Distribución por Estado</h3>
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6">Distribución por Estado</h3>
                     <div className="h-64 flex flex-col items-center">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -1455,8 +1235,8 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Funnel Chart */}
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow">
-                    <h3 className="text-xl font-display font-bold text-stone-900 mb-6 flex items-center gap-2">
+                  <div className="bg-white p-8 rounded-[2.5rem] border border-stone-200 shadow-sm">
+                    <h3 className="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
                        <TrendingUp className="w-5 h-5 text-emerald-500" /> Conversión de Carrito
                     </h3>
                     <div className="h-64">
@@ -1545,179 +1325,6 @@ export default function AdminDashboard() {
                       ))}
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ) : activeTab === 'inventory' ? (
-               <motion.div
-                key="inventory"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="space-y-6"
-              >
-                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-shadow p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-4">
-                      <h2 className="text-xl font-display font-bold">Estado del Inventario</h2>
-                      {loadingInventory && <span className="text-[10px] font-black text-emerald-600 animate-pulse bg-emerald-50 px-2 py-1 rounded-md uppercase tracking-widest">Sincronizando...</span>}
-                    </div>
-                    <button 
-                      onClick={() => refetchInventory()}
-                      disabled={loadingInventory}
-                      className="flex items-center gap-2 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
-                    >
-                      <Activity className={cn("w-3 h-3 text-emerald-600", loadingInventory && "animate-spin")} />
-                      Actualizar Stock
-                    </button>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                      <thead className="bg-stone-50 border-b border-stone-100">
-                        <tr>
-                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">ID MS</th>
-                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest">Producto</th>
-                          <th className="px-6 py-4 text-left text-[10px] font-black text-stone-400 uppercase tracking-widest text-center">Inventario</th>
-                          <th className="px-6 py-4 text-center text-[10px] font-black text-stone-400 uppercase tracking-widest">Estado</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-stone-100">
-                        {PRODUCTS.map(product => {
-                           const status = getStockStatus(product.mastershopId);
-                           const stockValue = status?.stock;
-                           const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
-                           
-                           return (
-                             <tr key={product.id} className="hover:bg-emerald-50/20 transition-colors">
-                                <td className="px-6 py-4 text-xs font-mono text-stone-400">#{product.mastershopId}</td>
-                                <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
-                                  <Package className="w-3 h-3 text-stone-400" />
-                                  {product.name}
-                                </td>
-                                <td className="px-6 py-4 font-mono text-xs text-stone-500 font-medium text-center">
-                                  <div className="flex items-center justify-center gap-1">
-                                    <Package className="w-3 h-3 text-stone-300" />
-                                    {stockStr}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 text-center">
-                                  {status ? (
-                                    <span className={cn(
-                                      "text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest inline-block border",
-                                      status.color === 'green' && "bg-emerald-100 text-emerald-800 border-emerald-200",
-                                      status.color === 'orange' && "bg-orange-100 text-orange-800 border-orange-200",
-                                      status.color === 'red' && "bg-red-50 text-red-700 border-red-100"
-                                    )}>
-                                      {status.label}
-                                    </span>
-                                  ) : (
-                                    <span className="text-[10px] text-stone-400 animate-pulse">CARGANDO...</span>
-                                  )}
-                                </td>
-                             </tr>
-                           )
-                        })}
-
-                        {/* Divider for Gifts */}
-                        <tr className="bg-stone-100/50">
-                          <td colSpan={4} className="px-6 py-2 text-[9px] font-black text-stone-500 uppercase tracking-[0.3em]">Sección de Obsequios</td>
-                        </tr>
-
-                        {/* Render Gifts */}
-                        {GIFT_PRODUCTS.map(gift => {
-                           const status = getStockStatus(gift.mastershopId);
-                           const stockValue = status?.stock;
-                           const stockStr = (status && typeof stockValue === 'number') ? `${stockValue.toLocaleString('es-CO')} unds.` : '---';
-
-                           return (
-                             <tr key={gift.id} className="hover:bg-amber-50/20 transition-colors bg-amber-50/5">
-                                <td className="px-6 py-4 text-xs font-mono text-amber-600/70">#{gift.mastershopId}</td>
-                                <td className="px-6 py-4 font-bold text-sm text-stone-800 flex items-center gap-2">
-                                  <ShoppingBag className="w-3 h-3 text-amber-500" />
-                                  {gift.name}
-                                </td>
-                                <td className="px-6 py-4 font-mono text-xs text-amber-900/60 font-medium text-center">
-                                  <div className="flex items-center justify-center gap-1">
-                                    <Package className="w-3 h-3 text-amber-200" />
-                                    {stockStr}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 text-center">
-                                  {status ? (
-                                    <span className={cn(
-                                      "text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest inline-block border",
-                                      status.color === 'green' && "bg-emerald-100 text-emerald-800 border-emerald-200",
-                                      status.color === 'orange' && "bg-orange-100 text-orange-800 border-orange-200",
-                                      status.color === 'red' && "bg-red-50 text-red-700 border-red-100"
-                                    )}>
-                                      {status.label}
-                                    </span>
-                                  ) : (
-                                    <span className="text-[10px] text-stone-400 animate-pulse">CARGANDO...</span>
-                                  )}
-                                </td>
-                             </tr>
-                           )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </motion.div>
-            ) : activeTab === 'webhooks' ? (
-              <motion.div
-                key="webhooks"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="space-y-6"
-              >
-                <div className="bg-white rounded-[2rem] border border-stone-200 shadow-sm p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <div>
-                      <h2 className="text-xl font-bold flex items-center gap-2 text-stone-900">
-                        <Activity className="w-6 h-6 text-emerald-500" />
-                        Webhooks de Mastershop
-                      </h2>
-                      <p className="text-[10px] text-stone-400 mt-1 uppercase font-black tracking-widest">
-                        {filteredWebhookLogs.length} eventos en el periodo seleccionado
-                      </p>
-                    </div>
-                    <button 
-                      onClick={fetchWebhookLogs}
-                      className="px-4 py-2 bg-stone-100 text-stone-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-stone-200 transition-colors flex items-center gap-2"
-                    >
-                      <RefreshCw className="w-3.5 h-3.5" /> Actualizar
-                    </button>
-                  </div>
-                  
-                  {filteredWebhookLogs.length === 0 ? (
-                    <div className="text-center py-16 bg-stone-50/50 rounded-3xl border border-dashed border-stone-200">
-                      <p className="text-stone-400 text-sm">No se encontraron eventos para los filtros seleccionados.</p>
-                      {webhookLogs.length === 0 && (
-                        <div className="mt-4">
-                          <p className="text-[10px] font-mono text-stone-400 uppercase tracking-widest font-black">Endpoint Mastershop</p>
-                          <p className="text-[11px] font-mono text-emerald-600 bg-emerald-50 px-3 py-1 rounded inline-block mt-1">https://zenhogar.live/api/mastershop/webhook</p>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="grid gap-4">
-                      {filteredWebhookLogs.map((log, index) => (
-                        <div key={index} className="bg-stone-50 border border-stone-200 rounded-2xl p-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-xs font-black text-stone-500 uppercase tracking-widest">{new Date(log.receivedAt).toLocaleString('es-CO')}</span>
-                            <div className="flex items-center gap-2">
-                               <span className="text-[9px] font-mono text-stone-400 bg-stone-100 px-2 py-0.5 rounded uppercase">ID: {log.orderId}</span>
-                               <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-1 rounded-lg font-bold">RECIBIDO</span>
-                            </div>
-                          </div>
-                          <pre className="bg-stone-900 text-emerald-400 p-4 rounded-xl text-xs overflow-x-auto">
-                            {JSON.stringify(log.payload, null, 2)}
-                          </pre>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </motion.div>
             ) : null}
@@ -1933,83 +1540,10 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
-                        <StatusBadge status={selectedOrder.status} type={selectedOrder.type} msStatus={selectedOrder.ms_status} />
+                        <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
                       </div>
                     </div>
                   </section>
-
-                  {selectedOrder.status !== 'success' && (
-                    <section className="bg-emerald-50 p-6 rounded-[2rem] border-2 border-emerald-200 border-dashed">
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                          <RefreshCw className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-black text-emerald-700 uppercase">Sincronización Manual</h4>
-                          <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Forzar envío a Mastershop después de corregir datos</p>
-                        </div>
-                      </div>
-                      {selectedOrder.ms_sync_status === 'failed' && (
-                        <div className="bg-white/50 p-3 rounded-xl text-xs font-mono text-red-800 mb-4 overflow-x-auto border border-red-100">
-                          Error previo: {selectedOrder.ms_sync_error || "Desconocido"}
-                        </div>
-                      )}
-                      <button 
-                        onClick={() => handleManualSync(selectedOrder)}
-                        disabled={selectedOrder.ms_sync_status === 'synced'}
-                        className={cn(
-                          "w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg",
-                          selectedOrder.ms_sync_status === 'synced'
-                            ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200"
-                            : "bg-emerald-600 text-white hover:bg-emerald-700 active:scale-[0.98]"
-                        )}
-                      >
-                         {selectedOrder.ms_sync_status === 'synced' ? (
-                           <> <CheckCircle2 className="w-4 h-4" /> Pedido Ya Generado</>
-                         ) : (
-                           <> <Activity className="w-4 h-4" /> Forzar Envío Mastershop </>
-                         )}
-                      </button>
-                    </section>
-                  )}
-
-                  {selectedOrder.ms_status && (
-                    <section className="bg-blue-50 p-6 rounded-[2rem] border border-blue-100">
-                      <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <Activity className="w-3 h-3" /> Estado Logístico (Mastershop)
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
-                          <span className="text-xs font-bold text-stone-500 uppercase">Estado MS</span>
-                          <StatusBadge status={selectedOrder.status} type={selectedOrder.type} msStatus={selectedOrder.ms_status} />
-                        </div>
-                        {selectedOrder.ms_carrier && (
-                          <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
-                            <span className="text-xs font-bold text-stone-500 uppercase">Transportadora</span>
-                            <span className="text-xs font-black text-blue-700">{selectedOrder.ms_carrier}</span>
-                          </div>
-                        )}
-                        {(selectedOrder.ms_tracking || selectedOrder.tracking_guide) && (
-                          <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-blue-100">
-                            <span className="text-xs font-bold text-stone-500 uppercase">Número de Guía</span>
-                            <span className="text-xs font-mono font-black text-blue-700">{selectedOrder.ms_tracking || selectedOrder.tracking_guide}</span>
-                          </div>
-                        )}
-                        {selectedOrder.ms_alerts && selectedOrder.ms_alerts.length > 0 && (
-                          <div className="bg-red-50 p-3 rounded-xl border border-red-200">
-                             <span className="text-[10px] font-black text-red-700 uppercase tracking-widest mb-2 block">Alertas de Novedad</span>
-                             <ul className="space-y-1">
-                               {selectedOrder.ms_alerts.map((alert, idx) => (
-                                 <li key={idx} className="text-[10px] text-red-600 font-bold flex items-center gap-2">
-                                   <XCircle className="w-3 h-3" /> {alert}
-                                 </li>
-                               ))}
-                             </ul>
-                          </div>
-                        )}
-                      </div>
-                    </section>
-                  )}
 
                   <section>
                     <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 flex items-center gap-2">
@@ -2130,19 +1664,19 @@ export default function AdminDashboard() {
 
 function StatCard({ label, value, icon, color }: { label: string, value: string | number, icon: any, color: string }) {
   const colors: any = {
-    emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
-    blue: "bg-blue-50 text-blue-700 border-blue-100",
-    orange: "bg-orange-50 text-orange-700 border-orange-100",
-    amber: "bg-amber-50 text-amber-700 border-amber-100",
+    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    blue: "bg-blue-50 text-blue-600 border-blue-100",
+    orange: "bg-orange-50 text-orange-600 border-orange-100",
+    amber: "bg-amber-50 text-amber-600 border-amber-100",
   };
   return (
-    <div className="bg-white p-5 rounded-[2rem] border border-stone-200 shadow-bento hover:shadow-bento-hover transition-all flex items-center gap-4">
-      <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center border shrink-0 shadow-sm", colors[color])}>
+    <div className="bg-white p-3.5 rounded-[1.5rem] border border-stone-100 shadow-sm flex items-center gap-3">
+      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center border shrink-0", colors[color])}>
         {icon}
       </div>
       <div className="flex flex-col min-w-0">
-        <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest truncate">{label}</div>
-        <div className="text-xl font-display font-bold text-stone-900 truncate">{value}</div>
+        <div className="text-[10px] font-normal text-black uppercase tracking-tighter truncate opacity-70">{label}</div>
+        <div className="text-sm font-normal text-black truncate">{value}</div>
       </div>
     </div>
   );
@@ -2164,16 +1698,10 @@ function FilterTab({ active, label, onClick }: { active: boolean, label: string,
   );
 }
 
-function StatusBadge({ status, type, msStatus, syncStatus }: { status: string, type: string, msStatus?: string, syncStatus?: string }) {
+function StatusBadge({ status, type }: { status: string, type: string }) {
   if (type === 'abandoned') return (
     <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-50 border border-orange-100">
       <span className="text-[11px] font-normal uppercase text-black">Abandono</span>
-    </div>
-  );
-
-  if (syncStatus === 'failed') return (
-    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-red-50 border border-red-100">
-      <span className="text-[11px] font-normal uppercase text-black">SUBIR MANUAL</span>
     </div>
   );
 
@@ -2196,7 +1724,7 @@ function StatusBadge({ status, type, msStatus, syncStatus }: { status: string, t
     shipped_with_guide: { label: "GUÍA GENERADA", bg: "bg-purple-50", border: "border-purple-100" },
   };
 
-  const c = config[msStatus || status] || config[status] || config.pending;
+  const c = config[status] || config.pending;
   return (
     <div className={cn("inline-flex items-center px-2 py-0.5 rounded-md border", c.bg, c.border)}>
       <span className="text-[11px] font-normal uppercase text-black">{c.label}</span>

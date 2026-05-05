@@ -23,6 +23,8 @@ Este archivo contiene las directrices definitivas para el mantenimiento y evoluc
   3. **Carritos Abandonados:** Registro automático en Google Sheets cuando el usuario llena datos básicos pero no finaliza.
 - **Funcionalidades Eliminadas (NO REINSTALAR):**
   - EmailJS (envío de correos desde el cliente).
+  - Mastershop (En espera de aval del cliente tras estabilizar Google Sheets).
+- **Google Sheets (v2.1):** Orden de columnas: Ticket N°, Fecha y Hora, Nombre, Celular, Email, Direccion, Ciudad, Departamento, Producto, Valor, Guia, Estado.
 
 ## 4. Diseño y Estética
 - **Tipografía:** Inter (UI) y Outfit (Títulos).

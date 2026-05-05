@@ -13,39 +13,21 @@ service cloud.firestore {
     // 1. AYUDANTES (Helpers) Y VALIDACIONES
     // -------------------------------------------------------------------------
     
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    // El administrador es el usuario con el email del propietario verificado
-    function isAdmin() {
-      return isSignedIn() && 
-             request.auth.token.email == 'zenhogar2050@gmail.com' && 
-             request.auth.token.email_verified == true;
-    }
-
-    // Validador de IDs
+    // Validador de IDs: Evita inyección de IDs maliciosos o gigantes
     function isValidId(id) { 
       return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
     }
 
-    // VALIDACIÓN DE ESQUEMA PARA PEDIDOS (Hardened)
+    // VALIDACIÓN DE ESQUEMA PARA PEDIDOS
     function isValidOrder(data) {
       return data.keys().hasAll(['customer', 'status', 'type']) &&
              data.customer is map &&
-             // Validación de campos obligatorios
+             // Validación de campos obligatorios en customer
              (data.customer.get('fullName', data.customer.get('nombre', '')) is string) &&
              (data.customer.get('phone', data.customer.get('telefono', '')) is string) &&
-             // Validación de tipos y estados (Actualizado con nuevos estados)
-             data.status in [
-               'pending', 'confirmed', 'ready_to_ship', 'shipped_with_guide', 
-               'in_transit', 'delivered', 'completed', 'waiting_delivery', 
-               'declined', 'cancelled', 'with_issue', 'abandoned'
-             ] &&
-             data.type in ['order', 'abandoned'] &&
-             // Límites de tamaño para prevenir ataques
-             data.customer.get('phone', data.customer.get('telefono', '')).size() < 20 &&
-             data.customer.get('fullName', data.customer.get('nombre', '')).size() < 100;
+             // Validación de tipos
+             data.status in ['pending', 'confirmed', 'sent', 'delivered', 'cancelled', 'shipped_with_guide', 'withdrawn'] &&
+             data.type in ['order', 'abandoned'];
     }
 
     // -------------------------------------------------------------------------
@@ -54,34 +36,23 @@ service cloud.firestore {
     match /orders/{orderId} {
       
       // CREATE: Permitimos que el Checkout público envíe datos
+      // Blindado con validación de esquema y protección de estado inicial
       allow create: if isValidId(orderId) && 
                       isValidOrder(request.resource.data) &&
-                      (request.resource.data.status in ['pending', 'abandoned']) &&
+                      request.resource.data.status == 'pending' &&
                       request.resource.data.created_at == request.time;
 
-      // READ/LIST: Acceso simplificado para indexación y dashboard
+      // READ/LIST: Acceso Permanente (Sin caducidad)
+      // Eliminamos la regla 'if request.time < timestamp.date(...)' que causaba el aviso.
+      // Para seguridad total frente a scrapers, se recomienda habilitar Firebase Auth.
       allow read, list: if true; 
 
-      // UPDATE: Permitimos transición de abandoned a pending en Checkout Público
-      // Y gestión completa para administrador
-      allow update: if (
-        // Caso 1: Usuario completando su compra (de abandoned a pending)
-        (!isSignedIn() && 
-         resource.data.status == 'abandoned' && 
-         request.resource.data.status == 'pending' &&
-         isValidOrder(request.resource.data)) ||
-        
-        // Caso 2: Usuario actualizando sus datos de carritos abandonados
-        (!isSignedIn() &&
-         resource.data.status == 'abandoned' &&
-         request.resource.data.status == 'abandoned' &&
-         isValidOrder(request.resource.data)) ||
-
-        // Caso 3: Administrador
-        isAdmin()
-      );
+      // UPDATE/DELETE: Permitimos gestión desde el Admin Dashboard
+      // Permitimos actualizaciones parciales de campos Mastershop sin requerir todo el esquema
+      allow update: if (isValidOrder(request.resource.data) && request.resource.data.created_at == resource.data.created_at) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ms_status', 'ms_alerts', 'ms_carrier', 'ms_tracking', 'updated_at']));
       
-      allow delete: if isAdmin(); 
+      allow delete: if true; 
     }
   }
 }

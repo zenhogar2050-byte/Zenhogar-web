@@ -32,14 +32,9 @@ export async function saveOrderToFirebase(orderData: any) {
     if (sanitized.id) {
       const orderRef = doc(db, collections.ORDERS, sanitized.id);
       const { id, ...cleanData } = sanitized;
-      
-      // Si el tipo es 'order' pero no tiene status, forzamos 'pending'
-      // Si es otro tipo (abandoned) y no tiene status, forzamos 'abandoned'
-      const finalStatus = cleanData.status || (cleanData.type === 'order' ? 'pending' : 'abandoned');
-
       await setDoc(orderRef, {
         ...cleanData,
-        status: finalStatus,
+        status: cleanData.status || 'abandoned',
         created_at: serverTimestamp()
       }, { merge: true });
       return true;
@@ -94,7 +89,6 @@ export async function updateOrderStatusInFirebase(orderId: string, status: strin
     });
     return true;
   } catch (error) {
-    console.error('Error updating status:', error);
     return false;
   }
 }
@@ -126,6 +120,7 @@ export async function clearAllOrdersFromFirebase() {
 export async function updateOrderByTicketNumber(ticketNumber: string, updateData: any) {
   try {
     const ordersRef = collection(db, collections.ORDERS);
+    const { where, query, getDocs } = await import('firebase/firestore');
     const q = query(ordersRef, where('ticket_number', '==', ticketNumber));
     const querySnapshot = await getDocs(q);
     

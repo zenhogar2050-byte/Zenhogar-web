@@ -24,16 +24,8 @@ export default function Checkout() {
     department: '',
     city: '',
   });
-  
-  // ID único para esta sesión de checkout para evitar duplicados
-  const [checkoutId] = useState(() => {
-    const savedId = sessionStorage.getItem('checkout_session_id');
-    if (savedId) return savedId;
-    const newId = `chk_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
-    sessionStorage.setItem('checkout_session_id', newId);
-    return newId;
-  });
-
+  const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
+  const [abandonedId, setAbandonedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   useEffect(() => {
@@ -48,34 +40,33 @@ export default function Checkout() {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  // Rastreo de Carrito Abandonado / Actualización Proactiva
   useEffect(() => {
     if (items.length === 0 || isSubmitting) return;
 
-    // Solo trackear si ya empezó a llenar datos críticos
-    if (formData.fullName.length > 3 || formData.phone.length > 6) {
+    // Solo trackear si al menos tiene nombre y teléfono
+    if (formData.fullName.length > 3 && formData.phone.length > 6) {
       const timer = setTimeout(async () => {
         try {
           const orderDetails = items.map(item => 
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
 
-          // Firebase Tracking (Actualiza el mismo documento siempre)
+          // Generar un ID único basado en el teléfono para evitar duplicados del mismo cliente
+          const uniqueId = `abandoned_${formData.phone.replace(/\D/g, '')}`;
+
+          // Firebase Tracking (NEW for 2.0/Cloudflare)
           await saveOrderToFirebase({
-            id: checkoutId,
+            id: uniqueId, // Usamos ID fijo para sobrescribir si el cliente sigue en el checkout
             customer: formData,
             order_details: orderDetails,
             total: formatCurrency(total),
-            type: 'abandoned',
-            updated_at: new Date().toISOString()
+            type: 'abandoned'
           });
 
-          // Google Sheets Tracking (Solo para carritos abandonados si es necesario)
-          fetch('/api/abandoned', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              type: 'abandoned',
+          // NEW Payload for Google Sheets Script v2
+          const sheetsPayload = {
+            type: 'abandoned',
+            customer: {
               fullName: formData.fullName || "Pte. Nombre",
               email: formData.email || "contacto@zenhogar.live",
               phone: formData.phone || "3000000000",
@@ -83,20 +74,27 @@ export default function Checkout() {
               address: formData.address || "Pte. Dirección",
               city: formData.city || "Pte. Ciudad",
               department: formData.department || "Pte. Depto",
-              order_details: orderDetails,
-              items: items.map(i => ({ name: i.productName, qty: i.quantity, price: i.price })),
-              total: total.toString()
-            }),
-          }).catch(err => console.log("Silent error in Sheets abandoned:", err));
+            },
+            order_details: orderDetails,
+            total: total.toString()
+          };
+
+          await fetch('/api/abandoned', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sheetsPayload),
+          });
           
+          setHasTrackedAbandoned(true);
+          setAbandonedId(uniqueId);
         } catch (e) {
-          console.error("Error tracking checkout progress:", e);
+          console.error("Error tracking abandoned cart:", e);
         }
-      }, 5000); // 5 SEGUNDOS de inactividad para registrar/actualizar el avance
+      }, 1800000); // 30 MINUTOS de inactividad total antes de declarar abandono
 
       return () => clearTimeout(timer);
     }
-  }, [formData, items, total, isSubmitting, checkoutId]);
+  }, [formData.fullName, formData.phone, items, total, isSubmitting]);
 
   const departments = Object.keys(COLOMBIA_DATA || {});
   const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
@@ -151,16 +149,17 @@ export default function Checkout() {
 
     try {
       const sheetsPayload = {
-        token: "zenhogar_secret_2026",
         type: 'order',
-        nombre: formData.fullName || "Cliente",
-        email: formData.email || "contacto@zenhogar.live",
-        telefono: formData.phone || "3000000000",
-        cedula: formData.identification || "123456789",
-        direccion: formData.address || "Dirección pendiente",
-        ciudad: formData.city || "Barranquilla",
-        departamento: formData.department || "Atlántico",
-        detalles: orderDetails,
+        customer: {
+          fullName: formData.fullName || "Cliente",
+          email: formData.email || "contacto@zenhogar.live",
+          phone: formData.phone || "3000000000",
+          identification: formData.identification || "123456789",
+          address: formData.address || "Dirección pendiente",
+          city: formData.city || "Barranquilla",
+          department: formData.department || "Atlántico",
+        },
+        order_details: orderDetails,
         total: total.toString()
       };
 
@@ -172,46 +171,27 @@ export default function Checkout() {
           body: JSON.stringify(sheetsPayload),
         });
         const result: any = await response.json();
-        
-        // El servidor devuelve el ticket formateado (con PO-) si el script lo envió
-        currentTicket = result.ticket || "N/A";
-        console.log("Ticket desde Sheets:", currentTicket);
+        currentTicket = result.ticket || `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`;
       } catch (err) {
         console.error("Error al obtener ticket de Sheets:", err);
+        currentTicket = `PO-ERROR-${Math.floor(1000 + Math.random() * 9000)}`;
       }
 
-      // Firebase Saving (Critical for Persistence)
+      // Firebase Saving (Critical for Cloudflare persistence)
       await saveOrderToFirebase({
-        id: checkoutId, 
         customer: formData,
         order_details: orderDetails,
         total: total,
         cart: { items, total },
         type: 'order',
-        status: 'pending', // CRITICAL: Mark as real order
-        ticket_number: currentTicket,
-        updated_at: new Date().toISOString()
+        ticket_number: currentTicket
       });
 
-      // Mastershop Sync
-      try {
-        await fetch('/api/mastershop/order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ticket: currentTicket,
-            formData: formData,
-            items: items,
-            total: total
-          })
-        });
-      } catch (mastershopErr) {
-        console.error("Error al sincronizar con Mastershop:", mastershopErr);
-        // Fallar silenciosamente para no bloquear la redirección
+      // SI HABÍA UN REGISTRO DE ABANDONO PREVIO, LO ELIMINAMOS PARA EVITAR DUPLICADOS
+      if (abandonedId) {
+        const { deleteOrderFromFirebase } = await import('../lib/firebase');
+        await deleteOrderFromFirebase(abandonedId);
       }
-
-      // Limpiamos la sesión de checkout después de éxito
-      sessionStorage.removeItem('checkout_session_id');
 
       const message = `*🛍️ PEDIDO #${currentTicket} - ZENHOGAR*\n\n` +
         `*PRODUCTOS:*\n${orderDetails}\n\n` +

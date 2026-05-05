@@ -9,7 +9,6 @@ interface CartItem {
   price: number;
   units: number;
   quantity: number;
-  mastershopId?: number;
 }
 
 interface CartContextType {
@@ -59,7 +58,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
           price: promo.price,
           units: promo.units,
           quantity: 1,
-          mastershopId: product.mastershopId,
         },
       ];
     });
@@ -87,7 +85,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
           price: combo.price,
           units: combo.products.length,
           quantity: 1,
-          mastershopId: combo.mastershopId,
         },
       ];
     });

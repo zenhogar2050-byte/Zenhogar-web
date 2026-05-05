@@ -1,71 +1,22 @@
 import { useState, useEffect } from 'react';
 
 export function useInventory() {
-  const [inventory, setInventory] = useState<Record<string, { stock: number }>>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [apiStatus, setApiStatus] = useState<{ connected: boolean, message?: string } | null>(null);
+  const [inventory] = useState<Record<string, { stock: number }>>({});
+  const [loading] = useState(false);
+  const [error] = useState<string | null>(null);
 
-  const fetchInventory = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/mastershop/inventory');
-      if (!response.ok) {
-        setApiStatus({ connected: false, message: `Error ${response.status}: ${response.statusText}` });
-        try {
-          const errorData: any = await response.json();
-          throw new Error(errorData.error || 'Error al conectar con Mastershop');
-        } catch (e: any) {
-          if (e.message.includes('JSON')) {
-            throw new Error('Error en el servidor de inventario');
-          }
-          throw e;
-        }
-      }
-      const data = await response.json();
-      setInventory(data);
-      setApiStatus({ connected: true });
-    } catch (err: any) {
-      setError(err.message);
-      if (!apiStatus) setApiStatus({ connected: false, message: err.message });
-    } finally {
-      setLoading(false);
-    }
+  const fetchInventory = async () => {};
+
+  const getStockData = () => null;
+  const getStock = () => null;
+
+  const getStockStatus = () => {
+    return { label: 'Disponible', color: 'green', stock: 1000 };
   };
 
-  useEffect(() => {
-    fetchInventory();
-  }, []);
-
-  const getStockData = (mastershopId?: number) => {
-    if (!mastershopId || !inventory[mastershopId.toString()]) return null;
-    return inventory[mastershopId.toString()];
-  };
-
-  const getStock = (mastershopId?: number) => {
-    return getStockData(mastershopId)?.stock ?? null;
-  };
-
-  const getStockStatus = (mastershopId?: number) => {
-    const data = getStockData(mastershopId);
-    if (!data) return null;
-    
-    const stock = Number(data.stock) || 0;
-    
-    if (stock < 0) return { label: 'Negativo', color: 'red', stock };
-    if (stock === 0) return { label: 'Agotado', color: 'red', stock };
-    if (stock < 100) return { label: 'Pocas unidades', color: 'orange', stock };
-    return { label: 'Disponible', color: 'green', stock };
-  };
-
-  const getClientStockStatus = (mastershopId?: number) => {
-    const stock = getStock(mastershopId);
-    if (stock === null) return null;
-    
-    if (stock <= 0) return { label: 'Agotado', color: 'red' };
-    if (stock < 500) return { label: 'Pocas unidades', color: 'orange' };
+  const getClientStockStatus = () => {
     return { label: 'Disponible', color: 'green' };
   };
 
-  return { inventory, loading, error, apiStatus, getStock, getStockStatus, getClientStockStatus, refetch: fetchInventory };
+  return { inventory, loading, error, getStock, getStockStatus, getClientStockStatus, refetch: fetchInventory };
 }
