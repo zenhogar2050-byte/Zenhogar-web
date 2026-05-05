@@ -26,45 +26,47 @@ async function startServer() {
   app.post("/api/orders", async (req, res) => {
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-      const securityToken = process.env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026";
-      
-      console.log(`[Sheets API] Recibido pedido. Webhook configurado: ${webhookUrl ? 'SÍ' : 'NO'}`);
+      // Forzamos el uso del token que pusiste en el script de Google.
+      const envToken = process.env.SHEETS_SECURITY_TOKEN;
+      const securityToken = (envToken && envToken.trim().length > 0) ? envToken : "zenhogar_secret_2026";
       
       if (!webhookUrl) {
-        console.error("[Sheets API] ERROR: GOOGLE_SHEETS_ORDERS_WEBHOOK no está configurada en las variables de entorno.");
-        return res.status(500).json({ status: "error", message: "Error de configuración: Webhook no definido." });
+        return res.status(500).json({ status: "error", message: "Webhook no configurado en secretos" });
       }
-      
+
       const payload = {
         ...req.body,
         token: securityToken,
         timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
       };
 
-      console.log("[Sheets API] Enviando datos a Google Sheets...");
+      console.log(`[Orders] Enviando pedido a Sheets a URL: ${webhookUrl.substring(0, 30)}...`);
+      
       const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      console.log(`[Sheets API] Respuesta de Google: ${response.status} ${response.statusText}`);
+      const contentType = response.headers.get("content-type");
+      let result;
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`[Sheets API] Error de Google Sheets (${response.status}):`, errorText);
-        throw new Error(`Google Sheets respondió con ${response.status}`);
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("[Orders] Google no devolvió JSON. Respuesta:", text.substring(0, 100));
+        throw new Error("Respuesta inválida de Google (no es JSON)");
       }
 
-      const result = await response.json();
-      console.log("[Sheets API] Resultado exitoso:", JSON.stringify(result));
+      console.log("[Orders] Resultado de la operación:", result);
       res.json(result);
     } catch (error) {
-      console.error("[API Error]", error);
+      console.error("[Orders Error] Fallo crítico:", error);
       res.status(500).json({ 
         status: "error", 
-        message: error instanceof Error ? error.message : "Error interno del servidor",
-        details: "Verifica la salud de la URL de Google Apps Script" 
+        message: "Error de comunicación con Google Sheets",
+        details: error instanceof Error ? error.message : "Error desconocido"
       });
     }
   });
@@ -72,32 +74,35 @@ async function startServer() {
   app.post("/api/abandoned", async (req, res) => {
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-      if (!webhookUrl) throw new Error("Webhook URL not configured");
+      const envToken = process.env.SHEETS_SECURITY_TOKEN;
+      const securityToken = (envToken && envToken.trim().length > 0) ? envToken : "zenhogar_secret_2026";
+      
+      if (!webhookUrl) return res.status(500).json({ status: "error", message: "Webhook no configurado" });
 
       const payload = {
         ...req.body,
         type: "abandoned",
-        token: process.env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
+        token: securityToken,
         timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
       };
 
-      console.log("[Sheets API] Sending abandoned cart to webhook...");
       const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Google Sheets responded with ${response.status}: ${errorText}`);
+      let result;
+      try {
+        result = await response.json();
+      } catch (e) {
+        result = { status: "error", message: "Invalid JSON response" };
       }
-
-      const result = await response.json();
+      
       res.json(result);
     } catch (error) {
-      console.error("[API Error]", error);
-      res.status(500).json({ status: "error", message: error instanceof Error ? error.message : "Internal Server Error" });
+      console.error("[Abandoned Error]", error);
+      res.status(500).json({ status: "error", message: "Internal Server Error" });
     }
   });
 

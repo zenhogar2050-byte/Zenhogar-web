@@ -1,46 +1,50 @@
 /**
- * ZENHOGAR - GOOGLE SHEETS CONNECTOR (v2.1)
+ * ZENHOGAR - CONECTOR GOOGLE SHEETS (v2.4) - ROBUSTO Y PRO
  * 
  * INSTRUCCIONES:
- * 1. Crea una nueva Hoja de Cálculo de Google.
- * 2. Ve a 'Extensiones' > 'Apps Script'.
- * 3. Borra todo el código y pega este script.
- * 4. Cambia el SECURITY_TOKEN si lo deseas (debe coincidir con la config en AI Studio).
- * 5. Haz clic en 'Implementar' > 'Nueva implementación'.
- * 6. Selecciona 'Aplicación web'.
- * 7. Configura:
- *    - Ejecutar como: 'Yo' (tu cuenta).
- *    - Quién tiene acceso: 'Cualquier persona'.
- * 8. Copia la URL de la aplicación web y pégala en GOOGLE_SHEETS_ORDERS_WEBHOOK en los Ajustes de AI Studio.
+ * 1. Pega este código completo en tu Apps Script.
+ * 2. Haz clic en el icono de Disquete (Guardar).
+ * 3. Haz clic en 'Implementar' > 'Nueva implementación'.
+ * 4. Tipo: 'Aplicación web'.
+ * 5. Ejecutar como: 'Yo' (zenhogar2050@gmail.com).
+ * 6. Acceso: 'Cualquier persona'.
+ * 7. RECOPIA LA URL: Asegúrate de que esta URL sea la que está configurada como GOOGLE_SHEETS_ORDERS_WEBHOOK.
  */
 
-const SECURITY_TOKEN = "zenhogar_secret_2026";
+const SECURITY_TOKEN = "zenhogar_secret_2026"; 
 const ADMIN_EMAIL = "zenhogar2050@gmail.com";
 
 function doPost(e) {
   try {
     const contents = JSON.parse(e.postData.contents);
     
-    // Verificación de seguridad
-    if (contents.token !== SECURITY_TOKEN) {
-      return response({ status: "error", message: "No autorizado" });
+    // 1. SEGURIDAD: Validar Token (Limpieza de espacios por si acaso)
+    const receivedToken = (contents.token || "").toString().trim();
+    if (receivedToken !== SECURITY_TOKEN) {
+      console.error("Acceso denegado: Token recibido [" + receivedToken + "] no coincide con el esperado.");
+      return response({ 
+        status: "error", 
+        message: "No autorizado", 
+        debug: "Token mismatch" 
+      });
     }
     
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const timestamp = new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" });
+    // Forzamos zona horaria de Colombia
+    const timestamp = Utilities.formatDate(new Date(), "GMT-5", "dd/MM/yyyy HH:mm:ss");
     const customer = contents.customer || {};
     
+    // --- CASO: NUEVO PEDIDO ---
     if (contents.type === "order") {
       let orderSheet = ss.getSheetByName("Pedidos") || ss.insertSheet("Pedidos");
       
-      // Si la hoja es nueva, colocamos los encabezados exactos
       if (orderSheet.getLastRow() === 0) {
         const headers = ["Ticket N°", "Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor", "Guia", "Estado"];
         orderSheet.appendRow(headers);
-        orderSheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#dcfce7");
+        orderSheet.getRange(1, 1, 1, 12).setFontWeight("bold").setBackground("#dcfce7");
       }
 
-      // Generar Ticket (PO-1000+)
+      // Generar Ticket Correlativo
       let scriptProperties = PropertiesService.getScriptProperties();
       let lastTicketNum = scriptProperties.getProperty('LAST_TICKET_NUM');
       let nextNum = lastTicketNum ? parseInt(lastTicketNum) + 1 : 1001;
@@ -64,10 +68,10 @@ function doPost(e) {
 
       orderSheet.appendRow(rowData);
 
-      // NOTIFICACIÓN POR EMAIL
+      // --- ENVÍO DE EMAIL ---
       try {
         const subject = "🚀 NUEVO PEDIDO #" + ticket + " - " + (customer.fullName || "Cliente");
-        const body = "¡Hola! Tienes un nuevo pedido en ZENHOGAR.\n\n" +
+        let body = "¡Hola! Tienes un nuevo pedido en ZENHOGAR.\n\n" +
                      "RESUMEN DEL PEDIDO:\n" +
                      "----------------------------------\n" +
                      "Ticket: " + ticket + "\n" +
@@ -78,27 +82,26 @@ function doPost(e) {
                      "Email: " + (customer.email || "N/A") + "\n" +
                      "Ciudad: " + (customer.city || customer.ciudad || "N/A") + " (" + (customer.department || customer.departamento || "N/A") + ")\n" +
                      "Dirección: " + (customer.address || customer.direccion || "N/A") + "\n\n" +
-                     "PRODUCTOS:\n" + (contents.order_details || "N/A") + "\n\n" +
-                     "VALOR TOTAL: " + (contents.total || "0") + "\n" +
+                     "PRODUCTOS:\n" + (contents.order_details || "") + "\n\n" +
+                     "VALOR TOTAL: $" + (contents.total || "0") + "\n" +
                      "----------------------------------\n\n" +
-                     "Revisa el Admin Dashboard para gestionar el envío.";
+                     "Revisa la hoja de cálculo 'Pedidos' para gestionar el envío.";
         
-        MailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
       } catch (mailError) {
-        console.warn("No se pudo enviar el correo: " + mailError.toString());
+        console.warn("Error enviando correo: " + mailError.toString());
       }
 
       return response({ status: "success", ticket: ticket });
 
+    // --- CASO: CARRITO ABANDONADO ---
     } else if (contents.type === "abandoned") {
-      let abandonedSheet = ss.getSheetByName("Abandonos") || ss.insertSheet("Abandonos");
-      
-      if (abandonedSheet.getLastRow() === 0) {
-        abandonedSheet.appendRow(["Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor"]);
-        abandonedSheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#fef3c7");
+      let abandonoSheet = ss.getSheetByName("Abandonos") || ss.insertSheet("Abandonos");
+      if (abandonoSheet.getLastRow() === 0) {
+        abandonoSheet.appendRow(["Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor"]);
+        abandonoSheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#fef3c7");
       }
-      
-      abandonedSheet.appendRow([
+      abandonoSheet.appendRow([
         timestamp,
         customer.fullName || "Prospecto",
         customer.phone || customer.celular || "",
@@ -109,17 +112,21 @@ function doPost(e) {
         contents.order_details || "N/A",
         contents.total || 0
       ]);
-
       return response({ status: "success" });
     }
     
-    return response({ status: "error", message: "Tipo no soportado" });
+    return response({ status: "error", message: "Tipo de contenido no soportado" });
       
   } catch (error) {
+    console.error("Error crítico: " + error.toString());
     return response({ status: "error", message: error.toString() });
   }
 }
 
 function response(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function autorizarServicios() {
+  GmailApp.sendEmail(Session.getActiveUser().getEmail(), "Autorización ZENHOGAR", "Servicios autorizados correctamente para " + Session.getActiveUser().getEmail());
 }
