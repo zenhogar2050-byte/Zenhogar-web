@@ -170,11 +170,19 @@ export default function Checkout() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(sheetsPayload),
         });
+        
         const result: any = await response.json();
-        currentTicket = result.ticket || `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`;
+        
+        if (result.status === "success") {
+          currentTicket = result.ticket;
+          console.log("✅ Pedido registrado en Sheets con ticket:", currentTicket);
+        } else {
+          console.warn("⚠️ API de Sheets devolvió error:", result.message);
+          currentTicket = `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`;
+        }
       } catch (err) {
-        console.error("Error al obtener ticket de Sheets:", err);
-        currentTicket = `PO-ERROR-${Math.floor(1000 + Math.random() * 9000)}`;
+        console.error("❌ Error de red al conectar con /api/orders:", err);
+        currentTicket = `PO-ERR-${Math.floor(1000 + Math.random() * 9000)}`;
       }
 
       // Firebase Saving (Critical for Cloudflare persistence)

@@ -26,31 +26,46 @@ async function startServer() {
   app.post("/api/orders", async (req, res) => {
     try {
       const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-      if (!webhookUrl) throw new Error("Webhook URL not configured");
+      const securityToken = process.env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026";
+      
+      console.log(`[Sheets API] Recibido pedido. Webhook configurado: ${webhookUrl ? 'SÍ' : 'NO'}`);
+      
+      if (!webhookUrl) {
+        console.error("[Sheets API] ERROR: GOOGLE_SHEETS_ORDERS_WEBHOOK no está configurada en las variables de entorno.");
+        return res.status(500).json({ status: "error", message: "Error de configuración: Webhook no definido." });
+      }
       
       const payload = {
         ...req.body,
-        token: process.env.SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
+        token: securityToken,
         timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
       };
 
-      console.log("[Sheets API] Sending order to webhook...");
+      console.log("[Sheets API] Enviando datos a Google Sheets...");
       const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
+      console.log(`[Sheets API] Respuesta de Google: ${response.status} ${response.statusText}`);
+
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Google Sheets responded with ${response.status}: ${errorText}`);
+        console.error(`[Sheets API] Error de Google Sheets (${response.status}):`, errorText);
+        throw new Error(`Google Sheets respondió con ${response.status}`);
       }
 
       const result = await response.json();
+      console.log("[Sheets API] Resultado exitoso:", JSON.stringify(result));
       res.json(result);
     } catch (error) {
       console.error("[API Error]", error);
-      res.status(500).json({ status: "error", message: error instanceof Error ? error.message : "Internal Server Error" });
+      res.status(500).json({ 
+        status: "error", 
+        message: error instanceof Error ? error.message : "Error interno del servidor",
+        details: "Verifica la salud de la URL de Google Apps Script" 
+      });
     }
   });
 
