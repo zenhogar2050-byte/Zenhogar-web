@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(compression());
   app.use(express.json());
@@ -22,91 +22,70 @@ async function startServer() {
   // Health check
   app.get("/health-check", (req, res) => res.send("OK"));
 
-  // API Routes
+  /**
+   * Lógica unificada para enviar a Google Sheets
+   */
+  async function sendToGoogleSheets(payload: any) {
+    const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
+    const envToken = process.env.SHEETS_SECURITY_TOKEN;
+    const securityToken = (envToken && envToken.trim().length > 0) ? envToken : "zenhogar_secret_2026";
+
+    if (!webhookUrl) {
+      throw new Error("Webhook de Google Sheets no configurado en variables de entorno");
+    }
+
+    const finalPayload = {
+      ...payload,
+      token: securityToken,
+      timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
+    };
+
+    // fetch de Node con manejo de redirección para Google Apps Script
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(finalPayload),
+      redirect: "follow" // CRUCIAL: Google Script usa redirecciones 302
+    });
+
+    if (!response.ok) {
+      throw new Error(`Google Sheets respondió con status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  // API Route: Pedidos
   app.post("/api/orders", async (req, res) => {
     try {
-      const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-      // Forzamos el uso del token que pusiste en el script de Google.
-      const envToken = process.env.SHEETS_SECURITY_TOKEN;
-      const securityToken = (envToken && envToken.trim().length > 0) ? envToken : "zenhogar_secret_2026";
+      console.log(`[Orders] Procesando nuevo pedido...`);
+      const result = await sendToGoogleSheets({ ...req.body, type: "order" });
       
-      if (!webhookUrl) {
-        return res.status(500).json({ status: "error", message: "Webhook no configurado en secretos" });
-      }
-
-      const payload = {
-        ...req.body,
-        token: securityToken,
-        timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
-      };
-
-      console.log(`[Orders] Enviando pedido a Sheets a URL: ${webhookUrl.substring(0, 30)}...`);
-      
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      const contentType = response.headers.get("content-type");
-      let result;
-
-      if (contentType && contentType.includes("application/json")) {
-        result = await response.json();
-      } else {
-        const text = await response.text();
-        console.error("[Orders] Google no devolvió JSON. Respuesta:", text.substring(0, 100));
-        throw new Error("Respuesta inválida de Google (no es JSON)");
-      }
-
-      console.log("[Orders] Resultado de la operación:", result);
+      console.log("[Orders] Éxito:", result);
       res.json(result);
-    } catch (error) {
-      console.error("[Orders Error] Fallo crítico:", error);
+    } catch (error: any) {
+      console.error("[Orders Error] Fallo crítico:", error.message);
       res.status(500).json({ 
         status: "error", 
         message: "Error de comunicación con Google Sheets",
-        details: error instanceof Error ? error.message : "Error desconocido"
+        details: error.message 
       });
     }
   });
 
+  // API Route: Abandonos
   app.post("/api/abandoned", async (req, res) => {
     try {
-      const webhookUrl = process.env.GOOGLE_SHEETS_ORDERS_WEBHOOK;
-      const envToken = process.env.SHEETS_SECURITY_TOKEN;
-      const securityToken = (envToken && envToken.trim().length > 0) ? envToken : "zenhogar_secret_2026";
-      
-      if (!webhookUrl) return res.status(500).json({ status: "error", message: "Webhook no configurado" });
-
-      const payload = {
-        ...req.body,
-        type: "abandoned",
-        token: securityToken,
-        timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
-      };
-
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      let result;
-      try {
-        result = await response.json();
-      } catch (e) {
-        result = { status: "error", message: "Invalid JSON response" };
-      }
-      
+      console.log(`[Abandoned] Registrando carrito abandonado...`);
+      const result = await sendToGoogleSheets({ ...req.body, type: "abandoned" });
       res.json(result);
-    } catch (error) {
-      console.error("[Abandoned Error]", error);
-      res.status(500).json({ status: "error", message: "Internal Server Error" });
+    } catch (error: any) {
+      console.error("[Abandoned Error]:", error.message);
+      res.status(500).json({ status: "error", message: error.message });
     }
   });
 
-  // Static Assets / Vite
+  // --- Manejo de Frontend (Vite o Estáticos) ---
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -114,7 +93,6 @@ async function startServer() {
     });
     app.use(vite.middlewares);
     
-    // SPA Fallback for Development
     app.get("*", async (req, res, next) => {
       const url = req.originalUrl;
       try {
@@ -130,19 +108,18 @@ async function startServer() {
     const distPath = path.resolve(__dirname, "dist");
     app.use(express.static(distPath));
     
-    // SPA Fallback for Production
     app.get("*", (req, res) => {
       const indexPath = path.resolve(distPath, "index.html");
       if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
       } else {
-        res.status(404).send("Build artifacts not found. Please run 'npm run build'.");
+        res.status(404).send("Build artifacts not found. Run 'npm run build'.");
       }
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`ZENHOGAR Server running on http://localhost:${PORT}`);
+  app.listen(Number(PORT), "0.0.0.0", () => {
+    console.log(`🚀 ZENHOGAR Server running on port ${PORT}`);
   });
 }
 
