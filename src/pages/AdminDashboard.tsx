@@ -81,6 +81,7 @@ interface Order {
   order_details?: string;
   tracking_guide?: string;
   ticket_number?: string;
+  mastershop_status?: 'sync_success' | 'pending_manual';
   total?: number;
   status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
   type: 'order' | 'abandoned';
@@ -920,6 +921,67 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       >
                         <RefreshCw className="w-3 h-3" />
                       </button>
+                      
+                      {/* Botón de Sincronización Masiva Pedido -> Logística (Solo si hay pendientes) */}
+                      {filteredOrders.some(o => 
+                        o.type === 'order' && 
+                        o.mastershop_status !== 'sync_success' && 
+                        (!o.tracking_guide || o.tracking_guide.trim() === '')
+                      ) && (
+                        <button 
+                          onClick={async () => {
+                            const pendientes = filteredOrders.filter(o => 
+                              o.type === 'order' && 
+                              o.mastershop_status !== 'sync_success' && 
+                              (!o.tracking_guide || o.tracking_guide.trim() === '')
+                            );
+
+                            if (!window.confirm(`Se intentarán sincronizar ${pendientes.length} pedidos. ¿Continuar?`)) return;
+
+                            let successCount = 0;
+                            let failCount = 0;
+                            const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
+
+                            for (const order of pendientes) {
+                              try {
+                                const response = await fetch(MASTER_TUNNEL_URL, {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                    nombre: order.customer.nombre || order.customer.fullName,
+                                    celular: order.customer.telefono || order.customer.phone,
+                                    email: order.customer.email || 'no-email@zenhogar.com',
+                                    direccion: order.customer.direccion || order.customer.address,
+                                    ciudad: order.customer.ciudad || order.customer.city,
+                                    departamento: order.customer.departamento || order.customer.department,
+                                    producto: order.order_details,
+                                    valor: order.total?.toString() || order.cart?.total?.toString(),
+                                    ticket: order.ticket_number
+                                  }),
+                                });
+
+                                if (response.ok) {
+                                  const orderRef = doc(db, 'orders', order.id);
+                                  await updateDoc(orderRef, { mastershop_status: 'sync_success' });
+                                  successCount++;
+                                } else {
+                                  failCount++;
+                                }
+                              } catch (err) {
+                                failCount++;
+                              }
+                            }
+
+                            alert(`Proceso finalizado.\n✅ Sincronizados: ${successCount}\n❌ Fallidos: ${failCount}`);
+                            fetchOrders();
+                          }}
+                          className="px-3 py-1.5 bg-red-600 text-white rounded-lg font-bold text-[10px] uppercase hover:bg-red-700 transition-all flex items-center gap-1.5 animate-pulse"
+                          title="Sincronizar pedidos pendientes con Mastershop"
+                        >
+                          <RefreshCw className="w-3 h-3" /> Sincronizar Pendientes ({filteredOrders.filter(o => o.type === 'order' && o.mastershop_status !== 'sync_success' && (!o.tracking_guide || o.tracking_guide.trim() === '')).length})
+                        </button>
+                      )}
+
                       <button 
                         onClick={downloadExcel}
                         className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg font-bold text-[10px] uppercase hover:bg-emerald-100 transition-all flex items-center gap-1.5"
@@ -986,9 +1048,9 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                 className="hover:bg-stone-50 transition-colors group cursor-pointer border-b border-stone-200"
                                 onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
                               >
-                                <td className="px-2 py-1.5 border-r border-stone-200">
+                                <td className="px-2 py-1.5 border-r border-stone-200" onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}>
                                   <span className={cn(
-                                    "text-[10px] font-mono font-black border px-1.5 py-0.5 rounded transition-all block text-center",
+                                    "text-[10px] font-mono font-black border px-1.5 py-0.5 rounded transition-all block text-center cursor-pointer hover:scale-105",
                                     order.tracking_guide
                                       ? "bg-emerald-500 border-emerald-600 text-white" 
                                       : "bg-white border-stone-100 text-stone-400"
@@ -1006,8 +1068,8 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                     {order.type === 'order' ? 'Venta' : 'Abnd'}
                                   </span>
                                 </td>
-                                <td className="px-2 py-1.5 border-r border-stone-200">
-                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px]">
+                                <td className="px-2 py-1.5 border-r border-stone-200" onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}>
+                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px] cursor-pointer hover:text-emerald-600 decoration-emerald-500/30 underline-offset-2">
                                     {displayName}
                                   </span>
                                 </td>
@@ -1111,17 +1173,25 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                 </td>
                                 <td className="px-2 py-1.5 text-right">
                                    <div className="flex justify-end gap-1">
-                                      <button 
-                                        onClick={(e) => { e.stopPropagation(); setSelectedOrder(order); }}
-                                        className="w-6 h-6 rounded bg-stone-100 text-stone-400 flex items-center justify-center hover:bg-emerald-50 hover:text-emerald-600 transition-all"
-                                        title="Ver Detalles"
-                                      >
-                                        <Eye className="w-3 h-3" />
-                                      </button>
+                                      {/* Icono de Estado de Sincronización */}
+                                      {order.type === 'order' && (
+                                        <div 
+                                          className={cn(
+                                            "w-6 h-6 rounded flex items-center justify-center transition-all",
+                                            (order.mastershop_status === 'sync_success' || order.tracking_guide) 
+                                              ? "text-emerald-600 bg-emerald-50" 
+                                              : "text-red-500 bg-red-50"
+                                          )}
+                                          title={ (order.mastershop_status === 'sync_success' || order.tracking_guide) ? "Sincronizado con Mastershop" : "Pendiente de Sincronización" }
+                                        >
+                                          <CheckCircle2 className="w-4 h-4" />
+                                        </div>
+                                      )}
+                                      
                                       <button 
                                         onClick={(e) => { e.stopPropagation(); handleDeleteOrder(order.id); }}
-                                        className="w-6 h-6 rounded bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"
-                                        title="Borrar"
+                                        className="w-6 h-6 rounded bg-stone-50 text-stone-300 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all font-bold"
+                                        title="Borrar Registro"
                                       >
                                         <Trash2 className="w-3 h-3" />
                                       </button>
@@ -1443,23 +1513,25 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
                         <User className="w-3 h-3" /> Información del Cliente
                       </h4>
-                      <button 
-                        onClick={() => {
-                          if (isEditingCustomer) {
-                            setIsEditingCustomer(false);
-                          } else {
-                            setEditedCustomer({ ...selectedOrder.customer });
-                            setIsEditingCustomer(true);
-                          }
-                        }}
-                        className="text-[10px] font-black uppercase text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
-                      >
-                        {isEditingCustomer ? (
-                          <><X className="w-3 h-3" /> Cancelar</>
-                        ) : (
-                          <><Edit className="w-3 h-3" /> Editar</>
-                        )}
-                      </button>
+                      {selectedOrder && (selectedOrder.mastershop_status !== 'sync_success' || selectedOrder.status === 'declined' || ['shipped_with_guide', 'in_transit', 'delivered', 'completed'].includes(selectedOrder.status)) && (
+                        <button 
+                          onClick={() => {
+                            if (isEditingCustomer) {
+                              setIsEditingCustomer(false);
+                            } else {
+                              setEditedCustomer({ ...selectedOrder.customer });
+                              setIsEditingCustomer(true);
+                            }
+                          }}
+                          className="text-[10px] font-black uppercase text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+                        >
+                          {isEditingCustomer ? (
+                            <><X className="w-3 h-3" /> Cancelar</>
+                          ) : (
+                            <><Edit className="w-3 h-3" /> Editar Datos</>
+                          )}
+                        </button>
+                      )}
                     </div>
 
                     <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-3">
@@ -1531,8 +1603,8 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                               <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento</label>
                               <input 
                                 type="text"
-                                value={editedCustomer.department || ''}
-                                onChange={(e) => setEditedCustomer({ ...editedCustomer, department: e.target.value })}
+                                value={editedCustomer.department || editedCustomer.departamento || ''}
+                                onChange={(e) => setEditedCustomer({ ...editedCustomer, department: e.target.value, departamento: e.target.value })}
                                 className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
                               />
                             </div>
@@ -1596,6 +1668,67 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       <div>
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
                         <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
+                      </div>
+                      <div className="col-span-2 pt-2 border-t border-stone-100">
+                        <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Sincronización Logística (Mastershop)</p>
+                        {selectedOrder.mastershop_status !== 'sync_success' && !selectedOrder.tracking_guide ? (
+                          <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2 text-red-600">
+                              <XCircle className="w-4 h-4" />
+                              <span className="text-[11px] font-bold">Pendiente de sincronización manual</span>
+                            </div>
+                            <button 
+                              onClick={async (e) => {
+                                try {
+                                  const btn = e.currentTarget as HTMLButtonElement;
+                                  if (btn) btn.disabled = true;
+                                  
+                                  const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
+                                  const response = await fetch(MASTER_TUNNEL_URL, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                      nombre: selectedOrder.customer.nombre || selectedOrder.customer.fullName,
+                                      celular: selectedOrder.customer.telefono || selectedOrder.customer.phone,
+                                      email: selectedOrder.customer.email || 'no-email@zenhogar.com',
+                                      direccion: selectedOrder.customer.direccion || selectedOrder.customer.address,
+                                      ciudad: selectedOrder.customer.ciudad || selectedOrder.customer.city,
+                                      departamento: selectedOrder.customer.departamento || selectedOrder.customer.department,
+                                      producto: selectedOrder.order_details,
+                                      valor: selectedOrder.total?.toString() || selectedOrder.cart?.total?.toString(),
+                                      ticket: selectedOrder.ticket_number
+                                    }),
+                                  });
+
+                                  if (response.ok) {
+                                    const orderRef = doc(db, 'orders', selectedOrder.id);
+                                    await updateDoc(orderRef, { mastershop_status: 'sync_success' });
+                                    alert("✅ Pedido sincronizado con éxito en Mastershop.");
+                                    setSelectedOrder({ ...selectedOrder, mastershop_status: 'sync_success' });
+                                  } else {
+                                    alert("❌ Error al sincronizar. El túnel respondió con error.");
+                                  }
+                                } catch (err) {
+                                  console.error("Error manual sync:", err);
+                                  alert("❌ Fallo de conexión con el túnel de Mastershop.");
+                                } finally {
+                                  fetchOrders();
+                                }
+                              }}
+                              className="w-full py-2 bg-red-600 text-white text-[10px] font-bold rounded hover:bg-black transition-colors flex items-center justify-center gap-2"
+                            >
+                              <RefreshCw className="w-3 h-3" />
+                              SINCRONIZAR AHORA CON MASTERSHOP
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 text-emerald-600">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span className="text-[11px] font-bold">
+                              {selectedOrder.tracking_guide ? "Sincronizado vía Guía de Transporte" : "Sincronizado exitosamente"}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </section>

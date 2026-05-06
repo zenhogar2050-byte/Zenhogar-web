@@ -28,8 +28,9 @@ export default function Checkout() {
   const [abandonedId, setAbandonedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
-  // URL de tu Cloudflare Worker
-  const WORKER_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
+  // Endpoints
+  const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
+  const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
 
   useEffect(() => {
     if (timeLeft <= 0 || items.length === 0) return;
@@ -79,7 +80,7 @@ export default function Checkout() {
           };
 
           // CAMBIO: Petición a Cloudflare Worker para abandono
-          await fetch(WORKER_URL, {
+          await fetch(GATEWAY_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sheetsPayload),
@@ -162,10 +163,10 @@ export default function Checkout() {
         total: total.toString()
       };
 
+      // 1. REGISTRO EN GOOGLE SHEETS / PIXEL (Gateway Principal)
       let currentTicket = "N/A";
       try {
-        // CAMBIO: Petición a Cloudflare Worker para pedido final
-        const response = await fetch(WORKER_URL, {
+        const response = await fetch(GATEWAY_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(sheetsPayload),
@@ -185,13 +186,36 @@ export default function Checkout() {
         currentTicket = `PO-ERR-${Math.floor(1000 + Math.random() * 9000)}`;
       }
 
+      // 2. SINCRONIZACIÓN SILENCIOSA CON MASTERSHOP (Blindaje)
+      let mastershopStatus = 'sync_success';
+      try {
+        const msResponse = await fetch(MASTER_TUNNEL_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...sheetsPayload,
+            ticket: currentTicket
+          }),
+        });
+
+        if (!msResponse.ok) {
+          throw new Error(`Mastershop Tunnel respondio con status: ${msResponse.status}`);
+        }
+        console.log("✅ Sincronización exitosa con Mastershop");
+      } catch (msErr) {
+        // Error silencioso para el usuario, log para el admin
+        console.error("⚠️ [Admin Log] Falló sincronización automática con Mastershop:", msErr);
+        mastershopStatus = 'pending_manual';
+      }
+
       await saveOrderToFirebase({
         customer: formData,
         order_details: orderDetails,
         total: total,
         cart: { items, total },
         type: 'order',
-        ticket_number: currentTicket
+        ticket_number: currentTicket,
+        mastershop_status: mastershopStatus
       });
 
       if (abandonedId) {
