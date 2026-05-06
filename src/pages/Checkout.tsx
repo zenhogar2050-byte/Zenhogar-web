@@ -28,6 +28,9 @@ export default function Checkout() {
   const [abandonedId, setAbandonedId] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
+  // URL de tu Cloudflare Worker
+  const WORKER_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
+
   useEffect(() => {
     if (timeLeft <= 0 || items.length === 0) return;
     const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
@@ -43,7 +46,6 @@ export default function Checkout() {
   useEffect(() => {
     if (items.length === 0 || isSubmitting) return;
 
-    // Solo trackear si al menos tiene nombre y teléfono
     if (formData.fullName.length > 3 && formData.phone.length > 6) {
       const timer = setTimeout(async () => {
         try {
@@ -51,19 +53,16 @@ export default function Checkout() {
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
 
-          // Generar un ID único basado en el teléfono para evitar duplicados del mismo cliente
           const uniqueId = `abandoned_${formData.phone.replace(/\D/g, '')}`;
 
-          // Firebase Tracking (NEW for 2.0/Cloudflare)
           await saveOrderToFirebase({
-            id: uniqueId, // Usamos ID fijo para sobrescribir si el cliente sigue en el checkout
+            id: uniqueId,
             customer: formData,
             order_details: orderDetails,
             total: formatCurrency(total),
             type: 'abandoned'
           });
 
-          // NEW Payload for Google Sheets Script v2
           const sheetsPayload = {
             type: 'abandoned',
             customer: {
@@ -79,7 +78,8 @@ export default function Checkout() {
             total: total.toString()
           };
 
-          await fetch('/api/abandoned', {
+          // CAMBIO: Petición a Cloudflare Worker para abandono
+          await fetch(WORKER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sheetsPayload),
@@ -90,7 +90,7 @@ export default function Checkout() {
         } catch (e) {
           console.error("Error tracking abandoned cart:", e);
         }
-      }, 1800000); // 30 MINUTOS de inactividad total antes de declarar abandono
+      }, 1800000);
 
       return () => clearTimeout(timer);
     }
@@ -99,7 +99,6 @@ export default function Checkout() {
   const departments = Object.keys(COLOMBIA_DATA || {});
   const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
 
-  // Order Bump Logic for Checkout
   const getBumpOpportunity = () => {
     if (items.length !== 1) return null;
     const item = items[0];
@@ -165,7 +164,8 @@ export default function Checkout() {
 
       let currentTicket = "N/A";
       try {
-        const response = await fetch('/api/orders', {
+        // CAMBIO: Petición a Cloudflare Worker para pedido final
+        const response = await fetch(WORKER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(sheetsPayload),
@@ -181,11 +181,10 @@ export default function Checkout() {
           currentTicket = `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`;
         }
       } catch (err) {
-        console.error("❌ Error de red al conectar con /api/orders:", err);
+        console.error("❌ Error de red al conectar con Cloudflare:", err);
         currentTicket = `PO-ERR-${Math.floor(1000 + Math.random() * 9000)}`;
       }
 
-      // Firebase Saving (Critical for Cloudflare persistence)
       await saveOrderToFirebase({
         customer: formData,
         order_details: orderDetails,
@@ -195,7 +194,6 @@ export default function Checkout() {
         ticket_number: currentTicket
       });
 
-      // SI HABÍA UN REGISTRO DE ABANDONO PREVIO, LO ELIMINAMOS PARA EVITAR DUPLICADOS
       if (abandonedId) {
         const { deleteOrderFromFirebase } = await import('../lib/firebase');
         await deleteOrderFromFirebase(abandonedId);
@@ -263,14 +261,12 @@ export default function Checkout() {
         </Link>
         <div className="grid lg:grid-cols-12 gap-12">
           
-          {/* Columna Izquierda: Resumen con Imagen */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-stone-100">
               <h1 className="text-2xl font-bold text-stone-900 flex items-center gap-3 mb-4">
                 <ShoppingBag className="w-6 h-6 text-emerald-600" /> Resumen de Compra
               </h1>
 
-              {/* Countdown Urgency */}
               {items.length > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -294,7 +290,6 @@ export default function Checkout() {
                       exit={{ opacity: 0, scale: 0.95 }}
                       className="flex gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100"
                     >
-                      {/* Lógica de Imagen Integrada */}
                       <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-white border border-stone-200 flex-shrink-0 flex items-center justify-center p-1">
                         <img
                           src={(
@@ -352,7 +347,6 @@ export default function Checkout() {
             </div>
           </div>
 
-          {/* Columna Derecha: Formulario */}
           <div className="lg:col-span-5">
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100 sticky top-24">
               <h2 className="text-2xl font-bold text-stone-900 mb-8">Envío y Pago</h2>
@@ -435,25 +429,20 @@ export default function Checkout() {
                     <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-10 transition-all duration-500 py-10">
                       <div className="flex flex-col items-center">
                         <img src="/assets/partners/coordinadora.webp" alt="Coordinadora Logística" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
-                        <span className="hidden text-[10px] font-black text-stone-400">COORDINADORA</span>
                       </div>
                       <div className="flex flex-col items-center">
                         <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
-                        <span className="hidden text-[10px] font-black text-stone-400">SERVIENTREGA</span>
                       </div>
                       <div className="flex flex-col items-center">
                         <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
-                        <span className="hidden text-[10px] font-black text-stone-400">INTERRAPIDISIMO</span>
                       </div>
                       <div className="flex flex-col items-center">
                         <img src="/assets/partners/swayp.webp" alt="Swayp Pagos" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
-                        <span className="hidden text-[10px] font-black text-stone-400">SWAYP</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Steps Section */}
                 <div className="mt-8 pt-6 border-t border-stone-100">
                   <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-4 text-center">¿Qué pasará después de mi compra?</p>
                   <div className="grid grid-cols-3 gap-2">

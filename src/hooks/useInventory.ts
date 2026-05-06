@@ -1,22 +1,26 @@
-import { useState, useEffect } from 'react';
+import { MASTER_PRODUCTS } from '../constants/mastershop_products';
 
 export function useInventory() {
-  const [inventory] = useState<Record<string, { stock: number }>>({});
-  const [loading] = useState(false);
-  const [error] = useState<string | null>(null);
+  const inventory = MASTER_PRODUCTS.map(p => ({
+    idProduct: p.id,
+    internalId: p.internalId,
+    name: p.name,
+    category: p.category,
+    basePrice: 0,
+    suggestedPrice: 0,
+    stock: '--',
+    prodFormatName: p.category || 'ZenHogar Portfolio'
+  }));
 
-  const fetchInventory = async () => {};
-
-  const getStockData = () => null;
-  const getStock = () => null;
-
-  const getStockStatus = () => {
-    return { label: 'Disponible', color: 'green', stock: 1000 };
+  const getStockStatus = (productId: number | string) => {
+    return { label: 'Sin Sincronizar', color: 'gray', stock: 0 };
   };
 
-  const getClientStockStatus = () => {
-    return { label: 'Disponible', color: 'green' };
+  return { 
+    inventory, 
+    loading: false, 
+    error: null, 
+    getStockStatus, 
+    refetch: () => {} 
   };
-
-  return { inventory, loading, error, getStock, getStockStatus, getClientStockStatus, refetch: fetchInventory };
 }

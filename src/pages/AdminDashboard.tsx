@@ -52,6 +52,7 @@ import {
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
+import InventoryManager from '../components/InventoryManager';
 import { doc, updateDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
 import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import * as XLSX from 'xlsx';
@@ -104,7 +105,7 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'analytics'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory'>('orders');
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
 
@@ -644,6 +645,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           >
             <TrendingUp className="w-6 h-6" />
           </button>
+
+          <button 
+            onClick={() => setActiveTab('inventory')}
+            className={cn(
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'inventory' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
+            )}
+            title="Inventario"
+          >
+            <Package className="w-6 h-6" />
+          </button>
         </nav>
       </aside>
 
@@ -669,6 +681,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           <TrendingUp className="w-5 h-5" />
           <span className="text-[8px] font-black uppercase">Ventas</span>
         </button>
+        <button 
+          onClick={() => setActiveTab('inventory')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'inventory' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <Package className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Inventario</span>
+        </button>
       </nav>
 
       {/* Main Content */}
@@ -676,10 +698,10 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         <header className="bg-white border-b border-stone-200 p-4 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-40">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold text-stone-900 tracking-tight">
-              {activeTab === 'orders' ? 'Pedidos' : 'Analítica'}
+              {activeTab === 'orders' ? 'Pedidos' : activeTab === 'analytics' ? 'Analítica' : 'Inventario Mastershop'}
             </h1>
             <div className="h-4 w-px bg-stone-200 hidden sm:block" />
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.0</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.2</p>
           </div>
           <button 
             onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
@@ -1327,7 +1349,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                   </div>
                 </div>
               </motion.div>
-            ) : null}
+            ) : (
+              <motion.div
+                key="inventory"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <InventoryManager />
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
       </main>
