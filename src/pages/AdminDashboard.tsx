@@ -53,7 +53,7 @@ import {
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
 import InventoryManager from '../components/InventoryManager';
-import { doc, updateDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import * as XLSX from 'xlsx';
 
@@ -165,18 +165,33 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const updateStatus = async (orderId: string, status: string) => {
+    // Optimistic update for better UX
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: status as any } : o));
+    
     try {
       const success = await updateOrderStatusInFirebase(orderId, status);
-      if (success) fetchOrders();
+      if (!success) {
+        alert('Error al guardar el cambio en la base de datos. Intente de nuevo.');
+        fetchOrders(); // Revert to server state
+      }
     } catch (err) {
-      console.error(err);
+      console.error('Error updating status:', err);
+      alert('Error técnico al actualizar el estado.');
+      fetchOrders(); // Revert to server state
     }
   };
 
   const handleSaveCell = async (orderId: string, field: string, value: string) => {
+    // Optimistic update
+    if (field === 'tracking_guide') {
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, tracking_guide: value } : o));
+    }
+
     try {
       const orderRef = doc(db, 'orders', orderId);
-      let updateData: any = {};
+      let updateData: any = {
+        updated_at: serverTimestamp()
+      };
       
       if (field.startsWith('customer.')) {
         updateData[field] = value;
@@ -188,9 +203,11 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
       await updateDoc(orderRef, updateData);
       setEditingCell(null);
-      fetchOrders();
+      // No need to fetch immediately if optimistic worked, but let's do it for consistency
+      // fetchOrders(); 
     } catch (err) {
       console.error('Error saving cell:', err);
+      fetchOrders(); // Rollback on error
     }
   };
 
@@ -1023,10 +1040,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                    <div className="relative group/guide">
                                       <input 
                                         type="text"
-                                        value={order.tracking_guide || ''}
-                                        onChange={(e) => {
-                                          e.stopPropagation();
-                                          handleSaveCell(order.id, 'tracking_guide', e.target.value);
+                                        defaultValue={order.tracking_guide || ''}
+                                        onBlur={(e) => {
+                                          if (e.target.value !== (order.tracking_guide || '')) {
+                                            handleSaveCell(order.id, 'tracking_guide', e.target.value);
+                                          }
+                                        }}
+                                        onKeyDown={(e) => {
+                                          if (e.key === 'Enter') {
+                                            handleSaveCell(order.id, 'tracking_guide', (e.target as HTMLInputElement).value);
+                                            (e.target as HTMLInputElement).blur();
+                                          }
                                         }}
                                         onClick={(e) => e.stopPropagation()}
                                         placeholder="Pegar guía..."

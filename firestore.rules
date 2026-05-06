@@ -26,7 +26,7 @@ service cloud.firestore {
              (data.customer.get('fullName', data.customer.get('nombre', '')) is string) &&
              (data.customer.get('phone', data.customer.get('telefono', '')) is string) &&
              // Validación de tipos
-             data.status in ['pending', 'confirmed', 'sent', 'delivered', 'cancelled', 'shipped_with_guide', 'withdrawn'] &&
+             data.status in ['pending', 'confirmed', 'ready_to_ship', 'shipped_with_guide', 'in_transit', 'delivered', 'completed', 'waiting_delivery', 'declined', 'cancelled', 'with_issue'] &&
              data.type in ['order', 'abandoned'];
     }
 

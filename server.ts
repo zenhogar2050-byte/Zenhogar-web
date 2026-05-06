@@ -40,19 +40,33 @@ async function startServer() {
       timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
     };
 
-    // fetch de Node con manejo de redirección para Google Apps Script
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(finalPayload),
-      redirect: "follow" // CRUCIAL: Google Script usa redirecciones 302
-    });
+    let attempts = 0;
+    const maxAttempts = 3;
 
-    if (!response.ok) {
-      throw new Error(`Google Sheets respondió con status: ${response.status}`);
+    while (attempts < maxAttempts) {
+      try {
+        attempts++;
+        const response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(finalPayload),
+          redirect: "follow",
+          signal: AbortSignal.timeout(10000) // Timeout de 10 segundos
+        });
+
+        if (!response.ok) {
+          throw new Error(`Google Sheets respondió con status: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error: any) {
+        if (attempts >= maxAttempts) {
+          throw error;
+        }
+        console.warn(`[Sheets Retry] Intento ${attempts} fallido: ${error.message}. reintentando...`);
+        await new Promise(r => setTimeout(r, 2000)); // Esperar 2 segundos antes de reintentar
+      }
     }
-
-    return await response.json();
   }
 
   // API Route: Pedidos
