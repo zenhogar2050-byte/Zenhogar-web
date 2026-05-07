@@ -1,5 +1,6 @@
 export interface Product {
   id: string;
+  masterId: string;
   name: string;
   description: string;
   shortDescription: string;
@@ -69,6 +70,7 @@ export const CATEGORIES = [
 export const PRODUCTS: Product[] = [
   {
     id: 'rtafull',
+    masterId: '11323',
     name: 'Rtafull',
     category: 'salud-bienestar',
     shortDescription: 'Depura tu hígado y elimina la pesadez estomacal de inmediato.',
@@ -117,6 +119,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'coliplus',
+    masterId: '11341',
     name: 'Coliplus',
     category: 'salud-bienestar',
     shortDescription: 'Regula tu tránsito intestinal y limpia el colon naturalmente.',
@@ -165,6 +168,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'colageno',
+    masterId: '11312',
     name: 'Colágeno + Citrato de Magnesio',
     category: 'salud-bienestar',
     shortDescription: 'Fortalece tus articulaciones y mejora la calidad de tu sueño.',
@@ -213,6 +217,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'resvis',
+    masterId: '22967',
     name: 'Resvifactor (Calostro Bovino)',
     category: 'salud-bienestar',
     shortDescription: 'Aumenta tus defensas y protege tu cuerpo contra virus.',
@@ -261,6 +266,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cla500',
+    masterId: '61652',
     name: 'CLA 500',
     category: 'salud-bienestar',
     shortDescription: 'Reconforta articulaciones y reduce la pesadez corporal.',
@@ -313,6 +319,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'cafetolio',
+    masterId: '11262',
     name: 'Café Verde Cafetolio',
     category: 'salud-bienestar',
     shortDescription: 'Activa tu metabolismo y controla la ansiedad de picar.',
@@ -365,6 +372,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'locion',
+    masterId: '11236',
     name: 'Loción Termoactiva',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Rápido para Músculos y Articulaciones.',
@@ -418,6 +426,7 @@ export const PRODUCTS: Product[] = [
   // New products for Salud y Bienestar
   {
     id: 'c-lagen',
+    masterId: '144660',
     name: 'C-Lagen',
     category: 'salud-bienestar',
     shortDescription: 'Refuerzo del Mar para tus Rodillas.',
@@ -470,6 +479,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'citramix',
+    masterId: '129312',
     name: 'Citramix',
     category: 'salud-bienestar',
     shortDescription: 'Relajante de Músculos y Nervios.',
@@ -518,6 +528,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'coffee-colageno',
+    masterId: '23012',
     name: 'Coffee + Colágeno',
     category: 'salud-bienestar',
     shortDescription: 'Café con Vitaminas para tu Belleza.',
@@ -566,6 +577,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'creatina',
+    masterId: '164776',
     name: 'Creatina 100%',
     category: 'salud-bienestar',
     shortDescription: 'Fuerza para tus Músculos y Cerebro.',
@@ -614,6 +626,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'iprossmen',
+    masterId: '11299',
     name: 'Iprossmen',
     category: 'salud-bienestar',
     shortDescription: 'Protección Natural para el Hombre.',
@@ -662,6 +675,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'kds-10',
+    masterId: '129333',
     name: 'KDS 10',
     category: 'salud-bienestar',
     shortDescription: 'Fórmula avanzada multivitamínica.',
@@ -714,6 +728,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'liofhim',
+    masterId: '57848',
     name: 'Liofhim',
     category: 'salud-bienestar',
     shortDescription: 'Bebida de Plantas para Dormir Profundo.',
@@ -762,6 +777,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'liteplex',
+    masterId: '26272',
     name: 'Liteplex',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Natural para tu Digestión.',
@@ -813,6 +829,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'maxlite-colageno',
+    masterId: '11264',
     name: 'Maxlite',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Integral para Huesos y Piel.',
@@ -864,6 +881,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'megamac',
+    masterId: '11247',
     name: 'Megamac',
     category: 'salud-bienestar',
     shortDescription: 'Energía Renovada y Vitalidad Física.',
@@ -916,6 +934,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'resveratrol',
+    masterId: '129297',
     name: 'Resveratrol',
     category: 'salud-bienestar',
     shortDescription: 'El poder del resveratrol.',
@@ -963,6 +982,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'eventone',
+    masterId: '23015',
     name: 'Eventone',
     category: 'belleza-integral',
     shortDescription: 'Hidratación Intensa y Firmeza Facial.',
@@ -1011,6 +1031,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'golden-passion',
+    masterId: '61681',
     name: 'Golden Passion',
     category: 'belleza-integral',
     shortDescription: 'Bronceado Natural sin necesidad de Sol.',
@@ -1063,6 +1084,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'hydrastrik',
+    masterId: '11346',
     name: 'Hydrastrik',
     category: 'belleza-integral',
     shortDescription: 'Hidratación Profunda contra las Estrías.',
@@ -1115,6 +1137,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'miskinne',
+    masterId: '11290',
     name: 'Miskinne',
     category: 'belleza-integral',
     shortDescription: 'Piel Uniforme y Libre de Manchas.',
@@ -1167,6 +1190,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'tonico-capilar',
+    masterId: '11260',
     name: 'Tónico Capilar (Extractos Mágicos)',
     category: 'belleza-integral',
     shortDescription: 'Fortalece y Estimula el Crecimiento de tu Cabello.',
@@ -1219,6 +1243,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'tufoff',
+    masterId: '68746',
     name: 'Tufoff',
     category: 'belleza-integral',
     shortDescription: 'Refresca el aliento al instante.',
@@ -1267,6 +1292,7 @@ export const PRODUCTS: Product[] = [
   // Salud Sexual
   {
     id: 'akha',
+    masterId: '61195',
     name: 'Akha (Crema Voluminizante)',
     category: 'salud-sexual',
     shortDescription: 'Mejora la Apariencia y Firmeza de la Piel.',
@@ -1319,6 +1345,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'derman',
+    masterId: '61835',
     name: 'Derman (Mascarilla Íntima)',
     category: 'salud-sexual',
     shortDescription: 'Higiene y Protección para tu Zona Íntima.',
@@ -1371,6 +1398,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'haydar',
+    masterId: '166801',
     name: 'Haydar (Bebida Energizante)',
     category: 'salud-sexual',
     shortDescription: 'Energía y Vitalidad en un Solo Sorbo.',
@@ -1423,6 +1451,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'instant-virgin',
+    masterId: '60017',
     name: 'Instant Virgin (Gel Íntimo)',
     category: 'salud-sexual',
     shortDescription: 'Confianza y Revitalización Íntima.',
@@ -1475,6 +1504,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'mamooth',
+    masterId: '11360',
     name: 'Mammoth (Crema Voluminizante)',
     category: 'salud-sexual',
     shortDescription: 'Firmeza y Apariencia Saludable para tu Piel.',
@@ -1526,6 +1556,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'tyruss-full',
+    masterId: '52600',
     name: 'Tyruss Full',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
@@ -1577,6 +1608,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'zafir',
+    masterId: '166802',
     name: 'Zafir Energizante',
     category: 'salud-sexual',
     shortDescription: 'Tu Impulso de Energía Natural.',
@@ -1624,6 +1656,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'zeus',
+    masterId: '61653',
     name: 'Zeus',
     category: 'salud-sexual',
     shortDescription: 'Máxima Potencia y Resistencia Diaria.',
@@ -1671,6 +1704,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'nad-1',
+    masterId: '129308',
     name: '+NAD',
     category: 'salud-bienestar',
     shortDescription: 'Cuidado Antiedad Integral y Vitalidad Celular.',
@@ -1721,6 +1755,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'titan-coffee',
+    masterId: '23013',
     name: 'Titan Coffee',
     category: 'salud-sexual',
     shortDescription: 'Café Energizante para un Rendimiento Máximo.',
@@ -1770,6 +1805,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'hemocream',
+    masterId: '58626',
     name: 'Hemocream',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Suave con Hierbas Naturales.',
@@ -1821,7 +1857,7 @@ export const PRODUCTS: Product[] = [
 export const COMBO_OF_THE_MONTH = {
   id: 'combo-inmunidad-dual',
   name: 'Inmunidad Dual',
-  description: 'Resvisfactor y Coliplus: la combinación perfecta para confortar tu vientre, sentirte mas ligero y libre de molestias.',
+  description: 'Resvisfactor y Coliplus: la combinación perfecta para desinflamar tu vientre, sentirte mas ligero y libre de molestias.',
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
@@ -2228,14 +2264,20 @@ export const PROMOTIONS = [
 ];
 
 
-export const GIFT_PRODUCTS = [
-  { id: 'gift-coli', name: 'Obsequio Coliplus' },
-  { id: 'gift-titan', name: 'Obsequio Titan Coffe' },
-  { id: 'gift-coffee-col', name: 'Obsequio Coffe Colageno' },
-  { id: 'gift-dampy', name: 'Obsequio Pañitos Dampy' },
-  { id: 'gift-repo', name: 'Obsequio Gratis Repolarizador' },
-  { id: 'gift-shampoo', name: 'Obsequio Shampoo Sin sal' },
-  { id: 'gift-termo', name: 'Obsequio termoactiva' },
+export interface GiftProduct {
+  id: string;
+  masterId: string;
+  name: string;
+}
+
+export const GIFT_PRODUCTS: GiftProduct[] = [
+  { id: 'gift-coli', masterId: '49603', name: 'Obsequio Coliplus' },
+  { id: 'gift-titan', masterId: '26846', name: 'Obsequio Titan Coffe' },
+  { id: 'gift-coffee-col', masterId: '26845', name: 'Obsequio Coffe Colageno' },
+  { id: 'gift-dampy', masterId: '76365', name: 'Obsequio Pañitos Dampy' },
+  { id: 'gift-repo', masterId: '11301', name: 'Obsequio Gratis Repolarizador' },
+  { id: 'gift-shampoo', masterId: '11270', name: 'Obsequio Shampoo Sin sal' },
+  { id: 'gift-termo', masterId: '11253', name: 'Obsequio termoactiva' },
 ];
 
 export const COLOMBIA_DATA = {

@@ -14,39 +14,17 @@ import FAQSection from '../components/FAQSection';
 import { track } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
+import StickyCTA from '../components/StickyCTA';
+
 export default function ProductLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { addToCart, addComboToCart } = useCart();
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
-  const [showSticky, setShowSticky] = useState(false);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const product = PRODUCTS.find(p => p.id === id);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerWidth < 1024) {
-        setShowSticky(true);
-        return;
-      }
-      
-      if (buyButtonRef.current) {
-        const rect = buyButtonRef.current.getBoundingClientRect();
-        setShowSticky(rect.top < 0);
-      }
-    };
-
-    handleScroll();
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     const promoParam = searchParams.get('promo');
@@ -148,6 +126,7 @@ export default function ProductLanding() {
           <button 
             onClick={() => navigate(-1)}
             className="mb-4 flex items-center gap-2 text-stone-500 hover:text-emerald-600 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-stone-50 group"
+            aria-label="Volver a la página anterior"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span className="text-base sm:text-lg">Volver</span>
@@ -219,14 +198,21 @@ export default function ProductLanding() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
                 <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
-                <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-2">Verificado</span>
+                <div className="ml-2 flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest leading-none">8 personas viendo ahora</span>
+                </div>
+                <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-1">Verificado</span>
               </div>
               
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-1 leading-tight font-display">
@@ -284,6 +270,8 @@ export default function ProductLanding() {
                             ? "border-emerald-600 bg-white shadow-md"
                             : "border-transparent bg-stone-100 hover:bg-stone-200"
                         )}
+                        aria-label={`Seleccionar promoción ${promo.label}`}
+                        aria-pressed={selectedPromo === promo.id}
                       >
                         <div>
                           <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
@@ -323,6 +311,7 @@ export default function ProductLanding() {
                   ref={buyButtonRef}
                   onClick={() => selectedPromo && handleBuyNow(selectedPromo)}
                   className="w-full mt-6 py-6 bg-amber-500 text-white rounded-2xl font-black text-xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/30 flex items-center justify-center gap-3 group animate-pulse-slow hover:animate-none scale-100 hover:scale-[1.02]"
+                  aria-label={`Comprar ${product.name} ahora`}
                 >
                   <ShoppingCart className="w-7 h-7 group-hover:scale-110 transition-transform" />
                   COMPRAR AHORA
@@ -425,59 +414,16 @@ export default function ProductLanding() {
         </div>
       </section>
 
-      {/* Sticky Conversion Bar (Mobile & Desktop) */}
-      <AnimatePresence>
-        {showSticky && (
-          <motion.div
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-3 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
-          >
-            <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
-              <div className="flex items-center gap-2 lg:gap-3 flex-1 min-w-0">
-                <div className="w-10 h-10 lg:w-16 lg:h-16 bg-stone-100 rounded-lg lg:rounded-2xl overflow-hidden flex-shrink-0">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <div className="flex items-center gap-1.5 flex-wrap lg:flex-nowrap">
-                    <span className="text-[11px] sm:text-xs lg:text-sm font-bold text-stone-900 truncate max-w-[100px] sm:max-w-none">{product.name}</span>
-                    <span className="text-emerald-700 font-black text-sm lg:text-lg italic leading-none whitespace-nowrap">
-                      {formatCurrency(product.promos.find(p => p.id === selectedPromo)?.price || product.basePrice)}
-                    </span>
-                  </div>
-                  <div className="relative mt-0.5 self-start w-full sm:w-auto">
-                    <select
-                      value={selectedPromo || ''}
-                      onChange={(e) => setSelectedPromo(e.target.value)}
-                      className="appearance-none bg-stone-100 text-stone-700 text-[9px] sm:text-[10px] lg:text-xs font-bold py-1 pl-1.5 pr-5 lg:pl-2 lg:pr-6 rounded uppercase outline-none focus:ring-1 focus:ring-emerald-500 border border-stone-200 cursor-pointer w-full text-ellipsis line-clamp-1"
-                    >
-                      {product.promos.map(promo => (
-                        <option key={promo.id} value={promo.id}>
-                          {promo.label}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-3 h-3 absolute right-1 lg:right-1.5 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 flex-shrink-0">
-                <div className="hidden lg:flex items-center gap-2 text-xs font-bold text-stone-500 bg-stone-50 px-4 py-2 rounded-full border">
-                  <Zap className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
-                  Paga al recibir en casa
-                </div>
-                <button
-                  onClick={() => selectedPromo && handleBuyNow(selectedPromo)}
-                  className="px-4 sm:px-6 lg:px-10 py-2.5 lg:py-4 bg-amber-500 text-white rounded-xl lg:rounded-2xl font-black text-[11px] sm:text-sm lg:text-base shadow-lg shadow-amber-500/20 active:scale-95 transition-all hover:bg-amber-600 whitespace-nowrap"
-                >
-                  COMPRAR AHORA
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <StickyCTA 
+        name={product.name}
+        image={product.image}
+        price={product.promos.find(p => p.id === selectedPromo)?.price || product.basePrice}
+        onBuy={() => selectedPromo && handleBuyNow(selectedPromo)}
+        desktopTriggerRef={buyButtonRef}
+        promos={product.promos}
+        selectedPromoId={selectedPromo || undefined}
+        onPromoChange={(id) => setSelectedPromo(id)}
+      />
 
       <Footer />
     </div>

@@ -100,6 +100,18 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Trust Partners Bar */}
+        <div className="mt-8 pt-8 border-t border-stone-800/50">
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+            <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-8 object-contain" loading="lazy" />
+            <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-8 object-contain" loading="lazy" />
+            <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-8 object-contain" loading="lazy" />
+            <img src="/assets/partners/envia.webp" alt="Envía" className="h-8 object-contain" loading="lazy" />
+            <div className="h-8 w-px bg-stone-700 mx-2 hidden md:block"></div>
+            <img src="/assets/logo/logo-invima.webp" alt="INVIMA" className="h-10 object-contain" loading="lazy" />
+          </div>
+        </div>
+
         <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-100 text-sm">
           <p>© 2026 zenhogar. Todos los derechos reservados.</p>
           <div className="flex gap-8">
@@ -118,8 +130,8 @@ export default function Footer() {
 
         {/* YMYL Medical Disclaimer */}
         <div className="mt-8 pt-8 border-t border-stone-800/50">
-          <p className="text-[10px] text-stone-300 leading-relaxed text-center max-w-4xl mx-auto italic">
-            Aviso Legal: Los productos ofrecidos por ZENHOGAR son suplementos dietarios y no pretenden diagnosticar, tratar, curar o prevenir ninguna enfermedad. La información proporcionada en este sitio web tiene fines informativos y no sustituye el consejo médico profesional. Siempre consulte con su médico antes de comenzar cualquier régimen de suplementación. Los resultados pueden variar de persona a persona. Todos nuestros productos cuentan con registro INVIMA vigente.
+          <p className="text-[10px] text-stone-300 leading-relaxed text-center max-w-5xl mx-auto italic">
+            Aviso de Responsabilidad (Suplementos Dietarios): Los productos distribuidos por ZENHOGAR cuentan con Registro Sanitario INVIMA y están destinados a complementar la dieta. No son medicamentos y no deben utilizarse como sustitutos de una alimentación equilibrada o tratamientos médicos prescritos. La información en este sitio no constituye consejo médico. Resultados varían por individuo. Manténgase fuera del alcance de los niños. Si está embarazada, lactando o bajo tratamiento especial, consulte a su especialista antes de consumir.
           </p>
         </div>
       </div>

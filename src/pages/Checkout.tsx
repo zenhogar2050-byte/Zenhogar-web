@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../CartContext';
 import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS } from '../constants';
-import { formatCurrency } from '../utils';
+import { formatCurrency, formatPriceForAPI } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
-import { saveOrderToFirebase } from '../lib/firebase';
+import { saveOrderToFirebase, getNextOrderTicket } from '../lib/firebase';
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export default function Checkout() {
             id: uniqueId,
             customer: formData,
             order_details: orderDetails,
-            total: formatCurrency(total),
+            total: formatPriceForAPI(total),
             type: 'abandoned'
           });
 
@@ -76,7 +76,7 @@ export default function Checkout() {
               department: formData.department || "Pte. Depto",
             },
             order_details: orderDetails,
-            total: total.toString()
+            total: formatPriceForAPI(total)
           };
 
           // CAMBIO: Petición a Cloudflare Worker para abandono
@@ -91,7 +91,7 @@ export default function Checkout() {
         } catch (e) {
           console.error("Error tracking abandoned cart:", e);
         }
-      }, 1800000);
+      }, 600000);
 
       return () => clearTimeout(timer);
     }
@@ -117,7 +117,7 @@ export default function Checkout() {
     track('InitiateCheckout', { 
       content_ids: [String(bumpOpportunity.targetCombo.id)], 
       content_name: bumpOpportunity.targetCombo.name, 
-      value: Number(bumpOpportunity.targetCombo.price), 
+      value: formatPriceForAPI(bumpOpportunity.targetCombo.price), 
       currency: 'COP', 
       num_items: 1, 
       content_type: 'product_combo_bump' 
@@ -148,54 +148,118 @@ export default function Checkout() {
     ).join('\n');
 
     try {
-      const sheetsPayload = {
-        type: 'order',
-        customer: {
-          fullName: formData.fullName || "Cliente",
-          email: formData.email || "contacto@zenhogar.live",
-          phone: formData.phone || "3000000000",
-          identification: formData.identification || "123456789",
-          address: formData.address || "Dirección pendiente",
-          city: formData.city || "Barranquilla",
-          department: formData.department || "Atlántico",
-        },
-        order_details: orderDetails,
-        total: total.toString()
-      };
+        const sheetsPayload = {
+          type: 'order',
+          customer: {
+            fullName: formData.fullName || "Cliente",
+            email: formData.email || "contacto@zenhogar.live",
+            phone: formData.phone || "3000000000",
+            identification: formData.identification || "123456789",
+            address: formData.address || "Dirección pendiente",
+            city: formData.city || "Barranquilla",
+            department: formData.department || "Atlántico",
+          },
+          order_details: orderDetails,
+          total: formatPriceForAPI(total)
+        };
 
       // 1. REGISTRO EN GOOGLE SHEETS / PIXEL (Gateway Principal)
-      let currentTicket = "N/A";
+      let currentTicket = `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`; 
       try {
+        // Obtenemos el consecutivo real de Firebase de forma atómica
+        currentTicket = await getNextOrderTicket();
+        console.log("🎫 Consecutivo asignado:", currentTicket);
+
+        const sheetsPayloadWithTicket = {
+          ...sheetsPayload,
+          ticket_number: currentTicket // Enviamos el ticket real a Sheets
+        };
+
         const response = await fetch(GATEWAY_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(sheetsPayload),
+          body: JSON.stringify(sheetsPayloadWithTicket),
         });
         
         const result: any = await response.json();
         
-        if (result.status === "success") {
-          currentTicket = result.ticket;
-          console.log("✅ Pedido registrado en Sheets con ticket:", currentTicket);
+        if (result.status === "success" && result.ticket) {
+          // Si Sheets genera su propio ticket (opcional), podríamos usarlo, 
+          // pero preferimos el de Firebase para mantener la coherencia con el Dashboard
+          console.log("✅ Pedido registrado en Sheets");
         } else {
-          console.warn("⚠️ API de Sheets devolvió error:", result.message);
-          currentTicket = `PO-PENDIENTE-${Math.floor(1000 + Math.random() * 9000)}`;
+          console.warn("⚠️ API de Sheets no retornó confirmación exitosa, pero el ticket local es:", currentTicket);
         }
       } catch (err) {
-        console.error("❌ Error de red al conectar con Cloudflare:", err);
-        currentTicket = `PO-ERR-${Math.floor(1000 + Math.random() * 9000)}`;
+        console.error("❌ Error silencioso en Sheets:", err);
+        // El proceso sigue con el ticket obtenido de Firebase
       }
 
       // 2. SINCRONIZACIÓN SILENCIOSA CON MASTERSHOP (Blindaje)
       let mastershopStatus = 'sync_success';
       try {
-        const msResponse = await fetch(MASTER_TUNNEL_URL, {
+        const mastershopPayload = {
+          "id_order": currentTicket,
+          "notes": [],
+          "tags": [],
+          "shipping_address": {
+            "country": "CO",
+            "state": formData.department,
+            "city": formData.city,
+            "address1": formData.address,
+            "address2": null,
+            "company": null,
+            "zip": null,
+            "full_name": formData.fullName,
+            "first_name": formData.fullName.split(' ')[0],
+            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
+            "phone": formData.phone
+          },
+          "billing_address": {
+            "country": "CO",
+            "state": formData.department,
+            "city": formData.city,
+            "address1": formData.address,
+            "address2": null,
+            "company": null,
+            "zip": null,
+            "full_name": formData.fullName,
+            "first_name": formData.fullName.split(' ')[0],
+            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
+            "phone": formData.phone
+          },
+          "order_transaction": {
+            "total": formatPriceForAPI(total),
+            "currency": "COP",
+            "payment_method": "pia",
+            "payment_gateway": "Addi_Payment"
+          },
+          "customer": {
+            "full_name": formData.fullName,
+            "first_name": formData.fullName.split(' ')[0],
+            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
+            "email": formData.email || null,
+            "phone": formData.phone,
+            "tags": [],
+            "documentType": null,
+            "documentNumber": null
+          },
+          "order_items": items.map(item => ({
+            "id_variant": null,
+            "id_product": Number(item.productId),
+            "quantity": item.quantity,
+            "sku": (item as any).sku || "HG-92",
+            "name": item.productName,
+            "weight": 1,
+            "price": formatPriceForAPI(item.price)
+          })),
+          "additional_charge": [{ "type_charge": "Envío", "value": 0 }]
+        };
+
+        const msResponse = await fetch('https://autosync-ms.zenhogar2050.workers.dev/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...sheetsPayload,
-            ticket: currentTicket
-          }),
+          body: JSON.stringify(mastershopPayload),
         });
 
         if (!msResponse.ok) {
@@ -211,8 +275,8 @@ export default function Checkout() {
       await saveOrderToFirebase({
         customer: formData,
         order_details: orderDetails,
-        total: total,
-        cart: { items, total },
+        total: formatPriceForAPI(total),
+        cart: { items, total: formatPriceForAPI(total) },
         type: 'order',
         ticket_number: currentTicket,
         mastershop_status: mastershopStatus
@@ -377,49 +441,65 @@ export default function Checkout() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">Nombre Completo</label>
-                    <input type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Ingresa el nombre completo" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                    <label htmlFor="fullName" className="text-xs font-bold text-stone-700 ml-2">Nombre Completo</label>
+                    <input id="fullName" type="text" name="fullName" required value={formData.fullName} onChange={handleInputChange} placeholder="Ingresa el nombre completo" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">Correo</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Ingresa el correo" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                    <label htmlFor="email" className="text-xs font-bold text-stone-700 ml-2">Correo <span className="text-stone-400 font-normal">(Opcional)</span></label>
+                    <input id="email" type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Para enviarte el seguimiento" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">WhatsApp / Teléfono</label>
+                    <label htmlFor="phone" className="text-xs font-bold text-stone-700 ml-2">WhatsApp / Teléfono</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold text-sm">+57</span>
-                      <input required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Tu número de celular" className="w-full pl-12 pr-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                      <input id="phone" required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Tu número de celular" className="w-full pl-12 pr-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">Cédula o Documento</label>
-                    <input type="text" name="identification" value={formData.identification} onChange={handleInputChange} placeholder="Ingresa el documento" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                    <label htmlFor="identification" className="text-xs font-bold text-stone-700 ml-2">Cédula o Documento</label>
+                    <input id="identification" type="text" name="identification" value={formData.identification} onChange={handleInputChange} placeholder="Ingresa el documento" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs font-bold text-stone-500 ml-2">Dirección Exacta</label>
-                  <input required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Ej: Calle 1 # 32 - 21" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                  <label htmlFor="address" className="text-xs font-bold text-stone-700 ml-2">Dirección Exacta</label>
+                  <input id="address" required type="text" name="address" value={formData.address} onChange={handleInputChange} placeholder="Ej: Calle 1 # 32 - 21" className="w-full px-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">Departamento</label>
-                    <select required name="department" value={formData.department} onChange={handleInputChange} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 appearance-none text-sm">
+                    <label htmlFor="department" className="text-xs font-bold text-stone-700 ml-2">Departamento</label>
+                    <select id="department" required name="department" value={formData.department} onChange={handleInputChange} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 appearance-none text-sm">
                       <option value="">Departamento</option>
                       {departments.map(d => <option key={d} value={d}>{d}</option>)}
                     </select>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-xs font-bold text-stone-500 ml-2">Ciudad</label>
-                    <select required name="city" value={formData.city} onChange={handleInputChange} disabled={!formData.department} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 disabled:opacity-50 appearance-none text-sm">
+                    <label htmlFor="city" className="text-xs font-bold text-stone-700 ml-2">Ciudad</label>
+                    <select id="city" required name="city" value={formData.city} onChange={handleInputChange} disabled={!formData.department} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 disabled:opacity-50 appearance-none text-sm">
                       <option value="">Ciudad</option>
                       {cities.map((c: string) => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
+                </div>
+
+                <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 flex items-center justify-center gap-3">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-stone-200 overflow-hidden">
+                        <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="user" className="w-full h-full object-cover grayscale" />
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-tight">
+                    <span className="inline-flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                      14 personas están terminando su pedido ahora
+                    </span>
+                  </p>
                 </div>
 
                 {bumpOpportunity && (
@@ -446,6 +526,10 @@ export default function Checkout() {
                     )}
                   </button>
                   
+                  <p className="text-[9px] text-stone-400 text-center leading-tight">
+                    Al hacer clic en "ENVIAR MI PEDIDO", aceptas nuestra <Link to="/politica-privacidad" className="underline">Política de Privacidad</Link> y <Link to="/condiciones-entrega" className="underline">Condiciones de Entrega</Link>. Tus datos serán tratados de forma segura para gestionar el envío y confirmar tu pedido vía WhatsApp.
+                  </p>
+
                   <div className="flex flex-col items-center gap-3">
                     <p className="text-center text-[10px] text-stone-400 font-bold uppercase tracking-widest flex items-center gap-2">
                        <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Pago 100% Seguro Contra Entrega
@@ -461,7 +545,10 @@ export default function Checkout() {
                         <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
                       </div>
                       <div className="flex flex-col items-center">
-                        <img src="/assets/partners/swayp.webp" alt="Swayp Pagos" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" />
+                        <img src="/assets/partners/envia.webp" alt="Envía" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" loading="lazy" />
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <img src="/assets/partners/swayp.webp" alt="Swayp Pagos" className="h-16 lg:h-20 transition-all object-contain" referrerPolicy="no-referrer" loading="lazy" />
                       </div>
                     </div>
                   </div>

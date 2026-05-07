@@ -1,13 +1,70 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, setDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc, limit, where } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, setDoc, serverTimestamp, query, orderBy, getDocs, doc, updateDoc, deleteDoc, limit, where, runTransaction, getDoc } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
 export const collections = {
-  ORDERS: 'orders'
+  ORDERS: 'orders',
+  SETTINGS: 'settings'
 };
+
+/**
+ * Obtiene y aumenta el contador consecutivo de pedidos de forma atómica.
+ */
+export async function getNextOrderTicket(): Promise<string> {
+  const counterRef = doc(db, collections.SETTINGS, 'counters');
+  
+  try {
+    const nextTicket = await runTransaction(db, async (transaction) => {
+      const counterDoc = await transaction.get(counterRef);
+      
+      let currentNumber = 1014; // Valor inicial actualizado según reporte del cliente (PO-1014)
+      
+      if (counterDoc.exists()) {
+        currentNumber = counterDoc.data().lastOrderNumber || 1014;
+      }
+      
+      const nextNumber = currentNumber + 1;
+      transaction.set(counterRef, { lastOrderNumber: nextNumber }, { merge: true });
+      
+      return `PO-${nextNumber}`;
+    });
+    
+    return nextTicket;
+  } catch (error) {
+    console.error('Error al generar ticket consecutivo:', error);
+    // Fallback aleatorio por si falla Firebase (para no detener la venta)
+    return `PO-${Math.floor(100000 + Math.random() * 900000)}`;
+  }
+}
+
+/**
+ * Obtiene el valor actual del contador sin incrementarlo
+ */
+export async function getCurrentCounterValue(): Promise<number> {
+  const counterRef = doc(db, collections.SETTINGS, 'counters');
+  const docSnap = await getDoc(counterRef);
+  if (docSnap.exists()) {
+    return docSnap.data().lastOrderNumber || 1014;
+  }
+  return 1014;
+}
+
+/**
+ * Actualiza manualmente el valor del contador
+ */
+export async function updateCounterValue(newValue: number): Promise<boolean> {
+  try {
+    const counterRef = doc(db, collections.SETTINGS, 'counters');
+    await setDoc(counterRef, { lastOrderNumber: newValue }, { merge: true });
+    return true;
+  } catch (error) {
+    console.error('Error updating counter:', error);
+    return false;
+  }
+}
 
 // Función para limpiar datos antes de enviar a Firebase (Firestore no acepta undefined)
 function sanitizeData(obj: any): any {

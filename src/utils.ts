@@ -14,6 +14,10 @@ export function formatCurrency(value: number) {
   }).format(Math.round(value));
 }
 
+export function formatPriceForAPI(value: number) {
+  return Math.round(value);
+}
+
 export function cleanPromoName(name: string) {
   return name.replace(/^(Combo|Oferta)\s*N°\s*\d+\s*/i, '');
 }

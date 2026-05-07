@@ -10,12 +10,14 @@ import SEOManager from '../components/SEOManager';
 import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import { track } from '../utils/pixel';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import StickyCTA from '../components/StickyCTA';
 
 export default function ComboLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addComboToCart } = useCart();
+  const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const combo = PROMOTIONS.find(p => p.id === id) || (COMBO_OF_THE_MONTH.id === id ? COMBO_OF_THE_MONTH : null);
 
@@ -92,6 +94,7 @@ export default function ComboLanding() {
           <button 
             onClick={() => navigate(-1)}
             className="mb-4 flex items-center gap-2 text-stone-500 hover:text-emerald-600 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-stone-50/50 group"
+            aria-label="Volver a la página anterior"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
             <span className="text-base sm:text-lg">Volver</span>
@@ -158,8 +161,17 @@ export default function ComboLanding() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest mb-4">
-                {combo.badge}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest">
+                  {combo.badge}
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-stone-100 rounded-lg border border-stone-200">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] font-black text-stone-600 uppercase tracking-widest leading-none">19 personas viendo este combo</span>
+                </div>
               </div>
 
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
@@ -210,14 +222,16 @@ export default function ComboLanding() {
                     <div className="flex items-baseline gap-3">
                       <span className="text-4xl lg:text-5xl font-black text-white">Solo por {formatCurrency(combo.price)}</span>
                     </div>
-                    <div className="mt-2 inline-block bg-emerald-600/20 text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold">
+                    <div className="mt-2 inline-block bg-emerald-600/20 text-emerald-400 px-3 py-1 rounded-lg text-xs font-bold" role="status">
                       Ahorras {formatCurrency(combo.originalPrice - combo.price)}
                     </div>
                   </div>
 
                   <button
+                    ref={buyButtonRef}
                     onClick={handleBuyNow}
                     className="w-full py-6 bg-amber-500 text-white rounded-2xl font-black text-xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/30 flex items-center justify-center gap-3 group scale-100 hover:scale-[1.02]"
+                    aria-label={`Aprovechar oferta de ${combo.name} ahora`}
                   >
                     <ShoppingCart className="w-7 h-7 group-hover:scale-110 transition-transform" />
                     APROVECHAR OFERTA
@@ -316,6 +330,14 @@ export default function ComboLanding() {
           </div>
         </div>
       </section>
+      <StickyCTA 
+        name={combo.name}
+        image={combo.image}
+        price={combo.price}
+        onBuy={handleBuyNow}
+        desktopTriggerRef={buyButtonRef}
+      />
+
       <Footer />
     </div>
   );

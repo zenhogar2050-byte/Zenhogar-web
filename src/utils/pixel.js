@@ -42,7 +42,11 @@ export const markFacebookEntry = () => {
 };
 
 export const track = (event, data = {}) => {
-  if (typeof window !== 'undefined' && window.fbq) window.fbq('track', event, data);
+  if (typeof window !== 'undefined' && window.fbq) {
+    const processedData = { ...data };
+    if (processedData.value) processedData.value = Math.round(Number(processedData.value));
+    window.fbq('track', event, processedData);
+  }
 };
 
 export const trackPurchaseIfFromFacebook = (data) => {

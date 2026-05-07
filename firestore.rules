@@ -54,5 +54,13 @@ service cloud.firestore {
       
       allow delete: if true; 
     }
+
+    // -------------------------------------------------------------------------
+    // 3. COLECCIÓN DE CONFIGURACIÓN (settings)
+    // -------------------------------------------------------------------------
+    match /settings/counters {
+      // El Checkout necesita leer e incrementar el contador atómicamente
+      allow read, write: if true;
+    }
   }
 }

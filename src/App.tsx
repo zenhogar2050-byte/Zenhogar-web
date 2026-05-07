@@ -27,18 +27,18 @@ function PageTracker() {
   return null;
 }
 
-// Dynamic imports
+// Static imports for SSR compatibility
 import Home from './pages/Home';
-const ProductLanding = lazy(() => import('./pages/ProductLanding'));
-const ComboLanding = lazy(() => import('./pages/ComboLanding'));
-const Checkout = lazy(() => import('./pages/Checkout'));
-const CategoryPage = lazy(() => import('./pages/CategoryPage'));
-const Gracias = lazy(() => import('./pages/Gracias'));
-const AboutUs = lazy(() => import('./pages/AboutUs'));
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
-const DeliveryConditions = lazy(() => import('./pages/DeliveryConditions'));
-const ReturnsWarranty = lazy(() => import('./pages/ReturnsWarranty'));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+import ProductLanding from './pages/ProductLanding';
+import ComboLanding from './pages/ComboLanding';
+import Checkout from './pages/Checkout';
+import CategoryPage from './pages/CategoryPage';
+import Gracias from './pages/Gracias';
+import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import DeliveryConditions from './pages/DeliveryConditions';
+import ReturnsWarranty from './pages/ReturnsWarranty';
+import AdminDashboard from './pages/AdminDashboard';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -55,12 +55,10 @@ export default function App() {
 
   return (
     <CartProvider>
-      <Router>
-        <SEOCleaner />
-        <PageTracker />
-        <ScrollToTop />
-        <AppContent />
-      </Router>
+      <SEOCleaner />
+      <PageTracker />
+      <ScrollToTop />
+      <AppContent />
     </CartProvider>
   );
 }
@@ -82,10 +80,16 @@ function AppContent() {
 
   return (
     <div className="min-h-screen font-sans text-stone-900">
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-emerald-600 focus:text-white focus:px-6 focus:py-3 focus:rounded-xl focus:shadow-xl"
+      >
+        Saltar al contenido principal
+      </a>
       <TopBanner />
       <Navbar />
       {isHome && <PromoBanner />}
-      <main>
+      <main id="main-content">
         <Suspense fallback={
           <div className="min-h-[60vh] flex items-center justify-center">
             <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>

@@ -24,13 +24,19 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('zenhogar_cart');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [items, setItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    localStorage.setItem('zenhogar_cart', JSON.stringify(items));
+    const saved = localStorage.getItem('zenhogar_cart');
+    if (saved) {
+      setItems(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (items.length > 0 || localStorage.getItem('zenhogar_cart')) {
+      localStorage.setItem('zenhogar_cart', JSON.stringify(items));
+    }
   }, [items]);
 
   const addToCart = (product: Product, promoId: string) => {

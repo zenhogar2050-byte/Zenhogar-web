@@ -48,10 +48,12 @@ import {
   FileText,
   MapPin,
   Calendar,
-  Activity
+  Activity,
+  Settings,
+  Hash
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
-import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db } from '../lib/firebase';
+import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db, getCurrentCounterValue, updateCounterValue } from '../lib/firebase';
 import InventoryManager from '../components/InventoryManager';
 import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
@@ -106,9 +108,34 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'settings'>('orders');
+  const [systemCounter, setSystemCounter] = useState<number>(1000);
+  const [isUpdatingCounter, setIsUpdatingCounter] = useState(false);
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
+  const [selectedOrderIds, setSelectedOrderIds] = useState<Set<string>>(new Set());
+
+  const toggleSelectOrder = (id: string) => {
+    setSelectedOrderIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    const next = new Set<string>();
+    if (selectedOrderIds.size < filteredOrders.length) {
+      filteredOrders.forEach(o => next.add(o.id));
+    }
+    setSelectedOrderIds(next);
+  };
+
+  const isOrderSelected = (id: string) => selectedOrderIds.has(id);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -152,8 +179,32 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       }
 
       // Fetch from Firebase (Cloud Discovery)
-      const data = await getOrdersFromFirebase();
-      setOrders(data as any);
+      const [data, counter] = await Promise.all([
+        getOrdersFromFirebase(),
+        getCurrentCounterValue()
+      ]);
+      
+      const ordersData = data as any;
+      setOrders(ordersData);
+      setSystemCounter(counter);
+
+      // Auto-check for counter sync
+      const maxStoredTicket = ordersData.reduce((max: number, o: any) => {
+        if (o.ticket_number && typeof o.ticket_number === 'string' && o.ticket_number.startsWith('PO-')) {
+          const num = parseInt(o.ticket_number.split('-')[1]);
+          return !isNaN(num) && num > max ? num : max;
+        }
+        return max;
+      }, 0);
+
+      if (maxStoredTicket > counter) {
+        console.warn(`🔄 Desincronización detectada: Último pedido es PO-${maxStoredTicket} pero el contador está en ${counter}`);
+        if (window.confirm(`Se ha detectado que hay pedidos registrados hasta el PO-${maxStoredTicket}, pero el contador del sistema está en ${counter}. ¿Deseas sincronizar el contador para que el próximo pedido sea el PO-${maxStoredTicket + 1}?`)) {
+          await updateCounterValue(maxStoredTicket);
+          setSystemCounter(maxStoredTicket);
+        }
+      }
+
       setIsAuthenticated(true);
       localStorage.setItem('admin_pass', savedPass);
       
@@ -162,6 +213,25 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpdateCounter = async (nextValue: number) => {
+    const rawValue = nextValue - 1;
+    if (!window.confirm(`¿Estás seguro de establecer el PRÓXIMO pedido como #${nextValue}? El sistema guardará el índice #${rawValue} internamente.`)) return;
+    
+    setIsUpdatingCounter(true);
+    try {
+      const success = await updateCounterValue(rawValue);
+      if (success) {
+        setSystemCounter(rawValue);
+        alert(`Consecutivo actualizado. El próximo pedido será el PO-${nextValue}.`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error al actualizar el consecutivo.');
+    } finally {
+      setIsUpdatingCounter(false);
     }
   };
 
@@ -262,7 +332,71 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     }
   };
 
+  const downloadAuditExcel = (dataToExport?: Order[]) => {
+    const headers = [
+      "Ticket N°", 
+      "Fecha y Hora", 
+      "Nombre", 
+      "Celular", 
+      "Email", 
+      "Direccion", 
+      "Ciudad", 
+      "Departamento", 
+      "Producto", 
+      "Valor", 
+      "Guia", 
+      "Estado"
+    ];
+
+    const sourceData = dataToExport || filteredOrders;
+    const rows: any[] = [];
+
+    sourceData.forEach(o => {
+      const customer = o.customer || {};
+      const fullName = (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || '')).trim();
+      const phone = (customer.telefono || customer.phone || '').replace(/\s/g, '');
+      const date = o.created_at ? new Date(o.created_at).toLocaleString('es-CO') : 'N/A';
+      
+      const items = o.cart?.items || [];
+      const productStr = items.length > 0 
+        ? items.map((i: any) => `${i.name || i.productName} (x${i.quantity || 1})`).join(' | ')
+        : 'S/D';
+
+      rows.push([
+        o.ticket_number || o.id.slice(0, 8),
+        date,
+        fullName,
+        phone,
+        customer.email || '',
+        customer.direccion || customer.address || '',
+        customer.ciudad || customer.city || '',
+        customer.department || customer.departamento || '',
+        productStr,
+        Math.round(o.total || o.cart?.total || 0),
+        o.tracking_guide || '',
+        o.status
+      ]);
+    });
+
+    const now = new Date();
+    const dateFormatted = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Backup_Auditoria");
+    XLSX.writeFile(wb, `Respaldo-Zenhogar-${dateFormatted}.xlsx`);
+  };
+
   const handleClearAllOrders = async () => {
+    if (orders.length === 0) {
+      alert('No hay pedidos para borrar.');
+      return;
+    }
+
+    if (window.confirm('¿Deseas descargar un respaldo en Excel antes de purgar la base de datos? (Recomendado)')) {
+      downloadAuditExcel();
+    }
+
     if (!window.confirm('¡ATENCIÓN! EstÁS a punto de borrar TODOS los pedidos de la base de datos. Esta acción es definitiva. ¿Deseas continuar?')) return;
     
     setLoading(true);
@@ -282,32 +416,32 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const cleanOldOrders = async () => {
-    if (!window.confirm('¿Deseas eliminar todos los pedidos y carritos DE MUESTRA y anteriores a los últimos 10 días?')) return;
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+    
+    const targets = orders.filter(o => {
+      const createdAt = o.created_at ? new Date(o.created_at) : new Date();
+      const isTest = (o.customer?.fullName || o.customer?.nombre || '').toLowerCase().includes('prueba') || 
+                     (o.order_details || '').toLowerCase().includes('test');
+      return createdAt < tenDaysAgo || isTest;
+    });
+
+    if (targets.length === 0) {
+      alert('No se encontraron pedidos antiguos o de prueba para limpiar.');
+      return;
+    }
+
+    if (window.confirm(`Se encontraron ${targets.length} registros para limpiar. ¿Deseas descargar un respaldo de estos registros antes de eliminarlos?`)) {
+      downloadAuditExcel(targets);
+    }
+
+    if (!window.confirm(`¿Confirmas la eliminación de estos ${targets.length} registros?`)) return;
     
     setLoading(true);
     try {
-      const tenDaysAgo = new Date();
-      tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-      
-      const ordersRef = collection(db, 'orders');
-      const querySnapshot = await getDocs(ordersRef);
-      
-      let deletedCount = 0;
-      const deletePromises = querySnapshot.docs.filter(docSnap => {
-        const data = docSnap.data();
-        const createdAt = data.created_at?.toDate ? data.created_at.toDate() : new Date(data.created_at);
-        // Delete if older than 10 days OR if it identifies as "Prueba" or "Test"
-        const isTest = (data.customer?.fullName || '').toLowerCase().includes('prueba') || 
-                       (data.order_details || '').toLowerCase().includes('test');
-        
-        return createdAt < tenDaysAgo || isTest;
-      }).map(docSnap => {
-        deletedCount++;
-        return deleteDoc(docSnap.ref);
-      });
-
+      const deletePromises = targets.map(o => deleteDoc(doc(db, 'orders', o.id)));
       await Promise.all(deletePromises);
-      alert(`Limpieza completada. Se eliminaron ${deletedCount} registros antiguos o de prueba.`);
+      alert(`Limpieza completada. Se eliminaron ${targets.length} registros.`);
       fetchOrders();
     } catch (err) {
       console.error(err);
@@ -318,82 +452,131 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const downloadExcel = () => {
-    // Standard Excel Export Headers
+    // Exact column order for MasterShop as requested in rule audit
     const headers = [
-      "IDENTIFICADOR",
-      "NOMBRES",
-      "APELLIDOS",
-      "CEDULA (OPCIONAL)",
-      "TELÉFONO",
-      "DIRECCIÓN",
-      "DEPARTAMENTO",
-      "CIUDAD",
-      "PRODUCTO",
-      " VARIACION",
-      "CANTIDAD",
-      "PRECIO TOTAL",
-      "NOTA",
-      "EMAIL"
+      "IDENTIFICADOR", 
+      "NOMBRES*", 
+      "APELLIDOS", 
+      "CEDULA (OPCIONAL)", 
+      "TELÉFONO", 
+      "DIRECCIÓN Y BARRIO*", 
+      "DEPARTAMENTO*", 
+      "CIUDAD*", 
+      "ID DE PRODUCTO*", 
+      "ID DE VARIACION*", 
+      "CANTIDAD*", 
+      "PRECIO UNITARIO (SIN PUNTOS NI COMAS)*", 
+      "OTROS CARGOS", 
+      "VALOR OTROS CARGOS", 
+      "CON RECAUDO (SI/NO)*", 
+      "NOTA", 
+      "EMAIL (OPCIONAL)"
     ];
 
     const rows: any[] = [];
 
-    filteredOrders.forEach(o => {
+    const ordersToExport = (selectedOrderIds.size > 0 
+      ? filteredOrders.filter(o => selectedOrderIds.has(o.id))
+      : filteredOrders).filter(o => o.type === 'order');
+
+    ordersToExport.forEach(o => {
       const customer = o.customer || {};
-      const fullName = (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : (customer.fullName || '')).trim();
-      const nameParts = fullName.split(' ');
-      const firstName = nameParts[0] || 'Cliente';
-      const lastName = nameParts.slice(1).join(' ') || 'N/A';
-      const phone = (customer.telefono || customer.phone || '').replace(/\s/g, '');
-      const orderNote = o.order_details || '';
+      const fullName = (customer.fullName || (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : '')).trim();
+      
+      // REGLA 1 (Auditoría): Si no hay nombre y apellido, no se genera el pedido
+      const nameParts = fullName.split(/\s+/).filter(part => part.length > 0);
+      if (nameParts.length === 0) return;
+
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '0';
+
+      const phone = (customer.telefono || customer.phone || '0').replace(/\s/g, '');
       const items = o.cart?.items || [];
       
-      if (items.length === 0) {
+      const getMasterId = (id: string, name?: string) => {
+        const product = PRODUCTS.find(p => p.id === id || (name && p.name.toLowerCase() === name.toLowerCase()));
+        if (product) return product.masterId;
+        const gift = GIFT_PRODUCTS.find(g => g.id === id || (name && g.name.toLowerCase() === name.toLowerCase()));
+        if (gift) return gift.masterId;
+        return id || '0';
+      };
+
+      const addRow = (productInternalId: string, unitPrice: number, quantity: number, nameHint?: string) => {
+        const masterId = getMasterId(productInternalId, nameHint);
         rows.push([
           o.ticket_number || o.id.slice(0, 8),
           firstName,
           lastName,
-          customer.identification || '',
+          customer.identification || 0,
           phone,
-          customer.direccion || customer.address || 'Pendiente',
-          customer.department || 'Pendiente',
-          customer.ciudad || customer.city || 'Pendiente',
-          'PRODUCTO',
-          '', 
-          1,
-          Math.round(o.total || o.cart?.total || 0),
-          orderNote,
-          customer.email || ''
+          customer.direccion || customer.address || 0,
+          customer.department || customer.departamento || 0,
+          customer.ciudad || customer.city || 0,
+          masterId,
+          0, // ID DE VARIACION siempre 0
+          quantity, 
+          Math.round(unitPrice), // PRECIO UNITARIO (SIN PUNTOS NI COMAS)
+          0, // OTROS CARGOS
+          0, // VALOR OTROS CARGOS
+          "SI", // CON RECAUDO siempre SI
+          o.order_details || 0,
+          customer.email || 0
         ]);
+      };
+
+      if (items.length === 0) {
+        // Fallback para pedidos manuales sin estructura de carrito
+        addRow('0', Math.round(o.total || o.cart?.total || 0), 1, o.order_details);
       } else {
         items.forEach((item: any) => {
-          rows.push([
-            o.ticket_number || o.id.slice(0, 8),
-            firstName,
-            lastName,
-            customer.identification || '',
-            phone,
-            customer.direccion || customer.address || 'Pendiente',
-            customer.department || 'Pendiente',
-            customer.ciudad || customer.city || 'Pendiente',
-            item.name || item.productName || 'Producto',
-            '', 
-            item.quantity || 1,
-            Math.round(item.price ? (item.price * (item.quantity || 1)) : 0),
-            orderNote,
-            customer.email || ''
-          ]);
+          const itemName = item.name || item.productName || 'Producto';
+          const itemTotal = item.price ? (item.price * (item.quantity || 1)) : 0;
+          const comboQty = item.quantity || 1;
+          
+          // REGLA 4: Lógica de desgloses de Combos e ID Master
+          const combo = (item.productId === COMBO_OF_THE_MONTH.id || itemName.toLowerCase().includes(COMBO_OF_THE_MONTH.name.toLowerCase()))
+            ? COMBO_OF_THE_MONTH
+            : PROMOTIONS.find(p => p.id === item.productId || itemName.toLowerCase().includes(p.name.toLowerCase()));
+
+          if (combo && combo.products) {
+            // Desglose de Combos (ej: Inmunidad Dual)
+            const totalUnitsInComboResult = combo.products.length * comboQty;
+            const pricePerUnitInCombo = itemTotal / totalUnitsInComboResult;
+            
+            combo.products.forEach(pId => {
+              // Cada producto mantiene la cantidad del combo solicitada
+              addRow(pId, pricePerUnitInCombo, comboQty);
+            });
+          } 
+          // REGLA 4: Promociones Multiunidad (Pague 2 Lleve 3)
+          else if (item.units && item.units > 1) {
+            const totalUnits = item.units * comboQty;
+            const pricePerUnit = itemTotal / totalUnits;
+            addRow(item.productId || item.id || '0', pricePerUnit, totalUnits, itemName);
+          }
+          // Productos estándar
+          else {
+            const pricePerUnit = comboQty > 0 ? (itemTotal / comboQty) : 0;
+            addRow(item.productId || item.id || '0', pricePerUnit, comboQty, itemName);
+          }
         });
       }
     });
+
+    if (rows.length === 0) {
+      alert("No hay pedidos válidos para exportar (revisa que tengan nombre y apellido).");
+      return;
+    }
 
     const now = new Date();
     const dateFormatted = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
 
     const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Pedidos");
-    XLSX.writeFile(wb, `Ventas-Zenhogar-${dateFormatted}.xlsx`);
+    XLSX.utils.book_append_sheet(wb, ws, "Importacion_Mastershop");
+    
+    // Mandatorio .xlsm
+    XLSX.writeFile(wb, `plantilla-importacion-pedidos-${dateFormatted}.xlsm`, { bookType: 'xlsm' });
   };
 
   useEffect(() => {
@@ -674,6 +857,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           >
             <Package className="w-6 h-6" />
           </button>
+
+          <button 
+            onClick={() => setActiveTab('settings')}
+            className={cn(
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'settings' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
+            )}
+            title="Configuración"
+          >
+            <Settings className="w-6 h-6" />
+          </button>
         </nav>
       </aside>
 
@@ -707,7 +901,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           )}
         >
           <Package className="w-5 h-5" />
-          <span className="text-[8px] font-black uppercase">Inventario</span>
+          <span className="text-[8px] font-black uppercase">Stock</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('settings')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'settings' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <Settings className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Config</span>
         </button>
       </nav>
 
@@ -759,9 +963,9 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                     color="orange"
                   />
                   <StatCard 
-                    label="Pendientes de Envío" 
-                    value={stats.pendientesEnvio.toString()} 
-                    icon={<Clock className="w-5 h-5" />}
+                    label="Contador Pedidos" 
+                    value={`#${systemCounter}`} 
+                    icon={<Hash className="w-5 h-5" />}
                     color="amber"
                   />
                 </div>
@@ -984,9 +1188,14 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
                       <button 
                         onClick={downloadExcel}
-                        className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg font-bold text-[10px] uppercase hover:bg-emerald-100 transition-all flex items-center gap-1.5"
+                        className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl font-bold text-[10px] uppercase hover:bg-emerald-100 transition-all flex items-center gap-2 border border-emerald-100 shadow-sm"
+                        aria-label={selectedOrderIds.size > 0 ? `Generar Plantilla para ${selectedOrderIds.size} pedidos seleccionados` : "Generar Plantilla completa para Master Shop"}
                       >
-                        <Download className="w-3 h-3" /> Exportar
+                        <Download className="w-3.5 h-3.5" /> 
+                        {selectedOrderIds.size > 0 
+                          ? `Generar Plantilla (${selectedOrderIds.size})` 
+                          : "Generar Plantilla para Pedidos a Master Shop"
+                        }
                       </button>
                       <button 
                         onClick={cleanOldOrders}
@@ -1008,9 +1217,18 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 {/* Orders Table */}
                 <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse" role="grid">
                       <thead>
                         <tr className="bg-[#e2efda] border-b border-stone-300">
+                          <th className="px-2 py-1.5 w-8 text-center border-r border-stone-300">
+                            <input 
+                              type="checkbox" 
+                              checked={selectedOrderIds.size === filteredOrders.length && filteredOrders.length > 0}
+                              onChange={toggleSelectAll}
+                              className="w-3.5 h-3.5 rounded border-stone-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                              aria-label="Seleccionar todos los pedidos"
+                            />
+                          </th>
                           <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-12 border-r border-stone-300">Ticket N°</th>
                           <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-24 border-r border-stone-300">Fecha y Hora</th>
                           <th className="px-2 py-1.5 text-[10px] font-bold text-black uppercase tracking-tight w-12 text-center border-r border-stone-300">Tipo</th>
@@ -1030,7 +1248,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       <tbody>
                         {filteredOrders.length === 0 ? (
                           <tr>
-                            <td colSpan={14} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
+                            <td colSpan={15} className="px-6 py-20 text-center text-stone-400 italic">No hay pedidos registrados todavía.</td>
                           </tr>
                         ) : (
                           filteredOrders.map((order) => {
@@ -1045,9 +1263,23 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                             return (
                               <tr 
                                 key={order.id} 
-                                className="hover:bg-stone-50 transition-colors group cursor-pointer border-b border-stone-200"
+                                className={cn(
+                                  "hover:bg-stone-50 transition-colors group cursor-pointer border-b border-stone-200",
+                                  isOrderSelected(order.id) && "bg-emerald-50/50"
+                                )}
                                 onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}
                               >
+                                <td 
+                                  className="px-2 py-1.5 border-r border-stone-200 text-center"
+                                  onClick={(e) => { e.stopPropagation(); toggleSelectOrder(order.id); }}
+                                >
+                                  <input 
+                                    type="checkbox" 
+                                    checked={isOrderSelected(order.id)}
+                                    readOnly
+                                    className="w-3.5 h-3.5 rounded border-stone-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                                  />
+                                </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200" onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}>
                                   <span className={cn(
                                     "text-[10px] font-mono font-black border px-1.5 py-0.5 rounded transition-all block text-center cursor-pointer hover:scale-105",
@@ -1143,6 +1375,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                     <select 
                                       value={order.status}
                                       onChange={(e) => updateStatus(order.id, e.target.value)}
+                                      aria-label={`Cambiar estado del pedido ${order.ticket_number || order.id}`}
                                       className={cn(
                                         "appearance-none bg-transparent border-0 text-center cursor-pointer outline-none focus:ring-0",
                                         "text-[10px] font-black w-full h-full py-1",
@@ -1443,7 +1676,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                   </div>
                 </div>
               </motion.div>
-            ) : (
+            ) : activeTab === 'inventory' ? (
               <motion.div
                 key="inventory"
                 initial={{ opacity: 0, x: 20 }}
@@ -1451,6 +1684,83 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 exit={{ opacity: 0, x: -20 }}
               >
                 <InventoryManager />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="settings"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="max-w-4xl mx-auto"
+              >
+                <div className="bg-white rounded-[2rem] p-6 lg:p-8 border border-stone-100 shadow-sm max-w-3xl mx-auto">
+                  <div className="flex items-center justify-between mb-8 pb-4 border-b border-stone-50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                        <Settings className="w-5 h-5 text-emerald-600" />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-bold text-stone-900">Configuración</h2>
+                        <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Ajustes del Sistema</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    {/* Order Counter Setting */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-stone-50 rounded-2xl border border-stone-100">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Hash className="w-4 h-4 text-emerald-600" />
+                          <h3 className="font-bold text-stone-900 text-sm">Próximo Ticket (PO)</h3>
+                        </div>
+                        <p className="text-[10px] text-stone-400 font-medium">Define el número que tendrá el SIGUIENTE pedido realizado.</p>
+                      </div>
+                      
+                      <div className="flex items-center gap-3">
+                        <input 
+                          type="number" 
+                          value={systemCounter + 1}
+                          onChange={(e) => setSystemCounter(parseInt(e.target.value) - 1)}
+                          className="w-24 px-3 py-2 bg-white border border-stone-200 rounded-xl font-bold text-sm text-emerald-700 outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                        <button 
+                          onClick={() => handleUpdateCounter(systemCounter + 1)}
+                          disabled={isUpdatingCounter}
+                          className="px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs hover:bg-emerald-700 transition-all disabled:opacity-50 flex items-center gap-2"
+                        >
+                          <Save className="w-3.5 h-3.5" />
+                          {isUpdatingCounter ? '...' : 'Fijar Próximo'}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Maintenance / Cleaning */}
+                    <div className="p-5 bg-stone-50 rounded-2xl border border-stone-100">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Trash2 className="w-4 h-4 text-red-600" />
+                        <h3 className="font-bold text-stone-900 text-sm">Base de Datos</h3>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-3">
+                        <button 
+                          onClick={cleanOldOrders}
+                          className="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-xl font-bold text-[10px] uppercase tracking-wider hover:bg-stone-100 transition-all flex items-center gap-2"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          Limpiar Pruebas
+                        </button>
+                        <button 
+                          onClick={handleClearAllOrders}
+                          className="px-4 py-2 bg-red-50 border border-red-100 text-red-600 rounded-xl font-bold text-[10px] uppercase tracking-wider hover:bg-red-100 transition-all flex items-center gap-2"
+                        >
+                          <XCircle className="w-3.5 h-3.5" />
+                          Purgar Todo
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
