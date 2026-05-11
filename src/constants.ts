@@ -32,6 +32,8 @@ export interface Product {
   seoFaqs?: { q: string; a: string }[];
   longTailKeywords?: string[];
   invima?: string;
+  presentation?: string;
+  peso_adicional?: number;
 }
 
 export const CATEGORIES = [
@@ -85,10 +87,12 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/rtafull.webp',
     basePrice: 79900,
-    size: '500 ml',
+    size: '500ml',
+    presentation: 'Líquido',
     invima: 'PSA-000932-2017',
+    peso_adicional: 0,
     keywords: 'limpieza hígado, digestión ligera, pesadez abdominal, depuración natural, alcachofa, Rtafull, Zenhogar, hígado graso',
-    components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio',
+    components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio y Perejil',
     longTailKeywords: [
       'mejor suplemento líquido para limpiar el hígado rápidamente',
       'cómo reducir la sensación de pesadez abdominal después de comer mucho',
@@ -98,7 +102,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y limpieza profunda con registro INVIMA',
     ],
     seoFaqs: [
-      { q: '¿Cómo se debe tomar Rtafull?', a: 'Se recomienda tomar una copita después de la comida principal para ayudar a procesar las grasas y promover un bienestar integral.' },
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Consumir de 1 a 2 copas dosificadoras (15ml - 30ml) al día.' },
       { q: '¿Limpia el hígado de forma natural?', a: 'Sí, sus extractos botánicos están seleccionados para apoyar la función hepática sin químicos agresivos y con calidad certificada.' },
       { q: '¿Sabe amargo?', a: 'Tiene un sabor herbal suave que es fácil de pasar y se absorbe muy rápido por ser una fórmula líquida.' }
     ],
@@ -134,10 +138,12 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/coliplus.webp',
     basePrice: 75900,
-    size: '500 ml',
+    size: '450g',
+    presentation: 'Polvo',
     invima: 'NSA-0012423-2022',
+    peso_adicional: 0,
     keywords: 'limpieza intestinal, estreñimiento, fibras naturales, pitaya, espirulina, digestión fácil, salud digestiva, Coliplus, Zenhogar',
-    components: 'Pitaya, Linaza, Espirulina, Manzana',
+    components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Chía y Espirulina',
     longTailKeywords: [
       'mejor fibra natural para ir al baño regularmente',
       'cómo limpiar el colon sin azúcar de forma segura',
@@ -147,6 +153,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral digestivo con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada sopera en un vaso de agua o jugo.' },
       { q: '¿Coliplus ayuda a ir al baño?', a: 'Sí, su mezcla de fibras naturales está diseñada para regular el tránsito intestinal y facilitar las deposiciones de forma suave y efectiva.' },
       { q: '¿Es apto para diabéticos?', a: 'Absolutamente, Coliplus no contiene azúcar añadida y es totalmente seguro para personas que cuidan sus niveles de glucosa.' },
       { q: '¿Cuánto rinde un tarro?', a: 'Gracias a su fórmula concentrada, un solo tarro de Coliplus rinde hasta 2 meses de uso continuo para tu bienestar integral.' }
@@ -183,10 +190,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Colagenocitratodemagnesio.webp',
     basePrice: 85000,
-    size: '700 g',
+    size: '180g',
+    presentation: 'Polvo',
     invima: 'RSA-0026265-2023',
     keywords: 'colágeno natural, sabor neutro, hidratación piel, colágeno familiar, piel suave, Zenhogar, colágeno puro',
-    components: 'Colágeno Hidrolizado Neutro, Vitaminas',
+    components: 'Colágeno Hidrolizado y Citrato de Magnesio',
     longTailKeywords: [
       'mejor colágeno sin sabor para mezclar con jugos',
       'cómo hidratar la piel desde adentro con colágeno natural',
@@ -196,6 +204,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y piel suave con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada en agua o jugo una vez al día.' },
       { q: '¿Por qué combinar colágeno con magnesio?', a: 'El magnesio potencia la absorción del colágeno y ayuda a la relajación muscular, ofreciendo un bienestar integral.' },
       { q: '¿Qué beneficios tiene?', a: 'Nuestro Colágeno + Citrato de Magnesio combina la regeneración de tejidos con los beneficios musculares y nerviosos del magnesio.' },
       { q: '¿Quiénes pueden tomarlo?', a: 'Su fórmula pura es apta para toda la familia, desde niños hasta adultos mayores y mujeres lactantes, brindando bienestar integral.' }
@@ -232,10 +241,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Resvisfactor.webp',
     basePrice: 89900,
-    size: '500 ml',
+    size: '700g',
+    presentation: 'Polvo',
     invima: 'RSAD05i27915',
     keywords: 'antioxidante, sistema inmune, resveratrol, energía vital, defensas, vitalidad diaria, Resvis Factor, Zenhogar',
-    components: 'Resveratrol, Omega 3, 6, 9, Vitamina C, Zinc',
+    components: 'Calostro Bovino, Shiitake, Quinua, Malta y Vitaminas',
     longTailKeywords: [
       'mejor antioxidante natural para proteger las células',
       'cómo fortalecer el sistema inmunológico con resveratrol',
@@ -245,6 +255,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y vitalidad con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver de 1 a 2 cucharadas (15g - 30g) en un vaso con agua o leche.' },
       { q: '¿Qué es el Resveratrol y cómo me beneficia?', a: 'Es un potente antioxidante que protege tus células y fortalece tu sistema inmune para un bienestar integral.' },
       { q: '¿Ayuda a verse más joven?', a: 'Sí, al combatir el daño oxidativo, apoya la salud de la piel y retrasa signos de envejecimiento celular.' },
       { q: '¿Es apto para adultos mayores?', a: 'Es ideal para adultos que buscan mantener su vitalidad y proteger su salud con calidad certificada.' }
@@ -281,10 +292,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/CLA500.webp',
     basePrice: 75900,
-    size: '60 Cápsulas',
+    size: '30 und',
+    presentation: 'Cápsulas Blandas',
     invima: 'SD2019-0004457',
     keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
-    components: 'Cúrcuma, Pimienta Negra, ingredientes naturales',
+    components: 'Cloruro de Magnesio, Vitamina D3, Cúrcuma y Pimienta Negra',
     longTailKeywords: [
       'mejor suplemento de cúrcuma para confortar articulaciones',
       'cómo absorber mejor los beneficios de la cúrcuma con pimienta',
@@ -297,6 +309,7 @@ export const PRODUCTS: Product[] = [
       'tonificación muscular segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Consumir 1 cápsula al día con una comida principal.' },
       { q: '¿Cómo funciona el CLA 500 en el cuerpo?', a: 'Ayuda a movilizar las grasas acumuladas para que el cuerpo las use como energía, favoreciendo la tonificación.' },
       { q: '¿Necesito hacer ejercicio para ver resultados?', a: 'El ejercicio potencia enormemente los resultados de nuestra fórmula balanceada para un bienestar integral.' },
       { q: '¿Tiene efectos secundarios?', a: 'Es un suplemento natural con calidad certificada, diseñado para ser seguro bajo las dosis recomendadas.' }
@@ -334,10 +347,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Cafetolio.webp',
     basePrice: 99900,
-    size: '500 g',
+    size: '350g',
+    presentation: 'Polvo',
     invima: 'NSA-0008349-2020',
     keywords: 'café verde, vientre plano, control de peso, limpiar hígado, energía natural, metabolismo, Cafetolio, Zenhogar',
-    components: 'Grano de Café Verde puro, ingredientes naturales',
+    components: 'Café Verde 100% natural',
     longTailKeywords: [
       'mejor café verde para tener el vientre plano',
       'cómo limpiar el hígado y movilizar energías naturalmente',
@@ -350,9 +364,9 @@ export const PRODUCTS: Product[] = [
       'energía metabólica segura con ingredientes de origen natural'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Añadir 1 cucharadita en agua caliente; consumir como café tradicional.' },
       { q: '¿El café verde Cafetolio ayuda a moldear la figura?', a: 'Sí, su efecto termogénico natural ayuda a acelerar el metabolismo y a utilizar las grasas como fuente de energía.' },
-      { q: '¿Contiene mucha cafeína?', a: 'Contiene una dosis equilibrada que brinda energía constante sin los picos de ansiedad del café tradicional.' },
-      { q: '¿Cómo se recomienda tomarlo?', a: 'Se recomienda una taza antes de las comidas principales para optimizar el bienestar integral y el metabolismo.' }
+      { q: '¿Contiene mucha cafeína?', a: 'Contiene una dosis equilibrada que brinda energía constante sin los picos de ansiedad del café tradicional.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 99900 },
@@ -387,10 +401,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Termoactiva.webp',
     basePrice: 79900,
-    size: '120 ml',
+    size: '120ml',
+    presentation: 'Crema / Gel',
     invima: 'NSOC74321-16CO',
     keywords: 'dolor muscular, tensión cuello, cansancio en piernas, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
-    components: 'Salicilato de Metilo, Alcanfor, Mentol, Eucalipto, Castaño de Indias',
+    components: 'Árnica, Castaño de Indias, Caléndula, Uña de Gato y Chuchuguaza',
     longTailKeywords: [
       'mejor loción con efecto calor para tensión en la espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
@@ -404,6 +419,7 @@ export const PRODUCTS: Product[] = [
       'masaje terapéutico con ingredientes naturales para relajación'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar una cantidad suficiente y masajear la zona afectada.' },
       { q: '¿Para qué sirve el efecto calor de la loción?', a: 'El calor ayuda a dilatar los vasos sanguíneos, mejorando la circulación y relajando las fibras musculares tensionadas.' },
       { q: '¿Se puede usar antes de hacer ejercicio?', a: 'Sí, ayuda a preparar los músculos para la actividad, promoviendo un bienestar integral y flexibilidad.' },
       { q: '¿Mancha la ropa?', a: 'Nuestra fórmula balanceada es de rápida absorción y no deja residuos grasos ni manchas en las prendas.' }
@@ -441,10 +457,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/C-lagen.webp',
     basePrice: 93500,
-    size: '500 g',
+    size: '500g',
+    presentation: 'Polvo',
     invima: 'RSA-0032379-2024',
     keywords: 'colágeno marino, molestias articulares, salud articular, huesos fuertes, magnesio, movilidad, C-Lagen, Zenhogar',
-    components: 'Colágeno de Mar, Magnesio, Vitamina C',
+    components: 'Colágeno Marino, Citrato de Magnesio, Vitaminas y Minerales',
     longTailKeywords: [
       'mejor colágeno marino para fortalecer las rodillas',
       'cómo mejorar la movilidad articular sin rigidez',
@@ -457,6 +474,7 @@ export const PRODUCTS: Product[] = [
       'fortalecimiento de tendones y ligamentos con colágeno puro'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada (15g) en agua o jugo de frutas.' },
       { q: '¿Qué tipo de colágeno contiene C-Lagen?', a: 'Contiene colágeno hidrolizado de alta pureza, optimizado para una absorción máxima en piel y articulaciones.' },
       { q: '¿Ayuda a reducir las líneas de expresión?', a: 'Sí, al nutrir las capas profundas de la piel, promueve la firmeza y un bienestar integral estético.' },
       { q: '¿Cuánto tiempo debo tomarlo?', a: 'Para resultados óptimos en vitalidad y belleza, se recomienda un consumo constante de al menos 3 meses.' }
@@ -494,10 +512,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Citramix.webp',
     basePrice: 79900,
-    size: '300 g',
+    size: '350g',
     invima: 'SD2023-0004812',
     keywords: 'magnesio, calambres, estrés, digestión ligera, relajación muscular, paz mental, Citramix, Zenhogar',
-    components: 'Mezcla de 3 magnesios, fibra natural, sabor a durazno',
+    components: 'Citrato de Magnesio, Bisglicinato de Magnesio y Vitaminas',
     longTailKeywords: [
       'mejor mezcla de magnesio para evitar calambres musculares',
       'cómo mantener la calma y reducir el estrés diariamente',
@@ -507,6 +525,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y tranquilidad con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada (15g) en un vaso de agua, ideal en la noche.' },
       { q: '¿Citramix reemplaza el jugo de naranja diario?', a: 'Es una opción mucho más concentrada en vitamina C y antioxidantes, sin los azúcares añadidos, para un bienestar integral.' },
       { q: '¿Me da energía para el trabajo?', a: 'Sí, su mezcla revitalizante ayuda a combatir la fatiga de forma natural y constante.' },
       { q: '¿Es apto para niños?', a: 'Es una excelente fuente de vitaminas para toda la familia, siempre bajo supervisión y calidad certificada.' }
@@ -543,10 +562,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Coffe+colageno.webp',
     basePrice: 75900,
-    size: '400 g',
-    invima: 'RSA-0010234-2020 (Registro en trámite)',
+    size: '400g',
+    invima: 'RSA-0010130-2020',
     keywords: 'café con colágeno, crema de coco, belleza integral, fortalecer cabello, uñas fuertes, vitaminas, Coffee Colágeno, Zenhogar',
-    components: 'Café Premium, Colágeno, Crema de Coco, 12 Vitaminas',
+    components: 'Crema de Coco, Colágeno Hidrolizado y Café Soluble',
     longTailKeywords: [
       'mejor café con colágeno para fortalecer cabello y uñas',
       'cómo cuidar tu belleza mientras tomas el café matutino',
@@ -556,9 +575,9 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y defensas fuertes con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada (20g) en una taza de agua o leche caliente.' },
       { q: '¿Sabe a café normal?', a: 'Sí, mantiene el delicioso sabor del café premium colombiano, pero con el beneficio añadido del colágeno para tu bienestar integral.' },
-      { q: '¿Ayuda a fortalecer el cabello?', a: 'El colágeno es fundamental para la salud capilar, por lo que notarás mejoras en fuerza y brillo.' },
-      { q: '¿Puedo tomarlo varias veces al día?', a: 'Se recomienda una o dos tazas diarias para mantener un equilibrio natural y nutrición constante.' }
+      { q: '¿Ayuda a fortalecer el cabello?', a: 'El colágeno es fundamental para la salud capilar, por lo que notarás mejoras en fuerza y brillo.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 75900 },
@@ -592,10 +611,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/creatina100.webp',
     basePrice: 105000,
-    size: '500 g',
+    size: '200g',
     invima: 'SD2014-0003204',
     keywords: 'creatina pura, fuerza muscular, rendimiento cerebral, vitalidad, Zenhogar, creatina USP',
-    components: 'Creatina Monohidratada 100% Pura',
+    components: 'Creatina monohidratada 100% pura',
     longTailKeywords: [
       'mejor creatina pura para ganar fuerza en brazos y piernas',
       'cómo mantener la mente despierta y concentrada naturalmente',
@@ -605,6 +624,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y fuerza real con calidad farmacéutica USP',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 medida (5g) en agua antes o después de entrenar.' },
       { q: '¿La creatina 100% causa retención de líquidos?', a: 'La creatina aumenta la hidratación intracelular, lo cual es beneficioso para el músculo y el bienestar integral.' },
       { q: '¿Necesito fase de carga?', a: 'No es estrictamente necesaria; una dosis constante diaria asegura resultados con nuestra fórmula balanceada.' },
       { q: '¿Es segura para los riñones?', a: 'En personas sanas y bajo las dosis recomendadas, es un suplemento con calidad certificada y muy seguro.' }
@@ -641,10 +661,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Iprossmen.webp',
     basePrice: 79900,
-    size: '500 ml',
+    size: '500ml',
     invima: 'SD2015-0003504',
     keywords: 'salud masculina, próstata, vitalidad, tomate de árbol, prevención, bienestar hombre, Iprossmen, Zenhogar',
-    components: 'Tomate de árbol, Arándanos, Té Verde, Saw Palmetto',
+    components: 'Té Verde, Tomate de Árbol, Arándanos, Mandarina, Jengibre, Ciruela y Vitamina E',
     longTailKeywords: [
       'mejor suplemento natural para confortar la zona pélvica',
       'cómo cuidar la salud masculina de forma natural y segura',
@@ -654,6 +674,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y salud del hombre con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Tomar de 1 a 2 cucharadas (15ml - 30ml) al día.' },
       { q: '¿Iprossmen ayuda con la salud de la zona pélvica?', a: 'Sí, su fórmula balanceada está diseñada para apoyar el bienestar integral del sistema reproductor masculino.' },
       { q: '¿A qué edad se recomienda empezar a tomarlo?', a: 'Es ideal para hombres a partir de los 40 años como parte de su rutina de salud preventiva.' },
       { q: '¿Tiene contraindicaciones?', a: 'Es un producto natural con calidad certificada; se recomienda consultar al médico si hay condiciones preexistentes.' }
@@ -690,10 +711,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Kds10.webp',
     basePrice: 79900,
-    size: '500 ml',
-    invima: 'SD2014-0003211 (Registro en trámite)',
+    size: '350g',
+    invima: 'RSA-0025607-2023',
     keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Zenhogar',
-    components: 'Crema de Coco, Vitaminas, Minerales',
+    components: 'Crema de coco, Proteína de suero, Magnesio, Hierro, Zinc y Complejo Vitamínico',
     longTailKeywords: [
       'mejor multivitamínico líquido para adultos y niños',
       'cómo asegurar la ingesta diaria de vitaminas esenciales',
@@ -707,6 +728,7 @@ export const PRODUCTS: Product[] = [
       'fortalecimiento del sistema inmunológico con nutrición balanceada'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada (20g) en un vaso de agua, leche o jugo.' },
       { q: '¿Qué vitaminas contiene KDS 10?', a: 'Contiene un espectro completo de vitaminas esenciales diseñadas para un bienestar integral y equilibrio nutricional.' },
       { q: '¿Lo pueden tomar los niños?', a: 'Sí, su fórmula balanceada es apta para toda la familia bajo las dosis recomendadas por edad.' },
       { q: '¿Ayuda con el apetito?', a: 'Al corregir deficiencias vitamínicas, puede ayudar a normalizar el apetito y mejorar la vitalidad.' }
@@ -743,10 +765,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Liofhim.webp',
     basePrice: 75900,
-    size: '30 Cápsulas',
-    invima: 'SD2015-0003503 (Registro en trámite)',
+    size: '500ml',
+    presentation: 'Líquido',
+    invima: 'RSA-0020527-2022',
     keywords: 'dormir profundo, insomnio, descanso real, manzanilla, albahaca, sueño reparador, Liofhim, Zenhogar',
-    components: 'Manzanilla, Albahaca, Anís, Hierbuena',
+    components: 'Manzanilla, Albahaca, Anís, Hierbabuena y Vitaminas C y E',
     longTailKeywords: [
       'mejor bebida natural para dormir profundo toda la noche',
       'cómo evitar los despertares a medianoche y descansar',
@@ -756,9 +779,9 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y descanso real con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Tomar 1 copa (15ml) dos veces al día o diluir en un litro de agua.' },
       { q: '¿Liofhim me dará sueño durante el día?', a: 'No, su efecto es relajante para la noche, ayudándote a apagar la mente y lograr un descanso real sin somnolencia al despertar.' },
-      { q: '¿Es un medicamento para dormir?', a: 'No, es una bebida natural a base de plantas como Manzanilla y Albahaca que promueven el bienestar integral y la calma.' },
-      { q: '¿Cómo se debe tomar?', a: 'Se recomienda tomar una copita diluida en agua tibia antes de dormir para disfrutar de un sueño reparador con calidad certificada.' }
+      { q: '¿Es un medicamento para dormir?', a: 'No, es una bebida natural a base de plantas como Manzanilla y Albahaca que promueven el bienestar integral y la calma.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 75900 },
@@ -791,10 +814,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Liteplex.webp',
     basePrice: 79900,
-    size: '500 ml',
+    size: '500ml',
+    presentation: 'Líquido',
     invima: 'PSA-000932-2017',
     keywords: 'digestión ligera, alivio estomacal, acidez, pesadez, Liteplex, Zenhogar, jengibre, limón',
-    components: 'Jengibre, Limón, Albahaca, Estevia',
+    components: 'Té Verde, Jengibre, Limón, Albahaca y Menta',
     longTailKeywords: [
       'mejor suplemento líquido para acelerar el metabolismo',
       'cómo mejorar la digestión y el metabolismo naturalmente',
@@ -808,8 +832,8 @@ export const PRODUCTS: Product[] = [
       'salud metabólica integral con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Tomar 1 copa (15ml) dos veces al día o diluir en agua.' },
       { q: '¿Liteplex ayuda a optimizar tu figura?', a: 'Sí, su fórmula balanceada apoya los procesos metabólicos naturales para una mejor utilización de las grasas.' },
-      { q: '¿Cómo se debe consumir?', a: 'Se recomienda tomarlo diariamente para mantener un bienestar integral y metabolismo activo.' },
       { q: '¿Es apto para personas con diabetes?', a: 'Es un producto natural con calidad certificada, pero siempre recomendamos consultar a su médico.' }
     ],
     promos: [
@@ -843,10 +867,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Maxlite.webp',
     basePrice: 89900,
-    size: '700 g',
+    size: '800g',
+    presentation: 'Polvo',
     invima: 'SD2017-0004051',
     keywords: 'colágeno ligera, quinua, articulaciones, piel firme, Maxlite, Zenhogar',
-    components: 'Colágeno Hidrolizado, Quinua, Cereales Naturales, Vitaminas',
+    components: 'Péptidos de Colágeno, Resveratrol, Quinua, Omega 3-6-9 y Vitaminas',
     longTailKeywords: [
       'mejor colágeno de alta absorción para deportistas',
       'cómo fortalecer las articulaciones sin sentir pesadez',
@@ -860,6 +885,7 @@ export const PRODUCTS: Product[] = [
       'cuidado de la piel y articulaciones con ingredientes puros'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada (15g) en un vaso de agua o leche.' },
       { q: '¿Qué hace a Maxlite diferente de otros colágenos?', a: 'Su fórmula balanceada de alta absorción permite que los nutrientes lleguen más rápido a tus tejidos para un bienestar integral.' },
       { q: '¿Ayuda con el molestias articulares?', a: 'Sí, al nutrir el cartílago y las articulaciones, contribuye a una mejor movilidad y vitalidad.' },
       { q: '¿Se disuelve fácilmente?', a: 'Totalmente, está diseñado para una preparación rápida y sin grumos, garantizando calidad certificada.' }
@@ -896,10 +922,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Megamac.webp',
     basePrice: 89900,
-    size: '500 ml',
-    invima: 'SD2014-0003213 (Registro en trámite)',
+    size: '700g',
+    presentation: 'Polvo',
+    invima: 'RSA-001291-2016',
     keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
-    components: 'Maca, Chontaduro, Borojó, Niacina, Hierro, Magnesio',
+    components: 'Maca, Borojó, Proteína de Suero, Vitaminas y Minerales',
     longTailKeywords: [
       'mejor suplemento natural para el cansancio físico y mental',
       'cómo aumentar el rendimiento en días de alta exigencia',
@@ -913,6 +940,7 @@ export const PRODUCTS: Product[] = [
       'vitalidad renovada con ingredientes de alta pureza y eficacia'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver de 1 a 2 cucharadas en un vaso de leche o agua.' },
       { q: '¿Megamac da energía inmediata?', a: 'Sí, su fórmula balanceada está diseñada para brindar un impulso de vitalidad cuando más lo necesitas.' },
       { q: '¿Lo pueden tomar personas con hipertensión?', a: 'Al ser un producto natural con calidad certificada es seguro, pero siempre recomendamos consultar a su médico.' },
       { q: '¿Contiene azúcar?', a: 'Nuestra fórmula prioriza el bienestar integral, evitando excesos de azúcares para una energía más limpia.' }
@@ -944,10 +972,11 @@ export const PRODUCTS: Product[] = [
     benefits: ['Antioxidante', 'Cuidado celular', 'Antiedad'],
     image: '/assets/products/Resveratrol.webp',
     basePrice: 79900,
-    size: '500 ml',
+    size: '350g',
+    presentation: 'Polvo',
     invima: 'SD2014-0003215',
     keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
-    components: 'Colágeno, Crema de Coco, Resveratrol Puro, Vitamina C',
+    components: 'Resveratrol, Colágeno Hidrolizado (10.000mg), Arándano y Uva liofilizada',
     longTailKeywords: [
       'mejor antioxidante natural para promover la vitalidad celular',
       'cómo proteger las células del daño oxidativo con resveratrol',
@@ -961,6 +990,7 @@ export const PRODUCTS: Product[] = [
       'salud y juventud celular con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada (15g) en un vaso de agua o leche.' },
       { q: '¿Qué beneficios tiene el Resveratrol para la piel?', a: 'Ayuda a combatir los radicales libres, promoviendo una piel más joven y un bienestar integral celular.' },
       { q: '¿Es mejor en líquido o en cápsulas?', a: 'Nuestra presentación líquida con fórmula balanceada asegura una absorción superior y resultados más rápidos.' },
       { q: '¿Lo pueden tomar jóvenes?', a: 'Es excelente como preventivo para mantener el equilibrio natural y la vitalidad desde temprana edad.' }
@@ -997,10 +1027,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Eventone.webp',
     basePrice: 85000,
-    size: '50 ml',
+    size: '60g',
+    presentation: 'Crema',
     invima: 'NSOC90432-19CO',
     keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas osapoyas, Eventone, Zenhogar',
-    components: 'Bioretinol, Ácido hialurónico, Colágeno, Vitamina C',
+    components: 'Bio Retinol, Ácido Hialurónico, Colágeno, B5, Manzanilla y Aloe Vera',
     longTailKeywords: [
       'mejor crema para unificar el tono de la piel y atenuar irregularidades de tono',
       'cómo devolver el brillo natural al rostro de forma segura',
@@ -1010,6 +1041,7 @@ export const PRODUCTS: Product[] = [
       'bienestar integral cutáneo con registro INVIMA certificado',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar únicamente en la noche sobre la zona a tratar.' },
       { q: '¿En cuánto tiempo veo resultados con Eventone?', a: 'Con el uso nocturno constante, notarás un tono más uniforme y piel radiante en las primeras semanas de bienestar integral.' },
       { q: '¿Se puede usar en todo tipo de piel?', a: 'Sí, su fórmula balanceada está diseñada para ser respetuosa y suave con todo tipo de cutis, garantizando calidad certificada.' },
       { q: '¿Ayuda con las manchas de sol?', a: 'Efectivamente, está enfocada en reducir la apariencia de manchas osapoyas causadas por el sol y el tiempo.' }
@@ -1046,10 +1078,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Goldenpassion.webp',
     basePrice: 79900,
-    size: '100 ml',
-    invima: 'SD2019-0004381 (Registro en trámite)',
+    size: '90ml',
+    presentation: 'Crema / Líquido',
+    invima: 'NSOC35087-24CO',
     keywords: 'autobronceador, brillo piel, nutrición profunda, Golden Passion, Zenhogar',
-    components: 'DHA Natural, Aceite de Almendras, Partículas de Oro, Vitamina E',
+    components: 'DHA, Vitamina E, Ácido Oleico y Ácido Palmitoleico',
     longTailKeywords: [
       'mejor aceite corporal para un brillo dorado natural',
       'cómo nutrir la piel seca y darle luminosidad',
@@ -1063,6 +1096,7 @@ export const PRODUCTS: Product[] = [
       'nutrición intensa con ingredientes de alta pureza y brillo'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar uniformemente sobre la piel limpia y seca.' },
       { q: '¿Golden Passion deja la piel grasosa?', a: 'No, su fórmula balanceada se absorbe rápidamente dejando un brillo natural y bienestar integral.' },
       { q: '¿Se puede usar en el rostro?', a: 'Está diseñado principalmente para el cuerpo, brindando una nutrición profunda y textura suave.' },
       { q: '¿Tiene aroma?', a: 'Sí, posee una fragancia delicada que complementa tu ritual de vitalidad y cuidado diario.' }
@@ -1099,10 +1133,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Hydrastrik.webp',
     basePrice: 82500,
-    size: '50 ml',
-    invima: 'PSA-002341-2019 (Registro en trámite)',
+    size: '150ml',
+    presentation: 'Aceite',
+    invima: 'NSOC20441-23CO',
     keywords: 'hidratación intensiva, piel seca, fresapoya, Hydrastrik, Zenhogar',
-    components: 'Aceites naturales de Almendras, Semillas de Uva, Ácido Hialurónico, Aloe Vera',
+    components: 'Almendras, Semillas de Uva, Jojoba, Coco, Mango y Aguacate',
     longTailKeywords: [
       'mejor crema hidratante para piel muy seca y sensible',
       'cómo mantener la piel hidratada durante 24 horas',
@@ -1116,6 +1151,7 @@ export const PRODUCTS: Product[] = [
       'hidratación facial segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar sobre la piel limpia para hidratar profundamente.' },
       { q: '¿Hydrastrik sirve para pieles grasas?', a: 'Sí, su fórmula balanceada hidrata sin obstruir poros, manteniendo el equilibrio natural y vitalidad.' },
       { q: '¿Se puede usar bajo el maquillaje?', a: 'Es una excelente base hidratante que deja la piel elástica y lista para el bienestar integral diario.' },
       { q: '¿Contiene alcohol?', a: 'No, priorizamos ingredientes suaves con calidad certificada para no irritar la piel sensible.' }
@@ -1152,7 +1188,8 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Miskinne.webp',
     basePrice: 59900,
-    size: '200 ml',
+    size: '60g',
+    presentation: 'Crema',
     invima: 'NSOC85321-18CO',
     keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
     components: 'Avena, Caléndula, Manteca de Karité, Vitamina E',
@@ -1169,6 +1206,7 @@ export const PRODUCTS: Product[] = [
       'protección cutánea segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la noche y retirar con abundante agua al día siguiente.' },
       { q: '¿Miskinne es apta para niños?', a: 'Sí, su fórmula balanceada y natural es ideal para el cuidado delicado de toda la familia.' },
       { q: '¿Ayuda con la resequedad extrema?', a: 'Efectivamente, proporciona una protección diaria que devuelve la suavidad y bienestar integral.' },
       { q: '¿Tiene un olor fuerte?', a: 'Posee un aroma suave y natural que respeta tu equilibrio natural y vitalidad.' }
@@ -1205,10 +1243,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/tonico.webp',
     basePrice: 89900,
-    size: '120 ml',
+    size: '120ml',
+    presentation: 'Líquido (Spray)',
     invima: 'NSOC02559-20CO',
     keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',
-    components: 'Minoxidil Natural, Romero, Quina, Ortiga, Biotina',
+    components: 'Trichogen al 8%, Cebolla, Ginkgo Biloba y 16 extractos herbales',
     longTailKeywords: [
       'mejor tónico capilar para evitar la caída del cabello',
       'cómo estimular el crecimiento del cabello de forma natural',
@@ -1222,7 +1261,7 @@ export const PRODUCTS: Product[] = [
       'crecimiento saludable del cabello con ingredientes de alta pureza'
     ],
     seoFaqs: [
-      { q: '¿Cada cuánto debo aplicar el tónico capilar?', a: 'Se recomienda su uso diario para que la fórmula balanceada nutra la raíz y promueva el bienestar integral.' },
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar directamente en el cuero cabelludo y masajear.' },
       { q: '¿Deja el cabello grasoso?', a: 'No, su textura ligera se absorbe rápidamente sin afectar el brillo y vitalidad natural.' },
       { q: '¿Sirve para hombres y mujeres?', a: 'Es un cuidado de calidad certificada efectivo para cualquier persona que busque fortalecer su cabello.' }
     ],
@@ -1253,10 +1292,11 @@ export const PRODUCTS: Product[] = [
     benefits: ['Aliento fresco', 'Sabores naturales', 'Acción inmediata'],
     image: '/assets/products/Tuffof.webp',
     basePrice: 85000,
-    size: '250 ml',
-    invima: 'PSA-000627-2016 (Registro en trámite)',
+    size: '75g',
+    presentation: 'Dulce / Caramelo',
+    invima: 'NSA-0009109-2020',
     keywords: 'mal aliento, fresapoya bucal, menta canela, Tufoff, Zenhogar',
-    components: 'Extractos naturales de Menta, Canela y Naranja',
+    components: 'Eritritol, Inulina, Aceite de Menta, Canela y Bicarbonato de Sodio',
     longTailKeywords: [
       'mejor producto para controlar el olor corporal eficazmente',
       'cómo mantener la fresapoya durante todo el día naturalmente',
@@ -1270,6 +1310,7 @@ export const PRODUCTS: Product[] = [
       'fresapoya total y segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 dulce lentamente en la boca según sea necesario.' },
       { q: '¿Tufoff es un desodorante?', a: 'Es un producto de limpieza profunda que complementa tu higiene para un bienestar integral y fresapoya duradera.' },
       { q: '¿Se puede usar en zonas sensibles?', a: 'Su fórmula balanceada es de cuidado suave, pero siempre recomendamos probar en una pequeña zona.' },
       { q: '¿Cuánto dura el efecto?', a: 'Brinda una sensación de vitalidad y fresapoya que te acompaña durante tus actividades diarias.' }
@@ -1307,8 +1348,9 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/akha.webp',
     basePrice: 89900,
-    size: '120 ml',
-    invima: 'SD2021-0004610 (Registro en trámite)',
+    size: '30ml',
+    presentation: 'Crema',
+    invima: 'NSOC19282-23CO',
     keywords: 'botox natural, voluminizante, firmeza, Akha, Zenhogar',
     components: 'Extracto de Acmella Oleracea, Maca, Ginseng, Zinc, L-Arginina',
     longTailKeywords: [
@@ -1324,8 +1366,8 @@ export const PRODUCTS: Product[] = [
       'potencia y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona deseada con masajes circulares.' },
       { q: '¿Akha es un producto natural?', a: 'Sí, su fórmula balanceada utiliza extractos naturales para promover un bienestar integral y vitalidad.' },
-      { q: '¿Cuánto tiempo antes debo tomarlo?', a: 'Se recomienda un consumo constante diario para mantener un equilibrio natural y rendimiento óptimo.' },
       { q: '¿Tiene efectos secundarios?', a: 'Es un suplemento de calidad certificada diseñado para ser seguro bajo las dosis recomendadas.' }
     ],
     promos: [
@@ -1360,10 +1402,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Derman.webp',
     basePrice: 89900,
-    size: '120 ml',
-    invima: 'NSOC12034-22CO (Registro en trámite)',
+    size: '60g',
+    presentation: 'Crema',
+    invima: 'NSOC36162-24CO',
     keywords: 'bienestar íntimo, arginina, ácido salicílico, salud íntima, Derman, Zenhogar',
-    components: 'Ácido Salicílico, Arginina, Ácido Láctico, Caléndula, Aloe Vera',
+    components: 'Ácido Salicílico, Arginina, Ácido Undecilénico y Lanolina',
     longTailKeywords: [
       'mejor producto natural para el cuidado íntimo femenino',
       'cómo mejorar el bienestar íntimo de forma segura y suave',
@@ -1377,6 +1420,7 @@ export const PRODUCTS: Product[] = [
       'salud íntima segura con ingredientes de alta pureza y suavidad'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona de la piel que requiera cuidado o regeneración.' },
       { q: '¿Derman altera el pH natural?', a: 'No, su fórmula balanceada está diseñada para respetar tu equilibrio natural y bienestar integral.' },
       { q: '¿Se puede usar diariamente?', a: 'Sí, es ideal para tu rutina de cuidado suave y protección diaria con calidad certificada.' },
       { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar frescura sin irritar tus zonas más delicadas.' }
@@ -1414,9 +1458,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/haydar.webp',
     basePrice: 73500,
     size: '60 Cápsulas',
-    invima: 'NSOC13456-23CO (Registro en trámite)',
+    presentation: 'Cápsulas',
+    invima: 'RSA-3599-2025',
     keywords: 'vitalidad extra, ánimo, rendimiento, Haydar, Zenhogar',
-    components: 'Guaraná, Chontaduro, Borojó, Vitaminas B1, B6, B12',
+    components: 'Borojó, Maca, Taurina, Cafeína, Guaraná y Vitaminas del Complejo B',
     longTailKeywords: [
       'mejor suplemento natural para el rendimiento superior masculino',
       'cómo mantener la energía constante durante todo el día',
@@ -1467,9 +1512,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Instantvirgin.webp',
     basePrice: 79000,
     size: '50 ml',
-    invima: 'NSOC78912-17CO (Registro en trámite)',
+    presentation: 'Gel / Crema',
+    invima: '2021DM-0024065',
     keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
-    components: 'Extracto de Hamamelis, Alumbre, Aloe Vera, Vitamina E',
+    components: 'Aloe Vera, D-Pantenol y Sulfato de Aluminio',
     longTailKeywords: [
       'mejor producto para recuperar la confianza femenina naturalmente',
       'cómo mejorar el bienestar íntimo y plenitud de la mujer',
@@ -1519,9 +1565,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Mammoth.webp',
     basePrice: 89000,
     size: '120 ml',
-    invima: 'SD2018-0004122 (Registro en trámite)',
+    presentation: 'Crema',
+    invima: 'NSOC19282-23CO',
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
-    components: 'Tribulus Terrestris, Maca Negra, Zinc, Magnesio',
+    components: 'Acmella Oleracea, Aceite de Parafina USP y Vitamina E',
     longTailKeywords: [
       'mejor suplemento para aumentar la fuerza y vitalidad masculina',
       'cómo mejorar el rendimiento físico y potencia naturalmente',
@@ -1570,10 +1617,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Tyrussfull.webp',
     basePrice: 89900,
-    size: '500 ml',
-    invima: 'SD2020-0004599 (Registro en trámite)',
+    size: '500g',
+    presentation: 'Polvo',
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
-    components: 'Crema de Coco, Clorofila, Espirulina, Arveja, Almendras, Banano, Aguacate, Espinaca, Fibra, Omega 3',
+    components: 'Clorofila, Espirulina, Chlorella, Proteína de Arveja, Almendras y Omega 3',
     longTailKeywords: [
       'mejor suplemento líquido para energía total y rendimiento',
       'cómo mejorar el desempeño diario de forma natural y efectiva',
@@ -1587,8 +1634,8 @@ export const PRODUCTS: Product[] = [
       'energía total segura con ingredientes de alta pureza y eficacia'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada (15g) en un vaso de agua por la mañana.' },
       { q: '¿Tyruss Full sirve para el cansancio mental?', a: 'Sí, su fórmula balanceada apoya tanto la vitalidad física como el bienestar integral mental.' },
-      { q: '¿Se toma antes de entrenar?', a: 'Puede tomarse en la mañana para asegurar energía total y rendimiento durante todo el día.' },
       { q: '¿Qué sabor tiene?', a: 'Posee un sabor agradable diseñado para ser parte de tu ritual de equilibrio natural diario.' }
     ],
     promos: [
@@ -1623,9 +1670,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Zafir.webp',
     basePrice: 73500,
     size: '500 ml',
+    presentation: 'Líquido',
     invima: 'RSA-3599-2025',
     keywords: 'energía inmediata, impulso natural, enfoque mental, vitalidad, Zafir, Zenhogar, bebida energizante',
-    components: 'Guaraná, Té Verde, Vitaminas B1, B6, B12',
+    components: 'Borojó, Maca, Taurina, Cafeína y Vitaminas B3, B6, B12 y Biotina',
     longTailKeywords: [
       'mejor energizante natural para enfoque y energía inmediata',
       'cómo obtener un impulso rápido para terminar el día con fuerza',
@@ -1671,9 +1719,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Zeus.webp',
     basePrice: 85000,
     size: '60 Cápsulas',
+    presentation: 'Cápsulas',
     invima: 'RSA-0031426-2024',
     keywords: 'vitalidad masculina, vigor natural, rendimiento sexual, potencia hombre, Zeus, Zenhogar, Borojó, Maca',
-    components: 'Borojó, Chontaduro, Maca Negra, Guaraná, Vitaminas',
+    components: 'Borojó, Chontaduro, Maca, Guaraná, Fenogreco y Açaí',
     longTailKeywords: [
       'mejor suplemento natural para la vitalidad masculina y vigor',
       'cómo mejorar el rendimiento del hombre de forma segura y natural',
@@ -1718,10 +1767,10 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
-    size: '60 Cápsulas',
-    invima: 'SD2022-0004711 (Registro en trámite)',
+    size: '350g',
+    presentation: 'Polvo',
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
-    components: 'Base cremosa de coco, Nicotinamida, Resveratrol',
+    components: 'Colágeno (10g), Crema de Coco, NAD, Vitaminas A, C, D, E y complejo B',
     longTailKeywords: [
       'energía que dura todo el día sin agotarte',
       'cómo mantener la piel firme y joven naturalmente',
@@ -1734,6 +1783,7 @@ export const PRODUCTS: Product[] = [
       'longevidad y vitalidad segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada (15g) en un vaso de agua o jugo.' },
       { q: '¿Qué es el NAD+ y por qué es importante?', a: 'Es una molécula vital para la energía celular y el bienestar integral, cuyos niveles bajan con la edad.' },
       { q: '¿En cuánto tiempo se siente más energía?', a: 'Muchos usuarios notan una mejora en su vitalidad y enfoque mental tras las primeras semanas de uso constante.' },
       { q: '¿Tiene contraindicaciones?', a: 'Es un suplemento de calidad certificada, pero siempre recomendamos consultar a tu médico si tienes dudas.' }
@@ -1770,9 +1820,10 @@ export const PRODUCTS: Product[] = [
     image: '/assets/products/Titancoffee.webp',
     basePrice: 89900,
     size: '200g',
+    presentation: 'Polvo',
     invima: 'PSA-000982-2018',
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar, vigor natural',
-    components: 'Maca, Chontaduro, Borojó, Ginseng, Ganoderma',
+    components: 'Maca, Chontaduro, Borojó, Café soluble y Crema de Coco',
     longTailKeywords: [
       'mejor café enriquecido para la potencia y energía masculina',
       'cómo mejorar el rendimiento diario con una taza de café',
@@ -1820,10 +1871,11 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Hemocream.webp',
     basePrice: 65000,
-    size: '30 ml',
+    size: '30ml',
+    presentation: 'Crema',
     invima: 'NSOC15678-23CO',
     keywords: 'hemorroides, ardor, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, Hemocream, Zenhogar',
-    components: 'Caléndula, Aloe Vera, 11 plantas medicinales',
+    components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena y Manzanilla',
     longTailKeywords: [
       'mejor crema natural para quitar el ardor rápidamente',
       'cómo ir al baño de forma natural y con facilidad',
@@ -1833,8 +1885,8 @@ export const PRODUCTS: Product[] = [
       'bienestar integral y cuidado delicado con registro INVIMA',
     ],
     seoFaqs: [
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona afectada 2 o 3 veces al día.' },
       { q: '¿Hemocream brinda confort de inmediato?', a: 'Brinda un alivio calmante y fresapoya que mejora tu bienestar integral desde la primera aplicación.' },
-      { q: '¿Cuántas veces al día se puede aplicar?', a: 'Se recomienda usarla 2 o 3 veces al día para mantener el cuidado suave y confort.' },
       { q: '¿Es un producto natural?', a: 'Sí, su fórmula balanceada prioriza ingredientes seguros con calidad certificada.' }
     ],
     promos: [
@@ -1861,6 +1913,7 @@ export const COMBO_OF_THE_MONTH = {
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
+  peso_adicional: 0,
   products: ['resvis', 'coliplus'],
   seoTitle: 'Cómo solucionar la pesadez abdominal y defensas bajas con Inmunidad Dual',
   seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
@@ -1876,7 +1929,7 @@ export const COMBO_OF_THE_MONTH = {
     'Protección antioxidante total'
   ],
   keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
-  components: 'Resveratrol, Omega 3, Noni, Pitaya, Linaza, Vitaminas',
+  components: 'Calostro Bovino, Hongo Shiitake, Resveratrol, Linaza, Pitaya, Flor de Jamaica, Alcachofa, Betaglucanos y Vitaminas',
   longTailKeywords: [
     'mejor combo natural para confortar el vientre y subir defensas',
     'cómo limpiar el colon y el hígado de forma efectiva y segura',
@@ -1917,7 +1970,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°1',
     keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Zenhogar, combo belleza',
-    components: 'Resveratrol, Avena, Caléndula, Manteca de Karité, Vitamina E',
+    components: 'Arbutina (5%), Resveratrol, Colágeno Hidrolizado (10.000mg), Crema de Coco, Arándano y Uva liofilizada',
     longTailKeywords: [
       'mejor combo para rejuvenecer la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
@@ -1962,7 +2015,7 @@ export const PROMOTIONS = [
     },
     badge: 'OFERTA N° 2',
     keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
-    components: 'Resveratrol, Ácido Kójico, Vitamina C, Azeloglicina, Extracto de Regaliz',
+    components: 'Bio Retinol, Ácido Hialurónico, Resveratrol, Colágeno Hidrolizado, Vitamina B5 y extractos de Uva y Arándano',
     longTailKeywords: [
       'mejor combo para atenuar irregularidades de tono y unificar el tono de la piel',
       'cómo nutrir las células y aclarar la piel de forma segura',
@@ -2007,7 +2060,7 @@ export const PROMOTIONS = [
     },
     badge: 'OFERTA N°3',
     keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
-    components: 'Noni, Pitaya, Alcachofa, Flor de Jamaica, Berenjena, Apio',
+    components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Semillas de Chía, Espirulina, Té Verde y Perejil',
     longTailKeywords: [
       'mejor combo detox para limpiar el colon y el hígado naturalmente',
       'cómo reducir la sensación de pesadez abdominal y regular la digestión',
@@ -2051,8 +2104,8 @@ export const PROMOTIONS = [
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Control & Detox integra Liteplex y Rtafull para acelerar tu metabolismo y liberar toxinas acumuladas. Fórmula balanceada y certificada para tu proceso de bienestar.'
     },
     badge: 'COMBO N°4',
-    keywords: 'Liteplex, Rtafull, control de peso, controlar medidas, desintoxicación, metabolismo, Zenhogar, combo salud',
-    components: 'Té Verde, Jengibre, Limón, Alcachofa, Flor de Jamaica, Berenjena, Apio',
+    keywords: 'Liteplex, Rtafull, control de peso, controlar medidas, desintoxicación, metabolism, Zenhogar, combo salud',
+    components: 'Té Verde, Jengibre, Alcachofa, Flor de Jamaica, Perejil, Berenjena, Apio y Albahaca',
     longTailKeywords: [
       'mejor combo para moldear la figura y desintoxicar el cuerpo',
       'cómo acelerar el metabolismo y liberar toxinas naturalmente',
@@ -2097,7 +2150,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°5',
     keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
-    components: 'Cloruro de Benzalconio, Alcachofa, Boldo, Mentol, Eucalipto',
+    components: 'Flor de Jamaica, Alcachofa, Perejil, Berenjena, Eritritol, Inulina, Aceite de Menta y Bicarbonato de Sodio',
     longTailKeywords: [
       'mejor combo para controlar el olor y desintoxicar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
@@ -2142,7 +2195,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°6',
     keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
-    components: 'Salicilato de Metilo, Colágeno Hidrolizado, Citrato de Magnesio, Alcanfor, Mentol',
+    components: 'Extractos naturales relajantes, Colágeno Hidrolizado y Citrato de Magnesio',
     longTailKeywords: [
       'mejor combo para el molestias articulares y espalda naturalmente',
       'cómo mejorar la movilidad articular y aliviar tensiones musculares',
@@ -2187,7 +2240,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°7',
     keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Zenhogar, combo energía',
-    components: 'Café Verde, Borojó, Chontaduro, Maca, Polen, Ganoderma',
+    components: 'Maca, Chontaduro, Borojó, Café Verde, Hierro, Magnesio, Zinc y Vitaminas del complejo B',
     longTailKeywords: [
       'mejor combo para tener energía todo el día de forma natural',
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
@@ -2232,7 +2285,7 @@ export const PROMOTIONS = [
     },
     badge: 'COMBO N°8',
     keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Zenhogar, combo salud',
-    components: 'Borojó, Chontaduro, Maca, Alcachofa, Boldo, Diente de León',
+    components: 'Clorofila, Espirulina, Chlorella, Alcachofa, Flor de Jamaica, Omega 3, Espinaca, Aguacate y Té Verde',
     longTailKeywords: [
       'mejor combo para limpiar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',

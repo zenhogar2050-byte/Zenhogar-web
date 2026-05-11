@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { PRODUCTS, CATEGORIES } from '../constants';
-import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap, ShieldCheck } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import { formatCurrency, cn } from '../utils';
@@ -154,13 +154,25 @@ export default function CategoryPage() {
                       />
                     </div>
                     <div className="px-2">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-xl font-bold text-stone-900 font-display">{product.name}</h3>
-                        {product.size && (
-                          <span className="text-[10px] uppercase tracking-widest font-black text-stone-400 bg-stone-100 px-2 py-1 rounded-md">
-                            {product.size}
-                          </span>
-                        )}
+                      <div className="flex flex-col gap-2 mb-3">
+                        <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{product.name}</h3>
+                        <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
+                          {(product.size || product.presentation) && (
+                            <div className="inline-block px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm whitespace-nowrap">
+                              <div className="flex items-center gap-1.5">
+                                {product.size && <span>{product.size}</span>}
+                                {product.size && product.presentation && <span className="w-1 h-1 rounded-full bg-stone-300" />}
+                                {product.presentation && <span>{product.presentation}</span>}
+                              </div>
+                            </div>
+                          )}
+                          {product.invima && (
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                              <ShieldCheck className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-500 transition-colors" />
+                              <span className="whitespace-nowrap">INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'En trámite' : product.invima}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="flex flex-col gap-1 mb-6">
                         <span className={cn("text-[20px] font-black uppercase tracking-wider", theme.text)}>Es útil para:</span>

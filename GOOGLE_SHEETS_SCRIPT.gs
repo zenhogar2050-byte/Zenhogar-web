@@ -114,6 +114,26 @@ function doPost(e) {
       ]);
       return response({ status: "success" });
     }
+
+    // --- CASO: ACTUALIZACIÓN DE ESTADO ---
+    else if (contents.type === "update_status") {
+      let orderSheet = ss.getSheetByName("Pedidos");
+      if (!orderSheet) return response({ status: "error", message: "Hoja de Pedidos no encontrada" });
+      
+      const ticketToFind = contents.ticket;
+      const newStatus = contents.status;
+      const data = orderSheet.getDataRange().getValues();
+      const ticketCol = 0; // Columna A
+      const statusCol = 11; // Columna L (1-indexed es 12)
+      
+      for (let i = 1; i < data.length; i++) {
+        if (data[i][ticketCol] === ticketToFind) {
+          orderSheet.getRange(i + 1, statusCol + 1).setValue(newStatus);
+          return response({ status: "success", message: "Estado actualizado en Sheets" });
+        }
+      }
+      return response({ status: "error", message: "Ticket no encontrado en Sheets" });
+    }
     
     return response({ status: "error", message: "Tipo de contenido no soportado" });
       

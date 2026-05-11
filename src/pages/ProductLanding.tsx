@@ -205,28 +205,40 @@ export default function ProductLanding() {
                   ))}
                 </div>
                 <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
-                <div className="ml-2 flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                  </span>
-                  <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest leading-none">8 personas viendo ahora</span>
-                </div>
                 <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-1">Verificado</span>
               </div>
               
-              <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-1 leading-tight font-display">
+              <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
                 {product.name} - {product.shortDescription}
               </h1>
-              {product.size && (
-                <div className="inline-block px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 text-sm font-black border-2 border-amber-200 mb-4 shadow-sm">
-                  {product.size}
-                </div>
-              )}
+              
               {/* Se remueve la sección redundante de "Es útil para" ya que ahora está en el H1 semántico */}
+              <div className="mb-6 flex flex-wrap items-center gap-4">
+                {(product.size || product.presentation) && (
+                  <div className="inline-block px-8 py-3 rounded-2xl bg-white text-stone-900 text-xl font-normal border-2 border-stone-200 shadow-md transition-all hover:scale-105">
+                    <div className="flex items-center gap-3">
+                      {product.size && <span>{product.size}</span>}
+                      {product.size && product.presentation && <span className="w-2 h-2 rounded-full bg-stone-300" />}
+                      {product.presentation && <span>{product.presentation}</span>}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <h2 className="text-lg text-stone-600 mb-6 mt-4 leading-relaxed">
                 {product.description} <strong className="font-bold text-stone-800">| Calidad Certificada {(!product.invima || product.invima.toLowerCase().includes('trámite')) ? '(INVIMA: Registro en proceso de verificación)' : `(INVIMA: ${product.invima})`}</strong>
               </h2>
+
+              {product.components && (
+                <div className="mb-8 p-6 bg-emerald-50/30 rounded-3xl border-2 border-emerald-100 shadow-sm transition-all hover:bg-emerald-50">
+                  <h3 className="text-sm font-black text-emerald-900 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                    <Zap className="w-4 h-4 fill-emerald-500 text-emerald-500" /> Componentes Activos
+                  </h3>
+                  <p className="text-stone-700 text-lg font-medium leading-relaxed italic">
+                    {product.components}
+                  </p>
+                </div>
+              )}
 
               <div className="mb-10">
                 <h3 className="text-xl font-black text-emerald-900 uppercase tracking-widest mb-6 flex items-center gap-3">
@@ -249,16 +261,10 @@ export default function ProductLanding() {
 
               <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200">
                 <div className="grid gap-2 sm:gap-3">
-                  {product.promos.map((promo, idx) => {
-                    const originalPrice = promo.price * 1.3;
+                  {product.promos.map((promo) => {
+                    const originalPrice = product.basePrice * promo.units;
                     const savings = originalPrice - promo.price;
-                    
-                    // Calculate average price per unit
-                    let unitCount = 1;
-                    if (idx === 1) unitCount = 2;
-                    if (idx === 2) unitCount = 3;
-                    if (idx === 3) unitCount = 5;
-                    const avgPrice = promo.price / unitCount;
+                    const avgPrice = promo.price / promo.units;
 
                     return (
                       <button
@@ -267,7 +273,7 @@ export default function ProductLanding() {
                         className={cn(
                           "relative flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left",
                           selectedPromo === promo.id
-                            ? "border-emerald-600 bg-white shadow-md"
+                            ? "border-emerald-600 bg-emerald-600 shadow-lg"
                             : "border-transparent bg-stone-100 hover:bg-stone-200"
                         )}
                         aria-label={`Seleccionar promoción ${promo.label}`}
@@ -275,21 +281,31 @@ export default function ProductLanding() {
                       >
                         <div>
                           <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
-                            <span className="text-sm sm:text-base font-bold text-stone-900">{promo.label}</span>
+                            <span className={`text-sm sm:text-base font-bold transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-stone-900'}`}>{promo.label}</span>
                             {promo.badge && (
-                              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full">
+                              <span className={`text-[9px] sm:text-[10px] uppercase tracking-wider font-black px-1.5 py-0.5 rounded-full transition-colors ${selectedPromo === promo.id ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700'}`}>
                                 {promo.badge}
                               </span>
                             )}
                           </div>
-                          <div className="text-[14px] sm:text-[20px] font-black text-emerald-800 uppercase mb-0.5 sm:mb-1 leading-none">
-                            {unitCount > 1 ? `Solo ${formatCurrency(avgPrice)} / unidad` : "Precio especial"}
+                          <div className={`text-[14px] sm:text-[20px] font-black uppercase mb-0.5 sm:mb-1 leading-none transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-800'}`}>
+                            {promo.units > 1 ? `Solo ${formatCurrency(avgPrice)} / unidad` : "Precio especial"}
                           </div>
-                          <span className="text-[10px] sm:text-xs text-stone-500 block">Ahorras {formatCurrency(savings)}</span>
+                          {savings > 0 && (
+                            <span className={`text-[15px] sm:text-[18px] font-bold block transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-700'}`}>
+                              Ahorras {formatCurrency(savings)}
+                            </span>
+                          )}
                         </div>
                         <div className="text-right flex flex-col items-end justify-center">
-                          <div className="text-base sm:text-lg font-black text-emerald-800 leading-none mb-1">{formatCurrency(promo.price)}</div>
-                          <div className="text-[9px] sm:text-[10px] text-stone-400 line-through leading-none">{formatCurrency(originalPrice)}</div>
+                          <div className={`text-base sm:text-lg font-black leading-none mb-1 transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-800'}`}>
+                            {formatCurrency(promo.price)}
+                          </div>
+                          {savings > 0 && (
+                            <div className={`text-[14px] sm:text-[15px] line-through leading-none transition-colors ${selectedPromo === promo.id ? 'text-white/90' : 'text-stone-500'}`}>
+                              {formatCurrency(originalPrice)}
+                            </div>
+                          )}
                         </div>
                       </button>
                     );

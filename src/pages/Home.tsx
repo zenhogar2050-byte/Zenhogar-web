@@ -191,7 +191,26 @@ export default function Home() {
                     />
                   </div>
                   <div className="flex-1 flex flex-col items-center text-center px-2">
-                    <h3 className="text-2xl font-black text-stone-900 mb-2 leading-tight">{product.name}</h3>
+                    <div className="flex items-center justify-center gap-2 mb-1">
+                      <h3 className="text-2xl font-black text-stone-900 leading-tight">{product.name}</h3>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+                      {(product.size || product.presentation) && (
+                        <div className="inline-block px-4 py-2 rounded-xl bg-white text-stone-900 text-sm font-normal border-2 border-stone-200 shadow-sm">
+                          <div className="flex items-center gap-2">
+                            {product.size && <span>{product.size}</span>}
+                            {product.size && product.presentation && <span className="w-1.5 h-1.5 rounded-full bg-stone-300" />}
+                            {product.presentation && <span>{product.presentation}</span>}
+                          </div>
+                        </div>
+                      )}
+                      {product.invima && (
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-900 text-[12px] font-normal border-2 border-stone-200 shadow-sm transition-all hover:bg-stone-50">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                          <span className="whitespace-nowrap">REGISTRO INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'Verificación en curso' : product.invima}</span>
+                        </div>
+                      )}
+                    </div>
                     <p className="text-base text-stone-600 mb-4 leading-relaxed">{product.shortDescription}</p>
                     
                     <div className="flex flex-col w-full gap-1 mb-5">
@@ -264,19 +283,17 @@ export default function Home() {
                     <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
                     APROVECHAR OFERTA
                   </button>
-
-                  <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 shrink-0" role="status">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                    <span className="text-xs font-bold text-emerald-500">12 viendo • Quedan {stock} unidades</span>
-                  </div>
                 </div>
 
-                <div className="mt-8 flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
-                  <Zap className="w-5 h-5 fill-current animate-pulse" />
-                  <span>Envío GRATIS + Pago Contra Entrega</span>
+                <div className="mt-8 flex flex-col gap-4">
+                  <div className="flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
+                    <Zap className="w-5 h-5 fill-current animate-pulse" />
+                    <span>Envío GRATIS + Pago Contra Entrega</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 font-bold text-sm lg:text-base">
+                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                    <span>Certificación INVIMA Garantizada</span>
+                  </div>
                 </div>
               </div>
               
@@ -340,13 +357,25 @@ export default function Home() {
                     />
                   </div>
                   <div className="px-2">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-xl font-bold text-[var(--color-brand-primary)] font-display">{product.name}</h3>
-                      {product.size && (
-                        <span className="text-[10px] uppercase tracking-widest font-black text-stone-400 bg-stone-100 px-2 py-1 rounded-md">
-                          {product.size}
-                        </span>
-                      )}
+                    <div className="flex flex-col gap-2 mb-3">
+                      <h3 className="text-xl font-bold text-[var(--color-brand-primary)] font-display leading-tight">{product.name}</h3>
+                      <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
+                        {(product.size || product.presentation) && (
+                          <div className="inline-block px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm whitespace-nowrap">
+                            <div className="flex items-center gap-1.5">
+                              {product.size && <span>{product.size}</span>}
+                              {product.size && product.presentation && <span className="w-1 h-1 rounded-full bg-stone-300" />}
+                              {product.presentation && <span>{product.presentation}</span>}
+                            </div>
+                          </div>
+                        )}
+                        {product.invima && (
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                            <ShieldCheck className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-500 transition-colors" />
+                            <span className="whitespace-nowrap">INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'En trámite' : product.invima}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div className="flex flex-col gap-1 mb-4">
                       <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">Es útil para:</span>

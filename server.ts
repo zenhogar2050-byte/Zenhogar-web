@@ -87,6 +87,18 @@ async function startServer() {
     }
   });
 
+  // API Route: Actualizar Estado en Google Sheets
+  app.post("/api/orders/status", async (req, res) => {
+    try {
+      console.log(`[Status Update] Actualizando estado de pedido ${req.body.ticket}...`);
+      const result = await sendToGoogleSheets({ ...req.body, type: "update_status" });
+      res.json(result);
+    } catch (error: any) {
+      console.error("[Status Update Error]:", error.message);
+      res.status(500).json({ status: "error", message: error.message });
+    }
+  });
+
   // API Route: Abandonos
   app.post("/api/abandoned", async (req, res) => {
     try {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 import { 
   LineChart, 
   Line, 
@@ -50,7 +51,8 @@ import {
   Calendar,
   Activity,
   Settings,
-  Hash
+  Hash,
+  Home
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db, getCurrentCounterValue, updateCounterValue } from '../lib/firebase';
@@ -85,12 +87,13 @@ interface Order {
   ticket_number?: string;
   mastershop_status?: 'sync_success' | 'pending_manual';
   total?: number;
-  status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
+  status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'finalizada' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
   type: 'order' | 'abandoned';
   created_at: string;
 }
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -236,18 +239,50 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const updateStatus = async (orderId: string, status: string) => {
+    const order = orders.find(o => o.id === orderId);
+    if (!order) return;
+
+    const originalStatus = order.status;
+
     // Optimistic update for better UX
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: status as any } : o));
     
     try {
+      // REGLA: Si el estado es "completed" o "finalizada", actualizar Google Sheets y borrar del admin
+      if (status === 'completed' || status === 'finalizada') {
+        const confirmCompleted = window.confirm(`¿Confirmas que el pedido ${order.ticket_number || order.id} está FINALIZADO? Se actualizará en el Google Sheet y se borrará de este panel.`);
+        if (!confirmCompleted) {
+          setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: originalStatus as any } : o));
+          return;
+        }
+
+        const response = await fetch('/api/orders/status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            ticket: order.ticket_number || order.id, 
+            status: 'Finalizada' 
+          })
+        });
+
+        if (response.ok) {
+          await deleteOrderFromFirebase(orderId);
+          setOrders(prev => prev.filter(o => o.id !== orderId));
+          if (selectedOrder?.id === orderId) setSelectedOrder(null);
+          return;
+        } else {
+          throw new Error('Error al actualizar estado en Google Sheets');
+        }
+      }
+
       const success = await updateOrderStatusInFirebase(orderId, status);
       if (!success) {
         alert('Error al guardar el cambio en la base de datos. Intente de nuevo.');
         fetchOrders(); // Revert to server state
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating status:', err);
-      alert('Error técnico al actualizar el estado.');
+      alert(err.message || 'Error técnico al actualizar el estado.');
       fetchOrders(); // Revert to server state
     }
   };
@@ -301,6 +336,9 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const handleUpdateTracking = async (orderId: string, customStatus?: string) => {
+    if (customStatus === 'completed' || customStatus === 'finalizada') {
+      return updateStatus(orderId, customStatus);
+    }
     try {
       const orderRef = doc(db, 'orders', orderId);
       const newStatus = customStatus || (trackingInput ? 'shipped_with_guide' : undefined);
@@ -314,7 +352,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       setSelectedOrder(prev => prev ? { 
         ...prev, 
         tracking_guide: trackingInput,
-        status: newStatus || prev.status
+        status: (newStatus || prev.status) as Order['status']
       } : null);
       fetchOrders();
     } catch (err) {
@@ -493,33 +531,37 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       const phone = (customer.telefono || customer.phone || '0').replace(/\s/g, '');
       const items = o.cart?.items || [];
       
-      const getMasterId = (id: string, name?: string) => {
-        const product = PRODUCTS.find(p => p.id === id || (name && p.name.toLowerCase() === name.toLowerCase()));
-        if (product) return product.masterId;
-        const gift = GIFT_PRODUCTS.find(g => g.id === id || (name && g.name.toLowerCase() === name.toLowerCase()));
-        if (gift) return gift.masterId;
-        return id || '0';
+      const getMasterId = (id: string, name?: string): number => {
+        const product = PRODUCTS.find(p => p.id === id) || 
+                        PRODUCTS.find(p => name && p.name.toLowerCase() === name.toLowerCase());
+        if (product && product.masterId) return parseInt(product.masterId, 10);
+        
+        const gift = GIFT_PRODUCTS.find(g => g.id === id) ||
+                     GIFT_PRODUCTS.find(g => name && g.name.toLowerCase() === name.toLowerCase());
+        if (gift && gift.masterId) return parseInt(gift.masterId, 10);
+        
+        return 0;
       };
 
       const addRow = (productInternalId: string, unitPrice: number, quantity: number, nameHint?: string) => {
-        const masterId = getMasterId(productInternalId, nameHint);
+        const masterIdNum = getMasterId(productInternalId, nameHint);
         rows.push([
           o.ticket_number || o.id.slice(0, 8),
-          firstName,
-          lastName,
+          firstName || '0',
+          lastName || '0',
           customer.identification || 0,
           phone,
           customer.direccion || customer.address || 0,
           customer.department || customer.departamento || 0,
           customer.ciudad || customer.city || 0,
-          masterId,
+          masterIdNum,
           0, // ID DE VARIACION siempre 0
           quantity, 
           Math.round(unitPrice), // PRECIO UNITARIO (SIN PUNTOS NI COMAS)
           0, // OTROS CARGOS
           0, // VALOR OTROS CARGOS
           "SI", // CON RECAUDO siempre SI
-          o.order_details || 0,
+          (o.order_details || '').replace(/\n/g, ' ') || 0,
           customer.email || 0
         ]);
       };
@@ -630,9 +672,87 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       );
     }), [orders, filter, searchTerm, startDate, endDate, selectedStatuses]);
 
+  const buildMastershopPayload = (order: Order) => {
+    const customer = order.customer || {};
+    const items = order.cart?.items || [];
+    
+    // 1. Resolve IDs and Desglose here (Frontend contexts)
+    const resolvedItems = items.flatMap((item: any) => {
+      const itemName = item.name || item.productName || 'Producto';
+      const promo = (item.productId === COMBO_OF_THE_MONTH.id || itemName.toLowerCase().includes(COMBO_OF_THE_MONTH.name.toLowerCase()))
+        ? COMBO_OF_THE_MONTH
+        : PROMOTIONS.find(p => p.id === item.productId || itemName.toLowerCase().includes(p.name.toLowerCase()));
+
+      const getMasterIdNum = (id: string, name?: string): number => {
+        const product = PRODUCTS.find(p => p.id === id) || 
+                        PRODUCTS.find(p => name && p.name.toLowerCase() === name.toLowerCase());
+        if (product && product.masterId) return parseInt(product.masterId, 10);
+        const gift = GIFT_PRODUCTS.find(g => g.id === id) ||
+                     GIFT_PRODUCTS.find(g => name && g.name.toLowerCase() === name.toLowerCase());
+        if (gift && gift.masterId) return parseInt(gift.masterId, 10);
+        return 0;
+      };
+
+      if (promo && (promo as any).products) {
+        const promoProducts: string[] = (promo as any).products;
+        const totalUnitsInCombo = promoProducts.length * (item.quantity || 1);
+        const pricePerUnit = Math.round((item.price * (item.quantity || 1)) / totalUnitsInCombo);
+        
+        return promoProducts.map(pId => {
+          const product = PRODUCTS.find(p => p.id === pId);
+          return {
+            id_product: getMasterIdNum(pId, product?.name),
+            quantity: item.quantity || 1,
+            price: pricePerUnit
+          };
+        });
+      } else {
+        const totalUnits = (item.units && item.units > 1) ? (item.units * (item.quantity || 1)) : (item.quantity || 1);
+        const pricePerUnit = Math.round((item.price * (item.quantity || 1)) / totalUnits);
+        return [{
+          id_product: getMasterIdNum(item.productId || item.id, itemName),
+          quantity: totalUnits,
+          price: pricePerUnit
+        }];
+      }
+    });
+
+    return {
+      ticket: order.ticket_number || order.id,
+      fullName: (customer.fullName || (customer.nombre ? `${customer.nombre} ${customer.apellido || ''}` : '')).trim(),
+      email: (customer.email || "").trim(),
+      phone: (customer.phone || customer.telefono || "").toString().trim(),
+      identification: (customer.identification || "").toString().trim(),
+      address: (customer.address || customer.direccion || "").trim(),
+      city: (customer.city || customer.ciudad || "").trim(),
+      department: (customer.department || customer.departamento || "").trim(),
+      details: (order.order_details || "").replace(/\n/g, ' '),
+      total: Math.round(order.total || order.cart?.total || 0),
+      order_items: resolvedItems
+    };
+  };
+
+  const syncOrderWithMastershop = async (order: Order) => {
+    const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
+    const payload = buildMastershopPayload(order);
+    
+    try {
+      const response = await fetch(MASTER_TUNNEL_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        mode: 'cors'
+      });
+      return response.ok;
+    } catch (err) {
+      console.error("Error syncing with Mastershop:", err);
+      return false;
+    }
+  };
+
   const stats = useMemo(() => {
     const ordersOnly = filteredOrders.filter(o => o.type === 'order');
-    const checkoutsOnly = filteredOrders.filter(o => o.type === 'checkout');
+    const checkoutsOnly = filteredOrders.filter(o => o.type === 'abandoned');
     
     return {
       ingresosEstimados: ordersOnly.reduce((acc, curr) => acc + (Number(curr?.total) || Number(curr?.cart?.total) || 0), 0),
@@ -807,6 +927,12 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       {/* Mobile Header */}
       <div className="lg:hidden bg-stone-900 text-white p-4 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-2">
+          <button 
+            onClick={() => { localStorage.removeItem('admin_pass'); navigate('/'); }}
+            className="p-1 hover:text-emerald-400 transition-colors"
+          >
+            <Home className="w-5 h-5" />
+          </button>
           <img src="/favicon.png" className="w-6 h-6 object-contain" alt="Logo" />
           <span className="font-bold text-sm tracking-tight">ZENHOGAR Admin</span>
         </div>
@@ -825,6 +951,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         </div>
         
         <nav className="space-y-4 flex flex-col items-center">
+          <button 
+            onClick={() => {
+              localStorage.removeItem('admin_pass');
+              navigate('/');
+            }}
+            className="p-3 rounded-2xl transition-all duration-300 w-full flex justify-center text-stone-400 hover:bg-white/10"
+            title="Ir a Inicio"
+          >
+            <Home className="w-6 h-6" />
+          </button>
+
           <button 
             onClick={() => setActiveTab('orders')}
             className={cn(
@@ -1144,34 +1281,14 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
                             let successCount = 0;
                             let failCount = 0;
-                            const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
 
                             for (const order of pendientes) {
-                              try {
-                                const response = await fetch(MASTER_TUNNEL_URL, {
-                                  method: 'POST',
-                                  headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({
-                                    nombre: order.customer.nombre || order.customer.fullName,
-                                    celular: order.customer.telefono || order.customer.phone,
-                                    email: order.customer.email || 'no-email@zenhogar.com',
-                                    direccion: order.customer.direccion || order.customer.address,
-                                    ciudad: order.customer.ciudad || order.customer.city,
-                                    departamento: order.customer.departamento || order.customer.department,
-                                    producto: order.order_details,
-                                    valor: order.total?.toString() || order.cart?.total?.toString(),
-                                    ticket: order.ticket_number
-                                  }),
-                                });
-
-                                if (response.ok) {
-                                  const orderRef = doc(db, 'orders', order.id);
-                                  await updateDoc(orderRef, { mastershop_status: 'sync_success' });
-                                  successCount++;
-                                } else {
-                                  failCount++;
-                                }
-                              } catch (err) {
+                              const success = await syncOrderWithMastershop(order);
+                              if (success) {
+                                const orderRef = doc(db, 'orders', order.id);
+                                await updateDoc(orderRef, { mastershop_status: 'sync_success' });
+                                successCount++;
+                              } else {
                                 failCount++;
                               }
                             }
@@ -1179,10 +1296,14 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                             alert(`Proceso finalizado.\n✅ Sincronizados: ${successCount}\n❌ Fallidos: ${failCount}`);
                             fetchOrders();
                           }}
-                          className="px-3 py-1.5 bg-red-600 text-white rounded-lg font-bold text-[10px] uppercase hover:bg-red-700 transition-all flex items-center gap-1.5 animate-pulse"
-                          title="Sincronizar pedidos pendientes con Mastershop"
+                          className="px-6 py-3 bg-red-600 text-white rounded-xl font-black text-[12px] uppercase hover:bg-red-700 transition-all flex items-center gap-3 shadow-lg shadow-red-200/50 hover:scale-105 active:scale-95"
+                          title="Actualización pedidos en base de datos"
                         >
-                          <RefreshCw className="w-3 h-3" /> Sincronizar Pendientes ({filteredOrders.filter(o => o.type === 'order' && o.mastershop_status !== 'sync_success' && (!o.tracking_guide || o.tracking_guide.trim() === '')).length})
+                          <RefreshCw className="w-6 h-6" /> 
+                          <div className="flex flex-col items-start leading-none">
+                            <span className="text-[9px] opacity-80 font-normal">Sincronización Masiva</span>
+                            <span>Actualización pedidos en base de datos ({filteredOrders.filter(o => o.type === 'order' && o.mastershop_status !== 'sync_success' && (!o.tracking_guide || o.tracking_guide.trim() === '')).length})</span>
+                          </div>
                         </button>
                       )}
 
@@ -1391,7 +1512,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                       <option value="shipped_with_guide">Guía Generada</option>
                                       <option value="in_transit">En Tránsito</option>
                                       <option value="delivered">Entregado</option>
-                                      <option value="completed">Cumplida</option>
+                                      <option value="finalizada">Finalizada</option>
                                       <option value="waiting_delivery">Espera Entrega</option>
                                       <option value="declined">Declinada</option>
                                       <option value="cancelled">Cancelado</option>
@@ -1406,19 +1527,32 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                 </td>
                                 <td className="px-2 py-1.5 text-right">
                                    <div className="flex justify-end gap-1">
-                                      {/* Icono de Estado de Sincronización */}
+                                      {/* Icono de Estado de Sincronización - Clickable para Re-Sincronizar */}
                                       {order.type === 'order' && (
-                                        <div 
+                                        <button 
+                                          onClick={async (e) => {
+                                            e.stopPropagation();
+                                            if (order.mastershop_status === 'sync_success') return;
+                                            
+                                            const success = await syncOrderWithMastershop(order);
+                                            if (success) {
+                                              const orderRef = doc(db, 'orders', order.id);
+                                              await updateDoc(orderRef, { mastershop_status: 'sync_success' });
+                                              fetchOrders();
+                                            } else {
+                                              alert("Error al intentar sincronizar el pedido.");
+                                            }
+                                          }}
                                           className={cn(
                                             "w-6 h-6 rounded flex items-center justify-center transition-all",
                                             (order.mastershop_status === 'sync_success' || order.tracking_guide) 
-                                              ? "text-emerald-600 bg-emerald-50" 
-                                              : "text-red-500 bg-red-50"
+                                              ? "text-emerald-600 bg-emerald-50 cursor-default" 
+                                              : "text-red-500 bg-red-50 hover:bg-red-100"
                                           )}
-                                          title={ (order.mastershop_status === 'sync_success' || order.tracking_guide) ? "Sincronizado con Mastershop" : "Pendiente de Sincronización" }
+                                          title={ (order.mastershop_status === 'sync_success' || order.tracking_guide) ? "Sincronizado con Mastershop" : "Pendiente de Sincronización (Click para re-intentar)" }
                                         >
                                           <CheckCircle2 className="w-4 h-4" />
-                                        </div>
+                                        </button>
                                       )}
                                       
                                       <button 
@@ -1541,7 +1675,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                           <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
                           <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
                           <Tooltip 
-                            contentStyle={{ borderRadius: '1rem', border: 'none', shadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                            contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                             formatter={(value: any) => typeof value === 'number' ? formatCurrency(value) : value}
                           />
                           <Area type="monotone" dataKey="ingresos" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorIngresos)" />
@@ -1576,7 +1710,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                         {statusDistribution.map((entry, index) => (
                           <div key={index} className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5] }} />
-                            <span className="text-xs font-bold text-stone-600 uppercase tracking-widest">{entry.name}: {entry.value}</span>
+                            <span className="text-xs font-bold text-stone-600 uppercase tracking-widest">{(entry.name as string)}: {(entry.value as number)}</span>
                           </div>
                         ))}
                       </div>
@@ -1993,24 +2127,9 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                   const btn = e.currentTarget as HTMLButtonElement;
                                   if (btn) btn.disabled = true;
                                   
-                                  const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
-                                  const response = await fetch(MASTER_TUNNEL_URL, {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                      nombre: selectedOrder.customer.nombre || selectedOrder.customer.fullName,
-                                      celular: selectedOrder.customer.telefono || selectedOrder.customer.phone,
-                                      email: selectedOrder.customer.email || 'no-email@zenhogar.com',
-                                      direccion: selectedOrder.customer.direccion || selectedOrder.customer.address,
-                                      ciudad: selectedOrder.customer.ciudad || selectedOrder.customer.city,
-                                      departamento: selectedOrder.customer.departamento || selectedOrder.customer.department,
-                                      producto: selectedOrder.order_details,
-                                      valor: selectedOrder.total?.toString() || selectedOrder.cart?.total?.toString(),
-                                      ticket: selectedOrder.ticket_number
-                                    }),
-                                  });
+                                  const success = await syncOrderWithMastershop(selectedOrder);
 
-                                  if (response.ok) {
+                                  if (success) {
                                     const orderRef = doc(db, 'orders', selectedOrder.id);
                                     await updateDoc(orderRef, { mastershop_status: 'sync_success' });
                                     alert("✅ Pedido sincronizado con éxito en Mastershop.");

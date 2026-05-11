@@ -95,9 +95,16 @@ Este archivo contiene las directrices definitivas para el mantenimiento y evoluc
 - **Interactividad:** Todos los botones deben tener `aria-label` y estados de foco claros.
 - **Navegación:** Uso correcto de etiquetas semánticas (`main`, `nav`, `footer`, `section`) y jerarquía de títulos.
 
-## 13. Política de Blindaje General
-- **Información Previa:** Queda prohibido realizar cambios estructurales, de lógica de negocio o de diseño crítico sin informar previamente al usuario sobre qué se va a modificar y qué impacto tendrá (pérdida de funcionalidades previas, cambios en flujo, etc.).
-- **No Automatización:** Nada sucede en automático si contraviene las reglas establecidas en este archivo.
+## 13. Política de Blindaje General e Integridad de Datos
+- **Información Previa y Autorización EXPRESA:** Queda estrictamente prohibido realizar cambios estructurales, de lógica de negocio, de diseño crítico o **eliminación de datos técnicos (Registros INVIMA, IDs de producto)** sin informar previamente al usuario y recibir autorización explícita.
+- **Prohibición de "Limpieza" de Datos:** El agente no debe retirar ni reemplazar información verídica (como registros sanitarios) por marcadores de posición ("en trámite", "verificando") por iniciativa propia bajo el pretexto de "limpiar el código".
+- **Auditoría Forense en Actualizaciones:** Antes de aplicar cambios masivos en `constants.ts` o componentes de visualización, el agente debe verificar que la información de cumplimiento (INVIMA, Precios, Cantidades) coincida con la última versión autorizada por el usuario.
+- **No Automatización de Depreciación:** Nada se descarta o se marca como "pendiente" de forma automática si contraviene los datos previamente establecidos en el proyecto.
+- **Peso Adicional (Blindado):** El campo `peso_adicional` de cada producto y combo está sellado y no puede ser modificado bajo ninguna circunstancia.
+
+## 14. SEO y Despliegue (Informativo)
+- **SEO Inteligente:** Los metadatos y esquemas JSON-LD (Product, Offer, Rating) se generan dinámicamente para máxima indexación.
+- **Arquitectura de Despliegue:** El proyecto es una SPA basada en React + Vite. Se genera como un conjunto de activos estáticos optimizados tras el build.
 
 ## 7. Estructura de Archivos y Activos
 - Mantener la estructura minimalista.

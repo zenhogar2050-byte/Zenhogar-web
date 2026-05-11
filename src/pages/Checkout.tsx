@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../CartContext';
-import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS } from '../constants';
+import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS, GIFT_PRODUCTS } from '../constants';
 import { formatCurrency, formatPriceForAPI } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -198,76 +198,72 @@ export default function Checkout() {
       // 2. SINCRONIZACIÓN SILENCIOSA CON MASTERSHOP (Blindaje)
       let mastershopStatus = 'sync_success';
       try {
-        const mastershopPayload = {
-          "id_order": currentTicket,
-          "notes": [],
-          "tags": [],
-          "shipping_address": {
-            "country": "CO",
-            "state": formData.department,
-            "city": formData.city,
-            "address1": formData.address,
-            "address2": null,
-            "company": null,
-            "zip": null,
-            "full_name": formData.fullName,
-            "first_name": formData.fullName.split(' ')[0],
-            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
-            "phone": formData.phone
-          },
-          "billing_address": {
-            "country": "CO",
-            "state": formData.department,
-            "city": formData.city,
-            "address1": formData.address,
-            "address2": null,
-            "company": null,
-            "zip": null,
-            "full_name": formData.fullName,
-            "first_name": formData.fullName.split(' ')[0],
-            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
-            "phone": formData.phone
-          },
-          "order_transaction": {
-            "total": formatPriceForAPI(total),
-            "currency": "COP",
-            "payment_method": "pia",
-            "payment_gateway": "Addi_Payment"
-          },
-          "customer": {
-            "full_name": formData.fullName,
-            "first_name": formData.fullName.split(' ')[0],
-            "last_name": formData.fullName.split(' ').slice(1).join(' ') || "X",
-            "email": formData.email || null,
-            "phone": formData.phone,
-            "tags": [],
-            "documentType": null,
-            "documentNumber": null
-          },
-          "order_items": items.map(item => ({
-            "id_variant": null,
-            "id_product": Number(item.productId),
-            "quantity": item.quantity,
-            "sku": (item as any).sku || "HG-92",
-            "name": item.productName,
-            "weight": 1,
-            "price": formatPriceForAPI(item.price)
-          })),
-          "additional_charge": [{ "type_charge": "Envío", "value": 0 }]
+        // 1. Desglose de productos para el Worker (Pre-procesamiento de Combos)
+        const resolvedItems = items.flatMap(item => {
+          const promo = (item.productId === COMBO_OF_THE_MONTH.id || item.productName.toLowerCase().includes(COMBO_OF_THE_MONTH.name.toLowerCase()))
+            ? COMBO_OF_THE_MONTH
+            : PROMOTIONS.find(p => p.id === item.productId || item.productName.toLowerCase().includes(p.name.toLowerCase()));
+
+          const getMasterId = (id: string, name?: string): number => {
+            const product = PRODUCTS.find(p => p.id === id) || 
+                            PRODUCTS.find(p => name && p.name.toLowerCase() === name.toLowerCase());
+            if (product && product.masterId) return parseInt(product.masterId, 10);
+            const gift = GIFT_PRODUCTS.find(g => g.id === id) ||
+                         GIFT_PRODUCTS.find(g => name && g.name.toLowerCase() === name.toLowerCase());
+            if (gift && gift.masterId) return parseInt(gift.masterId, 10);
+            return 0;
+          };
+
+          if (promo && (promo as any).products) {
+            const promoProducts: string[] = (promo as any).products;
+            const totalUnitsInCombo = promoProducts.length * item.quantity;
+            const pricePerUnit = Math.round((item.price * item.quantity) / totalUnitsInCombo);
+            
+            return promoProducts.map(pId => {
+              const product = PRODUCTS.find(p => p.id === pId);
+              return {
+                id_product: getMasterId(pId, product?.name),
+                quantity: item.quantity,
+                price: pricePerUnit
+              };
+            });
+          } else {
+            const totalUnits = (item.units && item.units > 1) ? (item.units * item.quantity) : item.quantity;
+            const pricePerUnit = Math.round((item.price * item.quantity) / totalUnits);
+            return [{
+              id_product: getMasterId(item.productId, item.productName),
+              quantity: totalUnits,
+              price: pricePerUnit
+            }];
+          }
+        });
+
+        const mastershopData = {
+          ticket: currentTicket,
+          fullName: (formData.fullName || "").trim(),
+          email: (formData.email || "").trim(),
+          phone: (formData.phone || "").trim(),
+          identification: (formData.identification || "").trim(),
+          address: (formData.address || "").trim(),
+          city: (formData.city || "").trim(),
+          department: (formData.department || "").trim(),
+          details: orderDetails.replace(/\n/g, ' '),
+          total: Math.round(total),
+          order_items: resolvedItems
         };
 
         const msResponse = await fetch('https://autosync-ms.zenhogar2050.workers.dev/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(mastershopPayload),
+          body: JSON.stringify(mastershopData),
+          mode: 'cors'
         });
 
         if (!msResponse.ok) {
-          throw new Error(`Mastershop Tunnel respondio con status: ${msResponse.status}`);
+          throw new Error(`Mastershop Worker Error: ${msResponse.status}`);
         }
-        console.log("✅ Sincronización exitosa con Mastershop");
+        console.log("✅ Datos enviados exitosamente al Cloudflare Worker");
       } catch (msErr) {
-        // Error silencioso para el usuario, log para el admin
         console.error("⚠️ [Admin Log] Falló sincronización automática con Mastershop:", msErr);
         mastershopStatus = 'pending_manual';
       }
@@ -437,7 +433,18 @@ export default function Checkout() {
 
           <div className="lg:col-span-5">
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100 sticky top-24">
-              <h2 className="text-2xl font-bold text-stone-900 mb-8">Envío y Pago</h2>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold text-stone-900">Envío y Pago</h2>
+                <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest leading-none">
+                    {Math.floor(Math.random() * (12 - 4 + 1)) + 4} Finalizando pedido ahora
+                  </span>
+                </div>
+              </div>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
@@ -487,18 +494,8 @@ export default function Checkout() {
                 </div>
 
                 <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 flex items-center justify-center gap-3">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-stone-200 overflow-hidden">
-                        <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="user" className="w-full h-full object-cover grayscale" />
-                      </div>
-                    ))}
-                  </div>
                   <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-tight">
-                    <span className="inline-flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                      14 personas están terminando su pedido ahora
-                    </span>
+                    🚚 Envío Prioritario Activo para tu Ciudad
                   </p>
                 </div>
 
