@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Sitemap: https://zenhogar.com/sitemap.xml
+Sitemap: https://zenhogar.live/sitemap.xml
