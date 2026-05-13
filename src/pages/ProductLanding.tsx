@@ -25,6 +25,13 @@ export default function ProductLanding() {
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const product = PRODUCTS.find(p => p.id === id);
+  const [activeImage, setActiveImage] = useState<string>('');
+
+  useEffect(() => {
+    if (product) {
+      setActiveImage(product.image);
+    }
+  }, [id, product]);
 
   useEffect(() => {
     const promoParam = searchParams.get('promo');
@@ -141,7 +148,7 @@ export default function ProductLanding() {
               >
                 <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl bg-stone-50 flex items-center justify-center p-6 lg:p-8">
                   <img
-                    src={product.image}
+                    src={activeImage || product.image}
                     alt={product.name}
                     width={800}
                     height={800}
@@ -151,6 +158,32 @@ export default function ProductLanding() {
                     referrerPolicy="no-referrer"
                   />
                 </div>
+
+                {/* Thumbnail Gallery */}
+                {product.supportImages && product.supportImages.length > 0 && (
+                  <div className="grid grid-cols-5 gap-3 mt-6">
+                    {[product.image, ...product.supportImages].map((img, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveImage(img)}
+                        className={cn(
+                          "aspect-square rounded-2xl overflow-hidden border-2 transition-all p-1 bg-white shadow-sm hover:scale-105 active:scale-95 group/thumb",
+                          (activeImage === img || (!activeImage && index === 0)) 
+                            ? "border-emerald-600 ring-2 ring-emerald-100" 
+                            : "border-stone-200 hover:border-emerald-300"
+                        )}
+                        aria-label={`Ver imagen ${index + 1} de ${product.name}`}
+                      >
+                        <img 
+                          src={img} 
+                          alt={`${product.name} miniatura ${index + 1}`} 
+                          className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
+                          referrerPolicy="no-referrer"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
                 
                 <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
                   <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">

@@ -34,6 +34,7 @@ export interface Product {
   invima?: string;
   presentation?: string;
   peso_adicional?: number;
+  supportImages?: string[];
 }
 
 export const CATEGORIES = [
@@ -91,6 +92,12 @@ export const PRODUCTS: Product[] = [
     presentation: 'Líquido',
     invima: 'PSA-000932-2017',
     peso_adicional: 0,
+    supportImages: [
+      '/assets/products/rtafull-apoyo-1.webp',
+      '/assets/products/rtafull-apoyo-2.webp',
+      '/assets/products/rtafull-apoyo-3.webp',
+      '/assets/products/rtafull-apoyo-4.webp'
+    ],
     keywords: 'limpieza hígado, digestión ligera, pesadez abdominal, depuración natural, alcachofa, Rtafull, Zenhogar, hígado graso',
     components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio y Perejil',
     longTailKeywords: [
@@ -142,6 +149,12 @@ export const PRODUCTS: Product[] = [
     presentation: 'Polvo',
     invima: 'NSA-0012423-2022',
     peso_adicional: 0,
+    supportImages: [
+      '/assets/products/coliplus-apoyo-1.webp',
+      '/assets/products/coliplus-apoyo-2.webp',
+      '/assets/products/coliplus-apoyo-3.webp',
+      '/assets/products/coliplus-apoyo-4.webp'
+    ],
     keywords: 'limpieza intestinal, estreñimiento, fibras naturales, pitaya, espirulina, digestión fácil, salud digestiva, Coliplus, Zenhogar',
     components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Chía y Espirulina',
     longTailKeywords: [
@@ -193,6 +206,12 @@ export const PRODUCTS: Product[] = [
     size: '180g',
     presentation: 'Polvo',
     invima: 'RSA-0026265-2023',
+    supportImages: [
+      '/assets/products/colageno-apoyo-1.webp',
+      '/assets/products/colageno-apoyo-2.webp',
+      '/assets/products/colageno-apoyo-3.webp',
+      '/assets/products/colageno-apoyo-4.webp'
+    ],
     keywords: 'colágeno natural, sabor neutro, hidratación piel, colágeno familiar, piel suave, Zenhogar, colágeno puro',
     components: 'Colágeno Hidrolizado y Citrato de Magnesio',
     longTailKeywords: [
@@ -244,6 +263,12 @@ export const PRODUCTS: Product[] = [
     size: '700g',
     presentation: 'Polvo',
     invima: 'RSAD05i27915',
+    supportImages: [
+      '/assets/products/resvis-apoyo-1.webp',
+      '/assets/products/resvis-apoyo-2.webp',
+      '/assets/products/resvis-apoyo-3.webp',
+      '/assets/products/resvis-apoyo-4.webp'
+    ],
     keywords: 'antioxidante, sistema inmune, resveratrol, energía vital, defensas, vitalidad diaria, Resvis Factor, Zenhogar',
     components: 'Calostro Bovino, Shiitake, Quinua, Malta y Vitaminas',
     longTailKeywords: [
@@ -295,6 +320,12 @@ export const PRODUCTS: Product[] = [
     size: '30 und',
     presentation: 'Cápsulas Blandas',
     invima: 'SD2019-0004457',
+    supportImages: [
+      '/assets/products/cla500-apoyo-1.webp',
+      '/assets/products/cla500-apoyo-2.webp',
+      '/assets/products/cla500-apoyo-3.webp',
+      '/assets/products/cla500-apoyo-4.webp'
+    ],
     keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
     components: 'Cloruro de Magnesio, Vitamina D3, Cúrcuma y Pimienta Negra',
     longTailKeywords: [
@@ -350,6 +381,12 @@ export const PRODUCTS: Product[] = [
     size: '350g',
     presentation: 'Polvo',
     invima: 'NSA-0008349-2020',
+    supportImages: [
+      '/assets/products/cafetolio-apoyo-1.webp',
+      '/assets/products/cafetolio-apoyo-2.webp',
+      '/assets/products/cafetolio-apoyo-3.webp',
+      '/assets/products/cafetolio-apoyo-4.webp'
+    ],
     keywords: 'café verde, vientre plano, control de peso, limpiar hígado, energía natural, metabolismo, Cafetolio, Zenhogar',
     components: 'Café Verde 100% natural',
     longTailKeywords: [
@@ -404,6 +441,12 @@ export const PRODUCTS: Product[] = [
     size: '120ml',
     presentation: 'Crema / Gel',
     invima: 'NSOC74321-16CO',
+    supportImages: [
+      '/assets/products/locion-apoyo-1.webp',
+      '/assets/products/locion-apoyo-2.webp',
+      '/assets/products/locion-apoyo-3.webp',
+      '/assets/products/locion-apoyo-4.webp'
+    ],
     keywords: 'dolor muscular, tensión cuello, cansancio en piernas, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
     components: 'Árnica, Castaño de Indias, Caléndula, Uña de Gato y Chuchuguaza',
     longTailKeywords: [
@@ -460,6 +503,12 @@ export const PRODUCTS: Product[] = [
     size: '500g',
     presentation: 'Polvo',
     invima: 'RSA-0032379-2024',
+    supportImages: [
+      '/assets/products/c-lagen-apoyo-1.webp',
+      '/assets/products/c-lagen-apoyo-2.webp',
+      '/assets/products/c-lagen-apoyo-3.webp',
+      '/assets/products/c-lagen-apoyo-4.webp'
+    ],
     keywords: 'colágeno marino, molestias articulares, salud articular, huesos fuertes, magnesio, movilidad, C-Lagen, Zenhogar',
     components: 'Colágeno Marino, Citrato de Magnesio, Vitaminas y Minerales',
     longTailKeywords: [
@@ -514,6 +563,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '350g',
     invima: 'SD2023-0004812',
+    supportImages: [
+      '/assets/products/citramix-apoyo-1.webp',
+      '/assets/products/citramix-apoyo-2.webp',
+      '/assets/products/citramix-apoyo-3.webp',
+      '/assets/products/citramix-apoyo-4.webp'
+    ],
     keywords: 'magnesio, calambres, estrés, digestión ligera, relajación muscular, paz mental, Citramix, Zenhogar',
     components: 'Citrato de Magnesio, Bisglicinato de Magnesio y Vitaminas',
     longTailKeywords: [
@@ -564,6 +619,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 75900,
     size: '400g',
     invima: 'RSA-0010130-2020',
+    supportImages: [
+      '/assets/products/cafe-colageno-apoyo-1.webp',
+      '/assets/products/cafe-colageno-apoyo-2.webp',
+      '/assets/products/cafe-colageno-apoyo-3.webp',
+      '/assets/products/cafe-colageno-apoyo-4.webp'
+    ],
     keywords: 'café con colágeno, crema de coco, belleza integral, fortalecer cabello, uñas fuertes, vitaminas, Coffee Colágeno, Zenhogar',
     components: 'Crema de Coco, Colágeno Hidrolizado y Café Soluble',
     longTailKeywords: [
@@ -613,6 +674,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 105000,
     size: '200g',
     invima: 'SD2014-0003204',
+    supportImages: [
+      '/assets/products/creatina-apoyo-1.webp',
+      '/assets/products/creatina-apoyo-2.webp',
+      '/assets/products/creatina-apoyo-3.webp',
+      '/assets/products/creatina-apoyo-4.webp'
+    ],
     keywords: 'creatina pura, fuerza muscular, rendimiento cerebral, vitalidad, Zenhogar, creatina USP',
     components: 'Creatina monohidratada 100% pura',
     longTailKeywords: [
@@ -663,6 +730,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '500ml',
     invima: 'SD2015-0003504',
+    supportImages: [
+      '/assets/products/iprossmen-apoyo-1.webp',
+      '/assets/products/iprossmen-apoyo-2.webp',
+      '/assets/products/iprossmen-apoyo-3.webp',
+      '/assets/products/iprossmen-apoyo-4.webp'
+    ],
     keywords: 'salud masculina, próstata, vitalidad, tomate de árbol, prevención, bienestar hombre, Iprossmen, Zenhogar',
     components: 'Té Verde, Tomate de Árbol, Arándanos, Mandarina, Jengibre, Ciruela y Vitamina E',
     longTailKeywords: [
@@ -713,6 +786,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '350g',
     invima: 'RSA-0025607-2023',
+    supportImages: [
+      '/assets/products/kds-10-apoyo-1.webp',
+      '/assets/products/kds-10-apoyo-2.webp',
+      '/assets/products/kds-10-apoyo-3.webp',
+      '/assets/products/kds-10-apoyo-4.webp'
+    ],
     keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Zenhogar',
     components: 'Crema de coco, Proteína de suero, Magnesio, Hierro, Zinc y Complejo Vitamínico',
     longTailKeywords: [
@@ -768,6 +847,12 @@ export const PRODUCTS: Product[] = [
     size: '500ml',
     presentation: 'Líquido',
     invima: 'RSA-0020527-2022',
+    supportImages: [
+      '/assets/products/liofhim-apoyo-1.webp',
+      '/assets/products/liofhim-apoyo-2.webp',
+      '/assets/products/liofhim-apoyo-3.webp',
+      '/assets/products/liofhim-apoyo-4.webp'
+    ],
     keywords: 'dormir profundo, insomnio, descanso real, manzanilla, albahaca, sueño reparador, Liofhim, Zenhogar',
     components: 'Manzanilla, Albahaca, Anís, Hierbabuena y Vitaminas C y E',
     longTailKeywords: [
@@ -817,6 +902,12 @@ export const PRODUCTS: Product[] = [
     size: '500ml',
     presentation: 'Líquido',
     invima: 'PSA-000932-2017',
+    supportImages: [
+      '/assets/products/liteplex-apoyo-1.webp',
+      '/assets/products/liteplex-apoyo-2.webp',
+      '/assets/products/liteplex-apoyo-3.webp',
+      '/assets/products/liteplex-apoyo-4.webp'
+    ],
     keywords: 'digestión ligera, alivio estomacal, acidez, pesadez, Liteplex, Zenhogar, jengibre, limón',
     components: 'Té Verde, Jengibre, Limón, Albahaca y Menta',
     longTailKeywords: [
@@ -870,6 +961,12 @@ export const PRODUCTS: Product[] = [
     size: '800g',
     presentation: 'Polvo',
     invima: 'SD2017-0004051',
+    supportImages: [
+      '/assets/products/maxlite-apoyo-1.webp',
+      '/assets/products/maxlite-apoyo-2.webp',
+      '/assets/products/maxlite-apoyo-3.webp',
+      '/assets/products/maxlite-apoyo-4.webp'
+    ],
     keywords: 'colágeno ligera, quinua, articulaciones, piel firme, Maxlite, Zenhogar',
     components: 'Péptidos de Colágeno, Resveratrol, Quinua, Omega 3-6-9 y Vitaminas',
     longTailKeywords: [
@@ -925,6 +1022,12 @@ export const PRODUCTS: Product[] = [
     size: '700g',
     presentation: 'Polvo',
     invima: 'RSA-001291-2016',
+    supportImages: [
+      '/assets/products/megamac-apoyo-1.webp',
+      '/assets/products/megamac-apoyo-2.webp',
+      '/assets/products/megamac-apoyo-3.webp',
+      '/assets/products/megamac-apoyo-4.webp'
+    ],
     keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
     components: 'Maca, Borojó, Proteína de Suero, Vitaminas y Minerales',
     longTailKeywords: [
@@ -975,6 +1078,12 @@ export const PRODUCTS: Product[] = [
     size: '350g',
     presentation: 'Polvo',
     invima: 'SD2014-0003215',
+    supportImages: [
+      '/assets/products/resveratrol-apoyo-1.webp',
+      '/assets/products/resveratrol-apoyo-2.webp',
+      '/assets/products/resveratrol-apoyo-3.webp',
+      '/assets/products/resveratrol-apoyo-4.webp'
+    ],
     keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
     components: 'Resveratrol, Colágeno Hidrolizado (10.000mg), Arándano y Uva liofilizada',
     longTailKeywords: [
@@ -1030,6 +1139,12 @@ export const PRODUCTS: Product[] = [
     size: '60g',
     presentation: 'Crema',
     invima: 'NSOC90432-19CO',
+    supportImages: [
+      '/assets/products/eventone-apoyo-1.webp',
+      '/assets/products/eventone-apoyo-2.webp',
+      '/assets/products/eventone-apoyo-3.webp',
+      '/assets/products/eventone-apoyo-4.webp'
+    ],
     keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas osapoyas, Eventone, Zenhogar',
     components: 'Bio Retinol, Ácido Hialurónico, Colágeno, B5, Manzanilla y Aloe Vera',
     longTailKeywords: [
@@ -1081,6 +1196,12 @@ export const PRODUCTS: Product[] = [
     size: '90ml',
     presentation: 'Crema / Líquido',
     invima: 'NSOC35087-24CO',
+    supportImages: [
+      '/assets/products/golden-passion-apoyo-1.webp',
+      '/assets/products/golden-passion-apoyo-2.webp',
+      '/assets/products/golden-passion-apoyo-3.webp',
+      '/assets/products/golden-passion-apoyo-4.webp'
+    ],
     keywords: 'autobronceador, brillo piel, nutrición profunda, Golden Passion, Zenhogar',
     components: 'DHA, Vitamina E, Ácido Oleico y Ácido Palmitoleico',
     longTailKeywords: [
@@ -1136,6 +1257,12 @@ export const PRODUCTS: Product[] = [
     size: '150ml',
     presentation: 'Aceite',
     invima: 'NSOC20441-23CO',
+    supportImages: [
+      '/assets/products/hydrastrik-apoyo-1.webp',
+      '/assets/products/hydrastrik-apoyo-2.webp',
+      '/assets/products/hydrastrik-apoyo-3.webp',
+      '/assets/products/hydrastrik-apoyo-4.webp'
+    ],
     keywords: 'hidratación intensiva, piel seca, fresapoya, Hydrastrik, Zenhogar',
     components: 'Almendras, Semillas de Uva, Jojoba, Coco, Mango y Aguacate',
     longTailKeywords: [
@@ -1191,6 +1318,12 @@ export const PRODUCTS: Product[] = [
     size: '60g',
     presentation: 'Crema',
     invima: 'NSOC85321-18CO',
+    supportImages: [
+      '/assets/products/miskinne-apoyo-1.webp',
+      '/assets/products/miskinne-apoyo-2.webp',
+      '/assets/products/miskinne-apoyo-3.webp',
+      '/assets/products/miskinne-apoyo-4.webp'
+    ],
     keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
     components: 'Avena, Caléndula, Manteca de Karité, Vitamina E',
     longTailKeywords: [
@@ -1246,6 +1379,12 @@ export const PRODUCTS: Product[] = [
     size: '120ml',
     presentation: 'Líquido (Spray)',
     invima: 'NSOC02559-20CO',
+    supportImages: [
+      '/assets/products/tonico-apoyo-1.webp',
+      '/assets/products/tonico-apoyo-2.webp',
+      '/assets/products/tonico-apoyo-3.webp',
+      '/assets/products/tonico-apoyo-4.webp'
+    ],
     keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',
     components: 'Trichogen al 8%, Cebolla, Ginkgo Biloba y 16 extractos herbales',
     longTailKeywords: [
@@ -1295,6 +1434,12 @@ export const PRODUCTS: Product[] = [
     size: '75g',
     presentation: 'Dulce / Caramelo',
     invima: 'NSA-0009109-2020',
+    supportImages: [
+      '/assets/products/tufoff-apoyo-1.webp',
+      '/assets/products/tufoff-apoyo-2.webp',
+      '/assets/products/tufoff-apoyo-3.webp',
+      '/assets/products/tufoff-apoyo-4.webp'
+    ],
     keywords: 'mal aliento, fresapoya bucal, menta canela, Tufoff, Zenhogar',
     components: 'Eritritol, Inulina, Aceite de Menta, Canela y Bicarbonato de Sodio',
     longTailKeywords: [
@@ -1351,6 +1496,12 @@ export const PRODUCTS: Product[] = [
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
+    supportImages: [
+      '/assets/products/akha-apoyo-1.webp',
+      '/assets/products/akha-apoyo-2.webp',
+      '/assets/products/akha-apoyo-3.webp',
+      '/assets/products/akha-apoyo-4.webp'
+    ],
     keywords: 'botox natural, voluminizante, firmeza, Akha, Zenhogar',
     components: 'Extracto de Acmella Oleracea, Maca, Ginseng, Zinc, L-Arginina',
     longTailKeywords: [
@@ -1405,6 +1556,12 @@ export const PRODUCTS: Product[] = [
     size: '60g',
     presentation: 'Crema',
     invima: 'NSOC36162-24CO',
+    supportImages: [
+      '/assets/products/derman-apoyo-1.webp',
+      '/assets/products/derman-apoyo-2.webp',
+      '/assets/products/derman-apoyo-3.webp',
+      '/assets/products/derman-apoyo-4.webp'
+    ],
     keywords: 'bienestar íntimo, arginina, ácido salicílico, salud íntima, Derman, Zenhogar',
     components: 'Ácido Salicílico, Arginina, Ácido Undecilénico y Lanolina',
     longTailKeywords: [
@@ -1460,6 +1617,12 @@ export const PRODUCTS: Product[] = [
     size: '60 Cápsulas',
     presentation: 'Cápsulas',
     invima: 'RSA-3599-2025',
+    supportImages: [
+      '/assets/products/haydar-apoyo-1.webp',
+      '/assets/products/haydar-apoyo-2.webp',
+      '/assets/products/haydar-apoyo-3.webp',
+      '/assets/products/haydar-apoyo-4.webp'
+    ],
     keywords: 'vitalidad extra, ánimo, rendimiento, Haydar, Zenhogar',
     components: 'Borojó, Maca, Taurina, Cafeína, Guaraná y Vitaminas del Complejo B',
     longTailKeywords: [
@@ -1514,6 +1677,10 @@ export const PRODUCTS: Product[] = [
     size: '50 ml',
     presentation: 'Gel / Crema',
     invima: '2021DM-0024065',
+    supportImages: [
+      '/assets/products/instant-virgin-apoyo-1.webp',
+      '/assets/products/instant-virgin-apoyo-2.webp'
+    ],
     keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
     components: 'Aloe Vera, D-Pantenol y Sulfato de Aluminio',
     longTailKeywords: [
@@ -1567,6 +1734,12 @@ export const PRODUCTS: Product[] = [
     size: '120 ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
+    supportImages: [
+      '/assets/products/mammoth-apoyo-1.webp',
+      '/assets/products/mammoth-apoyo-2.webp',
+      '/assets/products/mammoth-apoyo-3.webp',
+      '/assets/products/mammoth-apoyo-4.webp'
+    ],
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
     components: 'Acmella Oleracea, Aceite de Parafina USP y Vitamina E',
     longTailKeywords: [
@@ -1619,6 +1792,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 89900,
     size: '500g',
     presentation: 'Polvo',
+    supportImages: [
+      '/assets/products/tyrussfull-apoyo-1.webp',
+      '/assets/products/tyrussfull-apoyo-2.webp',
+      '/assets/products/tyrussfull-apoyo-3.webp',
+      '/assets/products/tyrussfull-apoyo-4.webp'
+    ],
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
     components: 'Clorofila, Espirulina, Chlorella, Proteína de Arveja, Almendras y Omega 3',
     longTailKeywords: [
@@ -1672,6 +1851,12 @@ export const PRODUCTS: Product[] = [
     size: '500 ml',
     presentation: 'Líquido',
     invima: 'RSA-3599-2025',
+    supportImages: [
+      '/assets/products/zafir-apoyo-1.webp',
+      '/assets/products/zafir-apoyo-2.webp',
+      '/assets/products/zafir-apoyo-3.webp',
+      '/assets/products/zafir-apoyo-4.webp'
+    ],
     keywords: 'energía inmediata, impulso natural, enfoque mental, vitalidad, Zafir, Zenhogar, bebida energizante',
     components: 'Borojó, Maca, Taurina, Cafeína y Vitaminas B3, B6, B12 y Biotina',
     longTailKeywords: [
@@ -1721,6 +1906,12 @@ export const PRODUCTS: Product[] = [
     size: '60 Cápsulas',
     presentation: 'Cápsulas',
     invima: 'RSA-0031426-2024',
+    supportImages: [
+      '/assets/products/zeus-apoyo-1.webp',
+      '/assets/products/zeus-apoyo-2.webp',
+      '/assets/products/zeus-apoyo-3.webp',
+      '/assets/products/zeus-apoyo-4.webp'
+    ],
     keywords: 'vitalidad masculina, vigor natural, rendimiento sexual, potencia hombre, Zeus, Zenhogar, Borojó, Maca',
     components: 'Borojó, Chontaduro, Maca, Guaraná, Fenogreco y Açaí',
     longTailKeywords: [
@@ -1769,6 +1960,12 @@ export const PRODUCTS: Product[] = [
     basePrice: 79900,
     size: '350g',
     presentation: 'Polvo',
+    supportImages: [
+      '/assets/products/nad-1-apoyo-1.webp',
+      '/assets/products/nad-1-apoyo-2.webp',
+      '/assets/products/nad-1-apoyo-3.webp',
+      '/assets/products/nad-1-apoyo-4.webp'
+    ],
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
     components: 'Colágeno (10g), Crema de Coco, NAD, Vitaminas A, C, D, E y complejo B',
     longTailKeywords: [
@@ -1822,6 +2019,12 @@ export const PRODUCTS: Product[] = [
     size: '200g',
     presentation: 'Polvo',
     invima: 'PSA-000982-2018',
+    supportImages: [
+      '/assets/products/titancoffee-apoyo-1.webp',
+      '/assets/products/titancoffee-apoyo-2.webp',
+      '/assets/products/titancoffee-apoyo-3.webp',
+      '/assets/products/titancoffee-apoyo-4.webp'
+    ],
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar, vigor natural',
     components: 'Maca, Chontaduro, Borojó, Café soluble y Crema de Coco',
     longTailKeywords: [
@@ -1874,6 +2077,12 @@ export const PRODUCTS: Product[] = [
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC15678-23CO',
+    supportImages: [
+      '/assets/products/hemocream-apoyo-1.webp',
+      '/assets/products/hemocream-apoyo-2.webp',
+      '/assets/products/hemocream-apoyo-3.webp',
+      '/assets/products/hemocream-apoyo-4.webp'
+    ],
     keywords: 'hemorroides, ardor, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, Hemocream, Zenhogar',
     components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena y Manzanilla',
     longTailKeywords: [
