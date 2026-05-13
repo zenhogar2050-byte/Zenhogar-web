@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function LegalFooter() {
@@ -42,6 +42,17 @@ export default function LegalFooter() {
         <div>
           <h4 className="text-lg font-bold mb-6 text-stone-900">Contacto</h4>
           <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center shrink-0">
+                <MapPin className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1" aria-label="Dirección administrativa de registro únicamente">Dirección Administrativa</p>
+                <p className="text-stone-900 font-bold text-xs">Carrera 3a #23 - 40</p>
+                <p className="text-stone-700 text-xs text-[10px]">Puerto Colombia, Atlántico, CO</p>
+                {/* Dirección administrativa de registro (cumplimiento Merchant Center - Dropshipping sin atención física) */}
+              </div>
+            </div>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-stone-100 flex items-center justify-center">
                 <Phone className="w-5 h-5 text-emerald-600" />

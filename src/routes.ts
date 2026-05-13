@@ -8,6 +8,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DeliveryConditions from './pages/DeliveryConditions';
 import ReturnsWarranty from './pages/ReturnsWarranty';
 import Gracias from './pages/Gracias';
+import NotFound from './pages/NotFound';
 
 export const routes = [
   { path: '/', component: Home },
@@ -20,4 +21,5 @@ export const routes = [
   { path: '/condiciones-entrega', component: DeliveryConditions },
   { path: '/devoluciones-garantia', component: ReturnsWarranty },
   { path: '/gracias', component: Gracias },
+  { path: '*', component: NotFound },
 ];

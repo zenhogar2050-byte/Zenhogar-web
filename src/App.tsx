@@ -39,6 +39,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import DeliveryConditions from './pages/DeliveryConditions';
 import ReturnsWarranty from './pages/ReturnsWarranty';
 import AdminDashboard from './pages/AdminDashboard';
+import NotFound from './pages/NotFound';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -107,7 +108,7 @@ function AppContent() {
             <Route path="/condiciones-entrega" element={<DeliveryConditions />} />
             <Route path="/devoluciones-garantia" element={<ReturnsWarranty />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="*" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

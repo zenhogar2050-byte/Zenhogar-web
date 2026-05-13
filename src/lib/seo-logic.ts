@@ -56,28 +56,26 @@ export const generateSchemaGraph = (params: {
                         "@type": "QuantitativeValue",
                         "minValue": 0,
                         "maxValue": 1,
-                        "unitCode": "d"
+                        "unitCode": "DAY"
                     },
                     "transitTime": {
                         "@type": "QuantitativeValue",
                         "minValue": 1,
                         "maxValue": 3,
-                        "unitCode": "d"
+                        "unitCode": "DAY"
                     }
                 }
             }
         };
 
-        const offers = offerCountNum > 1 ? {
-            "@type": "AggregateOffer",
-            ...offersBase,
-            "lowPrice": lowPriceClean,
-            "highPrice": highPriceClean,
-            "offerCount": offerCountNum
-        } : {
+        // For Google Merchant Center, we provide exactly the primary individual offer 
+        // to match the product feed and avoid "Misleading Information" suspensions.
+        // We use the masterId as SKU and MPN which is the standard for dropshipping feeds.
+        const offer: any = {
             "@type": "Offer",
             ...offersBase,
-            "price": lowPriceClean
+            "price": lowPriceClean,
+            "name": `1 Unidad de ${productData.name}`
         };
 
         const productEntity: any = {
@@ -85,14 +83,14 @@ export const generateSchemaGraph = (params: {
             "@type": "Product",
             "name": productData.name,
             "description": productData.description || description,
-            "sku": String(productData.id || "zen-" + (productData.name || "prod").toLowerCase().replace(/\s+/g, '-')),
-            "mpn": String(productData.id || "zen-" + (productData.name || "prod").toLowerCase().replace(/\s+/g, '-')),
+            "sku": String(productData.masterId || productData.id).toUpperCase(),
+            "mpn": String(productData.masterId || productData.id).toUpperCase(),
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
             "brand": { 
                 "@type": "Brand", 
                 "name": "Zenhogar" 
             },
-            "offers": offers
+            "offers": offer
         };
 
         if (productData.reviews && productData.reviews.length > 0) {

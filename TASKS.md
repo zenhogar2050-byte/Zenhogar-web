@@ -29,12 +29,17 @@
 - [x] Galería de miniaturas funcional en `ProductLanding.tsx`.
 - [x] Corrección de assets para **+NAD** (uso de `nad-1-apoyo`).
 - [x] Optimización de miniaturas para **Instant Virgin** (reducción a 3 imágenes clave).
+- [x] **Auditoría Merchant Center:** 
+    - Implementación de `NotFound.tsx` para evitar Soft-404.
+    - Desglose de `AggregateOffer` a `Offer[]` en JSON-LD para coincidencia de precios exacta.
+    - Sincronización 1:1 de Meta Titles con nombres de productos (sin sufijos).
+    - Inserción de dirección administrativa de registro (Puerto Colombia) en Footer para "Representación Veraz" y transparencia (Dropshipping).
 
 ### 🚀 Próximas Tareas (Propuestas por Auditoría)
-1. **Optimización de Fuentes:** Evaluar inlining de la fuente "Outfit" para el H1 principal para reducir el tiempo de primer pintado con contenido.
-2. **PWA Check:** Verificar que el `manifest.json` y los iconos (Apple Touch) estén siendo servidos correctamente para "Add to Home Screen".
-3. **Caché de Imágenes:** Implementar política de caché agresiva en `server.ts` para assets en `/assets/`.
-4. **Validación de Enlaces:** Auditoría de enlaces rotos en el Footer hacia las nuevas páginas de política.
+1. **Verificación de Feed:** Asegurar que los IDs en el feed de Merchant Center coincidan con los `sku` (IDs en mayúsculas) generados en el JSON-LD.
+2. **Optimización de Fuentes:** Evaluar inlining de la fuente "Outfit" para el H1 principal para reducir el tiempo de primer pintado con contenido.
+3. **PWA Check:** Verificar que el `manifest.json` e iconos (Apple Touch) estén siendo servidos correctamente.
+4. **Caché de Imágenes:** Implementar política de caché agresiva en `server.ts` para assets en `/assets/`.
 
 ---
 *Este archivo es una guía viva para el mantenimiento del blindaje SEO y técnico de Zenhogar.*

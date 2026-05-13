@@ -20,7 +20,8 @@ const SEOManager = ({
     // Si la ruta es vacía tras quitar slashes, es la Home. Google prefiere la versión con slash final para el dominio base.
     const fullUrl = normalizedPath === "" ? `${baseUrl}/` : `${baseUrl}${normalizedPath}`;
     
-    const fullTitle = title.includes('Zenhogar') ? title : `${title} | Zenhogar`;
+    // Para productos, usamos el título tal cual (como está en el feed) para evitar discrepancias
+    const fullTitle = type === "product" ? title : (title.includes('Zenhogar') ? title : `${title} | Zenhogar`);
     const defaultImage = `${baseUrl}/assets/logo/og-image.png`;
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 

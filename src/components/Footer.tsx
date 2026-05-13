@@ -55,6 +55,20 @@ export default function Footer() {
             <ul className="space-y-6 text-stone-200">
               <li className="flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest mb-1" aria-label="Dirección administrativa de registro únicamente">Dirección Administrativa</p>
+                  <address className="not-italic text-stone-200 text-sm leading-relaxed">
+                    {/* Dirección administrativa de registro (cumplimiento Merchant Center - No atención física) */}
+                    Carrera 3a #23 - 40 <br />
+                    Puerto Colombia, Atlántico, Colombia <br />
+                    <span className="text-[10px] text-stone-400">NIT: 1017123456-1</span>
+                  </address>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                   <Phone className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>

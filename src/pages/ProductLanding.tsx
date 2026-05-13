@@ -102,19 +102,21 @@ export default function ProductLanding() {
     navigate('/checkout');
   };
 
-  const seoTitle = product.seoTitle || product.name;
-  const seoDescription = product.seoDescription || product.shortDescription;
+  // Bot-friendly clean metadata
+  const cleanSeoTitle = product.name; // Usar nombre exacto del feed
+  const cleanSeoDescription = product.description.split('.')[0] + '.'; // Primera oración para descripción limpia
 
   return (
     <div className="min-h-screen bg-white">
       <SEOManager 
-        title={seoTitle}
-        description={seoDescription}
+        title={cleanSeoTitle}
+        description={cleanSeoDescription}
         canonicalUrl={`/producto/${product.id}`}
         ogImage={product.image}
         type="product"
         productData={{
           id: product.id,
+          masterId: product.masterId,
           name: product.name,
           description: product.description,
           category: product.category,
