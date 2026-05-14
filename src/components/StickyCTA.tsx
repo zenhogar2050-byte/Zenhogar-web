@@ -67,28 +67,28 @@ export default function StickyCTA({
           animate={{ y: 0 }}
           exit={{ y: 100 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-3 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-4 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 lg:gap-4">
             <div className="flex items-center gap-2 lg:gap-3 flex-1 min-w-0">
-              <div className="w-10 h-10 lg:w-16 lg:h-16 bg-stone-100 rounded-lg lg:rounded-2xl overflow-hidden flex-shrink-0">
+              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-stone-100 rounded-lg lg:rounded-2xl overflow-hidden flex-shrink-0">
                 <img src={image} alt={name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
               </div>
               <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-1.5 flex-wrap lg:flex-nowrap">
-                  <span className="text-[11px] sm:text-xs lg:text-sm font-bold text-stone-900 truncate max-w-[100px] sm:max-w-none">{name}</span>
-                  <span className="text-emerald-700 font-black text-sm lg:text-lg italic leading-none whitespace-nowrap">
+                <div className="flex items-center gap-1 flex-wrap lg:flex-nowrap">
+                  <span className="text-[14px] sm:text-sm lg:text-sm font-bold text-stone-900 line-clamp-2 leading-tight">{name}</span>
+                  <span className="text-emerald-700 font-black text-base lg:text-lg italic leading-none whitespace-nowrap">
                     {formatCurrency(price)}
                   </span>
                 </div>
                 
                 {promos && onPromoChange && (
-                  <div className="relative mt-0.5 self-start w-full sm:w-auto">
+                  <div className="relative mt-1 self-start w-full sm:w-auto">
                     <select
                       value={selectedPromoId || ''}
                       onChange={(e) => onPromoChange(e.target.value)}
                       aria-label="Seleccionar promoción"
-                      className="appearance-none bg-stone-100 text-stone-700 text-[9px] sm:text-[10px] lg:text-xs font-bold py-1 pl-1.5 pr-5 lg:pl-2 lg:pr-6 rounded uppercase outline-none focus:ring-1 focus:ring-emerald-500 border border-stone-200 cursor-pointer w-full text-ellipsis line-clamp-1"
+                      className="appearance-none bg-stone-100 text-stone-700 text-[11px] sm:text-[12px] lg:text-xs font-bold py-1.5 pl-1.5 pr-5 lg:pl-2 lg:pr-6 rounded uppercase outline-none focus:ring-1 focus:ring-emerald-500 border border-stone-200 cursor-pointer w-full text-ellipsis line-clamp-1"
                     >
                       {promos.map(promo => (
                         <option key={promo.id} value={promo.id}>

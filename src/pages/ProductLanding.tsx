@@ -2,7 +2,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCTS, GENERAL_FAQS } from '../constants';
 import { useCart } from '../CartContext';
-import { CheckCircle2, ShoppingCart, ArrowLeft, Star, TrendingUp, Zap, ShieldCheck, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { CheckCircle2, ShoppingCart, ArrowLeft, Star, TrendingUp, Zap, ShieldCheck, ChevronDown, ChevronUp, Info, Play } from 'lucide-react';
 import { cn, formatCurrency } from '../utils';
 import { useEffect, useState, useRef } from 'react';
 import Footer from '../components/Footer';
@@ -15,6 +15,7 @@ import { track } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
 import StickyCTA from '../components/StickyCTA';
+import ProductVideo from '../components/ProductVideo';
 
 export default function ProductLanding() {
   const { id } = useParams();
@@ -25,11 +26,19 @@ export default function ProductLanding() {
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const product = PRODUCTS.find(p => p.id === id);
-  const [activeImage, setActiveImage] = useState<string>('');
+
+  // Gallery Logic with Video Support
+  const galleryItems = product ? [
+    ...(product.videoUrl || product.videoUrlMp4 ? [{ type: 'video', webm: product.videoUrl, mp4: product.videoUrlMp4, poster: product.videoPoster }] : []),
+    { type: 'image', url: product.image },
+    ...(product.supportImages || []).map(img => ({ type: 'image', url: img }))
+  ] : [];
+
+  const [activeItem, setActiveItem] = useState(galleryItems[0] || null);
 
   useEffect(() => {
-    if (product) {
-      setActiveImage(product.image);
+    if (galleryItems.length > 0) {
+      setActiveItem(galleryItems[0]);
     }
   }, [id, product]);
 
@@ -103,14 +112,14 @@ export default function ProductLanding() {
   };
 
   // Bot-friendly clean metadata
-  const cleanSeoTitle = product.name; // Usar nombre exacto del feed
-  const cleanSeoDescription = product.description.split('.')[0] + '.'; // Primera oración para descripción limpia
+  const finalSeoTitle = product.seoTitle || product.name;
+  const finalSeoDescription = product.seoDescription || product.description.split('.')[0] + '.';
 
   return (
     <div className="min-h-screen bg-white">
       <SEOManager 
-        title={cleanSeoTitle}
-        description={cleanSeoDescription}
+        title={finalSeoTitle}
+        description={finalSeoDescription}
         canonicalUrl={`/producto/${product.id}`}
         ogImage={product.image}
         type="product"
@@ -149,39 +158,61 @@ export default function ProductLanding() {
                 className="relative lg:sticky lg:top-28"
               >
                 <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl bg-stone-50 flex items-center justify-center p-6 lg:p-8">
-                  <img
-                    src={activeImage || product.image}
-                    alt={product.name}
-                    width={800}
-                    height={800}
-                    loading="eager"
-                    fetchPriority="high"
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
+                  {activeItem?.type === 'video' ? (
+                    <ProductVideo 
+                      webmUrl={activeItem.webm} 
+                      mp4Url={activeItem.mp4} 
+                      poster={activeItem.poster}
+                      className="rounded-none" 
+                    />
+                  ) : (
+                    <img
+                      src={activeItem?.url || product.image}
+                      alt={product.name}
+                      width={800}
+                      height={800}
+                      loading="eager"
+                      fetchPriority="high"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
                 </div>
 
                 {/* Thumbnail Gallery */}
-                {product.supportImages && product.supportImages.length > 0 && (
-                  <div className="grid grid-cols-5 gap-3 mt-6">
-                    {[product.image, ...product.supportImages].map((img, index) => (
+                {galleryItems.length > 1 && (
+                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 sm:gap-3 mt-6">
+                    {galleryItems.map((item, index) => (
                       <button
                         key={index}
-                        onClick={() => setActiveImage(img)}
+                        onClick={() => setActiveItem(item)}
                         className={cn(
-                          "aspect-square rounded-2xl overflow-hidden border-2 transition-all p-1 bg-white shadow-sm hover:scale-105 active:scale-95 group/thumb",
-                          (activeImage === img || (!activeImage && index === 0)) 
+                          "aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all p-0.5 sm:p-1 bg-white shadow-sm hover:scale-105 active:scale-95 group/thumb flex items-center justify-center",
+                          (activeItem === item) 
                             ? "border-emerald-600 ring-2 ring-emerald-100" 
                             : "border-stone-200 hover:border-emerald-300"
                         )}
-                        aria-label={`Ver imagen ${index + 1} de ${product.name}`}
+                        aria-label={`Ver ${item.type === 'video' ? 'video' : 'imagen'} ${index + 1} de ${product.name}`}
                       >
-                        <img 
-                          src={img} 
-                          alt={`${product.name} miniatura ${index + 1}`} 
-                          className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
-                          referrerPolicy="no-referrer"
-                        />
+                        {item.type === 'video' ? (
+                          <div className="relative w-full h-full bg-stone-100 flex items-center justify-center overflow-hidden rounded-xl">
+                            {item.poster ? (
+                              <img src={item.poster} className="w-full h-full object-cover opacity-60" alt="Video thumbnail" />
+                            ) : (
+                              <Play className="w-6 h-6 text-emerald-600 fill-current" />
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                              <Play className="w-5 h-5 text-white fill-current" />
+                            </div>
+                          </div>
+                        ) : (
+                          <img 
+                            src={item.url} 
+                            alt={`${product.name} miniatura ${index + 1}`} 
+                            className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
+                            referrerPolicy="no-referrer"
+                          />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -260,7 +291,7 @@ export default function ProductLanding() {
                 )}
               </div>
 
-              <h2 className="text-lg text-stone-600 mb-6 mt-4 leading-relaxed">
+              <h2 className="text-lg text-stone-600 mb-6 mt-4 leading-relaxed whitespace-pre-line">
                 {product.description} <strong className="font-bold text-stone-800">| Calidad Certificada {(!product.invima || product.invima.toLowerCase().includes('trámite')) ? '(INVIMA: Registro en proceso de verificación)' : `(INVIMA: ${product.invima})`}</strong>
               </h2>
 

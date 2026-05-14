@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PROMOTIONS, COMBO_OF_THE_MONTH, GENERAL_FAQS, PRODUCTS } from '../constants';
 import FAQSection from '../components/FAQSection';
 import { useCart } from '../CartContext';
-import { CheckCircle2, ShoppingCart, ArrowLeft, Star, Zap, ShieldCheck, TrendingUp, Info, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2, ShoppingCart, ArrowLeft, Star, Zap, ShieldCheck, TrendingUp, Info, ChevronDown, ChevronUp, Play } from 'lucide-react';
 import { cn, formatCurrency, cleanPromoName } from '../utils';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
@@ -12,6 +12,7 @@ import ConfidenceBadges from '../components/ConfidenceBadges';
 import { track } from '../utils/pixel';
 import { useEffect, useState, useRef } from 'react';
 import StickyCTA from '../components/StickyCTA';
+import ProductVideo from '../components/ProductVideo';
 
 export default function ComboLanding() {
   const { id } = useParams();
@@ -20,6 +21,10 @@ export default function ComboLanding() {
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
   const combo = PROMOTIONS.find(p => p.id === id) || (COMBO_OF_THE_MONTH.id === id ? COMBO_OF_THE_MONTH : null);
+
+  // Video Support
+  const hasVideo = combo?.videoUrl || combo?.videoUrlMp4;
+  const [showVideo, setShowVideo] = useState(!!hasVideo);
 
   useEffect(() => {
     if (combo) {
@@ -64,8 +69,8 @@ export default function ComboLanding() {
   return (
     <div className="min-h-screen bg-white">
       <SEOManager 
-        title={cleanPromoName(combo.name)}
-        description={`${combo.description} Aprovecha este combo exclusivo de productos naturales originales.`}
+        title={combo.seoTitle || cleanPromoName(combo.name)}
+        description={combo.seoDescription || `${combo.description} Aprovecha este combo exclusivo de productos naturales originales.`}
         canonicalUrl={`/combo/${combo.id}`}
         ogImage={combo.image}
         type="product"
@@ -108,17 +113,57 @@ export default function ComboLanding() {
                 className="relative lg:sticky lg:top-28"
               >
                 <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl bg-stone-50 flex items-center justify-center p-6 lg:p-8">
-                  <img
-                    src={combo.image}
-                    alt={combo.name}
-                    width={800}
-                    height={800}
-                    loading="eager"
-                    fetchPriority="high"
-                    className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
+                  {showVideo && (combo?.videoUrl || combo?.videoUrlMp4) ? (
+                    <ProductVideo 
+                      webmUrl={combo.videoUrl}
+                      mp4Url={combo.videoUrlMp4}
+                      poster={combo.videoPoster}
+                      className="rounded-none"
+                    />
+                  ) : (
+                    <img
+                      src={combo.image}
+                      alt={combo.name}
+                      width={800}
+                      height={800}
+                      loading="eager"
+                      fetchPriority="high"
+                      className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
                 </div>
+
+                {/* Video/Image Toggle (if both exist) */}
+                {hasVideo && (
+                  <div className="flex justify-center gap-2 sm:gap-4 mt-6">
+                    <button
+                      onClick={() => setShowVideo(true)}
+                      className={cn(
+                        "w-24 h-24 sm:w-16 sm:h-16 rounded-2xl border-2 transition-all p-1 flex items-center justify-center bg-white shadow-sm",
+                        showVideo ? "border-emerald-600 ring-2 ring-emerald-100" : "border-stone-200"
+                      )}
+                    >
+                      <div className="relative w-full h-full bg-stone-50 rounded-xl flex items-center justify-center overflow-hidden">
+                        {combo.videoPoster ? (
+                          <img src={combo.videoPoster} className="w-full h-full object-cover opacity-60" alt="" />
+                        ) : (
+                          <Play className="w-6 h-6 text-emerald-600 fill-current" />
+                        )}
+                        <Play className="w-4 h-4 text-white absolute fill-current" />
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => setShowVideo(false)}
+                      className={cn(
+                        "w-24 h-24 sm:w-16 sm:h-16 rounded-2xl border-2 transition-all p-1 flex items-center justify-center bg-white shadow-sm",
+                        !showVideo ? "border-emerald-600 ring-2 ring-emerald-100" : "border-stone-200"
+                      )}
+                    >
+                      <img src={combo.image} className="w-full h-full object-contain" alt="" />
+                    </button>
+                  </div>
+                )}
 
                 {/* Presentaciones de productos del combo */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
@@ -196,7 +241,7 @@ export default function ComboLanding() {
               
               <div className="flex flex-col gap-1 mb-4">
                 <span className="text-[20px] font-black text-emerald-600 uppercase tracking-wider">Es útil para:</span>
-                <h2 className="text-lg font-bold text-stone-800 leading-tight">
+                <h2 className="text-lg text-stone-600 mb-6 mt-2 leading-relaxed whitespace-pre-line">
                   {combo.description} <strong className="font-bold text-stone-800">| Calidad Certificada {combo.products.map(p => {
                     const productInfo = PRODUCTS.find(prod => prod.id === p);
                     if (!productInfo) return '';

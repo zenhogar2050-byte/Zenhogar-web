@@ -35,6 +35,9 @@ export interface Product {
   presentation?: string;
   peso_adicional?: number;
   supportImages?: string[];
+  videoUrl?: string;
+  videoUrlMp4?: string;
+  videoPoster?: string;
 }
 
 export const CATEGORIES = [
@@ -77,7 +80,12 @@ export const PRODUCTS: Product[] = [
     name: 'Rtafull',
     category: 'salud-bienestar',
     shortDescription: 'Depura tu hígado y elimina la pesadez estomacal de inmediato.',
-    description: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. ✔️ Vientre Ligero: Ayuda a reducir la sensación de pesadez y estimula la digestión para sentirte más liviano cada día. ✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.',
+    description: `Bebida concentrada desarrollada para apoyar la salud digestiva y facilitar la regulación del tránsito lento. Sus extractos naturales actúan de forma sinérgica para estimular la eliminación de grasas y toxinas, promoviendo una limpieza profunda del hígado y los riñones de manera segura. 
+    
+✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. 
+✔️ Vientre Ligero: Ayuda a reducir la sensación de pesadez y estimula la digestión para sentirte más liviano cada día. 
+✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.
+Calidad Certificada (INVIMA: PSA-000932-2017)`,
     seoTitle: 'Limpieza Natural y Cuidado del Hígado con Rtafull',
     seoDescription: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena. Ayuda a reducir la sensación de pesadez y estimula la digestión. ¡Calidad INVIMA!',
     benefits: [
@@ -134,7 +142,9 @@ export const PRODUCTS: Product[] = [
     name: 'Coliplus',
     category: 'salud-bienestar',
     shortDescription: 'Regula tu tránsito intestinal y limpia el colon naturalmente.',
-    description: 'Mezcla de fibras naturales para una digestión fácil y regular. Apto para diabéticos y con un rendimiento de hasta 2 meses.',
+    description: `Mezcla de ingredientes naturales diseñada para limpiar el colon de manera efectiva, combatir el estreñimiento y mejorar la digestión diaria. Su fórmula rica en fibra ayuda a reducir la hinchazón abdominal y promueve un tránsito intestinal regular y saludable. 
+
+Mezcla de fibras naturales para una digestión fácil y regular. Apto para diabéticos y con un rendimiento de hasta 2 meses.`,
     seoTitle: 'Limpieza Intestinal Natural con Coliplus Sabor Manzana',
     seoDescription: 'Ve al baño de forma fácil y regular con Pitaya y Espirulina. Coliplus es apto para diabéticos y rinde 2 meses. ¡Salud intestinal con calidad INVIMA!',
     benefits: [
@@ -192,7 +202,9 @@ export const PRODUCTS: Product[] = [
     name: 'Colágeno + Citrato de Magnesio',
     category: 'salud-bienestar',
     shortDescription: 'Fortalece tus articulaciones y mejora la calidad de tu sueño.',
-    description: 'Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para todas las edades y enfocado en la hidratación de tu piel.',
+    description: `Fórmula diseñada para restaurar la elasticidad de la piel y fortalecer el sistema estructural del cuerpo desde el interior. Este suplemento combina colágeno hidrolizado de fácil absorción con citrato de magnesio, un mineral esencial que potencia la regeneración de tejidos, mejora la movilidad de las articulaciones y ayuda a reducir los signos visibles del envejecimiento como la flacidez y las arrugas. 
+
+Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para todas las edades y enfocado en la hidratación de tu piel.`,
     seoTitle: 'Colágeno + Citrato de Magnesio: Bienestar y Energía',
     seoDescription: 'Fortalece tus articulaciones y mejora tu digestión con Colágeno + Citrato de Magnesio. Calidad INVIMA para tu bienestar integral diaria.',
     benefits: [
@@ -246,11 +258,13 @@ export const PRODUCTS: Product[] = [
   {
     id: 'resvis',
     masterId: '22967',
-    name: 'Resvifactor (Calostro Bovino)',
+    name: 'Resvisfactor (Calostro Bovino)',
     category: 'salud-bienestar',
     shortDescription: 'Aumenta tus defensas y protege tu cuerpo contra virus.',
-    description: '✔️ Escudo Natural: Con Calostro Bovino y Hongos Naturales (Shiitake) para fortalecer tu sistema inmunológico. ✔️ Energía para Todos: Ideal para adultos mayores y jóvenes que buscan protección contra virus y bacterias. ✔️ Bienestar diario: Ayuda a la recuperación del cuerpo y aporta vitalidad inmediata.',
-    seoTitle: 'Refuerzo Total para tus Defensas con Resvifactor Calostro Bovino',
+    description: `Suplemento nutricional a base de proteína de soya y suero, enriquecido con Calostro Bovino, Hongo Shiitake y Betaglucanos de Ganoderma Lucidum. Contiene una mezcla completa de Omega 3, 6 y 9, aminoácidos (L-Glutamina, L-Arginina) y un amplio complejo multivitamínico. Endulzado con Stevia, es el aliado ideal para complementar la nutrición diaria y el bienestar general.
+
+✔️ Escudo Natural: Con Calostro Bovino y Hongos Naturales (Shiitake) para fortalecer tu sistema inmunológico. ✔️ Energía para Todos: Ideal para adultos mayores y jóvenes que buscan protección contra virus y bacterias. ✔️ Bienestar diario: Ayuda a la recuperación del cuerpo y aporta vitalidad inmediata.`,
+    seoTitle: 'Refuerzo Total para tus Defensas con Resvisfactor Calostro Bovino',
     seoDescription: '✔️ Escudo Natural: Con Calostro Bovino y Shiitake. Fortalece tu sistema inmunológico y aporta vitalidad inmediata. ¡Calidad INVIMA!',
     benefits: [
       'Refuerza el sistema inmunológico',
@@ -297,7 +311,7 @@ export const PRODUCTS: Product[] = [
     ],
     whyChoose: {
       title: 'Tu Escudo de Vida Diario',
-      description: 'En ZENHOGAR impulsamos tu vitalidad con fórmulas que actúan desde el interior. Resvifactor es la opción ideal para quienes buscan una protección natural superior, combinando calostro y hongos funcionales para mantener tus defensas siempre activas.'
+      description: 'En ZENHOGAR impulsamos tu vitalidad con fórmulas que actúan desde el interior. Resvisfactor es la opción ideal para quienes buscan una protección natural superior, combinando calostro y hongos funcionales para mantener tus defensas siempre activas.'
     }
   },
   {
@@ -306,7 +320,9 @@ export const PRODUCTS: Product[] = [
     name: 'CLA 500',
     category: 'salud-bienestar',
     shortDescription: 'Reconforta articulaciones y reduce la pesadez corporal.',
-    description: 'Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulaciones y proteger tu piel del paso del tiempo.',
+    description: `Suplemento nutricional integral diseñado para complementar un estilo de vida activo. Su fórmula avanzada combina los beneficios del Ácido Linoleico Conjugado (CLA) con nutrientes esenciales como Magnesio, Vitamina D3 y Colágeno Hidrolizado, potenciados con extractos de Cúrcuma y Pimienta Negra. Ideal para quienes buscan un soporte metabólico y nutricional que favorezca el bienestar general y la recuperación física diaria.
+
+Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulaciones y proteger tu piel del paso del tiempo.`,
     seoTitle: 'Reconforta tus Articulaciones con CLA 500 Cúrcuma y Pimienta',
     seoDescription: 'Reduce la pesadez y protege tu piel con CLA 500. Máximo aprovechamiento gracias al toque de pimienta negra. ¡Salud natural con calidad INVIMA!',
     benefits: [
@@ -367,7 +383,9 @@ export const PRODUCTS: Product[] = [
     name: 'Café Verde Cafetolio',
     category: 'salud-bienestar',
     shortDescription: 'Activa tu metabolismo y controla la ansiedad de picar.',
-    description: 'Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu vientre plano y darte energía.',
+    description: `Alimento en polvo a base de café verde puro molido, reconocido por su contenido natural de ácido clorogénico. Este producto es una opción ideal para quienes buscan un complemento natural en sus hábitos de bienestar diarios. Actúa como un antioxidante natural que complementa un estilo de vida saludable y una dieta equilibrada, proporcionando vitalidad de forma orgánica. 100% Café Puro, apto para veganos.
+
+Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu vientre plano y darte energía.`,
     seoTitle: 'Limpieza Natural y Vientre Plano con Café Verde Cafetolio',
     seoDescription: 'Elimina grasa y limpia tu hígado con el poder del grano al natural de Cafetolio. Energía pura sin nerviosismos. ¡Calidad INVIMA garantizada!',
     benefits: [
@@ -427,7 +445,9 @@ export const PRODUCTS: Product[] = [
     name: 'Loción Termoactiva',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Rápido para Músculos y Articulaciones.',
-    description: '✔️ Calma el Dolor: Con extractos de Uña de Gato y Caléndula que alivian golpes, torceduras y calambres. ✔️ Relajación Total: Ideal para aplicar después del ejercicio o tras un día de mucho esfuerzo físico. ✔️ Efecto Rápido: Se absorbe velozmente proporcionando alivio y descanso en la zona afectada.',
+    description: `Loción de masaje ideal para la relajación muscular y el alivio de tensiones después del ejercicio o actividades físicas exigentes. Sus componentes activos de absorción rápida proporcionan una sensación de alivio local en músculos y articulaciones, ayudando en casos de contracturas o fatiga.
+
+✔️ Calma el Dolor: Con extractos de Uña de Gato y Caléndula que alivian golpes, torceduras y calambres. ✔️ Relajación Total: Ideal para aplicar después del ejercicio o tras un día de mucho esfuerzo físico. ✔️ Efecto Rápido: Se absorbe velozmente proporcionando alivio y descanso en la zona afectada.`,
     seoTitle: 'Alivio Rápido para Músculos y Articulaciones - Loción Termoactiva',
     seoDescription: '✔️ Calma el Dolor: Con Uña de Gato y Caléndula. Alivio para golpes, torceduras y calambres con efecto calor. ¡Registro INVIMA!',
     benefits: [
@@ -489,7 +509,9 @@ export const PRODUCTS: Product[] = [
     name: 'C-Lagen',
     category: 'salud-bienestar',
     shortDescription: 'Refuerzo del Mar para tus Rodillas.',
-    description: 'Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos y mejorar tu movilidad diaria.',
+    description: `Alimento en polvo a base de harina de arroz y proteína de suero, cuyo protagonista es el Colágeno Hidrolizado de Origen Marino. Esta fórmula se complementa con Citrato de Magnesio y una premezcla de 12 vitaminas y 8 minerales. Ideal para quienes buscan mantener la elasticidad de los tejidos y el bienestar de las articulaciones, contribuyendo a la vitalidad del sistema nervioso.
+
+Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos y mejorar tu movilidad diaria.`,
     seoTitle: 'Refuerzo de Colágeno Marino para Rodillas y Articulaciones | C-Lagen',
     seoDescription: 'Recupera tu movilidad con C-Lagen. Colágeno de mar de fácil absorción con Magnesio para huesos fuertes y sanos. ¡Calidad INVIMA!',
     benefits: [
@@ -550,7 +572,10 @@ export const PRODUCTS: Product[] = [
     name: 'Citramix',
     category: 'salud-bienestar',
     shortDescription: 'Relajante de Músculos y Nervios.',
-    description: 'Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar calambres y mantener la calma diaria.',
+    description: `Complemento alimenticio avanzado formulado con una mezcla de hierbas aromáticas, té verde e inulina. Su ingrediente principal es el Citrato de Magnesio, mineral clave para el bienestar muscular y óseo. Está enriquecido con un complejo multivitamínico (A, C, D, E y complejo B) y minerales esenciales que contribuyen a disminuir la sensación de cansancio y fatiga diaria. 
+Sabor: Durazno.
+
+Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar calambres y mantener la calma diaria.`,
     seoTitle: 'Relaja Músculos y Nervios con Citramix Sabor Durazno',
     seoDescription: 'Dile adiós a la tensión y calambres con Citramix. Tres tipos de magnesio para descansar mejor y tener una digestión ligera. ¡Calidad INVIMA!',
     benefits: [
@@ -606,7 +631,9 @@ export const PRODUCTS: Product[] = [
     name: 'Coffee + Colágeno',
     category: 'salud-bienestar',
     shortDescription: 'Café con Vitaminas para tu Belleza.',
-    description: 'Combina tu café matutino con el poder del colágeno y crema de coco para fortalecer tu cabello, uñas y defensas sin caer pesado.',
+    description: `Deliciosa mezcla nutricional en polvo que combina la energía del café soluble con los beneficios del Colágeno Hidrolizado en una base cremosa de coco. Fortificado con vitaminas esenciales (A, C, D, E, B) y minerales como Calcio y Magnesio. Es el aliado perfecto para comenzar el día, aportando nutrientes que favorecen la salud de la piel, el cabello y las uñas mientras disfrutas de un sabor excepcional. 
+ 
+Combina tu café matutino con el poder del colágeno y crema de coco para fortalecer tu cabello, uñas y defensas sin caer pesado.`,
     seoTitle: 'Tu Ritual de Belleza Matutino con Coffee + Colágeno',
     seoDescription: 'Fortalece cabello y uñas con Coffee + Colágeno. Hecho con crema de coco y 12 vitaminas para tu vitalidad. ¡Calidad INVIMA garantizada!',
     benefits: [
@@ -661,7 +688,9 @@ export const PRODUCTS: Product[] = [
     name: 'Creatina 100%',
     category: 'salud-bienestar',
     shortDescription: 'Fuerza para tus Músculos y Cerebro.',
-    description: 'Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despierta y concentrada.',
+    description: `Optimiza tu rendimiento físico y potencia tu fuerza muscular con creatina monohidratada de máxima pureza. Es el aliado perfecto para mejorar la recuperación post-entrenamiento y mantener la vitalidad muscular en deportistas, adultos mayores y personas con dietas veganas. 
+
+Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despierta y concentrada.`,
     seoTitle: 'Creatina 100% Pura para Fuerza Muscular y Cerebral',
     seoDescription: 'Potencia tus músculos y cerebro con Creatina 100% pura. Ideal para fuerza real y vitalidad en adultos. ¡Calidad de grado farmacéutico USP!',
     benefits: [
@@ -717,7 +746,9 @@ export const PRODUCTS: Product[] = [
     name: 'Iprossmen',
     category: 'salud-bienestar',
     shortDescription: 'Protección Natural para el Hombre.',
-    description: 'Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y mantener tu energía a largo plazo.',
+    description: `Novedosa bebida funcional diseñada con ingredientes de origen natural que tienen un impacto positivo en las funciones del organismo masculino, especialmente en la salud de la próstata. Su fórmula avanzada utiliza tecnologías de extracción para mantener activos sus principios de alto poder antioxidante, como carotenoides y polifenoles, que ayudan a reducir la inflamación, prevenir enfermedades degenerativas y fortalecer el sistema inmunológico. 
+
+Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y mantener tu energía a largo plazo.`,
     seoTitle: 'Protección Natural de la Próstata y Vitalidad con Iprossmen',
     seoDescription: 'Cuida tu próstata con el poder del tomate de árbol y arándanos de Iprossmen. Bienestar masculino y prevención garantizada. ¡Calidad INVIMA!',
     benefits: [
@@ -773,7 +804,9 @@ export const PRODUCTS: Product[] = [
     name: 'KDS 10',
     category: 'salud-bienestar',
     shortDescription: 'Fórmula avanzada multivitamínica.',
-    description: 'KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.',
+    description: `Suplemento nutricional diseñado para fortalecer el sistema inmune y proporcionar energía constante durante el día. Su fórmula enriquecida con vitaminas y minerales es el complemento ideal para el crecimiento infantil y el rendimiento diario en adultos.
+
+KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.`,
     seoTitle: 'Cómo solucionar la falta de vitaminas y defensas bajas con KDS 10',
     seoDescription: 'Fortalece tu organismo con el complejo multivitamínico KDS 10. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ahora!',
     benefits: [
@@ -833,7 +866,9 @@ export const PRODUCTS: Product[] = [
     name: 'Liofhim',
     category: 'salud-bienestar',
     shortDescription: 'Bebida de Plantas para Dormir Profundo.',
-    description: 'Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar renovado cada mañana.',
+    description: `Producto especializado diseñado para ayudar a conciliar el sueño y garantizar un descanso reparador durante la noche. Gracias a su mezcla de hierbas relajantes, ayuda a reducir el estrés y la ansiedad, permitiendo que el cuerpo entre en un estado de relajación profunda. 
+
+Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar renovado cada mañana.`,
     seoTitle: 'Duerme Profundo y Despierta Renovado con Liofhim',
     seoDescription: 'Apaga la mente y logra un descanso real con Liofhim. Mezcla de Manzanilla y Albahaca para dormir rápido y sin interrupciones. ¡Calidad INVIMA!',
     benefits: [
@@ -889,7 +924,9 @@ export const PRODUCTS: Product[] = [
     name: 'Liteplex',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Natural para tu Digestión.',
-    description: '✔️ Bienestar Estomacal: Con Jengibre, Limón y Albahaca que ayudan a calmar la pesadez y la acidez de forma natural. ✔️ Recuperación: Ideal para cuidar tu sistema digestivo después de comidas pesadas o molestias persistentes. ✔️ Sin Azúcar: Endulzado con Estevia, perfecto para cuidar tu salud sin sumar calorías.',
+    description: `Bebida funcional concentrada que combina extractos botánicos de té verde, jengibre, albahaca y menta en una fórmula de rápida absorción. Su composición está diseñada para ofrecer una sensación de frescura y ligereza, siendo un excelente acompañamiento para hábitos de vida saludables y una alimentación equilibrada. Sabor: Limón.
+
+✔️ Bienestar Estomacal: Con Jengibre, Limón y Albahaca que ayudan a calmar la pesadez y la acidez de forma natural. ✔️ Recuperación: Ideal para cuidar tu sistema digestivo después de comidas pesadas o molestias persistentes. ✔️ Sin Azúcar: Endulzado con Estevia, perfecto para cuidar tu salud sin sumar calorías.`,
     seoTitle: 'Alivio Natural para tu Digestión con Liteplex',
     seoDescription: '✔️ Bienestar Estomacal: Con Jengibre y Limón. Calma la pesadez y acidez de forma natural y sin azúcar. ¡Registro INVIMA!',
     benefits: [
@@ -948,7 +985,9 @@ export const PRODUCTS: Product[] = [
     name: 'Maxlite',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Integral para Huesos y Piel.',
-    description: '✔️ Cuidado de Articulaciones: Con colágeno y quinua para mantener tus huesos y articulaciones fuertes y sanos. ✔️ Piel y Cabello: Ayuda a mejorar la apariencia de la piel y fortalecer el cabello desde adentro. ✔️ Multivitamínico: Aporta las vitaminas esenciales para que tu cuerpo funcione con vitalidad.',
+    description: `Mezcla nutricional premium en polvo que integra los beneficios del Colágeno Hidrolizado con la riqueza nutritiva de la Quinua. Enriquecido con Resveratrol, Omega 3, 6 y 9, además de un amplio espectro de vitaminas (A, C, D, E y complejo B) y minerales esenciales. Su fórmula balanceada está diseñada para complementar la nutrición diaria, apoyando el bienestar integral de quienes buscan mantener una vida activa y saludable.
+
+✔️ Cuidado de Articulaciones: Con colágeno y quinua para mantener tus huesos y articulaciones fuertes y sanos. ✔️ Piel y Cabello: Ayuda a mejorar la apariencia de la piel y fortalecer el cabello desde adentro. ✔️ Multivitamínico: Aporta las vitaminas esenciales para que tu cuerpo funcione con vitalidad.`,
     seoTitle: 'Nutrición Integral para Huesos y Piel con Maxlite',
     seoDescription: '✔️ Cuidado de Articulaciones: Colágeno y quinua para huesos fuertes. Nutre piel y cabello con vitaminas esenciales. ¡Registro INVIMA!',
     benefits: [
@@ -1008,7 +1047,9 @@ export const PRODUCTS: Product[] = [
     name: 'Megamac',
     category: 'salud-bienestar',
     shortDescription: 'Energía Renovada y Vitalidad Física.',
-    description: '✔️ Potencia Natural: Con Maca, Borojó y Chontaduro para combatir el cansancio y la debilidad diaria. ✔️ Energía Física: Ideal para personas que buscan un extra de fuerza y rendimiento en sus actividades. ✔️ Bienestar General: Ayuda a fortalecer las defensas y mantener el cerebro despierto y rápido.',
+    description: `Poderosa fórmula nutricional en polvo que reúne ingredientes tradicionales de la biodiversidad colombiana como la Maca, el Borojó y el Chontaduro. Fortificado con una base proteica de suero y un complejo multivitamínico y mineral enriquecido con Hierro, Magnesio, Zinc y Calcio. Ideal como complemento alimenticio para quienes requieren un aporte extra de vitalidad y energía en su rutina diaria.
+
+✔️ Potencia Natural: Con Maca, Borojó y Chontaduro para combatir el cansancio y la debilidad diaria. ✔️ Energía Física: Ideal para personas que buscan un extra de fuerza y rendimiento en sus actividades. ✔️ Bienestar General: Ayuda a fortalecer las defensas y mantener el cerebro despierto y rápido.`,
     seoTitle: 'Energía Renovada y Vitalidad Física con Megamac',
     seoDescription: '✔️ Potencia Natural: Maca, Borojó y Chontaduro. Combate el cansancio y fortalece tus defensas. ¡Calidad INVIMA!',
     benefits: [
@@ -1069,7 +1110,9 @@ export const PRODUCTS: Product[] = [
     name: 'Resveratrol',
     category: 'salud-bienestar',
     shortDescription: 'El poder del resveratrol.',
-    description: 'Potente antioxidante para el cuidado celular y antienvejecimiento.',
+    description: `Avanzada fórmula líquida que combina el poder antioxidante del Resveratrol puro con 10.000 mg de Colágeno Hidrolizado. Enriquecido con extractos de arándano y uva liofilizada, este suplemento ofrece un soporte nutricional excepcional para el cuidado celular y el bienestar general, promoviendo una vitalidad renovada desde el interior.
+
+Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     seoTitle: 'Cómo solucionar el envejecimiento prematuro y daño celular con Resveratrol',
     seoDescription: 'Protege tus células con el poder del Resveratrol. Fórmula balanceada antioxidante para bienestar integral y calidad certificada. ¡Compra ahora!',
     benefits: ['Antioxidante', 'Cuidado celular', 'Antiedad'],
@@ -1125,7 +1168,9 @@ export const PRODUCTS: Product[] = [
     name: 'Eventone',
     category: 'belleza-integral',
     shortDescription: 'Hidratación Intensa y Firmeza Facial.',
-    description: '✔️ Efecto Relleno: Ayuda a que la piel retenga su humedad natural, suavizando las líneas de expresión. ✔️ Firmeza Real: Fortalece la estructura del rostro para que luzca más joven y terso. ✔️ Calma la Piel: Con extracto de Manzanilla que alivia la irritación y mejora la textura diaria.',
+    description: `Crema facial avanzada diseñada para unificar el tono de la piel y devolverle su luminosidad natural. Su fórmula, enriquecida con Bio-Retinol y Ácido Hialurónico, ayuda a atenuar las irregularidades de tono causadas por el sol o la edad, mientras proporciona una hidratación profunda que mejora la textura y suavidad del rostro. Ideal para incluir en tu rutina de cuidado nocturno.
+
+✔️ Efecto Relleno: Ayuda a que la piel retenga su humedad natural, suavizando las líneas de expresión. ✔️ Firmeza Real: Fortalece la estructura del rostro para que luzca más joven y terso. ✔️ Calma la Piel: Con extracto de Manzanilla que alivia la irritación y mejora la textura diaria.`,
     seoTitle: 'Hidratación Intensa y Firmeza Facial con Eventone',
     seoDescription: '✔️ Efecto Relleno: Retiene la humedad y suaviza líneas. Firmeza real para un rostro joven con Manzanilla. ¡Calidad INVIMA!',
     benefits: [
@@ -1136,7 +1181,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Eventone.webp',
     basePrice: 85000,
-    size: '60g',
+    size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC90432-19CO',
     supportImages: [
@@ -1182,7 +1227,9 @@ export const PRODUCTS: Product[] = [
     name: 'Golden Passion',
     category: 'belleza-integral',
     shortDescription: 'Bronceado Natural sin necesidad de Sol.',
-    description: '✔️ Color Saludable: Logra un tono canela envidiable en pocas horas sin arriesgar tu piel a los rayos del sol. ✔️ Sin Manchas: Su fórmula de rápida absorción asegura un color uniforme en todo el cuerpo. ✔️ Rico en Vitaminas: Contiene vitamina E para hidratar la piel mientras luce un color radiante.',
+    description: `Aceite corporal autobronceador diseñado para proporcionar un tono canela natural y uniforme sin necesidad de exposición solar. Su fórmula enriquecida con Vitamina E hidrata profundamente la piel, dejándola suave, luminosa y con un acabado radiante. Ideal para quienes buscan un bronceado saludable y seguro en cualquier época del año.
+
+✔️ Color Saludable: Logra un tono canela envidiable en pocas horas sin arriesgar tu piel a los rayos del sol. ✔️ Sin Manchas: Su fórmula de rápida absorción asegura un color uniforme en todo el cuerpo. ✔️ Rico en Vitaminas: Contiene vitamina E para hidratar la piel mientras luce un color radiante.`,
     seoTitle: 'Bronceado Natural sin necesidad de Sol con Golden Passion',
     seoDescription: '✔️ Color Saludable: Tono canela sin sol. Sin manchas y rico en Vitamina E para una piel radiante. ¡Registro INVIMA!',
     benefits: [
@@ -1243,7 +1290,9 @@ export const PRODUCTS: Product[] = [
     name: 'Hydrastrik',
     category: 'belleza-integral',
     shortDescription: 'Hidratación Profunda contra las Estrías.',
-    description: '✔️ Piel Elástica: Mezcla aceites de coco, almendras y aguacate que preparan la piel para evitar estiramientos bruscos. ✔️ Regeneración Celular: Ayuda a mejorar la textura de la piel, haciéndola sentir más suave y flexible. ✔️ Uso Versátil: Perfecto para masajes relajantes gracias a su agradable sensación sensorial.',
+    description: `Aceite corporal de hidratación intensiva formulado con una mezcla premium de aceites naturales de almendras, coco y aguacate. Diseñado para mejorar la elasticidad de la piel y prevenir la aparición de estrías, este producto proporciona una nutrición profunda y duradera, dejando la piel visiblemente más suave y flexible. Ideal para el cuidado diario y masajes relajantes.
+
+✔️ Piel Elástica: Mezcla aceites de coco, almendras y aguacate que preparan la piel para evitar estiramientos bruscos. ✔️ Regeneración Celular: Ayuda a mejorar la textura de la piel, haciéndola sentir más suave y flexible. ✔️ Uso Versátil: Perfecto para masajes relajantes gracias a su agradable sensación sensorial.`,
     seoTitle: 'Hidratación Profunda contra las Estrías con Hydrastrik',
     seoDescription: '✔️ Piel Elástica: Aceites de coco y aguacate. Regeneración celular para una piel suave y flexible. ¡Registro INVIMA!',
     benefits: [
@@ -1304,7 +1353,9 @@ export const PRODUCTS: Product[] = [
     name: 'Miskinne',
     category: 'belleza-integral',
     shortDescription: 'Piel Uniforme y Libre de Manchas.',
-    description: '✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas osapoyas en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.',
+    description: `Crema corporal especializada en el cuidado y protección de la piel. Su fórmula con avena y caléndula proporciona una hidratación suave y calmante, ideal para pieles delicadas. Ayuda a unificar el tono de la piel al atenuar manchas superficiales, dejando una sensación de frescura y suavidad extrema con un delicado aroma natural.
+
+✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas osapoyas en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.`,
     seoTitle: 'Piel Uniforme y Libre de Manchas con Miskinne',
     seoDescription: '✔️ Tono Parejo: Reduce manchas de sol y edad. Protección suave con aroma natural a avena. ¡Registro INVIMA!',
     benefits: [
@@ -1365,7 +1416,9 @@ export const PRODUCTS: Product[] = [
     name: 'Tónico Capilar (Extractos Mágicos)',
     category: 'belleza-integral',
     shortDescription: 'Fortalece y Estimula el Crecimiento de tu Cabello.',
-    description: '✔️ Cabello más fuerte: Su fórmula avanzada ayuda a recuperar el vigor desde la raíz, evitando que se quiebre o se caiga. ✔️ Nacimiento de nuevo cabello: Ideal para poblar zonas delgadas en el cuero cabelludo, cejas o barba. ✔️ Nutrición Herbal: Contiene una mezcla de 16 extractos de plantas que mantienen el cabello sano y brillante.',
+    description: `Fórmula capilar avanzada diseñada para fortalecer el cabello desde la raíz y estimular el crecimiento de nuevas hebras. Enriquecido con una mezcla de 16 extractos botánicos naturales y Trichogen al 8%, este tónico es el aliado ideal para combatir la caída y mejorar la densidad capilar en cuero cabelludo, cejas y barba, devolviendo el vigor y brillo natural al cabello.
+
+✔️ Cabello más fuerte: Su fórmula avanzada ayuda a recuperar el vigor desde la raíz, evitando que se quiebre o se caiga. ✔️ Nacimiento de nuevo cabello: Ideal para poblar zonas delgadas en el cuero cabelludo, cejas o barba. ✔️ Nutrición Herbal: Contiene una mezcla de 16 extractos de plantas que mantienen el cabello sano y brillante.`,
     seoTitle: 'Fortalece y Estimula el Crecimiento Capilar con Tónico Capilar',
     seoDescription: '✔️ Cabello más fuerte: Recupera el vigor desde la raíz. Nutrición herbal con 16 extractos para brillo y fuerza. ¡Registro INVIMA!',
     benefits: [
@@ -1425,7 +1478,7 @@ export const PRODUCTS: Product[] = [
     name: 'Tufoff',
     category: 'belleza-integral',
     shortDescription: 'Refresca el aliento al instante.',
-    description: 'Producto especializado que refresca el aliento al instante con sabores naturales de menta, canela y naranja.',
+    description: 'Innovadora solución para el cuidado del aliento que combina la frescura de la menta con ingredientes naturales como la canela y el bicarbonato. Estos dulces sin azúcar neutralizan olores de forma instantánea, proporcionando una sensación de limpieza duradera y frescura total en la boca en cualquier momento del día.',
     seoTitle: 'Cómo solucionar el mal aliento al instante con Tufoff',
     seoDescription: 'Refresca tu aliento al instante con Tufoff. Sabores naturales de menta, canela y naranja para tu bienestar integral. ¡Siéntete seguro siempre!',
     benefits: ['Aliento fresco', 'Sabores naturales', 'Acción inmediata'],
@@ -1482,7 +1535,7 @@ export const PRODUCTS: Product[] = [
     name: 'Akha (Crema Voluminizante)',
     category: 'salud-sexual',
     shortDescription: 'Mejora la Apariencia y Firmeza de la Piel.',
-    description: '✔️ Piel con más Cuerpo: Su alto poder hidratante ayuda a que la piel se vea más rellena y saludable. ✔️ Efecto Antioxidante: Protege la piel del envejecimiento, mejorando su elasticidad en zonas específicas del cuerpo. ✔️ Para Toda Piel: Una crema suave que se absorbe rápido y no genera grasa.',
+    description: 'Crema cosmética de alto poder hidratante apta para todo tipo de piel. Formulada con extractos vegetales y aceites nutritivos que ayudan a mejorar la apariencia y suavidad de la piel en las zonas aplicadas. Sus componentes antioxidantes protegen contra factores externos, dejando una textura firme, elástica y renovada.',
     seoTitle: 'Mejora la Apariencia y Firmeza de la Piel con Akha',
     seoDescription: '✔️ Piel con más Cuerpo: Hidratación para una piel sana. Efecto antioxidante y elasticidad sin grasa. ¡Registro INVIMA!',
     benefits: [
@@ -1542,7 +1595,9 @@ export const PRODUCTS: Product[] = [
     name: 'Derman (Mascarilla Íntima)',
     category: 'salud-sexual',
     shortDescription: 'Higiene y Protección para tu Zona Íntima.',
-    description: '✔️ Adiós a la Irritación: Calma la piel después de la depilación o el afeitado, evitando brotes o molestias. ✔️ Protección Natural: Ayuda a mantener el equilibrio y la salud de la piel en áreas delicadas. ✔️ Hidratación Especializada: Mantiene la zona suave y flexible, promoviendo el confort diario.',
+    description: `Crema especializada en el cuidado y protección de la piel en áreas delicadas del cuerpo. Su fórmula suave proporciona una hidratación profunda y ayuda a mantener el equilibrio natural de la zona íntima, ofreciendo una sensación de confort, frescura y suavidad duradera para el cuidado diario.
+
+✔️ Adiós a la Irritación: Calma la piel después de la depilación o el afeitado, evitando brotes o molestias. ✔️ Protección Natural: Ayuda a mantener el equilibrio y la salud de la piel en áreas delicadas. ✔️ Hidratación Especializada: Mantiene la zona suave y flexible, promoviendo el confort diario.`,
     seoTitle: 'Higiene y Protección para tu Zona Íntima con Derman',
     seoDescription: '✔️ Adiós a la Irritación: Calma tras depilación. Protección natural y suavidad para el confort diario. ¡Registro INVIMA!',
     benefits: [
@@ -1553,7 +1608,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Derman.webp',
     basePrice: 89900,
-    size: '60g',
+    size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC36162-24CO',
     supportImages: [
@@ -1603,7 +1658,9 @@ export const PRODUCTS: Product[] = [
     name: 'Haydar (Bebida Energizante)',
     category: 'salud-sexual',
     shortDescription: 'Energía y Vitalidad en un Solo Sorbo.',
-    description: '✔️ Impulso Natural: Con Borojó y Maca que te dan ese ánimo extra que necesitas antes de una actividad importante. ✔️ Mente Despierta: Contiene vitaminas del complejo B que ayudan a mantener la concentración y el enfoque. ✔️ Sabor Refrescante: Disfruta de un delicioso sabor a mora azul sin necesidad de grandes volúmenes de líquido.',
+    description: `Bebida energizante natural que combina el poder revitalizante del Borojó y la Maca, diseñada para proporcionar un impulso inmediato de energía y vitalidad. Su fórmula equilibrada es el aliado perfecto para enfrentar las actividades diarias con mayor vigor, enfoque y una sensación refrescante de bienestar.
+
+✔️ Impulso Natural: Con Borojó y Maca que te dan ese ánimo extra que necesitas antes de una actividad importante. ✔️ Mente Despierta: Contiene vitaminas del complejo B que ayudan a mantener la concentración y el enfoque. ✔️ Sabor Refrescante: Disfruta de un delicioso sabor a mora azul sin necesidad de grandes volúmenes de líquido.`,
     seoTitle: 'Energía y Vitalidad en un Solo Sorbo con Haydar',
     seoDescription: '✔️ Impulso Natural: Borojó y Maca para el ánimo extra. Vitaminas B para enfoque y sabor mora azul. ¡Registro INVIMA!',
     benefits: [
@@ -1614,8 +1671,8 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/haydar.webp',
     basePrice: 73500,
-    size: '60 Cápsulas',
-    presentation: 'Cápsulas',
+    size: 'bebida 240ml',
+    presentation: 'Bebida',
     invima: 'RSA-3599-2025',
     supportImages: [
       '/assets/products/haydar-apoyo-1.webp',
@@ -1663,7 +1720,9 @@ export const PRODUCTS: Product[] = [
     name: 'Instant Virgin (Gel Íntimo)',
     category: 'salud-sexual',
     shortDescription: 'Confianza y Revitalización Íntima.',
-    description: '✔️ Firmeza y Tonificación: Proporciona una sensación de tono y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.',
+    description: `Gel íntimo revitalizante formulado con ingredientes naturales como Aloe Vera y D-Pantenol, diseñado para proporcionar una sensación inmediata de frescura, tono y firmeza en la zona íntima. Su fórmula delicada respeta el equilibrio natural de la piel sensible, mejorando la comodidad y fortaleciendo la confianza femenina en cada momento.
+
+✔️ Firmeza y Tonificación: Proporciona una sensación de tono y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.`,
     seoTitle: 'Confianza y Revitalización Íntima con Instant Virgin',
     seoDescription: '✔️ Firmeza y Tonificación: Contracción y fresapoya inmediata. Cuidado delicado y seguro para tu confianza. ¡Registro INVIMA!',
     benefits: [
@@ -1674,7 +1733,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Instantvirgin.webp',
     basePrice: 79000,
-    size: '50 ml',
+    size: '30ml',
     presentation: 'Gel / Crema',
     invima: '2021DM-0024065',
     supportImages: [
@@ -1721,7 +1780,9 @@ export const PRODUCTS: Product[] = [
     name: 'Mammoth (Crema Voluminizante)',
     category: 'salud-sexual',
     shortDescription: 'Firmeza y Apariencia Saludable para tu Piel.',
-    description: '✔️ Efecto Volumen: Ayuda a mejorar la textura y apariencia de la piel en las zonas donde más lo necesitas. ✔️ Hidratación Extrema: Sus aceites naturales mantienen la piel elástica, evitando que luzca seca o sin vida. ✔️ Rápida Absorción: Una fórmula profesional que no deja sensación grasosa y actúa desde la primera aplicación.',
+    description: `Crema corporal voluminizante diseñada para mejorar la apariencia y elasticidad de la piel. Su fórmula avanzada, con extractos naturales y Vitamina E, proporciona una hidratación profunda y favorece una textura más firme y suave. Ideal para masajes específicos en zonas donde se desea mejorar la apariencia del contorno de la piel.
+
+✔️ Efecto Volumen: Ayuda a mejorar la textura y apariencia de la piel en las zonas donde más lo necesitas. ✔️ Hidratación Extrema: Sus aceites naturales mantienen la piel elástica, evitando que luzca seca o sin vida. ✔️ Rápida Absorción: Una fórmula profesional que no deja sensación grasosa y actúa desde la primera aplicación.`,
     seoTitle: 'Firmeza y Apariencia Saludable para tu Piel con Mammoth',
     seoDescription: '✔️ Efecto Volumen: Mejora la textura y apariencia de la piel. Hidratación extrema con aceites naturales y rápida absorción. ¡Registro INVIMA!',
     benefits: [
@@ -1731,7 +1792,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Mammoth.webp',
     basePrice: 89000,
-    size: '120 ml',
+    size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
     supportImages: [
@@ -1780,7 +1841,9 @@ export const PRODUCTS: Product[] = [
     name: 'Tyruss Full',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
-    description: '✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y reconforta el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.',
+    description: `Mezcla nutricional en polvo a base de proteína de arveja, enriquecida con el poder de la clorofila, espirulina y chlorella. Su fórmula integral proporciona una excelente fuente de fibra, Omega 3 y vitaminas esenciales, diseñada para apoyar la desintoxicación del organismo, mejorar la digestión y proporcionar energía estable durante todo el día.
+
+✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y reconforta el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.`,
     seoTitle: 'Nutrición Verde para un Cuerpo Limpio con Tyruss Full',
     seoDescription: '✔️ Desintoxicación: Con espinaca y algas naturales. Digestión perfecta que optimiza el tránsito intestinal y protege el corazón. ¡Registro INVIMA!',
     benefits: [
@@ -1835,10 +1898,12 @@ export const PRODUCTS: Product[] = [
   {
     id: 'zafir',
     masterId: '166802',
-    name: 'Zafir Energizante',
+    name: 'Zafir Bebida Energizante',
     category: 'salud-sexual',
     shortDescription: 'Tu Impulso de Energía Natural.',
-    description: '✔️ Vitalidad Inmediata: Gracias a la Maca y el Borojó, te ayuda a recuperar el ánimo y la fuerza antes de cualquier actividad importante. ✔️ Concentración: Sus componentes naturales mantienen tu mente alerta y enfocada. ✔️ Sabor Delicioso: Disfruta de una mezcla refrescante de arándanos y frutas que te recarga sin pesadez.',
+    description: `Bebida energizante natural formulada con extractos de Maca, Borojó y Guaraná, enriquecida con vitaminas del complejo B (B3, B6, B12) y mineral Zinc. Su refrescante sabor a frutos rojos y su fórmula equilibrada están diseñados para proporcionar un impulso de vitalidad y energía inmediata sin excesos, ayudando a mejorar el rendimiento físico y el enfoque mental diario.
+
+✔️ Vitalidad Inmediata: Gracias a la Maca y el Borojó, te ayuda a recuperar el ánimo y la fuerza antes de cualquier actividad importante. ✔️ Concentración: Sus componentes naturales mantienen tu mente alerta y enfocada. ✔️ Sabor Delicioso: Disfruta de una mezcla refrescante de arándanos y frutas que te recarga sin pesadez.`,
     seoTitle: 'Tu Impulso de Energía Natural con Zafir',
     seoDescription: '✔️ Vitalidad Inmediata: Con Maca y Borojó. Concentración mental y delicioso sabor refrescante que te recarga. ¡Registro INVIMA!',
     benefits: [
@@ -1848,7 +1913,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Zafir.webp',
     basePrice: 73500,
-    size: '500 ml',
+    size: '500ml',
     presentation: 'Líquido',
     invima: 'RSA-3599-2025',
     supportImages: [
@@ -1893,7 +1958,9 @@ export const PRODUCTS: Product[] = [
     name: 'Zeus',
     category: 'salud-sexual',
     shortDescription: 'Máxima Potencia y Resistencia Diaria.',
-    description: '✔️ Vigor Natural: Con Borojó y Chontaduro que elevan tus niveles de energía y potencia física de forma natural. ✔️ Escudo de Defensas: Fortalece tu sistema inmunológico para protegerte contra virus y debilidad. ✔️ Recuperación: Ideal para combatir el cansancio crónico y sentirte joven y activo nuevamente.',
+    description: `Suplemento profesional en cápsulas que reúne el poder revitalizante del Borojó, Chontaduro, Maca y Guaraná. Enriquecido con vitaminas y minerales clave, su fórmula está diseñada para potenciar la energía masculina, mejorar el rendimiento físico y fortalecer el sistema inmunológico, permitiendo enfrentar las exigencias diarias con mayor vigor y vitalidad.
+
+✔️ Vigor Natural: Con Borojó y Chontaduro que elevan tus niveles de energía y potencia física de forma natural. ✔️ Escudo de Defensas: Fortalece tu sistema inmunológico para protegerte contra virus y debilidad. ✔️ Recuperación: Ideal para combatir el cansancio crónico y sentirte joven y activo nuevamente.`,
     seoTitle: 'Máxima Potencia y Resistencia Diaria con Zeus',
     seoDescription: '✔️ Vigor Natural: Con Borojó y Chontaduro. Fortalece defensas y mejora la recuperación contra el cansancio. ¡Registro INVIMA!',
     benefits: [
@@ -1903,7 +1970,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Zeus.webp',
     basePrice: 85000,
-    size: '60 Cápsulas',
+    size: '15 unidades',
     presentation: 'Cápsulas',
     invima: 'RSA-0031426-2024',
     supportImages: [
@@ -1948,7 +2015,9 @@ export const PRODUCTS: Product[] = [
     name: '+NAD',
     category: 'salud-bienestar',
     shortDescription: 'Cuidado Antiedad Integral y Vitalidad Celular.',
-    description: '✔️ Rejuvenecimiento Celular: Con Nicotinamida (NAD) y Resveratrol para proteger tus células del envejecimiento. ✔️ Energía y Vitalidad: Ayuda a recuperar la energía perdida y mejora el metabolismo. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión y absorción.',
+    description: `Suplemento especializado que combina componentes clave como Calostro Bovino, Lactoferrina, Vitaminas C y D3, y Zinc. Su fórmula está diseñada para actuar como un soporte nutricional avanzado, contribuyendo al fortalecimiento del organismo y al mantenimiento de una respuesta biológica saludable ante los retos ambientales diarios.
+
+✔️ Rejuvenecimiento Celular: Con Nicotinamida (NAD) y Resveratrol para proteger tus células del envejecimiento. ✔️ Energía y Vitalidad: Ayuda a recuperar la energía perdida y mejora el metabolismo. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión y absorción.`,
     seoTitle: 'Vitalidad Celular y Antiedad con +NAD y Resveratrol',
     seoDescription: '✔️ Rejuvenecimiento Celular: Nicotinamida y Resveratrol. Energía y vitalidad con base de coco. ¡Registro INVIMA!',
     benefits: [
@@ -2006,7 +2075,9 @@ export const PRODUCTS: Product[] = [
     name: 'Titan Coffee',
     category: 'salud-sexual',
     shortDescription: 'Café Energizante para un Rendimiento Máximo.',
-    description: '✔️ Desayuno de Campeones: Combina el sabor del café con el poder de la Maca y el Chontaduro para empezar el día con fuerza. ✔️ Energía Duradera: Ayuda a reducir la fatiga física y mental durante largas jornadas de trabajo. ✔️ Base Saludable: Elaborado sobre una base de crema de coco, siendo suave con tu estómago y fácil de digerir.',
+    description: `Deliciosa mezcla de café premium con Borojó, Maca y Chontaduro, diseñada para proporcionar energía física y mental constante. Su base de crema de coco ofrece un sabor excepcional y una textura cremosa, convirtiéndolo en el acompañamiento ideal para un desayuno de alto rendimiento o para mantener la vitalidad durante el día.
+
+✔️ Desayuno de Campeones: Combina el sabor del café con el poder de la Maca y el Chontaduro para empezar el día con fuerza. ✔️ Energía Duradera: Ayuda a reducir la fatiga física y mental durante largas jornadas de trabajo. ✔️ Base Saludable: Elaborado sobre una base de crema de coco, siendo suave con tu estómago y fácil de digerir.`,
     seoTitle: 'Café Energizante para un Rendimiento Máximo con Titan Coffee',
     seoDescription: '✔️ Desayuno de Campeones: Con Maca y Chontaduro. Energía duradera con base saludable de crema de coco. ¡Registro INVIMA!',
     benefits: [
@@ -2016,7 +2087,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/assets/products/Titancoffee.webp',
     basePrice: 89900,
-    size: '200g',
+    size: '400g',
     presentation: 'Polvo',
     invima: 'PSA-000982-2018',
     supportImages: [
@@ -2063,7 +2134,9 @@ export const PRODUCTS: Product[] = [
     name: 'Hemocream',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Suave con Hierbas Naturales.',
-    description: 'Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y con facilidad al ir al baño.',
+    description: `Crema botánica especializada en el cuidado y alivio de las molestias en la zona anal. Formulada con una mezcla de 11 extractos de plantas naturales, incluyendo caléndula, castaño de indias y aloe vera, proporciona una sensación de calma, frescura y alivio inmediato ante el ardor y la picazón, favoreciendo el bienestar y la comodidad diaria.
+
+Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y con facilidad al ir al baño.`,
     seoTitle: 'Alivio del Ardor y Picazón con Hemocream Natural',
     seoDescription: 'Calma rápidamente la molestia con Caléndula y Aloe Vera. Hemocream usa 11 plantas para un proceso con facilidad. ¡Cuidado delicado con calidad INVIMA!',
     benefits: [
@@ -2115,10 +2188,41 @@ export const PRODUCTS: Product[] = [
   }
 ];
 
-export const COMBO_OF_THE_MONTH = {
+export interface Promotion {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  originalPrice: number;
+  products: string[];
+  videoUrl?: string;
+  videoUrlMp4?: string;
+  videoPoster?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  whyChoose?: {
+    title: string;
+    description: string;
+  };
+  badge?: string;
+  keywords?: string;
+  components?: string;
+  longTailKeywords?: string[];
+  seoFaqs?: { q: string; a: string }[];
+  benefits?: string[];
+  testimonials?: {
+    name: string;
+    text: string;
+    rating: number;
+  }[];
+  peso_adicional?: number;
+}
+
+export const COMBO_OF_THE_MONTH: Promotion = {
   id: 'combo-inmunidad-dual',
   name: 'Inmunidad Dual',
-  description: 'Resvisfactor y Coliplus: la combinación perfecta para desinflamar tu vientre, sentirte mas ligero y libre de molestias.',
+  description: 'Potente sistema de protección diseñado para fortalecer las defensas naturales y optimizar la salud intestinal de manera integral. Este combo une la nutrición avanzada de Resvisfactor, que utiliza calostro bovino y hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coli Fibra, que asegura un colon limpio y un tránsito intestinal regular, permitiendo que el cuerpo absorba mejor los nutrientes esenciales.',
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
@@ -2162,11 +2266,11 @@ export const COMBO_OF_THE_MONTH = {
   ]
 };
 
-export const PROMOTIONS = [
+export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-1',
     name: 'Combo Piel Radiante',
-    description: 'La combinación perfecta para el cuidado de tu piel y bienestar general.',
+    description: 'Tratamiento integral de doble acción diseñado para renovar la luminosidad y uniformidad de la piel desde adentro hacia afuera. Este combo combina la potencia de la crema despigmentante Miskinne, que actúa directamente sobre las manchas externas con arbutina al 5%, y el alimento Resveratrol, que aporta una alta carga de antioxidantes y colágeno para regenerar la estructura celular y prevenir el envejecimiento prematuro.',
     image: '/assets/combos/promo-1.webp',
     price: 104850,
     originalPrice: 139800,
@@ -2211,7 +2315,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-2',
     name: 'Combo Belleza Eterna',
-    description: 'Potencia tu belleza desde el interior con este dúo antioxidante.',
+    description: 'El sistema definitivo para combatir los signos del envejecimiento y devolver la vitalidad a la piel desde el nivel celular. Este kit combina la acción externa del suero Eventone, formulado con Bio Retinol y Ácido Hialurónico para rellenar arrugas y dar firmeza, con el poder interno del Resveratrol y 10.000mg de colágeno hidrolizado que fortalecen la estructura de la dermis, uñas y cabello.',
     image: '/assets/combos/promo-2.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2256,7 +2360,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-3',
     name: 'Combo Detox Digestivo',
-    description: 'Desintoxica y regula tu sistema digestivo de forma natural.',
+    description: 'Sistema integral de limpieza diseñado para restaurar el tránsito intestinal y desintoxicar el organismo de forma natural. Este combo une la potencia de la fibra Coli, que combate el estreñimiento y desinflama el colon, con el concentrado Rtafull, que estimula la función del hígado y los riñones para eliminar toxinas acumuladas y mejorar la digestión de las grasas.',
     image: '/assets/combos/promo-3.webp',
     price: 116850,
     originalPrice: 155000,
@@ -2301,7 +2405,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-4',
     name: 'Combo Control & Detox',
-    description: 'El apoyo ideal para tu proceso de control de peso y detox.',
+    description: 'El sistema avanzado para quienes buscan recuperar el equilibrio digestivo y combatir la pesadez de forma natural. Este combo une la acción calmante de Liteplex, ideal para aliviar la acidez y la inflamación (gastritis), con la potencia depurativa de Rtafull, que actúa directamente en la limpieza del hígado y los riñones para optimizar el procesamiento de grasas.',
     image: '/assets/combos/promo-4.webp',
     price: 119850,
     originalPrice: 159800,
@@ -2346,7 +2450,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-5',
     name: 'Combo Protección Total',
-    description: 'Protección y limpieza profunda para tu organismo.',
+    description: 'El dúo ideal para quienes buscan una limpieza profunda del organismo y una frescura bucal duradera. Este combo combina la potencia depurativa de Rtafull, que desintoxica hígado y riñones, con la innovación de Tufoff, dulces sin azúcar diseñados para neutralizar olores y refrescar el aliento de manera instantánea con ingredientes naturales.',
     image: '/assets/combos/promo-5.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2391,7 +2495,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-6',
     name: 'Combo Alivio Muscular',
-    description: 'Cuidado muscular y articular en un solo paquete.',
+    description: 'El sistema integral definitivo para el cuidado de músculos y articulaciones, combinando alivio externo inmediato con fortalecimiento interno profundo. Este combo une la acción de la Crema Termoactiva, que proporciona calor localizado para relajar tensiones y calmar dolores musculares, con el Colágeno con Citrato de Magnesio, que regenera los tejidos conectivos, mejora la flexibilidad y previene el desgaste articular.',
     image: '/assets/combos/promo-6.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2436,7 +2540,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-7',
     name: 'Combo Energía Máxima',
-    description: 'Energía natural y nutrición avanzada para tu día.',
+    description: 'Potente sistema de revitalización diseñado para incrementar el rendimiento físico y optimizar el metabolismo de forma natural. Este combo une la densidad nutricional de Megamac, que aporta maca, borojó y chontaduro para combatir la fatiga, con la acción liporeductora de Cafetolio, un café verde 100% puro que convierte las grasas en energía y mejora la concentración mental sin causar picos de ansiedad.',
     image: '/assets/combos/promo-7.webp',
     price: 149425,
     originalPrice: 199250,
@@ -2481,7 +2585,7 @@ export const PROMOTIONS = [
   {
     id: 'promo-8',
     name: 'Combo Vitalidad & Limpieza',
-    description: 'Máxima vitalidad y limpieza para tu cuerpo.',
+    description: 'Sistema integral de limpieza y nutrición verde diseñado para desintoxicar el organismo mientras se recupera la energía vital. Este combo combina el poder de Tyruss Full, un superalimento a base de clorofila, espirulina y chlorella que oxigena la sangre y mejora la digestión, con la acción depurativa de Rtafull, que facilita la eliminación de toxinas en el hígado y los riñones, promoviendo una desinflamación abdominal efectiva.',
     image: '/assets/combos/promo-8.webp',
     price: 127350,
     originalPrice: 169800,

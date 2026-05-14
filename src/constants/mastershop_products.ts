@@ -38,7 +38,7 @@ export const MASTER_PRODUCTS = [
   { id: 26845, internalId: 'obs-coffee-col', name: 'OBSEQUIO COFFE COLÁGENO', category: 'Obsequios', basePrice: 1000 },
   { id: 26846, internalId: 'obs-titan-coffee', name: 'OBSEQUIO TITAN COFFE', category: 'Obsequios', basePrice: 1000 },
   { id: 129297, internalId: 'resveratrol', name: 'RESVERATROL', category: 'Salud y Bienestar', basePrice: 24000 },
-  { id: 22967, internalId: 'resvifactor', name: 'RESVISFACTOR CALOSTRO BOVINO', category: 'Salud y Bienestar', basePrice: 34900 },
+  { id: 22967, internalId: 'resvisfactor', name: 'RESVISFACTOR CALOSTRO BOVINO', category: 'Salud y Bienestar', basePrice: 34900 },
   { id: 11323, internalId: 'rtafull', name: 'RTA FULL', category: 'Salud y Bienestar', basePrice: 27900 },
   { id: 129302, internalId: 'shawanda', name: 'SHAWANDA', category: 'Salud y Bienestar', basePrice: 23000 },
   { id: 23013, internalId: 'titan-coffee', name: 'TITAN COFFE', category: 'Salud Sexual', basePrice: 35900 },

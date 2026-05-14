@@ -10,6 +10,7 @@ import { formatCurrency, cn, cleanPromoName } from '../utils';
 import { useCart } from '../CartContext';
 import { useEffect, useState, useRef } from 'react';
 import StickyCTA from '../components/StickyCTA';
+import ProductVideo from '../components/ProductVideo';
 
 const SYMPTOMS = [
   { id: 'digestiva', label: 'Digestión', icon: Activity, color: 'text-emerald-800', bg: 'bg-emerald-50', border: 'border-emerald-100', link: '/categoria/salud-bienestar' },
@@ -299,17 +300,26 @@ export default function Home() {
               
               <div className="relative mt-4 lg:mt-0 flex justify-center">
                 <div className="w-full max-w-[500px] aspect-square flex items-center justify-center">
-                  <img 
-                    src={COMBO_OF_THE_MONTH.image} 
-                    alt={COMBO_OF_THE_MONTH.name}
-                    width={500}
-                    height={500}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                    referrerPolicy="no-referrer"
-                  />
+                  {COMBO_OF_THE_MONTH.videoUrl || COMBO_OF_THE_MONTH.videoUrlMp4 ? (
+                    <ProductVideo 
+                      webmUrl={COMBO_OF_THE_MONTH.videoUrl}
+                      mp4Url={COMBO_OF_THE_MONTH.videoUrlMp4}
+                      poster={COMBO_OF_THE_MONTH.videoPoster}
+                      className="rounded-[3rem] shadow-2xl"
+                    />
+                  ) : (
+                    <img 
+                      src={COMBO_OF_THE_MONTH.image} 
+                      alt={COMBO_OF_THE_MONTH.name}
+                      width={500}
+                      height={500}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
                 </div>
               </div>
             </div>
