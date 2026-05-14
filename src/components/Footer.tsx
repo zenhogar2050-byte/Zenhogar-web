@@ -117,12 +117,12 @@ export default function Footer() {
         {/* Trust Partners Bar */}
         <div className="mt-8 pt-8 border-t border-stone-800/50">
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
-            <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-8 object-contain" loading="lazy" />
-            <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-8 object-contain" loading="lazy" />
-            <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-8 object-contain" loading="lazy" />
-            <img src="/assets/partners/envia.webp" alt="Envía" className="h-8 object-contain" loading="lazy" />
+            <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/envia.webp" alt="Envía" className="h-8 object-contain" loading="lazy" width="120" height="32" />
             <div className="h-8 w-px bg-stone-700 mx-2 hidden md:block"></div>
-            <img src="/assets/logo/logo-invima.webp" alt="INVIMA" className="h-10 object-contain" loading="lazy" />
+            <img src="/assets/logo/logo-invima.webp" alt="INVIMA" className="h-10 object-contain" loading="lazy" width="80" height="40" />
           </div>
         </div>
 

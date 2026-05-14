@@ -153,6 +153,9 @@ export default function Home() {
                           alt={category.name}
                           className="w-full h-full object-cover rounded-full"
                           referrerPolicy="no-referrer"
+                          width="64"
+                          height="64"
+                          loading="lazy"
                         />
                       ) : (
                         <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-md" />
@@ -189,6 +192,10 @@ export default function Home() {
                       alt={product.name} 
                       className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
+                      width="300"
+                      height="225"
+                      loading={product === PRODUCTS[0] ? "eager" : "lazy"}
+                      fetchPriority={product === PRODUCTS[0] ? "high" : "low"}
                     />
                   </div>
                   <div className="flex-1 flex flex-col items-center text-center px-2">
@@ -316,7 +323,7 @@ export default function Home() {
                       loading="eager"
                       fetchPriority="high"
                       decoding="async"
-                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu"
                       referrerPolicy="no-referrer"
                     />
                   )}

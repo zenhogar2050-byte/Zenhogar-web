@@ -206,12 +206,15 @@ export default function ProductLanding() {
                             </div>
                           </div>
                         ) : (
-                          <img 
-                            src={item.url} 
-                            alt={`${product.name} miniatura ${index + 1}`} 
-                            className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
-                            referrerPolicy="no-referrer"
-                          />
+                    <img 
+                      src={item.url} 
+                      alt={`${product.name} miniatura ${index + 1}`} 
+                      className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
+                      referrerPolicy="no-referrer"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                    />
                         )}
                       </button>
                     ))}
@@ -220,7 +223,7 @@ export default function ProductLanding() {
                 
                 <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
                   <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">
-                    <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" />
+                    <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" width="80" height="80" />
                     <div className="flex flex-col">
                       <span className="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-none">Registro INVIMA</span>
                       <span className="text-[14px] sm:text-base font-bold text-stone-700">
@@ -230,7 +233,7 @@ export default function ProductLanding() {
                       </span>
                     </div>
                   </div>
-                  <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" />
+                  <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" width="96" height="96" />
                 </div>
 
                 <div className="absolute -top-6 -right-6 bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-2xl font-black text-lg flex items-center gap-3 z-10">
@@ -465,7 +468,7 @@ export default function ProductLanding() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full overflow-hidden bg-stone-100 border-2 border-emerald-100 flex-shrink-0">
-                         <img src={avatarUrl} alt={`Avatar de ${testimonial.name}`} className="w-full h-full object-cover" />
+                         <img src={avatarUrl} alt={`Avatar de ${testimonial.name}`} className="w-full h-full object-cover" width="48" height="48" loading="lazy" />
                       </div>
                       <div>
                         <div className="font-bold text-stone-900 text-sm sm:text-base leading-tight">{testimonial.name}</div>
