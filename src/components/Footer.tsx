@@ -41,6 +41,12 @@ export default function Footer() {
                 <Link to="/politica-privacidad" className="hover:text-emerald-400 transition-colors">Política de Privacidad</Link>
               </li>
               <li>
+                <Link to="/politica-reembolso" className="hover:text-emerald-400 transition-colors">Política de Reembolso</Link>
+              </li>
+              <li>
+                <Link to="/terminos-servicio" className="hover:text-emerald-400 transition-colors">Términos del Servicio</Link>
+              </li>
+              <li>
                 <Link to="/condiciones-entrega" className="hover:text-emerald-400 transition-colors">Condiciones de Entrega</Link>
               </li>
               <li>
@@ -114,20 +120,18 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Trust Partners Bar */}
-        <div className="mt-8 pt-8 border-t border-stone-800/50">
-          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
-            <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-8 object-contain" loading="lazy" width="120" height="32" />
-            <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-8 object-contain" loading="lazy" width="120" height="32" />
-            <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-8 object-contain" loading="lazy" width="120" height="32" />
-            <img src="/assets/partners/envia.webp" alt="Envía" className="h-8 object-contain" loading="lazy" width="120" height="32" />
-            <div className="h-8 w-px bg-stone-700 mx-2 hidden md:block"></div>
-            <img src="/assets/logo/logo-invima.webp" alt="INVIMA" className="h-10 object-contain" loading="lazy" width="80" height="40" />
-          </div>
-        </div>
-
+        {/* Copyright section */}
         <div className="pt-12 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6 text-stone-100 text-sm">
-          <p>© 2026 zenhogar. Todos los derechos reservados.</p>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p>© 2026 zenhogar. Todos los derechos reservados.</p>
+            <div className="flex items-center gap-4 text-[10px] font-bold text-stone-500 uppercase tracking-widest mt-2">
+              <span>Métodos de Pago:</span>
+              <div className="flex items-center gap-2 bg-stone-800 px-3 py-1 rounded-full border border-stone-700">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span>Pago Contraentrega (Exclusivo)</span>
+              </div>
+            </div>
+          </div>
           <div className="flex gap-8">
             <Link to="/" className="hover:text-white transition-colors">Inicio</Link>
             <Link to="/checkout" className="hover:text-white transition-colors">Carrito</Link>
@@ -148,6 +152,19 @@ export default function Footer() {
             Aviso de Responsabilidad (Suplementos Dietarios): Los productos distribuidos por ZENHOGAR cuentan con Registro Sanitario INVIMA y están destinados a complementar la dieta. No son medicamentos y no deben utilizarse como sustitutos de una alimentación equilibrada o tratamientos médicos prescritos. La información en este sitio no constituye consejo médico. Resultados varían por individuo. Manténgase fuera del alcance de los niños. Si está embarazada, lactando o bajo tratamiento especial, consulte a su especialista antes de consumir.
           </p>
         </div>
+
+        {/* Trust Partners Bar at the absolute bottom */}
+        <div className="mt-12 pt-12 border-t border-stone-800/50">
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+            <img src="/assets/partners/coordinadora.webp" alt="Coordinadora" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/servientrega.webp" alt="Servientrega" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/interrapidisimo.webp" alt="Interrapidisimo" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <img src="/assets/partners/envia.webp" alt="Envía" className="h-8 object-contain" loading="lazy" width="120" height="32" />
+            <div className="h-8 w-px bg-stone-700 mx-2 hidden md:block"></div>
+            <img src="/assets/logo/logo-invima.webp" alt="INVIMA" className="h-10 object-contain" loading="lazy" width="80" height="40" />
+          </div>
+        </div>
+
       </div>
     </footer>
   );

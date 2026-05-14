@@ -24,9 +24,16 @@ export const generateSchemaGraph = (params: {
         const highPriceClean = cleanPrice(productData.highPrice || productData.basePrice);
         const offerCountNum = Number(productData.offerCount || 1);
 
+        const getSchemaCondition = (cond?: string) => {
+            if (cond?.toLowerCase() === 'new') return "https://schema.org/NewCondition";
+            if (cond?.toLowerCase() === 'used') return "https://schema.org/UsedCondition";
+            if (cond?.toLowerCase() === 'refurbished') return "https://schema.org/RefurbishedCondition";
+            return "https://schema.org/NewCondition";
+        };
+
         const offersBase = {
             "priceCurrency": "COP",
-            "itemCondition": "https://schema.org/NewCondition",
+            "itemCondition": getSchemaCondition(productData.condition),
             "availability": "https://schema.org/InStock",
             "priceValidUntil": dynamicPriceValidUntil,
             "url": fullUrl,
@@ -85,6 +92,7 @@ export const generateSchemaGraph = (params: {
             "description": productData.description || description,
             "sku": String(productData.masterId || productData.id).toUpperCase(),
             "mpn": String(productData.masterId || productData.id).toUpperCase(),
+            "category": productData.googleCategory || productData.category,
             "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
             "brand": { 
                 "@type": "Brand", 

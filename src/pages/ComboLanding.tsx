@@ -78,6 +78,8 @@ export default function ComboLanding() {
           id: combo.id,
           name: combo.name,
           category: "Combos de Salud",
+          googleCategory: combo.googleCategory,
+          condition: combo.condition,
           lowPrice: combo.price,
           highPrice: combo.originalPrice || combo.price,
           offerCount: 1,
@@ -196,7 +198,10 @@ export default function ComboLanding() {
                       <span className="text-[14px] sm:text-base font-bold text-stone-700">Original Certificado</span>
                     </div>
                   </div>
-                  <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" />
+                  <div className="flex flex-col items-center gap-1">
+                    <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" />
+                    <span className="text-[9px] font-black text-emerald-800 uppercase tracking-tight">Garantía de Satisfacción</span>
+                  </div>
                 </div>
 
                 <div className="absolute -top-6 -right-6 bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-2xl font-black text-lg flex items-center gap-3 z-10">
@@ -232,6 +237,10 @@ export default function ComboLanding() {
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest">
                   {combo.badge}
+                </div>
+                <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full uppercase tracking-widest">
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <span>En Stock</span>
                 </div>
               </div>
 

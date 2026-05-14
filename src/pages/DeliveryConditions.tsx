@@ -39,37 +39,43 @@ export default function DeliveryConditions() {
 
         <div className="prose prose-stone lg:prose-lg max-w-none text-stone-600 leading-relaxed space-y-8">
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">1. Cobertura</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">1. Cobertura Nacional y Valor del Envío</h2>
             <p>
-              ZENHOGAR realiza entregas en todo el territorio colombiano a través de nuestras transportadoras aliadas (Servientrega, Envía, Interrapidísimo, Coordinadora). Si su ubicación es de difícil acceso, nos pondremos en contacto para coordinar la mejor opción de entrega.
+              ZENHOGAR ofrece cobertura en el 98% del territorio nacional colombiano. Lo mejor de todo es que <strong>el envío es 100% gratuito</strong> para todos nuestros clientes, sin importar el monto de la compra o el destino (sujeto a cobertura de transportadora). Trabajamos con las mejores empresas de logística del país: Coordinadora, Servientrega, Envía e Interrapidísimo.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Proceso de Envío</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Tiempos de Entrega</h2>
             <p>
-              Una vez confirmado su pedido, el proceso de despacho se realiza en un plazo máximo de 24 horas hábiles. Recibirá una confirmación vía WhatsApp con la información de su pedido.
+              Nuestros tiempos de entrega estimados son:
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li><strong>Ciudades Principales (Bogotá, Medellín, Cali, Barranquilla):</strong> 2 a 3 días hábiles.</li>
+              <li><strong>Ciudades Intermedias:</strong> 3 a 5 días hábiles.</li>
+              <li><strong>Zonas Especiales o Trayectos Extendidos:</strong> 5 a 8 días hábiles.</li>
+            </ul>
+            <p className="text-sm italic">Nota: Los tiempos pueden variar por condiciones climáticas, orden público o novedades en la transportadora.</p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">3. Modelo de Pago Contraentrega</h2>
+            <p>
+              Para su tranquilidad, operamos bajo el modelo de <strong>pago contraentrega</strong>. Usted solo entrega el dinero en efectivo cuando el transportador llega a su domicilio con el paquete. Asegúrese de tener el valor exacto listo para agilizar la entrega. No se aceptan cheques ni transferencias al momento de la entrega física (la transferencia debe coordinarse previamente si se desea ese método).
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">3. Pago Contra Entrega</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">4. Seguimiento y Novedades</h2>
             <p>
-              Para su mayor seguridad y confianza, ofrecemos el servicio de <strong>Pago Contra Entrega</strong> en la mayoría de municipios del país. Usted paga el valor del producto en efectivo al momento de recibirlo en su puerta.
+              Una vez su pedido es despachado, usted podrá consultar el estado del envío a través de nuestra línea de WhatsApp. Si hay alguna novedad (dirección errada, nadie en casa), realizaremos hasta 3 intentos de entrega antes de que el producto sea retornado a bodega.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">4. Seguimiento del Pedido</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">5. Recepción del Producto</h2>
             <p>
-              Puede solicitar el estado de su envío a través de nuestra línea de atención al cliente en WhatsApp +57 302 410 2568, proporcionando su nombre y ciudad.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">5. Novedades en la Entrega</h2>
-            <p>
-              Si al momento de la entrega no se encuentra nadie en el domicilio, la transportadora realizará hasta dos intentos adicionales. Es importante que los datos de contacto y dirección sean precisos para evitar retrasos.
+              Al recibir su pedido, verifique que el empaque esté sellado y no presente signos de manipulación. Si nota alguna irregularidad, déjelo registrado en la guía del transportador y contáctenos de inmediato para gestionar la novedad.
             </p>
           </section>
         </div>

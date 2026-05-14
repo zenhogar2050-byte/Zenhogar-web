@@ -67,17 +67,17 @@ export default function StickyCTA({
           animate={{ y: 0 }}
           exit={{ y: 100 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-4 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
+          className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-5 lg:p-4 z-[100] shadow-[0_-10px_30px_rgba(0,0,0,0.1)]"
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 lg:gap-4">
-            <div className="flex items-center gap-2 lg:gap-3 flex-1 min-w-0">
-              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-stone-100 rounded-lg lg:rounded-2xl overflow-hidden flex-shrink-0">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
+            <div className="flex items-center gap-2.5 lg:gap-3 flex-1 min-w-0">
+              <div className="w-[4.5rem] h-[4.5rem] lg:w-16 lg:h-16 bg-stone-100 rounded-xl lg:rounded-2xl overflow-hidden flex-shrink-0">
                 <img src={image} alt={name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
               </div>
-              <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-1 flex-wrap lg:flex-nowrap">
-                  <span className="text-[14px] sm:text-sm lg:text-sm font-bold text-stone-900 line-clamp-2 leading-tight">{name}</span>
-                  <span className="text-emerald-700 font-black text-base lg:text-lg italic leading-none whitespace-nowrap">
+              <div className="flex flex-col min-w-0 gap-0.5">
+                <div className="flex flex-col items-start gap-1">
+                  <span className="text-[16px] sm:text-sm lg:text-sm font-extrabold text-stone-900 line-clamp-2 leading-tight pr-2">{name}</span>
+                  <span className="text-emerald-700 font-black text-[18px] lg:text-lg italic leading-none whitespace-nowrap">
                     {formatCurrency(price)}
                   </span>
                 </div>
@@ -88,7 +88,7 @@ export default function StickyCTA({
                       value={selectedPromoId || ''}
                       onChange={(e) => onPromoChange(e.target.value)}
                       aria-label="Seleccionar promoción"
-                      className="appearance-none bg-stone-100 text-stone-700 text-[11px] sm:text-[12px] lg:text-xs font-bold py-1.5 pl-1.5 pr-5 lg:pl-2 lg:pr-6 rounded uppercase outline-none focus:ring-1 focus:ring-emerald-500 border border-stone-200 cursor-pointer w-full text-ellipsis line-clamp-1"
+                      className="appearance-none bg-stone-100 text-stone-700 text-[13px] sm:text-[12px] lg:text-xs font-bold py-2 pl-2 pr-6 rounded-lg uppercase outline-none focus:ring-1 focus:ring-emerald-500 border border-stone-200 cursor-pointer w-full text-ellipsis"
                     >
                       {promos.map(promo => (
                         <option key={promo.id} value={promo.id}>
@@ -96,22 +96,18 @@ export default function StickyCTA({
                         </option>
                       ))}
                     </select>
-                    <ChevronDown className="w-3 h-3 absolute right-1 lg:right-1.5 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none" />
+                    <ChevronDown className="w-4 h-4 absolute right-1.5 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none" />
                   </div>
                 )}
               </div>
             </div>
             
-            <div className="flex items-center gap-4 flex-shrink-0">
-              <div className="hidden lg:flex items-center gap-2 text-xs font-bold text-stone-500 bg-stone-50 px-4 py-2 rounded-full border">
-                <Zap className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
-                Paga al recibir en casa
-              </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={onBuy}
-                className="px-4 sm:px-6 lg:px-10 py-2.5 lg:py-4 bg-amber-500 text-white rounded-xl lg:rounded-2xl font-black text-[11px] sm:text-sm lg:text-base shadow-lg shadow-amber-500/20 active:scale-95 transition-all hover:bg-amber-600 whitespace-nowrap"
+                className="px-5 py-3.5 lg:px-10 lg:py-4 bg-amber-500 text-white rounded-xl lg:rounded-2xl font-black text-[13px] lg:text-base shadow-lg shadow-amber-500/20 active:scale-95 transition-all hover:bg-amber-600 whitespace-nowrap"
               >
-                COMPRAR AHORA
+                COMPRAR
               </button>
             </div>
           </div>

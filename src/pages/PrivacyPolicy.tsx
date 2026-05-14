@@ -26,57 +26,50 @@ export default function PrivacyPolicy() {
         
         <div className="prose prose-stone lg:prose-lg max-w-none text-stone-600 leading-relaxed space-y-8">
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">1. Identificación del Responsable</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">1. Recolección de Información</h2>
             <p>
-              ZENHOGAR, con domicilio en Colombia, es el responsable del tratamiento de sus datos personales. Puede contactarnos a través del correo electrónico ventas@zenhogar.live o al WhatsApp +57 302 410 2568.
+              En ZENHOGAR, recolectamos información personal necesaria para la prestación de nuestros servicios de comercio electrónico. Los datos recolectados incluyen, pero no se limitan a: nombre completo, número de teléfono (WhatsApp), dirección de envío, ciudad, departamento y correo electrónico (opcional). Esta información es recolectada directamente de usted cuando realiza un pedido en nuestro sitio web.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Finalidad del Tratamiento</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Finalidad del Tratamiento de Datos</h2>
             <p>
-              Los datos personales que recolectamos son utilizados para las siguientes finalidades:
+              El tratamiento de sus datos personales tiene como finalidades principales:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Procesar y gestionar sus pedidos y compras.</li>
-              <li>Realizar la entrega de los productos a través de nuestras transportadoras aliadas.</li>
-              <li>Brindar soporte y atención al cliente.</li>
-              <li>Enviar información promocional, ofertas y novedades sobre nuestros productos (previa autorización).</li>
-              <li>Gestionar carritos abandonados para asistirle en la finalización de su compra.</li>
-              <li>Cumplir con obligaciones legales y contables.</li>
+              <li><strong>Gestión de Pedidos:</strong> Procesar, validar y despachar sus solicitudes de compra.</li>
+              <li><strong>Logística de Entrega:</strong> Compartir la información mínima necesaria con nuestras transportadoras aliadas (Coordinadora, Servientrega, Envia, Interrapadisimo) para la entrega efectiva de sus productos.</li>
+              <li><strong>Comunicación:</strong> Contactarle vía WhatsApp o llamada telefónica para confirmar datos de envío o resolver dudas sobre su pedido.</li>
+              <li><strong>Atención al Cliente:</strong> Brindar soporte post-venta y gestionar garantías o devoluciones.</li>
+              <li><strong>Marketing:</strong> Enviar promociones y novedades si usted ha otorgado su consentimiento explícito.</li>
+              <li><strong>Seguridad:</strong> Prevenir fraudes y garantizar la integridad de las transacciones.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">3. Derechos de los Titulares</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">3. Derechos de los Usuarios</h2>
             <p>
-              De acuerdo con la Ley 1581 de 2012, usted como titular de los datos personales tiene derecho a:
-            </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Conocer, actualizar y rectificar sus datos personales.</li>
-              <li>Solicitar prueba de la autorización otorgada.</li>
-              <li>Ser informado sobre el uso que se le ha dado a sus datos.</li>
-              <li>Revocar la autorización y/o solicitar la supresión del dato cuando no se respeten los principios, derechos y garantías constitucionales y legales.</li>
-              <li>Acceder en forma gratuita a sus datos personales que hayan sido objeto de tratamiento.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">4. Seguridad de la Información</h2>
-            <p>
-              En ZENHOGAR implementamos medidas técnicas, humanas y administrativas necesarias para otorgar seguridad a los registros evitando su adulteración, pérdida, consulta, uso o acceso no autorizado o fraudulento.
+              Bajo la Ley 1581 de 2012 y el Decreto 1377 de 2013, usted tiene derecho a conocer, actualizar, rectificar y suprimir sus datos personales de nuestras bases de datos en cualquier momento. Para ejercer estos derechos, puede escribirnos a ventas@zenhogar.live indicando su requerimiento.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">5. Cambios en la Política</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">4. Almacenamiento y Seguridad</h2>
             <p>
-              ZENHOGAR se reserva el derecho de modificar esta política en cualquier momento. Cualquier cambio sustancial será informado a través de nuestro sitio web.
+              Sus datos se almacenan en servidores seguros con protocolos de encriptación. ZENHOGAR no vende ni alquila su información personal a terceros. Solo compartimos datos con proveedores de servicios necesarios para cumplir con su pedido (logística y hosting).
             </p>
           </section>
 
-          <p className="text-sm text-stone-400 pt-8">
-            Última actualización: 15 de abril de 2026.
+          <section>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">5. Cookies y Tecnologías de Rastreo</h2>
+            <p>
+              Utilizamos cookies para mejorar su experiencia de navegación, recordar sus preferencias y analizar el tráfico del sitio para optimizar nuestra oferta comercial. Puede configurar su navegador para rechazar cookies, aunque esto podría afectar la funcionalidad de algunas secciones del sitio.
+            </p>
+          </section>
+
+          <p className="text-sm text-stone-400 pt-8 italic leading-relaxed">
+            Esta política de privacidad se rige por las leyes de la República de Colombia. Al utilizar este sitio, usted acepta los términos aquí descritos.
           </p>
         </div>
 

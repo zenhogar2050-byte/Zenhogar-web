@@ -36,6 +36,8 @@ import CategoryPage from './pages/CategoryPage';
 import Gracias from './pages/Gracias';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import TermsOfService from './pages/TermsOfService';
 import DeliveryConditions from './pages/DeliveryConditions';
 import ReturnsWarranty from './pages/ReturnsWarranty';
 import AdminDashboard from './pages/AdminDashboard';
@@ -105,6 +107,8 @@ function AppContent() {
             <Route path="/categoria/:id" element={<CategoryPage />} />
             <Route path="/quienes-somos" element={<AboutUs />} />
             <Route path="/politica-privacidad" element={<PrivacyPolicy />} />
+            <Route path="/politica-reembolso" element={<RefundPolicy />} />
+            <Route path="/terminos-servicio" element={<TermsOfService />} />
             <Route path="/condiciones-entrega" element={<DeliveryConditions />} />
             <Route path="/devoluciones-garantia" element={<ReturnsWarranty />} />
             <Route path="/admin" element={<AdminDashboard />} />

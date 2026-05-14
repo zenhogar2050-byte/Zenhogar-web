@@ -129,6 +129,8 @@ export default function ProductLanding() {
           name: product.name,
           description: product.description,
           category: product.category,
+          googleCategory: product.googleCategory,
+          condition: product.condition,
           lowPrice: product.promos[0].price,
           highPrice: product.promos[product.promos.length - 1].price,
           offerCount: product.promos.length,
@@ -181,13 +183,13 @@ export default function ProductLanding() {
 
                 {/* Thumbnail Gallery */}
                 {galleryItems.length > 1 && (
-                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 sm:gap-3 mt-6">
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-3 mt-6">
                     {galleryItems.map((item, index) => (
                       <button
                         key={index}
                         onClick={() => setActiveItem(item)}
                         className={cn(
-                          "aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all p-0.5 sm:p-1 bg-white shadow-sm hover:scale-105 active:scale-95 group/thumb flex items-center justify-center",
+                          "aspect-square rounded-2xl sm:rounded-2xl overflow-hidden border-2 transition-all p-1 sm:p-1 bg-white shadow-sm hover:scale-105 active:scale-95 group/thumb flex items-center justify-center",
                           (activeItem === item) 
                             ? "border-emerald-600 ring-2 ring-emerald-100" 
                             : "border-stone-200 hover:border-emerald-300"
@@ -199,10 +201,10 @@ export default function ProductLanding() {
                             {item.poster ? (
                               <img src={item.poster} className="w-full h-full object-cover opacity-60" alt="Video thumbnail" />
                             ) : (
-                              <Play className="w-6 h-6 text-emerald-600 fill-current" />
+                              <Play className="w-8 h-8 text-emerald-600 fill-current" />
                             )}
                             <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                              <Play className="w-5 h-5 text-white fill-current" />
+                              <Play className="w-6 h-6 text-white fill-current" />
                             </div>
                           </div>
                         ) : (
@@ -211,8 +213,8 @@ export default function ProductLanding() {
                       alt={`${product.name} miniatura ${index + 1}`} 
                       className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
                       referrerPolicy="no-referrer"
-                      width="80"
-                      height="80"
+                      width="120"
+                      height="120"
                       loading="lazy"
                     />
                         )}
@@ -233,7 +235,10 @@ export default function ProductLanding() {
                       </span>
                     </div>
                   </div>
-                  <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" width="96" height="96" />
+                  <div className="flex flex-col items-center gap-1">
+                    <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" width="96" height="96" />
+                    <span className="text-[9px] font-black text-emerald-800 uppercase tracking-tight">Garantía de Satisfacción</span>
+                  </div>
                 </div>
 
                 <div className="absolute -top-6 -right-6 bg-emerald-600 text-white px-8 py-4 rounded-2xl shadow-2xl font-black text-lg flex items-center gap-3 z-10">
@@ -275,6 +280,10 @@ export default function ProductLanding() {
                 </div>
                 <span className="text-xs font-bold text-stone-500">4.9/5 (1,240 reseñas)</span>
                 <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-1">Verificado</span>
+                <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-100/50 px-2 py-0.5 rounded-full uppercase tracking-widest ml-1">
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <span>En Stock</span>
+                </div>
               </div>
               
               <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">

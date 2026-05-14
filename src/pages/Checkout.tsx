@@ -493,6 +493,25 @@ export default function Checkout() {
                   </div>
                 </div>
 
+                {/* Explicit Payment Method Section for GMC Compliance */}
+                <div className="p-4 bg-emerald-50 rounded-2xl border-2 border-emerald-200 shadow-sm transition-all hover:bg-emerald-100/50">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white">
+                      <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-bold text-emerald-900 uppercase tracking-tight">Método de Pago Seleccionado</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-lg font-black text-emerald-800">¡Pagas al recibir en casa!</span>
+                      <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest leading-none">Pago Contraentrega (Nacional)</span>
+                    </div>
+                    <div className="text-[10px] bg-white px-2 py-1 rounded-md border border-emerald-200 font-bold text-emerald-600">
+                      SIN COSTOS EXTRA
+                    </div>
+                  </div>
+                </div>
+
                 <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 flex items-center justify-center gap-3">
                   <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-tight">
                     🚚 Envío Prioritario Activo para tu Ciudad

@@ -38,6 +38,8 @@ export interface Product {
   videoUrl?: string;
   videoUrlMp4?: string;
   videoPoster?: string;
+  googleCategory?: string;
+  condition?: 'new' | 'used' | 'refurbished';
 }
 
 export const CATEGORIES = [
@@ -100,6 +102,8 @@ Calidad Certificada (INVIMA: PSA-000932-2017)`,
     presentation: 'Líquido',
     invima: 'PSA-000932-2017',
     peso_adicional: 0,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/rtafull-apoyo-1.webp',
       '/assets/products/rtafull-apoyo-2.webp',
@@ -159,6 +163,8 @@ Mezcla de fibras naturales para una digestión fácil y regular. Apto para diab�
     presentation: 'Polvo',
     invima: 'NSA-0012423-2022',
     peso_adicional: 0,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/coliplus-apoyo-1.webp',
       '/assets/products/coliplus-apoyo-2.webp',
@@ -218,6 +224,8 @@ Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para tod
     size: '180g',
     presentation: 'Polvo',
     invima: 'RSA-0026265-2023',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/colageno-apoyo-1.webp',
       '/assets/products/colageno-apoyo-2.webp',
@@ -277,6 +285,8 @@ Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para tod
     size: '700g',
     presentation: 'Polvo',
     invima: 'RSAD05i27915',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/resvis-apoyo-1.webp',
       '/assets/products/resvis-apoyo-2.webp',
@@ -336,6 +346,8 @@ Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulacio
     size: '30 und',
     presentation: 'Cápsulas Blandas',
     invima: 'SD2019-0004457',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/cla500-apoyo-1.webp',
       '/assets/products/cla500-apoyo-2.webp',
@@ -399,6 +411,8 @@ Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu v
     size: '350g',
     presentation: 'Polvo',
     invima: 'NSA-0008349-2020',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/cafetolio-apoyo-1.webp',
       '/assets/products/cafetolio-apoyo-2.webp',
@@ -461,6 +475,8 @@ Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu v
     size: '120ml',
     presentation: 'Crema / Gel',
     invima: 'NSOC74321-16CO',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/locion-apoyo-1.webp',
       '/assets/products/locion-apoyo-2.webp',
@@ -525,6 +541,8 @@ Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos 
     size: '500g',
     presentation: 'Polvo',
     invima: 'RSA-0032379-2024',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/c-lagen-apoyo-1.webp',
       '/assets/products/c-lagen-apoyo-2.webp',
@@ -588,6 +606,8 @@ Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar cal
     basePrice: 79900,
     size: '350g',
     invima: 'SD2023-0004812',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/citramix-apoyo-1.webp',
       '/assets/products/citramix-apoyo-2.webp',
@@ -646,6 +666,8 @@ Combina tu café matutino con el poder del colágeno y crema de coco para fortal
     basePrice: 75900,
     size: '400g',
     invima: 'RSA-0010130-2020',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/cafe-colageno-apoyo-1.webp',
       '/assets/products/cafe-colageno-apoyo-2.webp',
@@ -703,6 +725,8 @@ Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despier
     basePrice: 105000,
     size: '200g',
     invima: 'SD2014-0003204',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/creatina-apoyo-1.webp',
       '/assets/products/creatina-apoyo-2.webp',
@@ -761,6 +785,8 @@ Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y manten
     basePrice: 79900,
     size: '500ml',
     invima: 'SD2015-0003504',
+    googleCategory: 'Health & Beauty > Personal Care',
+    condition: 'new',
     supportImages: [
       '/assets/products/iprossmen-apoyo-1.webp',
       '/assets/products/iprossmen-apoyo-2.webp',
@@ -819,6 +845,8 @@ KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.`,
     basePrice: 79900,
     size: '350g',
     invima: 'RSA-0025607-2023',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/kds-10-apoyo-1.webp',
       '/assets/products/kds-10-apoyo-2.webp',
@@ -882,6 +910,8 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     size: '500ml',
     presentation: 'Líquido',
     invima: 'RSA-0020527-2022',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/liofhim-apoyo-1.webp',
       '/assets/products/liofhim-apoyo-2.webp',
@@ -939,8 +969,9 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     size: '500ml',
     presentation: 'Líquido',
     invima: 'PSA-000932-2017',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
-      '/assets/products/liteplex-apoyo-1.webp',
       '/assets/products/liteplex-apoyo-2.webp',
       '/assets/products/liteplex-apoyo-3.webp',
       '/assets/products/liteplex-apoyo-4.webp'
@@ -1000,6 +1031,8 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     size: '800g',
     presentation: 'Polvo',
     invima: 'SD2017-0004051',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/maxlite-apoyo-1.webp',
       '/assets/products/maxlite-apoyo-2.webp',
@@ -1063,6 +1096,8 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     size: '700g',
     presentation: 'Polvo',
     invima: 'RSA-001291-2016',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/megamac-apoyo-1.webp',
       '/assets/products/megamac-apoyo-2.webp',
@@ -1121,6 +1156,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '350g',
     presentation: 'Polvo',
     invima: 'SD2014-0003215',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/resveratrol-apoyo-1.webp',
       '/assets/products/resveratrol-apoyo-2.webp',
@@ -1184,6 +1221,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC90432-19CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/eventone-apoyo-1.webp',
       '/assets/products/eventone-apoyo-2.webp',
@@ -1243,6 +1282,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '90ml',
     presentation: 'Crema / Líquido',
     invima: 'NSOC35087-24CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/golden-passion-apoyo-1.webp',
       '/assets/products/golden-passion-apoyo-2.webp',
@@ -1306,6 +1347,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '150ml',
     presentation: 'Aceite',
     invima: 'NSOC20441-23CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/hydrastrik-apoyo-1.webp',
       '/assets/products/hydrastrik-apoyo-2.webp',
@@ -1369,6 +1412,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '60g',
     presentation: 'Crema',
     invima: 'NSOC85321-18CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/miskinne-apoyo-1.webp',
       '/assets/products/miskinne-apoyo-2.webp',
@@ -1432,6 +1477,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '120ml',
     presentation: 'Líquido (Spray)',
     invima: 'NSOC02559-20CO',
+    googleCategory: 'Health & Beauty > Personal Care > Hair Care',
+    condition: 'new',
     supportImages: [
       '/assets/products/tonico-apoyo-1.webp',
       '/assets/products/tonico-apoyo-2.webp',
@@ -1487,6 +1534,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '75g',
     presentation: 'Dulce / Caramelo',
     invima: 'NSA-0009109-2020',
+    googleCategory: 'Health & Beauty > Personal Care',
+    condition: 'new',
     supportImages: [
       '/assets/products/tufoff-apoyo-1.webp',
       '/assets/products/tufoff-apoyo-2.webp',
@@ -1549,8 +1598,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
-      '/assets/products/akha-apoyo-1.webp',
       '/assets/products/akha-apoyo-2.webp',
       '/assets/products/akha-apoyo-3.webp',
       '/assets/products/akha-apoyo-4.webp'
@@ -1611,6 +1661,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC36162-24CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/derman-apoyo-1.webp',
       '/assets/products/derman-apoyo-2.webp',
@@ -1674,8 +1726,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: 'bebida 240ml',
     presentation: 'Bebida',
     invima: 'RSA-3599-2025',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
-      '/assets/products/haydar-apoyo-1.webp',
       '/assets/products/haydar-apoyo-2.webp',
       '/assets/products/haydar-apoyo-3.webp',
       '/assets/products/haydar-apoyo-4.webp'
@@ -1736,6 +1789,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '30ml',
     presentation: 'Gel / Crema',
     invima: '2021DM-0024065',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
       '/assets/products/instant-virgin-apoyo-1.webp',
       '/assets/products/instant-virgin-apoyo-2.webp'
@@ -1795,8 +1850,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics',
+    condition: 'new',
     supportImages: [
-      '/assets/products/mammoth-apoyo-1.webp',
       '/assets/products/mammoth-apoyo-2.webp',
       '/assets/products/mammoth-apoyo-3.webp',
       '/assets/products/mammoth-apoyo-4.webp'
@@ -1855,8 +1911,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     basePrice: 89900,
     size: '500g',
     presentation: 'Polvo',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
-      '/assets/products/tyrussfull-apoyo-1.webp',
       '/assets/products/tyrussfull-apoyo-2.webp',
       '/assets/products/tyrussfull-apoyo-3.webp',
       '/assets/products/tyrussfull-apoyo-4.webp'
@@ -1916,8 +1973,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '500ml',
     presentation: 'Líquido',
     invima: 'RSA-3599-2025',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
-      '/assets/products/zafir-apoyo-1.webp',
       '/assets/products/zafir-apoyo-2.webp',
       '/assets/products/zafir-apoyo-3.webp',
       '/assets/products/zafir-apoyo-4.webp'
@@ -1973,6 +2031,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '15 unidades',
     presentation: 'Cápsulas',
     invima: 'RSA-0031426-2024',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/zeus-apoyo-1.webp',
       '/assets/products/zeus-apoyo-2.webp',
@@ -2029,8 +2089,9 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     basePrice: 79900,
     size: '350g',
     presentation: 'Polvo',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
-      '/assets/products/nad-1-apoyo-1.webp',
       '/assets/products/nad-1-apoyo-2.webp',
       '/assets/products/nad-1-apoyo-3.webp',
       '/assets/products/nad-1-apoyo-4.webp'
@@ -2090,6 +2151,8 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     size: '400g',
     presentation: 'Polvo',
     invima: 'PSA-000982-2018',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     supportImages: [
       '/assets/products/titancoffee-apoyo-1.webp',
       '/assets/products/titancoffee-apoyo-2.webp',
@@ -2150,6 +2213,8 @@ Crema botánica que calma rápidamente el ardor y la picazón, facilitando un pr
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC15678-23CO',
+    googleCategory: 'Health & Beauty > Health Care',
+    condition: 'new',
     supportImages: [
       '/assets/products/hemocream-apoyo-1.webp',
       '/assets/products/hemocream-apoyo-2.webp',
@@ -2217,6 +2282,8 @@ export interface Promotion {
     rating: number;
   }[];
   peso_adicional?: number;
+  googleCategory?: string;
+  condition?: 'new' | 'used' | 'refurbished';
 }
 
 export const COMBO_OF_THE_MONTH: Promotion = {
@@ -2227,6 +2294,8 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   price: 129900,
   originalPrice: 165800,
   peso_adicional: 0,
+  googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+  condition: 'new',
   products: ['resvis', 'coliplus'],
   seoTitle: 'Cómo solucionar la pesadez abdominal y defensas bajas con Inmunidad Dual',
   seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
@@ -2274,6 +2343,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-1.webp',
     price: 104850,
     originalPrice: 139800,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['resveratrol', 'miskinne'],
     seoTitle: 'Cómo solucionar la piel opaca y falta de elasticidad con Combo Piel Radiante',
     seoDescription: 'Luce una piel radiante con nuestro Combo Piel Radiante. Fórmula balanceada para bienestar integral, nutrición celular y calidad certificada. ¡Ahorra hoy!',
@@ -2319,6 +2390,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-2.webp',
     price: 123675,
     originalPrice: 164900,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['resveratrol', 'eventone'],
     seoTitle: 'Cómo solucionar las manchas y el tono desigual con Combo Belleza Eterna',
     seoDescription: 'Unifica tu tono de piel y protege tus células con el Combo Belleza Eterna. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ya!',
@@ -2364,6 +2437,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-3.webp',
     price: 116850,
     originalPrice: 155000,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['coliplus', 'rtafull'],
     seoTitle: 'Cómo solucionar el estreñimiento y pesadez con Combo Detox Digestivo',
     seoDescription: 'Limpia tu organismo y regula tu digestión con el Combo Detox Digestivo. Fórmula balanceada para bienestar integral y calidad certificada. ¡Siéntete ligero!',
@@ -2409,6 +2484,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-4.webp',
     price: 119850,
     originalPrice: 159800,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['liteplex', 'rtafull'],
     seoTitle: 'Cómo solucionar el sobrepeso y metabolismo lento con Combo Control & Detox',
     seoDescription: 'Apoya tu proceso de pérdida de peso con el Combo Control & Detox. Fórmula balanceada para bienestar integral, energía y calidad certificada. ¡Ahorra hoy!',
@@ -2454,6 +2531,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-5.webp',
     price: 123675,
     originalPrice: 164900,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['tufoff', 'rtafull'],
     seoTitle: 'Cómo solucionar el mal olor y toxinas con Combo Protección Total',
     seoDescription: 'Protección y limpieza profunda para tu organismo con el Combo Protección Total. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ahora!',
@@ -2499,6 +2578,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-6.webp',
     price: 123675,
     originalPrice: 164900,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['locion', 'colageno'],
     seoTitle: 'Cómo solucionar la incomodidad muscular y articular con Combo Alivio Muscular',
     seoDescription: 'Recupera tu movilidad con el Combo Alivio Muscular. Fórmula balanceada para bienestar integral, nutrición articular y calidad certificada. ¡Pídelo hoy!',
@@ -2544,6 +2625,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-7.webp',
     price: 149425,
     originalPrice: 199250,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['cafetolio', 'megamac'],
     seoTitle: 'Cómo solucionar el cansancio extremo y falta de enfoque con Combo Energía Máxima',
     seoDescription: 'Potencia tu rendimiento con el Combo Energía Máxima. Fórmula balanceada para vitalidad extrema, bienestar integral y calidad certificada. ¡Compra segura!',
@@ -2589,6 +2672,8 @@ export const PROMOTIONS: Promotion[] = [
     image: '/assets/combos/promo-8.webp',
     price: 127350,
     originalPrice: 169800,
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
     products: ['tyruss-full', 'rtafull'],
     seoTitle: 'Cómo solucionar la falta de vitalidad y pesadez con Combo Vitalidad & Limpieza',
     seoDescription: 'Siéntete imparable con el Combo Vitalidad & Limpieza. Fórmula balanceada para depuración natural, bienestar integral y calidad certificada. ¡Pídelo hoy!',

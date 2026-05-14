@@ -47,7 +47,7 @@ export default function SocialProof() {
   const activity = RECENT_ACTIVITY[current];
 
   return (
-    <div className="fixed bottom-24 md:bottom-6 left-4 md:left-6 z-50 pointer-events-none">
+    <div className="fixed bottom-32 md:bottom-6 left-4 md:left-6 z-50 pointer-events-none">
       <AnimatePresence>
         {visible && (
           <motion.div

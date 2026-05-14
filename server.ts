@@ -19,21 +19,6 @@ async function startServer() {
   app.use(express.json());
   app.set('trust proxy', true);
 
-  // --- REFUERZO DE SEGURIDAD: Redirección WWW a No-WWW y HTTP a HTTPS (Blindaje) ---
-  app.use((req, res, next) => {
-    const host = req.get('host') || "";
-    // Detectamos si el protocolo es HTTP (considerando proxies como Cloudflare)
-    const isHttp = (req.headers['x-forwarded-proto'] || req.protocol) === 'http';
-    const isWww = host.startsWith('www.');
-
-    if (isHttp || isWww) {
-      const cleanHost = isWww ? host.replace(/^www\./, '') : host;
-      // Redirección 301 (Permanente) para que Google actualice su índice
-      return res.redirect(301, `https://${cleanHost}${req.originalUrl}`);
-    }
-    next();
-  });
-
   // Health check
   app.get("/health-check", (req, res) => res.send("OK"));
 
