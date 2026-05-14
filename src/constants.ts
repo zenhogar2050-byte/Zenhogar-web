@@ -1204,17 +1204,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '23015',
     name: 'Eventone',
     category: 'belleza-integral',
-    shortDescription: 'Hidratación Intensa y Firmeza Facial.',
-    description: `Crema facial avanzada diseñada para unificar el tono de la piel y devolverle su luminosidad natural. Su fórmula, enriquecida con Bio-Retinol y Ácido Hialurónico, ayuda a atenuar las irregularidades de tono causadas por el sol o la edad, mientras proporciona una hidratación profunda que mejora la textura y suavidad del rostro. Ideal para incluir en tu rutina de cuidado nocturno.
+    shortDescription: 'Brillo, Juventud y Tono Uniforme para tu Rostro.',
+    description: `Ilumina tu belleza natural con Eventone, el suero perfeccionador de alto impacto diseñado para combatir las manchas y unificar el tono de tu piel. Su fórmula maestra combina el poder regenerador del Bio-Retinol (alternativa natural al retinol tradicional) con la hidratación profunda del ácido hialurónico y extractos calmantes de manzanilla. Eventone actúa penetrando las capas profundas de la dermis para equilibrar la producción de pigmento, reduciendo visiblemente las manchas causadas por el sol, la edad o factores hormonales.
 
-✔️ Efecto Relleno: Ayuda a que la piel retenga su humedad natural, suavizando las líneas de expresión. ✔️ Firmeza Real: Fortalece la estructura del rostro para que luzca más joven y terso. ✔️ Calma la Piel: Con extracto de Manzanilla que alivia la irritación y mejora la textura diaria.`,
-    seoTitle: 'Hidratación Intensa y Firmeza Facial con Eventone',
-    seoDescription: '✔️ Efecto Relleno: Retiene la humedad y suaviza líneas. Firmeza real para un rostro joven con Manzanilla. ¡Calidad INVIMA!',
+Además de su acción aclarante, Eventone proporciona un efecto relleno que suaviza las líneas de expresión y mejora la firmeza de la piel, devolviéndole su luminosidad y brillo natural. Con su textura sedosa de rápida absorción, es el tratamiento nocturno ideal para quienes buscan un rostro rejuvenecido, libre de irregularidades y con una vitalidad renovada.
+
+✔️ Tono Uniforme: Reduce progresivamente la intensidad de las manchas y equilibra el color de la piel.
+✔️ Hidratación y Relleno: Ácido hialurónico de alto peso molecular que suaviza arrugas y mejora la turgencia.
+✔️ Luminosidad Radiante: Recupera el brillo natural y la lozanía de un rostro descansado y saludable.`,
+    seoTitle: 'Eventone: Cómo unificar el tono de la piel y reducir manchas | Zenhogar',
+    seoDescription: 'Elimina manchas y recupera la luminosidad con Eventone. Suero con Bio-Retinol y Ácido Hialurónico para un tono uniforme y firmeza real. ¡Registro INVIMA!',
     benefits: [
-      'Rellenado natural de líneas finas',
-      'Piel facial más tersa y elástica',
-      'Alivia irritaciones con manzanilla',
-      'Aspecto visiblemente más joven'
+      'Unifica el tono de la piel y reduce manchas oscuras visibles',
+      'Efecto relleno inmediato gracias al ácido hialurónico puro',
+      'Regeneración profunda celular con Bio-Retinol sin irritación',
+      'Diferencia notable en la luminosidad y textura del rostro',
+      'Fórmula ligera y nutritiva ideal para tu rutina de cuidado nocturno'
     ],
     image: '/assets/products/Eventone.webp',
     basePrice: 85000,
@@ -1229,21 +1234,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
       '/assets/products/eventone-apoyo-3.webp',
       '/assets/products/eventone-apoyo-4.webp'
     ],
-    keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas osapoyas, Eventone, Zenhogar',
+    keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas oscuras, Eventone, Zenhogar, bio retinol',
     components: 'Bio Retinol, Ácido Hialurónico, Colágeno, B5, Manzanilla y Aloe Vera',
     longTailKeywords: [
-      'mejor crema para unificar el tono de la piel y atenuar irregularidades de tono',
-      'cómo devolver el brillo natural al rostro de forma segura',
-      'cuidado para reducir manchas osapoyas con ingredientes naturales',
-      'beneficios de Eventone para una piel radiante y descansada',
-      'fórmula suave para unificar el tono sin irritar la piel',
-      'bienestar integral cutáneo con registro INVIMA certificado',
+      'mejor crema para unificar el tono de la piel y atenuar manchas faciales',
+      'cómo devolver el brillo natural al rostro de forma segura con bio retinol',
+      'cuidado nocturno para reducir manchas oscuras con ingredientes naturales',
+      'beneficios del ácido hialurónico para una piel radiante y descansada',
+      'fórmula suave para unificar el tono sin irritar la piel sensible',
+      'bienestar integral cutáneo con registro INVIMA certificado en Colombia',
+      'crema facial con bio-retinol para rejuvenecimiento nocturno sin irritación',
     ],
     seoFaqs: [
-      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar únicamente en la noche sobre la zona a tratar.' },
-      { q: '¿En cuánto tiempo veo resultados con Eventone?', a: 'Con el uso nocturno constante, notarás un tono más uniforme y piel radiante en las primeras semanas de bienestar integral.' },
-      { q: '¿Se puede usar en todo tipo de piel?', a: 'Sí, su fórmula balanceada está diseñada para ser respetuosa y suave con todo tipo de cutis, garantizando calidad certificada.' },
-      { q: '¿Ayuda con las manchas de sol?', a: 'Efectivamente, está enfocada en reducir la apariencia de manchas osapoyas causadas por el sol y el tiempo.' }
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar únicamente en la noche sobre el rostro limpio, masajeando suavemente hasta su total absorción.' },
+      { q: '¿En cuánto tiempo veo resultados con Eventone?', a: 'Con el uso nocturno constante, notarás un tono más uniforme y una piel más radiante a partir de las primeras 3 a 4 semanas de uso.' },
+      { q: '¿Se puede usar en todo tipo de piel?', a: 'Sí, su fórmula balanceada con manzanilla y aloe vera está diseñada para ser respetuosa y suave incluso con pieles delicadas.' },
+      { q: '¿Ayuda con las manchas de sol?', a: 'Efectivamente, sus componentes están enfocados en reducir la apariencia de manchas oscuras causadas por la exposición solar y el envejecimiento.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
@@ -1524,11 +1530,23 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '68746',
     name: 'Tufoff',
     category: 'belleza-integral',
-    shortDescription: 'Refresca el aliento al instante.',
-    description: 'Innovadora solución para el cuidado del aliento que combina la frescura de la menta con ingredientes naturales como la canela y el bicarbonato. Estos dulces sin azúcar neutralizan olores de forma instantánea, proporcionando una sensación de limpieza duradera y frescura total en la boca en cualquier momento del día.',
-    seoTitle: 'Cómo solucionar el mal aliento al instante con Tufoff',
-    seoDescription: 'Refresca tu aliento al instante con Tufoff. Sabores naturales de menta, canela y naranja para tu bienestar integral. ¡Siéntete seguro siempre!',
-    benefits: ['Aliento fresco', 'Sabores naturales', 'Acción inmediata'],
+    shortDescription: 'Refresca el aliento al instante con Ciencia Natural.',
+    description: `Descubre la confianza absoluta en cada palabra con Tufoff, la solución avanzada diseñada para neutralizar el mal aliento desde su origen. Esta innovadora fórmula combina la frescura criogénica del aceite de menta con el poder neutralizador del bicarbonato de sodio y la canela. A diferencia de los caramelos convencionales, Tufoff no solapa los olores; actúa mediante una reacción química gentil que descompone los compuestos volátiles de azufre, responsables del mal olor tras consumir tabaco, alcohol o alimentos fuertes.
+
+Enriquecido con inulina (prebiótico natural), Tufoff no solo brinda frescura inmediata, sino que contribuye a mantener el equilibrio saludable de la microbiota bucal. Sin azúcar y endulzado exclusivamente con eritritol, es el aliado perfecto para tu salud dental y tu seguridad en cualquier interacción social o profesional.
+
+✔️ Acción Criogénica Inmediata: Sensación de limpieza profunda que neutraliza olores de comida, tabaco y café al instante.
+✔️ Equilibrio Prebiótico: Contiene inulina para proteger la salud de tu boca mientras refresca tu aliento.
+✔️ Salud Dental Garantizada: 100% Sin azúcar y con bicarbonato para equilibrar el pH bucal y proteger el esmalte.`,
+    seoTitle: 'Tufoff: Cómo eliminar el mal aliento de forma instantánea y natural',
+    seoDescription: 'Elimina el mal aliento al instante con Tufoff. Dulces sin azúcar con prebióticos y aceites esenciales para una frescura total y equilibrio bucal. ¡Confianza certificada!',
+    benefits: [
+      'Neutraliza el aliento a tabaco, alcohol y condimentos al contacto',
+      'Protege la microbiota bucal gracias a su aporte de prebióticos (Inulina)',
+      'Equilibra el pH de la boca reduciendo la acidez con bicarbonato',
+      'Seguro para los dientes: Fórmula con eritritol, totalmente libre de azúcar',
+      'Formato discreto de 75g ideal para llevar a juntas o citas'
+    ],
     image: '/assets/products/Tuffof.webp',
     basePrice: 85000,
     size: '75g',
@@ -1542,25 +1560,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
       '/assets/products/tufoff-apoyo-3.webp',
       '/assets/products/tufoff-apoyo-4.webp'
     ],
-    keywords: 'mal aliento, fresapoya bucal, menta canela, Tufoff, Zenhogar',
+    keywords: 'mal aliento, frescura bucal, menta canela, Tufoff, Zenhogar, higiene oral rápida',
     components: 'Eritritol, Inulina, Aceite de Menta, Canela y Bicarbonato de Sodio',
     longTailKeywords: [
-      'mejor producto para controlar el olor corporal eficazmente',
-      'cómo mantener la fresapoya durante todo el día naturalmente',
-      'cuidado para una limpieza profunda y cuidado suave',
-      'beneficios de Tufoff para el bienestar integral e higiene',
-      'fórmula balanceada para una sensación de frescura duradera',
-      'bienestar integral y vitalidad con higiene',
-      'cómo mejorar la confianza personal con calidad certificada',
-      'producto para el cuidado personal diario',
-      'solución natural para el mal olor y falta de higiene',
-      'fresapoya total y segura con ingredientes de alta pureza'
+      'mejor producto para eliminar el mal aliento de forma inmediata',
+      'cómo mantener un aliento fresco durante todo el día naturalmente',
+      'dulces sin azúcar para neutralizar el olor a comida en la boca',
+      'beneficios del bicarbonato de sodio para la higiene bucal rápida',
+      'fórmula natural para refrescar el aliento sin dañar el esmalte dental',
+      'bienestar integral y confianza personal con aliento fresco premium',
+      'solución discreta para el mal aliento después de fumar o comer ajo',
     ],
     seoFaqs: [
-      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 dulce lentamente en la boca según sea necesario.' },
-      { q: '¿Tufoff es un desodorante?', a: 'Es un producto de limpieza profunda que complementa tu higiene para un bienestar integral y fresapoya duradera.' },
-      { q: '¿Se puede usar en zonas sensibles?', a: 'Su fórmula balanceada es de cuidado suave, pero siempre recomendamos probar en una pequeña zona.' },
-      { q: '¿Cuánto dura el efecto?', a: 'Brinda una sensación de vitalidad y fresapoya que te acompaña durante tus actividades diarias.' }
+      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver un dulce lentamente en la boca después de cada comida o según necesites refrescar tu aliento.' },
+      { q: '¿Contiene azúcar?', a: 'No, Tufoff es totalmente libre de azúcar. Está endulzado con eritritol, lo que lo hace seguro para los dientes y para personas diabéticas.' },
+      { q: '¿Qué diferencia a Tufoff de un chicle normal?', a: 'A diferencia de los chicles, Tufoff contiene bicarbonato y aceites esenciales que neutralizan químicamente las bacterias del olor, no solo ocultan el aroma.' },
+      { q: '¿Cuánto dura el efecto de frescura?', a: 'Gracias a su fórmula concentrada, la sensación de limpieza y frescura puede durar varias horas según la actividad.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
@@ -1583,15 +1598,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '61195',
     name: 'Akha (Crema Voluminizante)',
     category: 'salud-sexual',
-    shortDescription: 'Mejora la Apariencia y Firmeza de la Piel.',
-    description: 'Crema cosmética de alto poder hidratante apta para todo tipo de piel. Formulada con extractos vegetales y aceites nutritivos que ayudan a mejorar la apariencia y suavidad de la piel en las zonas aplicadas. Sus componentes antioxidantes protegen contra factores externos, dejando una textura firme, elástica y renovada.',
-    seoTitle: 'Mejora la Apariencia y Firmeza de la Piel con Akha',
-    seoDescription: '✔️ Piel con más Cuerpo: Hidratación para una piel sana. Efecto antioxidante y elasticidad sin grasa. ¡Registro INVIMA!',
+    shortDescription: 'Firmeza, Elasticidad y Vigor para tu Piel.',
+    description: `Crema voluminizante de alto poder regenerador diseñada para mejorar la apariencia, firmeza y elasticidad de la piel en áreas específicas. Formulada con una rica mezcla de extractos botánicos como Acmella Oleracea (conocida por su efecto tensor natural), Maca y Ginseng, Akha proporciona una hidratación profunda que ayuda a recuperar el vigor cutáneo y suavizar la textura de la piel.
+
+Su fórmula avanzada refuerza la barrera natural de la piel, protegiéndola contra factores externos y el envejecimiento prematuro. Ideal para quienes buscan una apariencia más saludable, firme y elástica sin dejar sensación grasa, ya que su absorción es inmediata y refrescante.
+
+✔️ Efecto Tensor Natural: Ayuda a mejorar la firmeza y el tono de la piel de forma progresiva.
+✔️ Nutrición Profunda: Enriquecida con Zinc y L-Arginina para promover la renovación celular y vitalidad.
+✔️ Absorción Superior: Textura ligera que no mancha la ropa y deja la piel suave y renovada al instante.`,
+    seoTitle: 'Crema voluminizante y reafirmante natural Akha | Zenhogar',
+    seoDescription: 'Recupera la firmeza y elasticidad de tu piel con Akha. Crema con Acmella Oleracea y Maca para un efecto tensor natural y vitalidad cutánea. ¡Registro INVIMA!',
     benefits: [
-      'Piel visiblemente más saludable',
-      'Protege contra el envejecimiento',
-      'Absorción veloz sin sensación grasa',
-      'Elasticidad mejorada en todo el cuerpo'
+      'Piel visiblemente más saludable, firme y tonificada',
+      'Protección antioxidante avanzada contra el envejecimiento',
+      'Absorción ultra-veloz sin dejar residuos grasos en la ropa',
+      'Mejora la elasticidad y suavidad en las zonas aplicadas',
+      'Fórmula botánica segura para el cuidado diario de la piel'
     ],
     image: '/assets/products/akha.webp',
     basePrice: 89900,
@@ -1608,21 +1630,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'botox natural, voluminizante, firmeza, Akha, Zenhogar',
     components: 'Extracto de Acmella Oleracea, Maca, Ginseng, Zinc, L-Arginina',
     longTailKeywords: [
-      'mejor suplemento natural para la potencia y energía masculina',
-      'cómo mejorar el rendimiento físico de forma natural y segura',
-      'suplemento para la vitalidad natural y energía diaria',
-      'beneficios de Akha para el bienestar integral masculino',
-      'fórmula balanceada para potenciar el rendimiento y la fuerza',
-      'bienestar integral y vitalidad con ingredientes',
-      'cómo recuperar la chispa natural con calidad certificada',
-      'suplemento para la salud sexual masculina',
-      'solución natural para la falta de energía y bajo rendimiento',
-      'potencia y vitalidad segura con ingredientes de alta pureza'
+      'mejor crema natural para mejorar la firmeza de la piel en hombres',
+      'cómo recuperar la elasticidad cutánea con extractos de maca y ginseng',
+      'crema hidratante con acmella oleracea para efecto tensor inmediato',
+      'beneficios de Akha para la nutrición y vigor de la piel masculina',
+      'fórmula botánica para una piel más saludable, elástica y rejuvenecida',
+      'bienestar integral y vitalidad dérmica con registro INVIMA certificado',
+      'cómo prevenir el envejecimiento prematuro de la piel de forma segura',
+      'crema para la firmeza del cuerpo con ingredientes naturales premium',
+      'solución efectiva para la piel opaca y falta de tono muscular cutáneo',
+      'vitalidad y elasticidad segura con ingredientes de alta pureza botánica'
     ],
     seoFaqs: [
-      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona deseada con masajes circulares.' },
-      { q: '¿Akha es un producto natural?', a: 'Sí, su fórmula balanceada utiliza extractos naturales para promover un bienestar integral y vitalidad.' },
-      { q: '¿Tiene efectos secundarios?', a: 'Es un suplemento de calidad certificada diseñado para ser seguro bajo las dosis recomendadas.' }
+      { q: '¿Cómo debo aplicar Akha para obtener resultados visibles?', a: 'Se recomienda aplicar en la zona deseada mediante masajes circulares firmes dos veces al día, promoviendo la absorción y el equilibrio natural.' },
+      { q: '¿Akha es un producto totalmente natural?', a: 'Sí, su fórmula balanceada utiliza extractos de alta pureza como Maca y Ginseng para promover un bienestar integral y vitalidad en tu piel.' },
+      { q: '¿Tiene contraindicaciones o efectos secundarios?', a: 'Es un producto de calidad certificada diseñado para ser seguro en todo tipo de piel bajo las dosis recomendadas, aportando nutrición sin irritaciones.' },
+      { q: '¿En cuánto tiempo se nota el efecto reafirmante?', a: 'Muchos usuarios perciben una mejora en la hidratación y suavidad inmediata, con resultados de firmeza notables tras 4 semanas de uso constante.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1644,17 +1667,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '61835',
     name: 'Derman (Mascarilla Íntima)',
     category: 'salud-sexual',
-    shortDescription: 'Higiene y Protección para tu Zona Íntima.',
-    description: `Crema especializada en el cuidado y protección de la piel en áreas delicadas del cuerpo. Su fórmula suave proporciona una hidratación profunda y ayuda a mantener el equilibrio natural de la zona íntima, ofreciendo una sensación de confort, frescura y suavidad duradera para el cuidado diario.
+    shortDescription: 'Protección, Frescura y Equilibrio para tu Zona Íntima.',
+    description: `Derman es una mascarilla íntima en crema diseñada científicamente para brindar higiene, protección y confort absoluto en las áreas más delicadas del cuerpo. Su fórmula magistral combina las propiedades regeneradoras de la Caléndula con el poder hidratante del Aloe Vera y la Manzanilla, creando una barrera protectora que mantiene el equilibrio natural de la flora y previene irritaciones comunes tras la depilación o el uso de ropa ajustada.
 
-✔️ Adiós a la Irritación: Calma la piel después de la depilación o el afeitado, evitando brotes o molestias. ✔️ Protección Natural: Ayuda a mantener el equilibrio y la salud de la piel en áreas delicadas. ✔️ Hidratación Especializada: Mantiene la zona suave y flexible, promoviendo el confort diario.`,
-    seoTitle: 'Higiene y Protección para tu Zona Íntima con Derman',
-    seoDescription: '✔️ Adiós a la Irritación: Calma tras depilación. Protección natural y suavidad para el confort diario. ¡Registro INVIMA!',
+Ideal para el cuidado diario, Derman calma instantáneamente el ardor, evita los brotes cutáneos y proporciona una sensación duradera de frescura y suavidad, permitiéndote sentirte cómoda y segura en todo momento con la garantía de una fórmula gentil y probada.
+
+✔️ Adiós a la Irritación: Calma la piel sensible después del afeitado o depilación con láser/cera.
+✔️ Protección Natural: Ayuda a mantener el pH equilibrado y la salud de la piel en áreas íntimas.
+✔️ Hidratación de Confort: Nutre profundamente, evitando la resequedad y promoviendo la elasticidad.`,
+    seoTitle: 'Derman Mascarilla Íntima | Cuidado y Protección tras Depilación',
+    seoDescription: 'Protege y calma tu zona íntima con Derman. Mascarilla en crema con Caléndula y Aloe Vera para evitar irritaciones y mantener el equilibrio natural. ¡Registro INVIMA!',
     benefits: [
-      'Calma la piel post-depilación',
-      'Mantiene equilibrio en zonas íntimas',
-      'Evita brotes e irritaciones',
-      'Promueve el confort diario'
+      'Calma y regenera la piel post-depilación o afeitado',
+      'Mantiene el equilibrio natural en zonas íntimas externas',
+      'Previene de forma efectiva brotes, vellos encarnados e irritaciones',
+      'Promueve el confort y la frescura diaria con aroma sutil',
+      'Textura suave que se absorbe sin dejar humedad excesiva'
     ],
     image: '/assets/products/Derman.webp',
     basePrice: 89900,
@@ -1672,22 +1700,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'bienestar íntimo, arginina, ácido salicílico, salud íntima, Derman, Zenhogar',
     components: 'Ácido Salicílico, Arginina, Ácido Undecilénico y Lanolina',
     longTailKeywords: [
-      'mejor producto natural para el cuidado íntimo femenino',
-      'cómo mejorar el bienestar íntimo de forma segura y suave',
-      'cuidado para mantener la fresapoya y salud sexual natural',
-      'beneficios de Derman para el bienestar integral íntimo',
-      'fórmula balanceada para el cuidado delicado de la mujer',
-      'bienestar integral y vitalidad en momentos de intimidad',
-      'cómo recuperar la confianza íntima con calidad certificada',
-      'producto para la higiene íntima diaria',
-      'solución natural para la irritación y falta de confort íntimo',
-      'salud íntima segura con ingredientes de alta pureza y suavidad'
+      'mejor mascarilla íntima para prevenir irritación tras la depilación con cera',
+      'cómo mantener el pH balanceado y la frescura en la zona delicada femenina',
+      'cuidado especializado para la salud íntima natural con caléndula y aloe vera',
+      'beneficios de Derman para el bienestar integral y confort de la mujer',
+      'fórmula suave para proteger la piel después del rasurado o láser íntimo',
+      'bienestar integral y vitalidad en el cuidado diario de la zona genital',
+      'cómo recuperar la confianza íntima con productos de calidad certificada',
+      'mascarilla hidratante para la higiene íntima calmante y protectora',
+      'solución natural para el ardor y la picazón en áreas sensibles externas',
+      'salud íntima segura con ingredientes de alta pureza y suavidad extrema'
     ],
     seoFaqs: [
-      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona de la piel que requiera cuidado o regeneración.' },
-      { q: '¿Derman altera el pH natural?', a: 'No, su fórmula balanceada está diseñada para respetar tu equilibrio natural y bienestar integral.' },
-      { q: '¿Se puede usar diariamente?', a: 'Sí, es ideal para tu rutina de cuidado suave y protección diaria con calidad certificada.' },
-      { q: '¿Contiene fragancias fuertes?', a: 'Posee un aroma muy sutil y natural para brindar frescura sin irritar tus zonas más delicadas.' }
+      { q: '¿Derman ayuda realmente tras la depilación?', a: 'Absolutamente, sus extractos de caléndula calman el ardor y regeneran la piel sensible post-depilación, brindando bienestar instantáneo.' },
+      { q: '¿Altera Derman el pH de mi zona íntima?', a: 'No, su fórmula balanceada está diseñada para respetar tu barrera natural y promover un equilibrio saludable sin químicos agresivos.' },
+      { q: '¿Con qué frecuencia se puede usar Derman?', a: 'Es ideal para tu rutina de cuidado diario, aplicándola siempre en la piel limpia para mantener la suavidad y protección certificada.' },
+      { q: '¿Tiene fragancias que puedan irritar?', a: 'Derman posee un aroma muy sutil y natural, libre de perfumes irritantes, ideal para brindar frescura con total seguridad.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1709,17 +1737,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '166801',
     name: 'Haydar (Bebida Energizante)',
     category: 'salud-sexual',
-    shortDescription: 'Energía y Vitalidad en un Solo Sorbo.',
-    description: `Bebida energizante natural que combina el poder revitalizante del Borojó y la Maca, diseñada para proporcionar un impulso inmediato de energía y vitalidad. Su fórmula equilibrada es el aliado perfecto para enfrentar las actividades diarias con mayor vigor, enfoque y una sensación refrescante de bienestar.
+    shortDescription: 'Energía Explosiva y Vitalidad en un Solo Sorbo.',
+    description: `Haydar es una bebida energizante concentrada que extrae el máximo potencial revitalizante del Borojó y la Maca para brindarte un impulso inmediato de energía cuando más lo necesitas. Su fórmula está diseñada para deportistas y personas con alta exigencia diaria que buscan un vigor excepcional, mayor resistencia física y una claridad mental superior sin los efectos negativos de las bebidas comerciales cargadas de azúcar.
 
-✔️ Impulso Natural: Con Borojó y Maca que te dan ese ánimo extra que necesitas antes de una actividad importante. ✔️ Mente Despierta: Contiene vitaminas del complejo B que ayudan a mantener la concentración y el enfoque. ✔️ Sabor Refrescante: Disfruta de un delicioso sabor a mora azul sin necesidad de grandes volúmenes de líquido.`,
-    seoTitle: 'Energía y Vitalidad en un Solo Sorbo con Haydar',
-    seoDescription: '✔️ Impulso Natural: Borojó y Maca para el ánimo extra. Vitaminas B para enfoque y sabor mora azul. ¡Registro INVIMA!',
+Enriquecida con Vitaminas del Complejo B, Haydar no solo despierta tu cuerpo, sino que agudiza tus sentidos y mejora el enfoque, permitiéndote rendir al máximo en el gimnasio, en el trabajo o en tus encuentros personales con total seguridad y confianza.
+
+✔️ Impulso Natural: Borojó y Maca seleccionados para elevar el ánimo y la fuerza física al instante.
+✔️ Mente Despierta: Vitaminas B que optimizan la concentración mental y el procesamiento de energía.
+✔️ Sabor y Practicidad: Delicioso sabor a mora azul en un formato listo para tomar y llevar a cualquier parte.`,
+    seoTitle: 'Haydar Bebida Energizante Natural | Borojó y Maca | Zenhogar',
+    seoDescription: 'Potencia tu energía y enfoque con Haydar. Bebida energizante natural con Borojó, Maca y Vitaminas B para un rendimiento superior diario. ¡Registro INVIMA!',
     benefits: [
-      'Impulso de ánimo con maca y borojó',
-      'Máximo enfoque y concentración',
-      'Delicioso sabor a mora azul',
-      'Fácil de llevar y consumir'
+      'Impulso de ánimo y fuerza física con ingredientes botánicos',
+      'Maximiza el enfoque mental y la concentración durante horas',
+      'Delicioso y refrescante sabor a mora azul sin exceso de gas',
+      'Formato práctico de 240ml ideal para antes de la actividad física',
+      'Cuidado integral del metabolismo energético con Complejo B'
     ],
     image: '/assets/products/haydar.webp',
     basePrice: 73500,
@@ -1736,21 +1769,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'vitalidad extra, ánimo, rendimiento, Haydar, Zenhogar',
     components: 'Borojó, Maca, Taurina, Cafeína, Guaraná y Vitaminas del Complejo B',
     longTailKeywords: [
-      'mejor suplemento natural para el rendimiento superior masculino',
-      'cómo mantener la energía constante durante todo el día',
-      'suplemento para la vitalidad y potencia de forma natural',
-      'beneficios de Haydar para el bienestar integral y rendimiento',
-      'fórmula balanceada para potenciar la energía física y mental',
-      'bienestar integral y vitalidad con ingredientes',
-      'cómo mejorar el desempeño diario con calidad certificada',
-      'suplemento para la salud masculina integral',
-      'solución natural para el cansancio y bajo rendimiento sexual',
-      'energía y vitalidad segura con ingredientes de alta pureza'
+      'mejor bebida energizante natural con borojó y maca para rendimiento',
+      'cómo obtener energía explosiva de forma saludable sin exceso de azúcar',
+      'energizante líquido con borojó para enfoque mental y vigor físico',
+      'beneficios de Haydar para el bienestar integral y vitalidad masculina',
+      'fórmula balanceada para un impulso de vigor inmediato antes del deporte',
+      'bienestar integral y energía renovada con suplementos líquidos naturales',
+      'cómo mejorar el desempeño físico diario con nutrición de calidad certificada',
+      'bebida para la vitalidad extrema y concentración en días de cansancio',
+      'solución natural para la falta de ánimo y bajo rendimiento energético',
+      'energía y vitalidad segura con ingredientes de alta pureza y registro INVIMA'
     ],
     seoFaqs: [
-      { q: '¿Haydar da energía para todo el día?', a: 'Sí, su fórmula balanceada brinda un flujo de energía constante para tu bienestar integral y vitalidad.' },
-      { q: '¿Cómo se recomienda tomarlo?', a: 'Se sugiere una cápsula diaria para mantener un equilibrio natural y rendimiento superior.' },
-      { q: '¿Es un producto seguro?', a: 'Totalmente, es un suplemento con calidad certificada diseñado para el hombre moderno.' }
+      { q: '¿Cuánto tiempo tarda en hacer efecto el energizante Haydar?', a: 'Gracias a su formato líquido, los extractos de maca y borojó se absorben rápido, sintiendo vitalidad en unos 20 a 30 minutos.' },
+      { q: '¿Haydar genera taquicardia o nerviosismo?', a: 'No, su fórmula balanceada optimiza el metabolismo energético de forma fluida, promoviendo un bienestar integral sin excesos.' },
+      { q: '¿Se puede tomar Haydar antes de entrenar en el gimnasio?', a: 'Es ideal como pre-entreno natural, brindando el vigor y enfoque necesario para una rutina de alto rendimiento certificado.' },
+      { q: '¿Contiene taurina o cafeína natural?', a: 'Sí, utiliza guaraná y taurina en niveles seguros para garantizar una vitalidad y energía superior con total confianza.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 73500 },
@@ -1772,17 +1806,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '60017',
     name: 'Instant Virgin (Gel Íntimo)',
     category: 'salud-sexual',
-    shortDescription: 'Confianza y Revitalización Íntima.',
-    description: `Gel íntimo revitalizante formulado con ingredientes naturales como Aloe Vera y D-Pantenol, diseñado para proporcionar una sensación inmediata de frescura, tono y firmeza en la zona íntima. Su fórmula delicada respeta el equilibrio natural de la piel sensible, mejorando la comodidad y fortaleciendo la confianza femenina en cada momento.
+    shortDescription: 'Renovación, Firmeza y Plenitud Femenina.',
+    description: `Redescubre tu seguridad íntima con Instant Virgin, el gel revitalizante de vanguardia formulado para brindar una sensación inmediata de bienestar y plenitud. Diseñado bajo rigurosos estándares biotecnológicos, este gel combina las propiedades regeneradoras del Aloe Vera con la acción vasotónica de sales minerales puras y D-Pantenol. Su aplicación proporciona un efecto tonificante y de contracción natural que ayuda a recuperar la sensibilidad y el tono de la zona íntima, devolviéndote el control y la confianza en tus momentos de mayor conexión.
 
-✔️ Firmeza y Tonificación: Proporciona una sensación de tono y frescura inmediata en la zona íntima. ✔️ Cuidado Delicado: Formulado para hidratar y proteger la piel sensible, mejorando la comodidad y el bienestar. ✔️ Seguridad Total: Un gel discreto diseñado para fortalecer la confianza en los momentos más importantes.`,
-    seoTitle: 'Confianza y Revitalización Íntima con Instant Virgin',
-    seoDescription: '✔️ Firmeza y Tonificación: Contracción y fresapoya inmediata. Cuidado delicado y seguro para tu confianza. ¡Registro INVIMA!',
+Su fórmula fluida de pH balanceado ha sido optimizada para respetar la delicada barrera de la flora genital, ofreciendo una hidratación profunda que previene la resequedad y el malestar. Es la solución ideal para mujeres que desean revitalizar su feminidad, especialmente tras el parto o cambios hormonales, permitiendo vivir una sexualidad plena, cómoda y segura.
+
+✔️ Tonificación Inmediata: Efecto de contracción natural que mejora la percepción y sensibilidad íntima.
+✔️ Cuidado y Confort: Hidratación superior con Aloe Vera para una piel suave y protegida de irritaciones.
+✔️ Armonía Biológica: Su pH equilibrado asegura una compatibilidad total con tu cuerpo y la salud de tu flora.`,
+    seoTitle: 'Gel de Renovación y Firmeza Íntima Instant Virgin | Zenhogar',
+    seoDescription: 'Recupera el tono y la confianza íntima con Instant Virgin. Gel con Aloe Vera y efecto de contracción natural para una plenitud femenina real. ¡Registro INVIMA!',
     benefits: [
-      'Sensación inmediata de fresapoya',
-      'Protege y cuida la piel sensible',
-      'Fortalece la seguridad íntima',
-      'Textura en gel de absorción rápida'
+      'Brinda una sensación inmediata de mayor firmeza y tono genital',
+      'Aumenta la sensibilidad y plenitud en los momentos de intimidad',
+      'Hidratación profunda que previene la resequedad post-parto o hormonal',
+      'Compatible con preservativos y todo tipo de métodos de barrera',
+      'Fórmula discreta de rápida absorción que no deja residuos ni manchas'
     ],
     image: '/assets/products/Instantvirgin.webp',
     basePrice: 79000,
@@ -1795,24 +1834,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
       '/assets/products/instant-virgin-apoyo-1.webp',
       '/assets/products/instant-virgin-apoyo-2.webp'
     ],
-    keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar',
+    keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar, firmeza vaginal natural',
     components: 'Aloe Vera, D-Pantenol y Sulfato de Aluminio',
     longTailKeywords: [
-      'mejor producto para recuperar la confianza femenina naturalmente',
-      'cómo mejorar el bienestar íntimo y plenitud de la mujer',
-      'cuidado especializado para la salud sexual femenina',
-      'beneficios de Instant Virgin para el bienestar integral íntimo',
-      'fórmula balanceada para el cuidado y confort de la mujer',
-      'bienestar integral y vitalidad en la vida íntima femenina',
-      'cómo sentirse plena y segura con calidad certificada',
-      'producto para el cuidado íntimo especializado',
-      'solución natural para la falta de confianza y bienestar sexual',
-      'salud femenina segura con ingredientes de alta pureza y eficacia'
+      'mejor gel para recuperar la sensación de firmeza íntima tras el parto',
+      'cómo mejorar el bienestar sexual y la plenitud de la mujer naturalmente',
+      'cuidado especializado para la salud sexual femenina con aloe vera',
+      'beneficios de Instant Virgin para recuperar la confianza en pareja',
+      'fórmula balanceada para el cuidado, tono y confort íntimo de la mujer',
+      'bienestar integral y vitalidad en la vida sexual femenina madura',
+      'cómo sentirse plena y segura con productos de calidad certificada INVIMA',
     ],
     seoFaqs: [
-      { q: '¿Instant Virgin es de uso externo?', a: 'Sí, su aplicación es externa y está diseñada para brindar bienestar integral y confianza femenina.' },
-      { q: '¿Cuánto tiempo dura el efecto?', a: 'Proporciona una sensación de confort y vitalidad que te permite vivir tu plenitud con seguridad.' },
-      { q: '¿Es compatible con otros productos?', a: 'Su fórmula balanceada es gentil, pero siempre recomendamos consultar si usas cuidados específicos.' }
+      { q: '¿Instant Virgin es de uso externo solamente?', a: 'Sí, su aplicación es tópica en la zona íntima externa para brindar bienestar integral y una sensación de firmeza.' },
+      { q: '¿Cuánto tiempo dura el efecto de contracción?', a: 'El efecto es inmediato y puede durar durante todo el encuentro íntimo, brindando vitalidad y seguridad.' },
+      { q: '¿Es compatible con el uso de preservativos?', a: 'Sí, su fórmula a base de agua es compatible con el látex y otros métodos de barrera.' },
+      { q: '¿Se puede usar todos los días?', a: 'Su fórmula es gentil, pero está diseñado principalmente para momentos específicos de intimidad donde se desee mayor tono.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 79000 },
@@ -1834,16 +1871,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '11360',
     name: 'Mammoth (Crema Voluminizante)',
     category: 'salud-sexual',
-    shortDescription: 'Firmeza y Apariencia Saludable para tu Piel.',
-    description: `Crema corporal voluminizante diseñada para mejorar la apariencia y elasticidad de la piel. Su fórmula avanzada, con extractos naturales y Vitamina E, proporciona una hidratación profunda y favorece una textura más firme y suave. Ideal para masajes específicos en zonas donde se desea mejorar la apariencia del contorno de la piel.
+    shortDescription: 'Firmeza, Elasticidad y Apariencia Saludable para tu Piel.',
+    description: `Mammoth es una crema corporal de alto desempeño diseñada para mejorar visiblemente la apariencia y elasticidad de la piel en zonas que requieren mayor firmeza. Su fórmula avanzada combina el efecto tensor del extracto de Acmella Oleracea con la nutrición profunda de la Vitamina E y el aceite de parafina USP, creando un tratamiento que suaviza irregularidades y devuelve la lozanía a la piel.
 
-✔️ Efecto Volumen: Ayuda a mejorar la textura y apariencia de la piel en las zonas donde más lo necesitas. ✔️ Hidratación Extrema: Sus aceites naturales mantienen la piel elástica, evitando que luzca seca o sin vida. ✔️ Rápida Absorción: Una fórmula profesional que no deja sensación grasosa y actúa desde la primera aplicación.`,
-    seoTitle: 'Firmeza y Apariencia Saludable para tu Piel con Mammoth',
-    seoDescription: '✔️ Efecto Volumen: Mejora la textura y apariencia de la piel. Hidratación extrema con aceites naturales y rápida absorción. ¡Registro INVIMA!',
+Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textura cutánea, proporcionando una hidratación extrema que evita la resequedad y el aspecto opaco. Su consistencia profesional permite una aplicación fluida y una absorción completa sin dejar residuos grasos, haciendo que tu piel luzca y se sienta más fuerte y revitalizada.
+
+✔️ Efecto Volumen y Firmeza: Mejora la textura y el tono de la piel en zonas críticas con uso constante.
+✔️ Hidratación Extrema: Nutre las capas profundas de la piel, manteniéndola elástica y flexible.
+✔️ Rápida Absorción: Fórmula de grado profesional que actúa desde la primera aplicación con suavidad.`,
+    seoTitle: 'Mammoth Crema reafirmante y voluminizante natural | Zenhogar',
+    seoDescription: 'Mejora la textura y firmeza de tu piel con Mammoth. Crema con Acmella Oleracea y Vitamina E para una hidratación profunda y efecto volumen. ¡Registro INVIMA!',
     benefits: [
-      'Textura cutánea renovada',
-      'Elasticidad y suavidad profunda',
-      'Fórmula profesional no grasa'
+      'Textura cutánea renovada, más suave y uniforme al tacto',
+      'Elasticidad y nutrición profunda que previene la flacidez',
+      'Fórmula profesional no grasa de rápida penetración dérmica',
+      'Ideal para masajes en zonas que requieren mayor tono y vigor',
+      'Protección contra radicales libres gracias a su alto contenido de Vitamina E'
     ],
     image: '/assets/products/Mammoth.webp',
     basePrice: 89000,
@@ -1860,21 +1903,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
     components: 'Acmella Oleracea, Aceite de Parafina USP y Vitamina E',
     longTailKeywords: [
-      'mejor suplemento para aumentar la fuerza y vitalidad masculina',
-      'cómo mejorar el rendimiento físico y potencia naturalmente',
-      'suplemento para la fuerza interior y energía del hombre',
-      'beneficios de Mamooth para el bienestar integral masculino',
-      'fórmula balanceada para potenciar el desempeño y la fuerza',
-      'bienestar integral y vitalidad con ingredientes de alta potencia',
-      'cómo elevar el rendimiento masculino con calidad certificada',
-      'suplemento para la potencia y salud sexual',
-      'solución natural para la debilidad y falta de vigor masculino',
-      'fuerza y vitalidad segura con ingredientes de alta pureza'
+      'mejor crema reafirmante para mejorar el volumen y textura de la piel',
+      'cómo lograr una piel más firme y elástica con vitamina E y maca',
+      'crema hidratante profesional para tonificar zonas críticas del cuerpo',
+      'beneficios de Mammoth para el bienestar integral y firmeza cutánea',
+      'fórmula avanzada para una piel con más volumen, suavidad y salud',
+      'bienestar integral y vitalidad dérmica con registro INVIMA certificado',
+      'cómo evitar la flacidez y resequedad de la piel de forma natural',
+      'crema para el cuidado corporal con ingredientes de alta potencia botánica',
+      'solución efectiva para las irregularidades de la piel y falta de elasticidad',
+      'suavidad y firmeza segura con ingredientes de alta pureza y rápida absorción'
     ],
     seoFaqs: [
-      { q: '¿Mamooth ayuda con la fuerza muscular?', a: 'Sí, su fórmula balanceada apoya el rendimiento físico y el bienestar integral masculino.' },
-      { q: '¿En cuánto tiempo se notan los resultados?', a: 'Con un consumo constante, notarás un aumento en tu vitalidad y fuerza en pocas semanas.' },
-      { q: '¿Lo pueden tomar deportistas?', a: 'Es excelente para quienes buscan un impulso natural de energía y rendimiento con calidad certificada.' }
+      { q: '¿Cómo funciona el efecto volumen de Mammoth?', a: 'Su fórmula con Acmella Oleracea mejora la estructura elástica de la dermis, promoviendo una apariencia más firme y un bienestar integral.' },
+      { q: '¿Mammoth deja la piel con sensación pegajosa?', a: 'No, es una crema de grado profesional de rápida absorción que hidrata profundamente sin dejar residuos grasos certificados.' },
+      { q: '¿Se puede usar Mammoth en todo el cuerpo?', a: 'Sí, es excelente para masajes en piernas, brazos y cualquier zona donde desees recuperar la vitalidad y tono natural.' },
+      { q: '¿Es segura para pieles muy secas?', a: 'Absolutamente, su alto contenido de Vitamina E y aceites nutritivos reconforta la piel seca brindando elasticidad inmediata.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89000 },
@@ -1896,16 +1940,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '52600',
     name: 'Tyruss Full',
     category: 'salud-bienestar',
-    shortDescription: 'Nutrición Verde para un Cuerpo Limpio.',
-    description: `Mezcla nutricional en polvo a base de proteína de arveja, enriquecida con el poder de la clorofila, espirulina y chlorella. Su fórmula integral proporciona una excelente fuente de fibra, Omega 3 y vitaminas esenciales, diseñada para apoyar la desintoxicación del organismo, mejorar la digestión y proporcionar energía estable durante todo el día.
+    shortDescription: 'Nutrición Verde Avanzada para una Desintoxicación Integral.',
+    description: `Tyruss Full es una mezcla nutricional premium en polvo diseñada para quienes buscan una purificación profunda y una fuente de energía natural estable. Su fórmula magistral combina la proteína de arveja con el poder de los superalimentos verdes: Clorofila, Espirulina y Chlorella. Esta sinergia vegetal actúa como un potente agente oxigenador y depurativo que ayuda a liberar el cuerpo de toxinas acumuladas, mejorando la digestión y fortaleciendo el sistema inmunológico.
 
-✔️ Desintoxicación: Mezcla el poder de la espinaca y algas naturales para ayudar a tu cuerpo a liberar toxinas acumuladas. ✔️ Digestión Perfecta: Alto contenido de fibra que optimiza el tránsito intestinal y reconforta el vientre. ✔️ Corazón Sano: Contiene grasas saludables de aguacate y almendras que protegen tu salud cardiovascular.`,
-    seoTitle: 'Nutrición Verde para un Cuerpo Limpio con Tyruss Full',
-    seoDescription: '✔️ Desintoxicación: Con espinaca y algas naturales. Digestión perfecta que optimiza el tránsito intestinal y protege el corazón. ¡Registro INVIMA!',
+Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esenciales, Tyruss Full no solo limpia tu organismo, sino que nutre tus células para combatir la fatiga y promover un metabolismo saludable. Su alto contenido de fibra asegura un tránsito intestinal fluido, brindando una sensación de ligereza y bienestar abdominal desde la primera semana de uso.
+
+✔️ Desintoxicación Profunda: Oxigena la sangre y ayuda a eliminar metales pesados e impurezas.
+✔️ Digestión y Tránsito: Fibra natural que optimiza el movimiento intestinal y reduce la inflamación.
+✔️ Energía y Saciedad: Aporta proteínas y grasas saludables que mantienen tu energía constante y controlan el apetito.`,
+    seoTitle: 'Tyruss Full Nutrición Verde | Detox con Clorofila y Espirulina',
+    seoDescription: 'Desintoxica tu cuerpo y recupera tu energía con Tyruss Full. Mezcla con Clorofila, Espirulina y Proteína de Arveja para una digestión perfecta. ¡Registro INVIMA!',
     benefits: [
-      'Depura el organismo suavemente',
-      'Vientre plano y sin pesadez',
-      'Aporte de grasas saludables'
+      'Depura y desintoxica el organismo de forma suave y efectiva',
+      'Promueve un vientre plano al mejorar el tránsito intestinal',
+      'Aporte significativo de proteínas vegetales y Omega 3 esencial',
+      'Oxigena las células y combate el cansancio crónico naturalmente',
+      'Fórmula con ingredientes de alta pureza para el equilibrio diario'
     ],
     image: '/assets/products/Tyrussfull.webp',
     basePrice: 89900,
@@ -1921,21 +1971,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
     components: 'Clorofila, Espirulina, Chlorella, Proteína de Arveja, Almendras y Omega 3',
     longTailKeywords: [
-      'mejor suplemento líquido para energía total y rendimiento',
-      'cómo mejorar el desempeño diario de forma natural y efectiva',
-      'suplemento para la vitalidad sin límites y energía constante',
-      'beneficios de Tyruss Full para el bienestar integral diario',
-      'fórmula balanceada para potenciar el ritmo de vida exigente',
-      'bienestar integral y vitalidad con nutrición',
-      'cómo mantener el rendimiento diario con calidad certificada',
-      'suplemento para la energía y salud masculina',
-      'solución natural para el cansancio y falta de vitalidad diaria',
-      'energía total segura con ingredientes de alta pureza y eficacia'
+      'mejor batido verde detox para limpiar el colon y desinflamar el cuerpo',
+      'cómo oxigenar la sangre y mejorar la digestión con clorofila y espirulina',
+      'suplemento de proteína de arveja con verdes para energía y desintoxicación',
+      'beneficios de Tyruss Full para el bienestar integral y tránsito intestinal',
+      'fórmula balanceada para una limpieza orgánica profunda y nutrición celular',
+      'bienestar integral y vitalidad rejuvenecida con superalimentos certificados',
+      'cómo mantener un vientre plano y digestión ligera de forma natural',
+      'suplemento para la depuración del organismo con omega 3 y vitaminas',
+      'solución natural para la pesadez estomacal y falta de nutrientes verdes',
+      'nutrición verde segura con ingredientes de alta pureza y registro INVIMA'
     ],
     seoFaqs: [
-      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Mezclar 1 cucharada (15g) en un vaso de agua por la mañana.' },
-      { q: '¿Tyruss Full sirve para el cansancio mental?', a: 'Sí, su fórmula balanceada apoya tanto la vitalidad física como el bienestar integral mental.' },
-      { q: '¿Qué sabor tiene?', a: 'Posee un sabor agradable diseñado para ser parte de tu ritual de equilibrio natural diario.' }
+      { q: '¿Tyruss Full ayuda realmente a bajar la inflamación del vientre?', a: 'Sí, su alto contenido de fibra y clorofila optimiza el tránsito intestinal y libera toxinas, promoviendo bienestar integral.' },
+      { q: '¿A qué sabe Tyruss Full?', a: 'Tiene un sabor herbal muy suave y refrescante, ideal para combinar con agua o jugos naturales en tu rutina de equilibrio natural.' },
+      { q: '¿Pueden tomarlo personas con dietas veganas?', a: 'Totalmente, su fuente de proteína es la arveja y sus componentes son 100% vegetales con calidad certificada.' },
+      { q: '¿Se puede reemplazar una comida con Tyruss Full?', a: 'Se recomienda como un complemento nutricional avanzado para potenciar tu salud y vitalidad, no como sustituto total.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -1957,16 +2008,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '166802',
     name: 'Zafir Bebida Energizante',
     category: 'salud-sexual',
-    shortDescription: 'Tu Impulso de Energía Natural.',
-    description: `Bebida energizante natural formulada con extractos de Maca, Borojó y Guaraná, enriquecida con vitaminas del complejo B (B3, B6, B12) y mineral Zinc. Su refrescante sabor a frutos rojos y su fórmula equilibrada están diseñados para proporcionar un impulso de vitalidad y energía inmediata sin excesos, ayudando a mejorar el rendimiento físico y el enfoque mental diario.
+    shortDescription: 'Energía Natural Inmediata y Enfoque Mental Superior.',
+    description: `Zafir es una bebida energizante de última generación, formulada con extractos puros de Maca, Borojó y Guaraná para ofrecerte un impulso de vitalidad real sin los picos de ansiedad de las bebidas tradicionales. Su deliciosa mezcla de frutos rojos no solo deleita tu paladar, sino que activa tu metabolismo con Vitaminas del Complejo B (B3, B6, B12) y Zinc, minerales clave para el rendimiento físico y la claridad cognitiva.
 
-✔️ Vitalidad Inmediata: Gracias a la Maca y el Borojó, te ayuda a recuperar el ánimo y la fuerza antes de cualquier actividad importante. ✔️ Concentración: Sus componentes naturales mantienen tu mente alerta y enfocada. ✔️ Sabor Delicioso: Disfruta de una mezcla refrescante de arándanos y frutas que te recarga sin pesadez.`,
-    seoTitle: 'Tu Impulso de Energía Natural con Zafir',
-    seoDescription: '✔️ Vitalidad Inmediata: Con Maca y Borojó. Concentración mental y delicioso sabor refrescante que te recarga. ¡Registro INVIMA!',
+Diseñada para acompañarte en jornadas exigentes, Zafir te ayuda a mantener el enfoque y la resistencia necesaria para superar tus retos diarios. Su fórmula equilibrada respeta tu cuerpo mientras te proporciona esa dosis extra de ánimo y fuerza que necesitas en momentos críticos de fatiga o baja energía.
+
+✔️ Vitalidad Inmediata: Activa tu cuerpo con extractos naturales que potencian el vigor y la fuerza física.
+✔️ Enfoque de Hierro: Nutrientes cerebrales que mantienen tu mente alerta, concentrada y despejada.
+✔️ Sabor Refrescante: Una explosión de sabor a frutos rojos y arándanos para refrescar tus sentidos.`,
+    seoTitle: 'Zafir Bebida Energizante | Impulso Natural con Maca y Borojó',
+    seoDescription: 'Recarga tu energía con Zafir. Bebida funcional con Borojó, Maca y Vitaminas B para un enfoque mental claro y vitalidad inmediata. ¡Registro INVIMA!',
     benefits: [
-      'Rendimiento físico mejorado',
-      'Alerta mental sin nerviosismo',
-      'Refrescante mezcla frutal'
+      'Rendimiento físico optimizado para actividades de alta exigencia',
+      'Mantiene la alerta mental constante sin generar nerviosismo o taquicardia',
+      'Aporte de vitaminas hidrosolubles y Zinc para el sistema inmune',
+      'Delicioso sabor frutal sin necesidad de aditivos químicos agresivos',
+      'Energía sostenida ideal para el estudio, el trabajo o el deporte'
     ],
     image: '/assets/products/Zafir.webp',
     basePrice: 73500,
@@ -1983,17 +2040,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'energía inmediata, impulso natural, enfoque mental, vitalidad, Zafir, Zenhogar, bebida energizante',
     components: 'Borojó, Maca, Taurina, Cafeína y Vitaminas B3, B6, B12 y Biotina',
     longTailKeywords: [
-      'mejor energizante natural para enfoque y energía inmediata',
-      'cómo obtener un impulso rápido para terminar el día con fuerza',
-      'bebida saludable para la mente clara y concentrada sin químicos',
-      'beneficios de Zafir para el bienestar integral y vitalidad',
-      'fórmula natural para un rendimiento superior en instantes clave',
-      'bienestar integral y energía renovada con registro INVIMA',
+      'mejor bebida energizante con frutos rojos para vitalidad y enfoque',
+      'cómo recargar energía de forma natural con maca borojó y guaraná',
+      'energizante con vitaminas del complejo B para estudiar y trabajar mejor',
+      'beneficios de Zafir para el bienestar integral y rendimiento físico extremo',
+      'fórmula natural para un impulso de ánimo inmediato y resistencia física',
+      'bienestar integral y energía renovada con bebidas funcionales certificadas',
+      'cómo mejorar la concentración y enfoque con ingredientes de alta pureza',
+      'bebida saludable para la vitalidad diaria del hombre y la mujer activos',
+      'solución efectiva para el agotamiento mental y falta de vigor orgánico',
+      'energía inmediata segura con registro INVIMA y sin efectos secundarios'
     ],
     seoFaqs: [
-      { q: '¿Zafir da mucha energía?', a: 'Sí, su fórmula está diseñada para brindar un impulso rápido y bienestar integral cuando más lo necesitas.' },
-      { q: '¿Contiene cafeína artificial?', a: 'No, su energía proviene de extractos naturales como el Guaraná para una vitalidad segura y certificada.' },
-      { q: '¿Me ayuda a concentrarme?', a: 'Efectivamente, apoya el enfoque total y la claridad mental en días de mucha exigencia.' }
+      { q: '¿Zafir quita el sueño si se toma en la noche?', a: 'Al ser un energizante natural, se recomienda consumirlo durante el día para potenciar tu vitalidad y bienestar integral sin afectar el ciclo circadiano.' },
+      { q: '¿Contiene azúcares refinados en exceso?', a: 'Zafir está formulado para brindar energía limpia, equilibrando el sabor con un aporte nutricional de calidad certificada.' },
+      { q: '¿Es apto para tomarlo durante una larga jornada de manejo?', a: 'Es excelente para mantener la alerta y el enfoque necesarios en actividades que requieren concentración y equilibrio natural.' },
+      { q: '¿En cuánto tiempo se siente el efecto de Zafir?', a: 'Su absorción líquida permite que sientas el impulso de los extractos de maca y borojó rápidamente, optimizando tu rendimiento.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 73500 },
@@ -2015,16 +2077,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '61653',
     name: 'Zeus',
     category: 'salud-sexual',
-    shortDescription: 'Máxima Potencia y Resistencia Diaria.',
-    description: `Suplemento profesional en cápsulas que reúne el poder revitalizante del Borojó, Chontaduro, Maca y Guaraná. Enriquecido con vitaminas y minerales clave, su fórmula está diseñada para potenciar la energía masculina, mejorar el rendimiento físico y fortalecer el sistema inmunológico, permitiendo enfrentar las exigencias diarias con mayor vigor y vitalidad.
+    shortDescription: 'Vigor, Resistencia y Vitalidad Masculina Superior.',
+    description: `Zeus es el suplemento de élite diseñado específicamente para el hombre que busca potencia, vigor y resistencia en todas las áreas de su vida. Su fórmula encapsulada de alta concentración reúne los ingredientes más poderosos de la biodiversidad: Borojó, Chontaduro, Maca Negra y Guaraná. Juntos, estos extractos trabajan en sinergia para elevar los niveles de vitalidad acumulada, combatir el cansancio crónico y mejorar la respuesta física ante la exigencia.
 
-✔️ Vigor Natural: Con Borojó y Chontaduro que elevan tus niveles de energía y potencia física de forma natural. ✔️ Escudo de Defensas: Fortalece tu sistema inmunológico para protegerte contra virus y debilidad. ✔️ Recuperación: Ideal para combatir el cansancio crónico y sentirte joven y activo nuevamente.`,
-    seoTitle: 'Máxima Potencia y Resistencia Diaria con Zeus',
-    seoDescription: '✔️ Vigor Natural: Con Borojó y Chontaduro. Fortalece defensas y mejora la recuperación contra el cansancio. ¡Registro INVIMA!',
+Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracias a su aporte de Vitaminas A, C, D y Complejo B, fortaleciendo el sistema inmunológico y acelerando la recuperación tras el esfuerzo físico. Es la solución natural para recuperar el ímpetu juvenil y vivir cada día con la fuerza de un dios.
+
+✔️ Vigor y Desempeño: Eleva la energía física y el ánimo de forma natural y progresiva.
+✔️ Recuperación Acelerada: Reduce la fatiga post-esfuerzo y revitaliza el cuerpo desde el nivel celular.
+✔️ Refuerzo Inmunológico: Nutrientes esenciales que protegen el organismo contra virus y debilidad.`,
+    seoTitle: 'Zeus Cápsulas de Vigor Masculino | Borojó, Maca y Chontaduro',
+    seoDescription: 'Recupera tu potencia y vitalidad con Zeus. Cápsulas naturales con Borojó y Chontaduro para un rendimiento físico y vigor superior. ¡Registro INVIMA!',
     benefits: [
-      'Vitalidad física superior',
-      'Refuerzo inmunológico botánico',
-      'Adiós al agotamiento diario'
+      'Incrementa la vitalidad física y el rendimiento energético superior',
+      'Refuerzo inmunológico con extractos botánicos de alta pureza',
+      'Elimina eficazmente la sensación de agotamiento y pesadez diaria',
+      'Mejora el enfoque mental y la determinación en retos físicos',
+      'Fórmula 100% natural sin efectos secundarios hormonales negativos'
     ],
     image: '/assets/products/Zeus.webp',
     basePrice: 85000,
@@ -2042,17 +2110,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'vitalidad masculina, vigor natural, rendimiento sexual, potencia hombre, Zeus, Zenhogar, Borojó, Maca',
     components: 'Borojó, Chontaduro, Maca, Guaraná, Fenogreco y Açaí',
     longTailKeywords: [
-      'mejor suplemento natural para la vitalidad masculina y vigor',
-      'cómo mejorar el rendimiento del hombre de forma segura y natural',
-      'suplemento con borojó y maca para energía y potencia real',
-      'beneficios de Zeus para el bienestar integral masculino',
-      'fórmula avanzada para la salud y vigor del hombre moderno',
-      'bienestar integral y vitalidad masculina con registro INVIMA',
+      'mejor suplemento de vigor masculino con borojó chontaduro y maca',
+      'cómo mejorar la resistencia física y potencia del hombre naturalmente',
+      'cápsulas de energía real para combatir el cansancio y el agotamiento',
+      'beneficios de Zeus para el bienestar integral y vigor masculino superior',
+      'fórmula avanzada para la salud del hombre moderno con vitaminas y zinc',
+      'bienestar integral y vitalidad masculina renovada con certificado INVIMA',
+      'cómo recuperar el ímpetu y rendimiento diario de forma segura y efectiva',
+      'suplemento para la fuerza interior masculina con ingredientes de alta pureza',
+      'solución natural para la falta de energía y debilidad física constante',
+      'vigor y resistencia garantizados con la potencia de la naturaleza pura'
     ],
     seoFaqs: [
-      { q: '¿Zeus ayuda con la energía diaria?', a: 'Sí, sus componentes naturales están seleccionados para brindar vitalidad y bienestar integral constante.' },
-      { q: '¿Cómo se debe tomar Zeus?', a: 'Se recomienda el consumo diario progresivo para mantener un equilibrio natural y rendimiento óptimo.' },
-      { q: '¿Sus ingredientes son naturales?', a: 'Totalmente, Zeus utiliza extractos de alta pureza con calidad certificada para tu seguridad.' }
+      { q: '¿Cómo se debe tomar Zeus para ver resultados óptimos?', a: 'Se recomienda consumir progresivamente para que tu cuerpo asimile los nutrientes, promoviendo bienestar integral y vigor duradero.' },
+      { q: '¿Zeus ayuda a fortalecer las defensas?', a: 'Sí, su mezcla incluye vitaminas clave que refuerzan tu sistema inmune mientras te brindan una vitalidad y equilibrio natural superior.' },
+      { q: '¿Tiene algún componente químico estimulante?', a: 'Zeus basa su efectividad en extractos puros y botánicos de calidad certificada, diseñados para un rendimiento saludable sin riesgos.' },
+      { q: '¿Pueden tomarlo adultos mayores?', a: 'Es un suplemento excelente para recuperar la energía del hombre en cualquier etapa de la vida adulta con total seguridad.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
@@ -2074,16 +2147,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '129308',
     name: '+NAD',
     category: 'salud-bienestar',
-    shortDescription: 'Cuidado Antiedad Integral y Vitalidad Celular.',
-    description: `Suplemento especializado que combina componentes clave como Calostro Bovino, Lactoferrina, Vitaminas C y D3, y Zinc. Su fórmula está diseñada para actuar como un soporte nutricional avanzado, contribuyendo al fortalecimiento del organismo y al mantenimiento de una respuesta biológica saludable ante los retos ambientales diarios.
+    shortDescription: 'El Secreto de la Longevidad y Vitalidad Celular.',
+    description: `+NAD es la fórmula de vanguardia en nutrición antiedad, diseñada para revitalizar tu organismo desde lo más profundo: tus células. Combinando Nicotinamida (un precursor directo del NAD+) con el poder antioxidante del Resveratrol y el Calostro Bovino, este suplemento ayuda a reparar el ADN celular, optimizar la producción de energía y proteger contra el daño oxidativo que causa el envejecimiento.
 
-✔️ Rejuvenecimiento Celular: Con Nicotinamida (NAD) y Resveratrol para proteger tus células del envejecimiento. ✔️ Energía y Vitalidad: Ayuda a recuperar la energía perdida y mejora el metabolismo. ✔️ Base Natural: Hecho con una base de crema de coco para una mejor digestión y absorción.`,
-    seoTitle: 'Vitalidad Celular y Antiedad con +NAD y Resveratrol',
-    seoDescription: '✔️ Rejuvenecimiento Celular: Nicotinamida y Resveratrol. Energía y vitalidad con base de coco. ¡Registro INVIMA!',
+Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita una absorción superior de sus ingredientes clave como la Quercetina y la Lactoferrina. +NAD es el aliado perfecto para quienes desean mantener una mente clara, una piel firme y un cuerpo lleno de energía vital a pesar del paso de los años, proporcionando un soporte inmunológico y regenerativo sin precedentes.
+
+✔️ Rejuvenecimiento Celular: Protege las mitocondrias y promueve la reparación biológica natural.
+✔️ Energía Metabólica: Transforma los nutrientes en energía vital de forma más eficiente y duradera.
+✔️ Soporte Inmunológico: Alimento enriquecido para fortalecer las defensas y la vitalidad diaria.`,
+    seoTitle: '+NAD Suplemento Antiedad | Vitalidad Celular y Resveratrol',
+    seoDescription: 'Retrasa el envejecimiento celular con +NAD. Suplemento con Resveratrol y NAD+ para una piel firme y energía vital inagotable. ¡Registro INVIMA!',
     benefits: [
-      'Células protegidas contra el envejecimiento',
-      'Mayor producción de energía y vitalidad',
-      'Fácil digestión con base de coco'
+      'Reparación y protección celular avanzada contra el envejecimiento',
+      'Aumento significativo en la producción de energía y claridad mental',
+      'Digestión óptima y absorción rápida gracias a su base de coco',
+      'Fortalece la respuesta inmunológica ante desafíos del entorno',
+      'Promueve una piel más sana y un metabolismo celular rejuvenecido'
     ],
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
@@ -2099,21 +2178,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
     components: 'Colágeno (10g), Crema de Coco, NAD, Vitaminas A, C, D, E y complejo B',
     longTailKeywords: [
-      'energía que dura todo el día sin agotarte',
-      'cómo mantener la piel firme y joven naturalmente',
-      'suplemento con base de coco para vitalidad diaria',
-      'beneficios del nad para el cuidado antiedad integral',
-      'fórmula para rendir al máximo en el trabajo y el hogar',
-      'bienestar integral y energía renovada con calidad INVIMA',
-      'suplemento para la salud cerebral y física',
-      'solución natural para la falta de energía y deterioro cognitivo',
-      'longevidad y vitalidad segura con ingredientes de alta pureza'
+      'mejor suplemento antiedad con NAD+ y resveratrol para rejuvenecimiento',
+      'cómo regenerar las células y aumentar la energía vital naturalmente',
+      'suplemento con calostro bovino y lactoferrina para defensas y longevidad',
+      'beneficios de +NAD para el bienestar integral y salud mitocondrial',
+      'fórmula avanzada antienvejecimiento celular con quercetina y base de coco',
+      'bienestar integral y vitalidad celular renovada con registro INVIMA',
+      'cómo mantener la piel firme y el cerebro activo con NAD de alta pureza',
+      'suplemento nutricional avanzado para una longevidad saludable y activa',
+      'solución natural para la fatiga celular y el deterioro biológico prematuro',
+      'energía y juventud segura con ingredientes certificados de máxima absorción'
     ],
     seoFaqs: [
-      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 cucharada (15g) en un vaso de agua o jugo.' },
-      { q: '¿Qué es el NAD+ y por qué es importante?', a: 'Es una molécula vital para la energía celular y el bienestar integral, cuyos niveles bajan con la edad.' },
-      { q: '¿En cuánto tiempo se siente más energía?', a: 'Muchos usuarios notan una mejora en su vitalidad y enfoque mental tras las primeras semanas de uso constante.' },
-      { q: '¿Tiene contraindicaciones?', a: 'Es un suplemento de calidad certificada, pero siempre recomendamos consultar a tu médico si tienes dudas.' }
+      { q: '¿Qué diferencia a +NAD de otros colágenos?', a: 'Este es un sistema celular que añade Nicotinamida y Resveratrol para reparar el ADN y potenciar tu bienestar integral desde el núcleo.' },
+      { q: '¿Cómo ayuda el calostro bovino en este producto?', a: 'Aporta factores de transferencia que blindan tu sistema inmune para que tu vitalidad y equilibrio natural sean inquebrantables.' },
+      { q: '¿Se puede mezclar con bebidas calientes?', a: 'Es preferible consumirlo en jugos o agua a temperatura ambiente para preservar la calidad certificada de sus micronutrientes.' },
+      { q: '¿Ayuda con la memoria y la claridad mental?', a: 'Sí, al optimizar la energía celular, favorece el rendimiento cognitivo y el enfoque diario con total seguridad.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
@@ -2135,16 +2215,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '23013',
     name: 'Titan Coffee',
     category: 'salud-sexual',
-    shortDescription: 'Café Energizante para un Rendimiento Máximo.',
-    description: `Deliciosa mezcla de café premium con Borojó, Maca y Chontaduro, diseñada para proporcionar energía física y mental constante. Su base de crema de coco ofrece un sabor excepcional y una textura cremosa, convirtiéndolo en el acompañamiento ideal para un desayuno de alto rendimiento o para mantener la vitalidad durante el día.
+    shortDescription: 'Café de Alto Rendimiento para una Energía Inagotable.',
+    description: `Titan Coffee no es solo un café; es un combustible de alto desempeño diseñado para transformar tu mañana en un arranque de potencia total. Fusionando granos de café premium con los extractos más energizantes de la naturaleza (Borojó, Maca y Chontaduro), este café funcional proporciona una liberación sostenida de energía que evita los bajones repentinos y mejora el enfoque mental durante todo el día.
 
-✔️ Desayuno de Campeones: Combina el sabor del café con el poder de la Maca y el Chontaduro para empezar el día con fuerza. ✔️ Energía Duradera: Ayuda a reducir la fatiga física y mental durante largas jornadas de trabajo. ✔️ Base Saludable: Elaborado sobre una base de crema de coco, siendo suave con tu estómago y fácil de digerir.`,
-    seoTitle: 'Café Energizante para un Rendimiento Máximo con Titan Coffee',
-    seoDescription: '✔️ Desayuno de Campeones: Con Maca y Chontaduro. Energía duradera con base saludable de crema de coco. ¡Registro INVIMA!',
+Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lácteos y fácil de digerir. Ideal para profesionales, deportistas y cualquier persona que necesite un extra de vigor físico y claridad cognitiva para conquistar sus metas diarias. Empieza tu día con la fuerza de un titán y disfruta de un sabor gourmet con beneficios nutricionales reales.
+
+✔️ Ritual de Potencia: El sabor del café colombiano potenciado con Maca y Chontaduro para el vigor.
+✔️ Vigor Mental: Mejora la concentración y reduce la fatiga intelectual en jornadas de alta presión.
+✔️ Fórmula Nutritiva: Base de coco que aporta grasas saludables y una textura cremosa inigualable.`,
+    seoTitle: 'Titan Coffee Café Energizante | Café Maduro con Maca y Borojó',
+    seoDescription: 'Despierta tu máximo potencial con Titan Coffee. Café funcional con extractos naturales para energía física y enfoque mental superior. ¡Registro INVIMA!',
     benefits: [
-      'Desayuno de alto rendimiento',
-      'Combate el cansancio laboral',
-      'Libre de lácteos, base de coco'
+      'Desayuno de alto rendimiento para días de extrema exigencia física',
+      'Combate el agotamiento laboral y mejora la agudeza mental diaria',
+      'Totalmente libre de lácteos con una base nutritiva de crema de coco',
+      'Energía prolongada sin generar picos de ansiedad o nerviosismo',
+      'Sabor delicioso y textura cremosa de calidad gourmet certificada'
     ],
     image: '/assets/products/Titancoffee.webp',
     basePrice: 89900,
@@ -2162,21 +2248,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar, vigor natural',
     components: 'Maca, Chontaduro, Borojó, Café soluble y Crema de Coco',
     longTailKeywords: [
-      'mejor café enriquecido para la potencia y energía masculina',
-      'cómo mejorar el rendimiento diario con una taza de café',
-      'café con extractos naturales para la vitalidad y fuerza',
-      'beneficios de Titan Coffee para el bienestar integral masculino',
-      'fórmula balanceada para un impulso de energía natural y sabroso',
-      'bienestar integral y vitalidad con nutrición',
-      'cómo potenciar el rendimiento masculino con calidad certificada',
-      'café para el hombre activo y exigente',
-      'solución natural para la falta de vigor y energía matutina',
-      'energía y potencia segura con ingredientes de alta pureza'
+      'mejor café funcional con maca y borojó para rendimiento máximo',
+      'cómo tener energía física y mental constante con café de alta potencia',
+      'café con chontaduro y crema de coco para un desayuno de campeones',
+      'beneficios de Titan Coffee para el bienestar integral y vigor masculino',
+      'fórmula avanzada para potenciar la fuerza y el enfoque con una taza de café',
+      'bienestar integral y vitalidad renovada con nutrición gourmet certificada',
+      'cómo combatir el cansancio crónico laboral con extractos naturales puros',
+      'café saludable sin lácteos para mejorar el desempeño físico diario',
+      'solución natural para la falta de vitalidad matutina y pesadez mental',
+      'energía y potencia segura con ingredientes de alta pureza y registro INVIMA'
     ],
     seoFaqs: [
-      { q: '¿Titan Coffee reemplaza mi café normal?', a: 'Sí, ofrece un sabor excepcional con el beneficio extra de vitalidad y bienestar integral.' },
-      { q: '¿Cuántas tazas puedo tomar al día?', a: 'Se recomienda una o dos tazas para mantener un equilibrio natural y energía constante.' },
-      { q: '¿Contiene ingredientes artificiales?', a: 'No, priorizamos extractos naturales con calidad certificada para tu salud.' }
+      { q: '¿Titan Coffee es apto para personas con intolerancia a la lactosa?', a: 'Sí, su base es Crema de Coco, lo que lo hace gentil con tu estómago y promueve un bienestar integral sin lácteos.' },
+      { q: '¿Puedo tomarlo si hago ayuno intermitente?', a: 'Sí, es una excelente opción para brindar vitalidad y energía limpia sin romper tu equilibrio natural metabólico drásticamente.' },
+      { q: '¿Se siente el sabor a los extractos de maca y borojó?', a: 'No, su formulación gourmet equilibra perfectamente el sabor del café premium con el beneficio de vigor y calidad certificada.' },
+      { q: '¿Contiene azúcar añadida?', a: 'Titan Coffee está diseñado para ser una fuente de energía saludable, permitiéndote disfrutar de tu vitalidad diaria con total confianza.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
@@ -2196,17 +2283,22 @@ Potente antioxidante para el cuidado celular y antienvejecimiento.`,
     masterId: '58626',
     name: 'Hemocream',
     category: 'salud-bienestar',
-    shortDescription: 'Alivio Suave con Hierbas Naturales.',
-    description: `Crema botánica especializada en el cuidado y alivio de las molestias en la zona anal. Formulada con una mezcla de 11 extractos de plantas naturales, incluyendo caléndula, castaño de indias y aloe vera, proporciona una sensación de calma, frescura y alivio inmediato ante el ardor y la picazón, favoreciendo el bienestar y la comodidad diaria.
+    shortDescription: 'Cuidado Botánico Avanzado para Alivio Anal.',
+    description: `Recupera tu comodidad diaria con Hemocream, la solución magistral diseñada para brindar alivio profundo y protección a la zona anal sensible. Su fórmula integra el poder de la fitoterapia moderna mediante una sinergia de 11 extractos botánicos premium, liderados por el Castaño de Indias, la Caléndula y el Hamamelis. Estos ingredientes actúan en conjunto para reducir la inflamación, calmar el ardor persistente y favorecer la microcirculación, proporcionando una barrera refrescante que mitiga el malestar desde la primera aplicación.
 
-Crema botánica que calma rápidamente el ardor y la picazón, facilitando un proceso natural y con facilidad al ir al baño.`,
-    seoTitle: 'Alivio del Ardor y Picazón con Hemocream Natural',
-    seoDescription: 'Calma rápidamente la molestia con Caléndula y Aloe Vera. Hemocream usa 11 plantas para un proceso con facilidad. ¡Cuidado delicado con calidad INVIMA!',
+Especialmente formulada para pieles frágiles, Hemocream ayuda a regenerar los tejidos irritados por hemorroides o fisuras, facilitando el tránsito intestinal y reduciendo la fricción durante la evacuación. Su textura ligera y sedosa se absorbe sin dejar residuos grasos, permitiéndote retomar tus actividades con total confort y la seguridad de un cuidado 100% natural, certificado por expertos.
+
+✔️ Alivio Antiinflamatorio: Calma instantáneamente el dolor, el ardor y la picazón en zonas sensibles.
+✔️ Regeneración Celular: La caléndula y el aloe vera aceleran la recuperación natural de los tejidos afectados.
+✔️ Facilidad y Confort: Mejora la suavidad de la zona para permitir una evacuación sin traumas ni dolor excesivo.`,
+    seoTitle: 'Alivio natural para hemorroides y ardor con Hemocream | Zenhogar',
+    seoDescription: 'Reduce la inflamación y calma el dolor anal con Hemocream. Combinación de 11 extractos naturales para un alivio suave y efectivo. ¡Calidad INVIMA!',
     benefits: [
-      'Alivio de ardor y picazón',
-      'Facilita el proceso de evacuación',
-      'Cuidado delicado con 11 plantas',
-      'Textura suave de rápida absorción'
+      'Calma de forma inmediata el ardor, el dolor y la inflamación local',
+      'Favorece la microcirculación gracias al extracto de Castaño de Indias',
+      'Facilita el tránsito intestinal y evita el dolor durante la evacuación',
+      'Cura y regenera de tejidos sensibles macerados o con fisuras',
+      'Fórmula botánica fluida, discreta y de rápida absorción sin manchas'
     ],
     image: '/assets/products/Hemocream.webp',
     basePrice: 65000,
@@ -2221,20 +2313,22 @@ Crema botánica que calma rápidamente el ardor y la picazón, facilitando un pr
       '/assets/products/hemocream-apoyo-3.webp',
       '/assets/products/hemocream-apoyo-4.webp'
     ],
-    keywords: 'hemorroides, ardor, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, Hemocream, Zenhogar',
-    components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena y Manzanilla',
+    keywords: 'hemorroides, ardor anal, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, Hemocream, Zenhogar, fisura anal',
+    components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena, Manzanilla y Centella Asiática',
     longTailKeywords: [
-      'mejor crema natural para quitar el ardor rápidamente',
-      'cómo ir al baño de forma natural y con facilidad',
-      'crema de caléndula y aloe vera para picazón persistente',
-      'beneficios de las 11 plantas para el cuidado de la piel',
-      'fórmula botánica suave para alivio inmediato',
-      'bienestar integral y cuidado delicado con registro INVIMA',
+      'mejor crema botánica para quitar el ardor anal rápidamente',
+      'cómo aliviar las hemorroides de forma natural y con facilidad',
+      'crema de caléndula y aloe vera para inflamación hemorroidal persistente',
+      'beneficios de las plantas medicinales para el cuidado anal sensible',
+      'fórmula botánica suave para alivio inmediato del malestar diario',
+      'bienestar integral y cuidado anal delicado con registro INVIMA certificado',
+      'solución natural para fisuras anales y picazón sin químicos',
     ],
     seoFaqs: [
-      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Aplicar en la zona afectada 2 o 3 veces al día.' },
-      { q: '¿Hemocream brinda confort de inmediato?', a: 'Brinda un alivio calmante y fresapoya que mejora tu bienestar integral desde la primera aplicación.' },
-      { q: '¿Es un producto natural?', a: 'Sí, su fórmula balanceada prioriza ingredientes seguros con calidad certificada.' }
+      { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Se recomienda aplicar una pequeña cantidad en la zona afectada 2 o 3 veces al día, preferiblemente después de ir al baño.' },
+      { q: '¿Hemocream brinda alivio de inmediato?', a: 'Sí, sus extractos de menta y manzanilla brindan una calma refrescante que mejora tu bienestar desde el primer uso.' },
+      { q: '¿Contiene corticoides?', a: 'No, Hemocream es una fórmula 100% botánica, lo que permite un uso prolongado y seguro sin efectos secundarios hormonales.' },
+      { q: '¿Es segura durante el embarazo?', a: 'Al ser natural con calidad certificada es generalmente segura, pero siempre recomendamos consultar a su médico tratante.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 65000 },
@@ -2289,7 +2383,7 @@ export interface Promotion {
 export const COMBO_OF_THE_MONTH: Promotion = {
   id: 'combo-inmunidad-dual',
   name: 'Inmunidad Dual',
-  description: 'Potente sistema de protección diseñado para fortalecer las defensas naturales y optimizar la salud intestinal de manera integral. Este combo une la nutrición avanzada de Resvisfactor, que utiliza calostro bovino y hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coli Fibra, que asegura un colon limpio y un tránsito intestinal regular, permitiendo que el cuerpo absorba mejor los nutrientes esenciales.',
+  description: 'Inmunidad Dual es el sistema de protección definitiva, diseñado científicamente para fortalecer las defensas naturales y optimizar la salud intestinal de manera simultánea. Este combo une la nutrición de alto impacto de Resvisfactor, que aprovecha el calostro bovino y el hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coliplus, que garantiza un colon limpio y un tránsito intestinal regular. Al trabajar en conjunto, eliminan la pesadez abdominal y permiten que el organismo absorba con máxima eficiencia los nutrientes esenciales para una vida vital y libre de molestias digestivas.',
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
@@ -2339,7 +2433,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-1',
     name: 'Combo Piel Radiante',
-    description: 'Tratamiento integral de doble acción diseñado para renovar la luminosidad y uniformidad de la piel desde adentro hacia afuera. Este combo combina la potencia de la crema despigmentante Miskinne, que actúa directamente sobre las manchas externas con arbutina al 5%, y el alimento Resveratrol, que aporta una alta carga de antioxidantes y colágeno para regenerar la estructura celular y prevenir el envejecimiento prematuro.',
+    description: 'El Combo Piel Radiante es un tratamiento integral de doble acción diseñado para renovar la luminosidad, uniformidad y salud de tu piel desde el nivel celular hacia el exterior. Esta potente combinación une la eficacia de la crema Miskinne, que actúa directamente sobre la suavidad e hidratación externa con Caléndula y Avena, con el poder del Resveratrol líquido, que aporta una carga masiva de antioxidantes para proteger las células del daño oxidativo. Es el ritual perfecto para quienes buscan una piel visiblemente más joven, elástica y radiante, combatiendo la opacidad y los signos de fatiga desde adentro.',
     image: '/assets/combos/promo-1.webp',
     price: 104850,
     originalPrice: 139800,
@@ -2386,7 +2480,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-2',
     name: 'Combo Belleza Eterna',
-    description: 'El sistema definitivo para combatir los signos del envejecimiento y devolver la vitalidad a la piel desde el nivel celular. Este kit combina la acción externa del suero Eventone, formulado con Bio Retinol y Ácido Hialurónico para rellenar arrugas y dar firmeza, con el poder interno del Resveratrol y 10.000mg de colágeno hidrolizado que fortalecen la estructura de la dermis, uñas y cabello.',
+    description: 'Belleza Eterna es el sistema antiedad definitivo, formulado para combatir los signos del paso del tiempo y devolver la lozanía a tu rostro de manera integral. Este kit combina la acción avanzada del suero Eventone, enriquecido con Bio Retinol y Ácido Hialurónico para rellenar arrugas y unificar el tono cutáneo, con la regeneración celular profunda que proporciona el Resveratrol. Al nutrir tus células con colágeno hidrolizado y antioxidantes premium, este combo no solo mejora la apariencia externa, sino que fortalece la estructura de la dermis, uñas y cabello para una belleza que trasciende.',
     image: '/assets/combos/promo-2.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2433,7 +2527,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-3',
     name: 'Combo Detox Digestivo',
-    description: 'Sistema integral de limpieza diseñado para restaurar el tránsito intestinal y desintoxicar el organismo de forma natural. Este combo une la potencia de la fibra Coli, que combate el estreñimiento y desinflama el colon, con el concentrado Rtafull, que estimula la función del hígado y los riñones para eliminar toxinas acumuladas y mejorar la digestión de las grasas.',
+    description: 'El Combo Detox Digestivo es un sistema integral de limpieza diseñado para restaurar el equilibrio de tu organismo y liberar tu cuerpo de toxinas acumuladas. Esta sinergia une la potencia de la fibra Coliplus, que regula el tránsito intestinal y desinflama el colon de manera natural, con la acción depurativa del concentrado Rtafull, que estimula la función desintoxicante del hígado y los riñones. Ideal para eliminar la pesadez, combatir el estreñimiento y mejorar la digestión de las grasas, permitiéndote sentirte ligero, activo y renovado desde la primera semana.',
     image: '/assets/combos/promo-3.webp',
     price: 116850,
     originalPrice: 155000,
@@ -2480,7 +2574,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-4',
     name: 'Combo Control & Detox',
-    description: 'El sistema avanzado para quienes buscan recuperar el equilibrio digestivo y combatir la pesadez de forma natural. Este combo une la acción calmante de Liteplex, ideal para aliviar la acidez y la inflamación (gastritis), con la potencia depurativa de Rtafull, que actúa directamente en la limpieza del hígado y los riñones para optimizar el procesamiento de grasas.',
+    description: 'Control & Detox es el sistema avanzado para quienes buscan recuperar su equilibrio metabólico y combatir la inflamación digestiva de forma natural. Este combo fusiona la acción reconfortante de Liteplex, ideal para equilibrar la flora y reducir la pesadez estomacal, con la potencia depurativa de Rtafull, que actúa directamente en la limpieza hepática para optimizar el procesamiento de nutrientes. Es la solución perfecta para deshinchar el cuerpo, mejorar la absorción de alimentos y potenciar tu bienestar digestivo con una fórmula balanceada y segura.',
     image: '/assets/combos/promo-4.webp',
     price: 119850,
     originalPrice: 159800,
@@ -2527,7 +2621,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-5',
     name: 'Combo Protección Total',
-    description: 'El dúo ideal para quienes buscan una limpieza profunda del organismo y una frescura bucal duradera. Este combo combina la potencia depurativa de Rtafull, que desintoxica hígado y riñones, con la innovación de Tufoff, dulces sin azúcar diseñados para neutralizar olores y refrescar el aliento de manera instantánea con ingredientes naturales.',
+    description: 'Protección Total es el dúo esencial para quienes priorizan la higiene profunda y la pureza de su organismo. Este combo combina la innovación de Tufoff, dulces naturales sin azúcar que neutralizan olores y refrescan el aliento instantáneamente, con la capacidad purificadora de Rtafull, que desintoxica los órganos internos encargados de filtrar impurezas. Juntos, crean una barrera de protección que se refleja en una sensación de frescura total, eliminando toxinas y promoviendo un aliento puro desde el interior del cuerpo.',
     image: '/assets/combos/promo-5.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2574,7 +2668,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-6',
     name: 'Combo Alivio Muscular',
-    description: 'El sistema integral definitivo para el cuidado de músculos y articulaciones, combinando alivio externo inmediato con fortalecimiento interno profundo. Este combo une la acción de la Crema Termoactiva, que proporciona calor localizado para relajar tensiones y calmar dolores musculares, con el Colágeno con Citrato de Magnesio, que regenera los tejidos conectivos, mejora la flexibilidad y previene el desgaste articular.',
+    description: 'Alivio Muscular es el sistema integral definitivo para el cuidado de tu cuerpo activo, combinando alivio externo reconfortante con nutrición interna de alta calidad. Este combo une la acción de la Loción Termoactiva, que proporciona calor localizado para relajar tensiones y calmar molestias musculares, con el Colágeno con Citrato de Magnesio, que regenera los tejidos conectivos y mejora la salud de articulaciones y huesos. Es el aliado perfecto para recuperar la movilidad, prevenir el desgaste y disfrutar de cada movimiento con total libertad.',
     image: '/assets/combos/promo-6.webp',
     price: 123675,
     originalPrice: 164900,
@@ -2621,7 +2715,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-7',
     name: 'Combo Energía Máxima',
-    description: 'Potente sistema de revitalización diseñado para incrementar el rendimiento físico y optimizar el metabolismo de forma natural. Este combo une la densidad nutricional de Megamac, que aporta maca, borojó y chontaduro para combatir la fatiga, con la acción liporeductora de Cafetolio, un café verde 100% puro que convierte las grasas en energía y mejora la concentración mental sin causar picos de ansiedad.',
+    description: 'Energía Máxima es el sistema de revitalización más potente de nuestra gama, diseñado para catapultar tu rendimiento físico y mental ante los retos más exigentes. Este combo une la alta densidad nutricional de Megamac, que aporta ingredientes milenarios para combatir el agotamiento, con la acción activadora de Cafetolio, un café verde puro que optimiza la quema de energía y mejora la concentración. Si buscas superar la fatiga, mantener el enfoque laboral y sentirte imparable durante todo el día, este combo es tu fuente de vitalidad definitiva.',
     image: '/assets/combos/promo-7.webp',
     price: 149425,
     originalPrice: 199250,
@@ -2668,7 +2762,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-8',
     name: 'Combo Vitalidad & Limpieza',
-    description: 'Sistema integral de limpieza y nutrición verde diseñado para desintoxicar el organismo mientras se recupera la energía vital. Este combo combina el poder de Tyruss Full, un superalimento a base de clorofila, espirulina y chlorella que oxigena la sangre y mejora la digestión, con la acción depurativa de Rtafull, que facilita la eliminación de toxinas en el hígado y los riñones, promoviendo una desinflamación abdominal efectiva.',
+    description: 'Vitalidad & Limpieza es el sistema integral de renovación diseñado para purificar tu cuerpo mientras recuperas tu fuerza vital de forma armoniosa. Este combo une el poder de Tyruss Full, un superalimento verde que oxigena tu organismo y nutre tu sangre con clorofila y algas, con la eficacia depurativa de Rtafull, que facilita la eliminación de impurezas hepáticas y renales. Es la combinación balanceada ideal para desinflamar el abdomen, mejorar la energía diaria y permitir que tu cuerpo funcione con la ligereza y pureza que merece.',
     image: '/assets/combos/promo-8.webp',
     price: 127350,
     originalPrice: 169800,
