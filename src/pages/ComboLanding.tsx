@@ -342,7 +342,7 @@ export default function ComboLanding() {
                   </div>
                   <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
                     <CheckCircle2 className="w-3 h-3" />
-                    <span>Resultados garantizados: El combo más solicitado este mes</span>
+                    <span>Experiencias positivas: El combo más solicitado este mes</span>
                   </div>
                   <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
                     <CheckCircle2 className="w-3 h-3" />

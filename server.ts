@@ -159,7 +159,7 @@ Sitemap: https://zenhogar.live/sitemap.xml
   <item>
     <g:id>${p.masterId}</g:id>
     <g:title>${p.name}</g:title>
-    <g:description>${p.shortDescription || p.description.substring(0, 150)}</g:description>
+    <g:description>${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
     <g:link>${baseUrl}/producto/${p.id}</g:link>
     <g:image_link>${baseUrl}${p.image}</g:image_link>
     <g:condition>${p.condition || 'new'}</g:condition>
@@ -168,6 +168,7 @@ Sitemap: https://zenhogar.live/sitemap.xml
     <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
     <g:brand>Zenhogar</g:brand>
     <g:mpn>${p.masterId}</g:mpn>
+    <g:identifier_exists>yes</g:identifier_exists>
     <g:shipping>
       <g:country>CO</g:country>
       <g:service>Envío Gratis</g:service>
@@ -178,7 +179,7 @@ Sitemap: https://zenhogar.live/sitemap.xml
   <item>
     <g:id>${p.id}</g:id>
     <g:title>${p.name}</g:title>
-    <g:description>${p.description.substring(0, 150)}</g:description>
+    <g:description>${p.description.replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
     <g:link>${baseUrl}/combo/${p.id}</g:link>
     <g:image_link>${baseUrl}${p.image}</g:image_link>
     <g:condition>${p.condition || 'new'}</g:condition>
@@ -186,6 +187,7 @@ Sitemap: https://zenhogar.live/sitemap.xml
     <g:price>${p.price} COP</g:price>
     <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
     <g:brand>Zenhogar</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
     <g:shipping>
       <g:country>CO</g:country>
       <g:service>Envío Gratis</g:service>

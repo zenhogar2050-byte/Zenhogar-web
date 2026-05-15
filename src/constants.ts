@@ -81,20 +81,20 @@ export const PRODUCTS: Product[] = [
     masterId: '11323',
     name: 'RtaFull',
     category: 'salud-bienestar',
-    shortDescription: 'Vitalidad Hepática y Desintoxicación Digestiva.',
-    description: `Recupera la ligereza de tu cuerpo con RtaFull, el concentrado depurativo de alta potencia diseñado para ayudar a limpiar tu hígado y riñones de manera natural. Su fórmula combina extractos botánicos de alcachofa, berenjena, apio y flor de jamaica, que actúan en sinergia para estimular la eliminación de toxinas y grasas acumuladas. RtaFull es la solución definitiva para quienes buscan combatir la pesadez abdominal, mejorar la digestión y revitalizar su metabolismo desde el interior.
+    shortDescription: 'Apoyo Hepático y Desintoxicación Digestiva Natural.',
+    description: `Recupera la sensación de ligereza con RtaFull, el concentrado depurativo diseñado para favorecer la limpieza natural de tu organismo. Su fórmula combina extractos botánicos de alcachofa, berenjena, apio y flor de jamaica, que actúan en armonía para promover la eliminación de toxinas. RtaFull es el aliado ideal para quienes buscan reducir la pesadez abdominal, mejorar la digestión y revitalizar su bienestar desde el interior.
 
 Ideal para procesos de detox y limpieza profunda, este suplemento especialmente formulado ayuda a descongestionar el sistema digestivo, promoviendo una sensación de bienestar inmediato y una vitalidad renovada. Con su formato líquido de rápida absorción, RtaFull asegura que los activos naturales lleguen directamente a tu organismo donde más se necesitan.
 
 ✔️ Depuración Total: Limpia profundamente el hígado y los riñones de impurezas y grasas.
 ✔️ Adiós a la Inflamación: Reduce visiblemente la pesadez estomacal y la hinchazón tras las comidas.
 ✔️ Alianza Herbal: El poder del apio y el perejil para una función renal óptima y defensas activas.`,
-    seoTitle: 'Rtafull: Cómo limpiar el hígado y desintoxicar el organismo naturalmente | Zenhogar',
-    seoDescription: 'Purifica tu hígado y elimina la pesadez con Rtafull. Concentrado natural con Alcachofa y Berenjena para una desintoxicación total y digestión ligera. ¡Registro INVIMA!',
+    seoTitle: 'Rtafull: Apoyo para la desintoxicación del organismo naturalmente | Zenhogar',
+    seoDescription: 'Apoya tu salud hepática y favorece la reducción de la pesadez con Rtafull. Concentrado natural con Alcachofa y Berenjena para una digestión más ligera. ¡Registro INVIMA!',
     benefits: [
-      'Depuración profunda de hígado y riñones de toxinas acumuladas',
-      'Elimina de forma inmediata la pesadez y el malestar tras comer',
-      'Estimula el metabolismo digestivo para un vientre más ligero',
+      'Ayuda en la depuración natural de hígado y riñones de toxinas acumuladas',
+      'Favorece la reducción de la pesadez y el malestar tras comer',
+      'Estimula el bienestar digestivo para un abdomen más ligero',
       'Fórmula líquida concentrada de absorción ultra-rápida y segura',
       'Ingredientes 100% naturales con certificación de calidad oficial'
     ],
@@ -112,7 +112,7 @@ Ideal para procesos de detox y limpieza profunda, este suplemento especialmente 
       '/assets/products/rtafull-apoyo-3.webp',
       '/assets/products/rtafull-apoyo-4.webp'
     ],
-    keywords: 'limpieza hígado, digestión ligera, pesadez abdominal, depuración natural, alcachofa, Rtafull, Zenhogar, hígado graso',
+    keywords: 'limpieza hígado, digestión ligera, pesadez abdominal, depurar el organismo, alcachofa, Rtafull, Zenhogar, bienestar hepático',
     components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio y Perejil',
     longTailKeywords: [
       'mejor suplemento líquido para limpiar el hígado rápidamente',
@@ -155,11 +155,11 @@ Formulado sin azúcares añadidos, es el aliado perfecto para personas diabétic
 ✔️ Regularidad Garantizada: Mezcla de chía y pitaya que asegura un movimiento intestinal fluido y natural.
 ✔️ Colon Saludable: Limpieza profunda de residuos acumulados sin causar irritación ni cólicos.
 ✔️ Rendimiento Superior: Fórmula concentrada de 450g que rinde el doble que las fibras convencionales.`,
-    seoTitle: 'Coliplus: Cómo regular el tránsito intestinal y limpiar el colon | Zenhogar',
-    seoDescription: 'Recupera tu regularidad con Coliplus. Fibra natural con Pitaya y Espirulina para limpiar el colon y desinflamar el vientre. ¡Rinde 2 meses y tiene Registro INVIMA!',
+    seoTitle: 'Coliplus: Cómo regular el tránsito intestinal y depurar el colon | Zenhogar',
+    seoDescription: 'Recupera tu regularidad con Coliplus. Fibra natural con Pitaya y Espirulina para depurar el colon y reconfortar el vientre. ¡Rinde 2 meses y tiene Registro INVIMA!',
     benefits: [
       'Regula el tránsito intestinal combatiendo el estreñimiento de raíz',
-      'Desinflama el colon y reduce la pesadez abdominal de forma estable',
+      'Favorece el confort del colon y reduce la pesadez abdominal de forma estable',
       'Fórmula apta para diabéticos, libre de azúcares y calorías extras',
       'Nutre la flora intestinal con superalimentos como la espirulina',
       'Máxima rentabilidad: rinde hasta 60 días de bienestar diario'
@@ -358,7 +358,7 @@ Además de su acción en la quema de grasas, CLA 500 protege tus células del pa
     seoDescription: 'Define tu figura y alivia tus articulaciones con CLA 500. Fórmula con Cúrcuma y Magnesio para un metabolismo activo y confort corporal. ¡Calidad INVIMA certificada!',
     benefits: [
       'Promueve la movilización de grasas y ayuda en la tonificación muscular',
-      'Potente acción antiinflamatoria que reduce la pesadez en articulaciones',
+      'Acción protectora que reduce la pesadez en articulaciones',
       'Optimiza la absorción de nutrientes gracias al extracto de pimienta negra',
       'Protege las células contra el envejecimiento y flacidez prematura',
       'Aporte esencial de Vitamina D3 y Magnesio para la salud ósea integral'
@@ -494,7 +494,7 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
 ✔️ Alianza Botánica: Árnica y Chuchuguaza que trabajan en sinergia contra golpes y torceduras.
 ✔️ Bienestar Inmediato: Textura ligera de rápida acción que relaja tensiones y mejora la flexibilidad.`,
     seoTitle: 'Loción Termoactiva: Alivio para Dolores Musculares y Articulares | Zenhogar',
-    seoDescription: 'Elimina el dolor y la tensión con la Loción Termoactiva de ZENHOGAR. Efecto calor profundo con Árnica y Uña de Gato para recuperación muscular total. ¡Registro INVIMA!',
+    seoDescription: 'Alivia el dolor y la tensión con la Loción Termoactiva de ZENHOGAR. Efecto calor profundo con Árnica y Uña de Gato para recuperación muscular total. ¡Registro INVIMA!',
     benefits: [
       'Alivio casi instantáneo de dolores musculares, golpes y calambres',
       'Efecto calor profundo que relaja tensiones y desinflama tejidos',
@@ -520,7 +520,7 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
     longTailKeywords: [
       'mejor loción con efecto calor para tensión en la espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
-      'solución natural para mejorar la circulación en las piernas',
+      'alternativa natural para mejorar la circulación en las piernas',
       'loción termoactiva para masajes deportivos y recuperación',
       'fórmula balanceada para alivio de contracturas musculares',
       'bienestar integral corporal con masajes de calor profundo',
@@ -547,7 +547,7 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
     ],
     whyChoose: {
       title: 'Alivio que reconforta tu cuerpo',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA e ingredientes botánicos seguros. Nuestra loción termoactiva es ideal para todos los que tienen tensión muscular generados por cansancio, agotamiento o que padecen de desgaste ocasional, garantizado por normas de salud.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA e ingredientes botánicos seguros. Nuestra loción termoactiva es ideal para todos los que tienen tensión muscular generados por cansancio, agotamiento o que padecen de desgaste ocasional, respaldado por estándares de calidad.'
     }
   },
   // New products for Salud y Bienestar
@@ -639,7 +639,7 @@ Con un refrescante sabor a durazno maduro, Citramix no solo mejora tu descanso n
     benefits: [
       'Relaja profundamente los músculos evitando calambres y rigidez',
       'Combate el agotamiento nervioso y mejora la calidad del descanso',
-      'Promueve una digestión sana y libre de pesadez abdominal diaria',
+      'Promueve una digestión equilibrada y libre de pesadez abdominal diaria',
       'Aporta un complejo vitamínico completo para la vitalidad celular',
       'Sabor premium a durazno, ideal para disfrutar frío en la noche'
     ],
@@ -798,7 +798,7 @@ Libre de rellenos, sabores artificiales o aditivos innecesarios, esta fórmula d
       { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Disolver 1 medida (5g) en agua antes o después de entrenar.' },
       { q: '¿La creatina 100% causa retención de líquidos?', a: 'La creatina aumenta la hidratación intracelular, lo cual es beneficioso para el músculo y el bienestar integral.' },
       { q: '¿Necesito fase de carga?', a: 'No es estrictamente necesaria; una dosis constante diaria asegura resultados con nuestra fórmula balanceada.' },
-      { q: '¿Es segura para los riñones?', a: 'En personas sanas y bajo las dosis recomendadas, es un suplemento con calidad certificada y muy seguro.' }
+      { q: '¿Es segura para los riñones?', a: 'En personas que buscan bienestar y bajo las dosis recomendadas, es un suplemento con calidad certificada y muy seguro.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 105000 },
@@ -898,7 +898,7 @@ Más que un simple suplemento, KDS 10 actúa como un revitalizante metabólico q
     benefits: [
       'Proporciona el 100% de las vitaminas y minerales esenciales diarios',
       'Fortalece drásticamente el sistema inmunológico de niños y adultos',
-      'Elimina el cansancio físico recurrente y mejora el enfoque mental',
+      'Ayuda a reducir el cansancio físico recurrente y mejora el enfoque mental',
       'Delicioso sabor y base de coco que asegura una digestión ligera',
       'Ideal para complementar dietas con deficiencias o periodos de desgaste'
     ],
@@ -966,7 +966,7 @@ A diferencia de los somníferos químicos, Liofhim promueve un descanso fisioló
     seoDescription: 'Duerme profundamente con Liofhim. Mezcla botánica de Manzanilla y Albahaca para apagar la mente y despertar renovado cada mañana. ¡Sin somnolencia diurna!',
     benefits: [
       'Facilita el inicio del sueño profundo de forma rápida y natural',
-      'Elimina los despertares nocturnos logrando un descanso ininterrumpido',
+      'Disminuye los despertares nocturnos logrando un descanso ininterrumpido',
       'Reduce significativamente el estrés y la tensión acumulada del día',
       'Despierta con la mente lúcida y energía renovada sin efectos secundarios',
       'Sabor botánico relajante de alta pureza con registro INVIMA certificado'
@@ -1234,7 +1234,7 @@ Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZEN
 
 ✔️ Blindaje Antioxidante: Protege el ADN celular contra el daño oxidativo y el envejecimiento prematuro.
 ✔️ Regeneración de Tejidos: 10,000 mg de colágeno que restauran la turgencia de la piel y salud articular.
-✔️ Vitalidad Cardiovascular: Los polifenoles de la uva promueven una circulación sana y longevidad estable.`,
+✔️ Bienestar Cardiovascular: Los polifenoles de la uva favorecen una circulación saludable y bienestar estable.`,
     seoTitle: 'Resveratrol Antioxidante con 10,000mg de Colágeno | Zenhogar',
     seoDescription: 'Protege tus células y rejuvenece tu piel con el Resveratrol de ZENHOGAR. Potente antioxidante líquido con Colágeno para una vitalidad celular superior. ¡Alta absorción!',
     benefits: [
@@ -1306,7 +1306,7 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
 ✔️ Hidratación y Relleno: Ácido hialurónico de alto peso molecular que suaviza arrugas y mejora la turgencia.
 ✔️ Luminosidad Radiante: Recupera el brillo natural y la lozanía de un rostro descansado y saludable.`,
     seoTitle: 'Eventone: Cómo unificar el tono de la piel y reducir manchas | Zenhogar',
-    seoDescription: 'Elimina manchas y recupera la luminosidad con Eventone. Suero con Bio-Retinol y Ácido Hialurónico para un tono uniforme y firmeza real. ¡Registro INVIMA!',
+    seoDescription: 'Atenúa la apariencia de manchas y recupera la luminosidad con Eventone. Suero con Bio-Retinol y Ácido Hialurónico para un tono uniforme y firmeza real. ¡Registro INVIMA!',
     benefits: [
       'Unifica el tono de la piel y reduce manchas oscuras visibles',
       'Efecto relleno inmediato gracias al ácido hialurónico puro',
@@ -1651,8 +1651,8 @@ Enriquecido con inulina (prebiótico natural), Tufoff no solo brinda frescura in
 ✔️ Acción Criogénica Inmediata: Sensación de limpieza profunda que neutraliza olores de comida, tabaco y café al instante.
 ✔️ Equilibrio Prebiótico: Contiene inulina para proteger la salud de tu boca mientras refresca tu aliento.
 ✔️ Salud Dental Garantizada: 100% Sin azúcar y con bicarbonato para equilibrar el pH bucal y proteger el esmalte.`,
-    seoTitle: 'Tufoff: Cómo eliminar el mal aliento de forma instantánea y natural',
-    seoDescription: 'Elimina el mal aliento al instante con Tufoff. Dulces sin azúcar con prebióticos y aceites esenciales para una frescura total y equilibrio bucal. ¡Confianza certificada!',
+    seoTitle: 'Tufoff: Cómo neutralizar el mal aliento de forma instantánea y natural',
+    seoDescription: 'Neutraliza el mal aliento al instante con Tufoff. Dulces sin azúcar con prebióticos y aceites esenciales para una frescura total y equilibrio bucal. ¡Confianza certificada!',
     benefits: [
       'Neutraliza el aliento a tabaco, alcohol y condimentos al contacto',
       'Protege la microbiota bucal gracias a su aporte de prebióticos (Inulina)',
@@ -1701,8 +1701,8 @@ Enriquecido con inulina (prebiótico natural), Tufoff no solo brinda frescura in
       { name: 'Andrés F.', text: 'Excelente para la higiene diaria, se siente la limpieza profunda desde el primer uso.', rating: 5 }
     ],
     whyChoose: {
-      title: 'Limpieza y fresapoya garantizada',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de higiene superior. Tufoff elimina el mal de olor y brinda fresapoya duradera con Mentol y Eucalipto. Calidad certificada para tu seguridad y confianza diaria.'
+      title: 'Limpieza y frescura superior',
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de higiene superior. Tufoff ayuda a reducir el mal de olor y brinda frescura duradera con Mentol y Eucalipto. Calidad certificada para tu seguridad y confianza diaria.'
     }
   },
   // Salud Sexual
@@ -2044,8 +2044,8 @@ Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textur
       { name: 'Andrés V.', text: 'Excelente para mejorar el rendimiento en todo sentido. Me siento con mucha más vitalidad.', rating: 5 }
     ],
     whyChoose: {
-      title: 'Fuerza y potencia masculina',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alto impacto. Mamooth potencia tu fuerza y vigor mediante Tribulus Terrestris y Maca Negra. Resultados seguros con calidad certificada.'
+      title: 'Cuidado corporal avanzado',
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alto desempeño. Mammoth ayuda a mejorar la apariencia de la piel mediante extractos botánicos seleccionados. Calidad certificada para tu cuidado diario.'
     }
   },
   {
@@ -2062,7 +2062,7 @@ Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esen
 ✔️ Digestión y Tránsito: Fibra natural que optimiza el movimiento intestinal y reduce la inflamación.
 ✔️ Energía y Saciedad: Aporta proteínas y grasas saludables que mantienen tu energía constante y controlan el apetito.`,
     seoTitle: 'Tyruss Full Nutrición Verde | Detox con Clorofila y Espirulina',
-    seoDescription: 'Desintoxica tu cuerpo y recupera tu energía con Tyruss Full. Mezcla con Clorofila, Espirulina y Proteína de Arveja para una digestión perfecta. ¡Registro INVIMA!',
+    seoDescription: 'Desintoxica tu cuerpo y recupera tu energía con Tyruss Full. Mezcla con Clorofila, Espirulina y Proteína de Arveja para un equilibrio digestivo. ¡Registro INVIMA!',
     benefits: [
       'Depura y desintoxica el organismo de forma suave y efectiva',
       'Promueve un vientre plano al mejorar el tránsito intestinal',
@@ -2084,7 +2084,7 @@ Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esen
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
     components: 'Clorofila, Espirulina, Chlorella, Proteína de Arveja, Almendras y Omega 3',
     longTailKeywords: [
-      'mejor batido verde detox para limpiar el colon y desinflamar el cuerpo',
+      'mejor batido verde detox para depurar el colon y reconfortar el cuerpo',
       'cómo oxigenar la sangre y mejorar la digestión con clorofila y espirulina',
       'suplemento de proteína de arveja con verdes para energía y desintoxicación',
       'beneficios de Tyruss Full para el bienestar integral y tránsito intestinal',
@@ -2092,7 +2092,7 @@ Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esen
       'bienestar integral y vitalidad rejuvenecida con superalimentos certificados',
       'cómo mantener un vientre plano y digestión ligera de forma natural',
       'suplemento para la depuración del organismo con omega 3 y vitaminas',
-      'solución natural para la pesadez estomacal y falta de nutrientes verdes',
+      'alternativa natural para la pesadez estomacal y falta de nutrientes verdes',
       'nutrición verde segura con ingredientes de alta pureza y registro INVIMA'
     ],
     seoFaqs: [
@@ -2203,7 +2203,7 @@ Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracia
     benefits: [
       'Incrementa la vitalidad física y el rendimiento energético superior',
       'Refuerzo inmunológico con extractos botánicos de alta pureza',
-      'Elimina eficazmente la sensación de agotamiento y pesadez diaria',
+      'Favorece una sensación de vitalidad y bienestar diario',
       'Mejora el enfoque mental y la determinación en retos físicos',
       'Fórmula 100% natural sin efectos secundarios hormonales negativos'
     ],
@@ -2232,7 +2232,7 @@ Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracia
       'cómo recuperar el ímpetu y rendimiento diario de forma segura y efectiva',
       'suplemento para la fuerza interior masculina con ingredientes de alta pureza',
       'solución natural para la falta de energía y debilidad física constante',
-      'vigor y resistencia garantizados con la potencia de la naturaleza pura'
+      'vigor y resistencia apoyados con la potencia de la naturaleza pura'
     ],
     seoFaqs: [
       { q: '¿Cómo se debe tomar Zeus para ver resultados óptimos?', a: 'Se recomienda consumir progresivamente para que tu cuerpo asimile los nutrientes, promoviendo bienestar integral y vigor duradero.' },
@@ -2261,21 +2261,21 @@ Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracia
     name: '+NAD',
     category: 'salud-bienestar',
     shortDescription: 'El Secreto de la Longevidad y Vitalidad Celular.',
-    description: `+NAD es la fórmula de vanguardia en nutrición antiedad, diseñada para revitalizar tu organismo desde lo más profundo: tus células. Combinando Nicotinamida (un precursor directo del NAD+) con el poder antioxidante del Resveratrol y el Calostro Bovino, este suplemento ayuda a reparar el ADN celular, optimizar la producción de energía y proteger contra el daño oxidativo que causa el envejecimiento.
+    description: `+NAD es la fórmula de vanguardia en nutrición para el bienestar celular, diseñada para revitalizar tu organismo desde lo más profundo. Combinando Nicotinamida (un precursor directo del NAD+) con el poder antioxidante del Resveratrol y el Calostro Bovino, este suplemento ayuda a proteger las células y optimizar la producción de energía contra el daño oxidativo.
 
 Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita una absorción superior de sus ingredientes clave como la Quercetina y la Lactoferrina. +NAD es el aliado perfecto para quienes desean mantener una mente clara, una piel firme y un cuerpo lleno de energía vital a pesar del paso de los años, proporcionando un soporte inmunológico y regenerativo sin precedentes.
 
 ✔️ Rejuvenecimiento Celular: Protege las mitocondrias y promueve la reparación biológica natural.
 ✔️ Energía Metabólica: Transforma los nutrientes en energía vital de forma más eficiente y duradera.
 ✔️ Soporte Inmunológico: Alimento enriquecido para fortalecer las defensas y la vitalidad diaria.`,
-    seoTitle: '+NAD Suplemento Antiedad | Vitalidad Celular y Resveratrol',
-    seoDescription: 'Retrasa el envejecimiento celular con +NAD. Suplemento con Resveratrol y NAD+ para una piel firme y energía vital inagotable. ¡Registro INVIMA!',
+    seoTitle: '+NAD Suplemento para Bienestar Celular | Vitalidad Celular y Resveratrol',
+    seoDescription: 'Apoya el bienestar de tus células con +NAD. Suplemento con Resveratrol y NAD+ para una piel firme y energía vital renovada. ¡Registro INVIMA!',
     benefits: [
-      'Reparación y protección celular avanzada contra el envejecimiento',
+      'Apoyo en la protección celular avanzada contra agentes oxidantes',
       'Aumento significativo en la producción de energía y claridad mental',
       'Digestión óptima y absorción rápida gracias a su base de coco',
       'Fortalece la respuesta inmunológica ante desafíos del entorno',
-      'Promueve una piel más sana y un metabolismo celular rejuvenecido'
+      'Promueve una piel de apariencia saludable y un metabolismo celular revitalizado'
     ],
     image: '/assets/products/+nad.webp',
     basePrice: 79900,
@@ -2291,19 +2291,19 @@ Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita 
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
     components: 'Colágeno (10g), Crema de Coco, NAD, Vitaminas A, C, D, E y complejo B',
     longTailKeywords: [
-      'mejor suplemento antiedad con NAD+ y resveratrol para rejuvenecimiento',
-      'cómo regenerar las células y aumentar la energía vital naturalmente',
+      'mejor suplemento para bienestar celular con NAD+ y resveratrol',
+      'cómo nutrir las células y aumentar la energía vital naturalmente',
       'suplemento con calostro bovino y lactoferrina para defensas y longevidad',
       'beneficios de +NAD para el bienestar integral y salud mitocondrial',
-      'fórmula avanzada antienvejecimiento celular con quercetina y base de coco',
+      'fórmula avanzada para bienestar celular con quercetina y base de coco',
       'bienestar integral y vitalidad celular renovada con registro INVIMA',
       'cómo mantener la piel firme y el cerebro activo con NAD de alta pureza',
       'suplemento nutricional avanzado para una longevidad saludable y activa',
-      'solución natural para la fatiga celular y el deterioro biológico prematuro',
-      'energía y juventud segura con ingredientes certificados de máxima absorción'
+      'solución natural para la fatiga celular y el bienestar biológico',
+      'energía y vitalidad segura con ingredientes certificados de máxima absorción'
     ],
     seoFaqs: [
-      { q: '¿Qué diferencia a +NAD de otros colágenos?', a: 'Este es un sistema celular que añade Nicotinamida y Resveratrol para reparar el ADN y potenciar tu bienestar integral desde el núcleo.' },
+      { q: '¿Qué diferencia a +NAD de otros colágenos?', a: 'Este es un sistema celular que añade Nicotinamida y Resveratrol para apoyar el bienestar desde el núcleo.' },
       { q: '¿Cómo ayuda el calostro bovino en este producto?', a: 'Aporta factores de transferencia que blindan tu sistema inmune para que tu vitalidad y equilibrio natural sean inquebrantables.' },
       { q: '¿Se puede mezclar con bebidas calientes?', a: 'Es preferible consumirlo en jugos o agua a temperatura ambiente para preservar la calidad certificada de sus micronutrientes.' },
       { q: '¿Ayuda con la memoria y la claridad mental?', a: 'Sí, al optimizar la energía celular, favorece el rendimiento cognitivo y el enfoque diario con total seguridad.' }
@@ -2320,7 +2320,7 @@ Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita 
     ],
     whyChoose: {
       title: 'Longevidad y energía celular',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA con ciencia avanzada. +NAD apoya tu salud cognitiva y celular con Resveratrol y Quercetina. Fórmula balanceada para una vida longeva con calidad certificada.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA con ciencia avanzada. +NAD apoya tu bienestar celular con Resveratrol y Quercetina. Fórmula balanceada para una vida saludable con calidad certificada.'
     }
   },
   {
@@ -2394,23 +2394,23 @@ Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lác
   {
     id: 'hemocream',
     masterId: '58626',
-    name: 'Hemocream',
+    name: 'Cuidado Botánico Avanzado',
     category: 'salud-bienestar',
-    shortDescription: 'Cuidado Botánico Avanzado para Alivio Anal.',
-    description: `Recupera tu comodidad diaria con Hemocream, la solución magistral diseñada para brindar alivio profundo y protección a la zona anal sensible. Su fórmula integra el poder de la fitoterapia moderna mediante una sinergia de 11 extractos botánicos premium, liderados por el Castaño de Indias, la Caléndula y el Hamamelis. Estos ingredientes actúan en conjunto para reducir la inflamación, calmar el ardor persistente y favorecer la microcirculación, proporcionando una barrera refrescante que mitiga el malestar desde la primera aplicación.
+    shortDescription: 'Cuidado Botánico Avanzado en zonas sensibles.',
+    description: `Recupera tu comodidad diaria con este cuidado botánico avanzado, la solución magistral diseñada para brindar alivio profundo y protección a la zona anal sensible. Su fórmula integra el poder de la fitoterapia moderna mediante una sinergia de 11 extractos botánicos premium, liderados por el Castaño de Indias, la Caléndula y el Hamamelis. Estos ingredientes actúan en conjunto para reducir la inflamación, calmar el ardor persistente y favorecer la microcirculación, proporcionando una barrera refrescante que mitiga el malestar desde la primera aplicación.
 
-Especialmente formulada para pieles frágiles, Hemocream ayuda a regenerar los tejidos irritados por hemorroides o fisuras, facilitando el tránsito intestinal y reduciendo la fricción durante la evacuación. Su textura ligera y sedosa se absorbe sin dejar residuos grasos, permitiéndote retomar tus actividades con total confort y la seguridad de un cuidado 100% natural, certificado por expertos.
+Especialmente formulada para pieles frágiles, esta solución botánica ayuda a regenerar los tejidos irritados por hemorroides o fisuras, facilitando el tránsito intestinal y reduciendo la fricción durante la evacuación. Su textura ligera y sedosa se absorbe sin dejar residuos grasos, permitiéndote retomar tus actividades con total confort y la seguridad de un cuidado 100% natural, certificado por expertos.
 
 ✔️ Alivio Antiinflamatorio: Calma instantáneamente el dolor, el ardor y la picazón en zonas sensibles.
 ✔️ Regeneración Celular: La caléndula y el aloe vera aceleran la recuperación natural de los tejidos afectados.
 ✔️ Facilidad y Confort: Mejora la suavidad de la zona para permitir una evacuación sin traumas ni dolor excesivo.`,
-    seoTitle: 'Alivio natural para hemorroides y ardor con Hemocream | Zenhogar',
-    seoDescription: 'Reduce la inflamación y calma el dolor anal con Hemocream. Combinación de 11 extractos naturales para un alivio suave y efectivo. ¡Calidad INVIMA!',
+    seoTitle: 'Alivio natural para hemorroides y ardor con Cuidado Botánico Avanzado | Zenhogar',
+    seoDescription: 'Reduce la inflamación y calma el dolor anal con nuestro cuidado botánico. Combinación de 11 extractos naturales para un alivio suave y efectivo. ¡Calidad INVIMA!',
     benefits: [
-      'Calma de forma inmediata el ardor, el dolor y la inflamación local',
+      'Calma de forma inmediata el ardor y la sensación de pesadez local',
       'Favorece la microcirculación gracias al extracto de Castaño de Indias',
-      'Facilita el tránsito intestinal y evita el dolor durante la evacuación',
-      'Cura y regenera de tejidos sensibles macerados o con fisuras',
+      'Facilita el tránsito intestinal y reduce la fricción durante la evacuación',
+      'Favorece el bienestar y reconforta los tejidos sensibles',
       'Fórmula botánica fluida, discreta y de rápida absorción sin manchas'
     ],
     image: '/assets/products/Hemocream.webp',
@@ -2426,11 +2426,11 @@ Especialmente formulada para pieles frágiles, Hemocream ayuda a regenerar los t
       '/assets/products/hemocream-apoyo-3.webp',
       '/assets/products/hemocream-apoyo-4.webp'
     ],
-    keywords: 'hemorroides, ardor anal, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, Hemocream, Zenhogar, fisura anal',
+    keywords: 'hemorroides, ardor anal, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, cuidado botánico, Zenhogar, fisura anal',
     components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena, Manzanilla y Centella Asiática',
     longTailKeywords: [
-      'mejor crema botánica para quitar el ardor anal rápidamente',
-      'cómo aliviar las hemorroides de forma natural y con facilidad',
+      'mejor crema botánica para calmar el ardor anal rápidamente',
+      'cómo favorecer el bienestar ante las hemorroides de forma natural y con facilidad',
       'crema de caléndula y aloe vera para inflamación hemorroidal persistente',
       'beneficios de las plantas medicinales para el cuidado anal sensible',
       'fórmula botánica suave para alivio inmediato del malestar diario',
@@ -2439,8 +2439,8 @@ Especialmente formulada para pieles frágiles, Hemocream ayuda a regenerar los t
     ],
     seoFaqs: [
       { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Se recomienda aplicar una pequeña cantidad en la zona afectada 2 o 3 veces al día, preferiblemente después de ir al baño.' },
-      { q: '¿Hemocream brinda alivio de inmediato?', a: 'Sí, sus extractos de menta y manzanilla brindan una calma refrescante que mejora tu bienestar desde el primer uso.' },
-      { q: '¿Contiene corticoides?', a: 'No, Hemocream es una fórmula 100% botánica, lo que permite un uso prolongado y seguro sin efectos secundarios hormonales.' },
+      { q: '¿Este producto brinda alivio de inmediato?', a: 'Sí, sus extractos de menta y manzanilla brindan una calma refrescante que mejora tu bienestar desde el primer uso.' },
+      { q: '¿Contiene corticoides?', a: 'No, es una fórmula 100% botánica, lo que permite un uso prolongado y seguro sin efectos secundarios hormonales.' },
       { q: '¿Es segura durante el embarazo?', a: 'Al ser natural con calidad certificada es generalmente segura, pero siempre recomendamos consultar a su médico tratante.' }
     ],
     promos: [
@@ -2455,7 +2455,7 @@ Especialmente formulada para pieles frágiles, Hemocream ayuda a regenerar los t
     ],
     whyChoose: {
       title: 'Alivio y confort inmediato',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Hemocream ayuda a calmar el ardor y la pesadez gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Este cuidado botánico ayuda a calmar el ardor y la pesadez gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
     }
   }
 ];
@@ -2496,7 +2496,7 @@ export interface Promotion {
 export const COMBO_OF_THE_MONTH: Promotion = {
   id: 'combo-inmunidad-dual',
   name: 'Inmunidad Dual',
-  description: 'Inmunidad Dual es el sistema de protección definitiva, diseñado científicamente para fortalecer las defensas naturales y optimizar la salud intestinal de manera simultánea. Este combo une la nutrición de alto impacto de Resvisfactor, que aprovecha el calostro bovino y el hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coliplus, que garantiza un colon limpio y un tránsito intestinal regular. Al trabajar en conjunto, eliminan la pesadez abdominal y permiten que el organismo absorba con máxima eficiencia los nutrientes esenciales para una vida vital y libre de molestias digestivas.',
+  description: 'Inmunidad Dual es el sistema de protección definitiva, diseñado científicamente para fortalecer las defensas naturales y optimizar la salud intestinal de manera simultánea. Este combo une la nutrición de alto impacto de Resvisfactor, que aprovecha el calostro bovino y el hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coliplus, que garantiza un colon limpio y un tránsito intestinal regular. Al trabajar en conjunto, ayudan a reducir la pesadez abdominal y permiten que el organismo absorba con eficiencia los nutrientes esenciales para una vida vital.',
   image: '/assets/combos/combo-bienestar.webp',
   price: 129900,
   originalPrice: 165800,
@@ -2504,7 +2504,7 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
   condition: 'new',
   products: ['resvis', 'coliplus'],
-  seoTitle: 'Cómo solucionar la pesadez abdominal y defensas bajas con Inmunidad Dual',
+  seoTitle: 'Cómo favorecer el bienestar ante la pesadez abdominal y defensas bajas con Inmunidad Dual',
   seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
   whyChoose: {
     title: 'El dúo dinámico de tu bienestar',
@@ -2520,15 +2520,15 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
   components: 'Calostro Bovino, Hongo Shiitake, Resveratrol, Linaza, Pitaya, Flor de Jamaica, Alcachofa, Betaglucanos y Vitaminas',
   longTailKeywords: [
-    'mejor combo natural para confortar el vientre y subir defensas',
-    'cómo limpiar el colon y el hígado de forma efectiva y segura',
+    'mejor combo natural para reconfortar el vientre y subir defensas',
+    'cómo depurar el colon y el hígado de forma efectiva y segura',
     'cuidado para el bienestar integral digestivo e inmune',
     'beneficios de Inmunidad Dual para la vitalidad y equilibrio natural',
     'fórmula balanceada para desintoxicación profunda y energía',
     'bienestar integral y salud con calidad certificada premium',
     'cómo mejorar la digestión y absorción de nutrientes con combos',
     'combo para el cuidado de la salud diaria',
-    'solución natural para el colon irritable y pesadez abdominal',
+    'apoyo natural para el colon irritable y pesadez abdominal',
     'limpieza orgánica segura con ingredientes de alta pureza'
   ],
   seoFaqs: [
@@ -2553,7 +2553,7 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['resveratrol', 'miskinne'],
-    seoTitle: 'Cómo solucionar la piel opaca y falta de elasticidad con Combo Piel Radiante',
+    seoTitle: 'Cómo mejorar la apariencia ante la piel opaca y falta de elasticidad con Combo Piel Radiante',
     seoDescription: 'Luce una piel radiante con nuestro Combo Piel Radiante. Fórmula balanceada para bienestar integral, nutrición celular y calidad certificada. ¡Ahorra hoy!',
     whyChoose: {
       title: 'Tu ritual de belleza integral',
@@ -2563,7 +2563,7 @@ export const PROMOTIONS: Promotion[] = [
     keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Zenhogar, combo belleza',
     components: 'Arbutina (5%), Resveratrol, Colágeno Hidrolizado (10.000mg), Crema de Coco, Arándano y Uva liofilizada',
     longTailKeywords: [
-      'mejor combo para rejuvenecer la piel y dar luminosidad natural',
+      'mejor combo para revitalizar la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
       'cuidado para una piel radiante desde el interior y exterior',
       'beneficios del combo Piel Radiante para el bienestar integral',
@@ -2571,7 +2571,7 @@ export const PROMOTIONS: Promotion[] = [
       'bienestar integral y vitalidad con belleza',
       'cómo mejorar la salud de la piel con calidad certificada',
       'combo para el cuidado facial y corporal',
-      'solución natural para la piel seca y falta de brillo celular',
+      'apoyo natural para la piel seca y falta de brillo celular',
       'belleza y salud segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2600,7 +2600,7 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['resveratrol', 'eventone'],
-    seoTitle: 'Cómo solucionar las manchas y el tono desigual con Combo Belleza Eterna',
+    seoTitle: 'Cómo atenuar la apariencia de manchas y el tono desigual con Combo Belleza Eterna',
     seoDescription: 'Unifica tu tono de piel y protege tus células con el Combo Belleza Eterna. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ya!',
     whyChoose: {
       title: 'Belleza que trasciende el tiempo',
@@ -2611,14 +2611,14 @@ export const PROMOTIONS: Promotion[] = [
     components: 'Bio Retinol, Ácido Hialurónico, Resveratrol, Colágeno Hidrolizado, Vitamina B5 y extractos de Uva y Arándano',
     longTailKeywords: [
       'mejor combo para atenuar irregularidades de tono y unificar el tono de la piel',
-      'cómo nutrir las células y aclarar la piel de forma segura',
-      'cuidado para una belleza eterna y piel sin manchas',
+      'cómo nutrir las células y favorecer el bienestar cutáneo de forma segura',
+      'cuidado para una belleza natural y piel con tono uniforme',
       'beneficios del combo Belleza Eterna para el bienestar integral',
       'fórmula balanceada para una piel clara y vitalidad celular',
       'bienestar integral y claridad cutánea',
       'cómo recuperar la luminosidad del rostro con calidad certificada',
-      'combo para el cuidado antiedad y manchas',
-      'solución natural para la hiperpigmentación y envejecimiento',
+      'combo para el cuidado de la piel y apariencia de manchas',
+      'alternativa natural para la hiperpigmentación y envejecimiento',
       'belleza y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2640,14 +2640,14 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-3',
     name: 'Combo Detox Digestivo',
-    description: 'El Combo Detox Digestivo es un sistema integral de limpieza diseñado para restaurar el equilibrio de tu organismo y liberar tu cuerpo de toxinas acumuladas. Esta sinergia une la potencia de la fibra Coliplus, que regula el tránsito intestinal y desinflama el colon de manera natural, con la acción depurativa del concentrado Rtafull, que estimula la función desintoxicante del hígado y los riñones. Ideal para eliminar la pesadez, combatir el estreñimiento y mejorar la digestión de las grasas, permitiéndote sentirte ligero, activo y renovado desde la primera semana.',
+    description: 'El Combo Detox Digestivo es un sistema integral de limpieza diseñado para restaurar el equilibrio de tu organismo y depurar tu cuerpo de toxinas acumuladas. Esta sinergia une la potencia de la fibra Coliplus, que regula el tránsito intestinal y reconforta el colon de manera natural, con la acción depurativa del concentrado Rtafull, que estimula la función desintoxicante del hígado y los riñones. Ideal para ayudar a reducir la pesadez, favorecer el tránsito y mejorar la digestión de las grasas, permitiéndote sentirte ligero, activo y renovado desde la primera semana.',
     image: '/assets/combos/promo-3.webp',
     price: 116850,
     originalPrice: 155000,
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['coliplus', 'rtafull'],
-    seoTitle: 'Cómo solucionar el estreñimiento y pesadez con Combo Detox Digestivo',
+    seoTitle: 'Cómo apoyar el bienestar digestivo ante el estreñimiento y pesadez con Combo Detox Digestivo',
     seoDescription: 'Limpia tu organismo y regula tu digestión con el Combo Detox Digestivo. Fórmula balanceada para bienestar integral y calidad certificada. ¡Siéntete ligero!',
     whyChoose: {
       title: 'Renovación total desde el interior',
@@ -2657,15 +2657,15 @@ export const PROMOTIONS: Promotion[] = [
     keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
     components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Semillas de Chía, Espirulina, Té Verde y Perejil',
     longTailKeywords: [
-      'mejor combo detox para limpiar el colon y el hígado naturalmente',
-      'cómo reducir la sensación de pesadez abdominal y regular la digestión',
+      'mejor combo detox para depurar el colon y el hígado naturalmente',
+      'cómo reducir la sensación de pesadez abdominal y favorecer la digestión',
       'cuidado para una renovación total y bienestar digestivo',
       'beneficios del combo Detox Digestivo para la vitalidad diaria',
       'fórmula balanceada para una limpieza orgánica profunda y suave',
       'bienestar integral y ligereza con nutrición',
       'cómo mejorar el tránsito intestinal con calidad certificada',
       'combo para la desintoxicación periódica',
-      'solución natural para el estreñimiento y toxinas acumuladas',
+      'apoyo natural para el estreñimiento y toxinas acumuladas',
       'detox seguro y efectivo con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2694,8 +2694,8 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['liteplex', 'rtafull'],
-    seoTitle: 'Cómo solucionar el sobrepeso y metabolismo lento con Combo Control & Detox',
-    seoDescription: 'Apoya tu proceso de pérdida de peso con el Combo Control & Detox. Fórmula balanceada para bienestar integral, energía y calidad certificada. ¡Ahorra hoy!',
+    seoTitle: 'Cómo apoyar el bienestar metabólico con Combo Control & Detox',
+    seoDescription: 'Apoya tu proceso de bienestar metabólico con el Combo Control & Detox. Fórmula balanceada para bienestar integral, energía y calidad certificada. ¡Ahorra hoy!',
     whyChoose: {
       title: 'Tu aliado en el control consciente',
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Control & Detox integra Liteplex y Rtafull para acelerar tu metabolismo y liberar toxinas acumuladas. Fórmula balanceada y certificada para tu proceso de bienestar.'
@@ -2704,15 +2704,15 @@ export const PROMOTIONS: Promotion[] = [
     keywords: 'Liteplex, Rtafull, control de peso, controlar medidas, desintoxicación, metabolism, Zenhogar, combo salud',
     components: 'Té Verde, Jengibre, Alcachofa, Flor de Jamaica, Perejil, Berenjena, Apio y Albahaca',
     longTailKeywords: [
-      'mejor combo para moldear la figura y desintoxicar el cuerpo',
-      'cómo acelerar el metabolismo y liberar toxinas naturalmente',
+      'mejor combo para moldear la figura y depurar el cuerpo',
+      'cómo favorecer el metabolismo y liberar toxinas naturalmente',
       'cuidado para el control de peso consciente y vitalidad',
       'beneficios del combo Control & Detox para el bienestar integral',
       'fórmula balanceada para reducir medidas y limpiar el organismo',
       'bienestar integral y ligereza con suplementos',
       'cómo mejorar la quema de grasa con calidad certificada',
       'combo para el control de peso saludable',
-      'solución natural para la ansiedad de comer y metabolismo lento',
+      'apoyo natural para la ansiedad de comer y metabolismo lento',
       'control de peso seguro con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2734,14 +2734,14 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-5',
     name: 'Combo Protección Total',
-    description: 'Protección Total es el dúo esencial para quienes priorizan la higiene profunda y la pureza de su organismo. Este combo combina la innovación de Tufoff, dulces naturales sin azúcar que neutralizan olores y refrescan el aliento instantáneamente, con la capacidad purificadora de Rtafull, que desintoxica los órganos internos encargados de filtrar impurezas. Juntos, crean una barrera de protección que se refleja en una sensación de frescura total, eliminando toxinas y promoviendo un aliento puro desde el interior del cuerpo.',
+    description: 'Protección Total es el dúo esencial para quienes priorizan la higiene profunda y la pureza de su organismo. Este combo combina la innovación de Tufoff, dulces naturales sin azúcar que neutralizan olores y refrescan el aliento instantáneamente, con la capacidad purificadora de Rtafull, que desintoxica los órganos internos encargados de filtrar impurezas. Juntos, crean una barrera de protección que se refleja en una sensación de frescura total, depurando toxinas y promoviendo un aliento puro desde el interior del cuerpo.',
     image: '/assets/combos/promo-5.webp',
     price: 123675,
     originalPrice: 164900,
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['tufoff', 'rtafull'],
-    seoTitle: 'Cómo solucionar el mal olor y toxinas con Combo Protección Total',
+    seoTitle: 'Cómo favorecer el bienestar ante el mal olor y toxinas con Combo Protección Total',
     seoDescription: 'Protección y limpieza profunda para tu organismo con el Combo Protección Total. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ahora!',
     whyChoose: {
       title: 'Protección que nace del equilibrio',
@@ -2751,15 +2751,15 @@ export const PROMOTIONS: Promotion[] = [
     keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
     components: 'Flor de Jamaica, Alcachofa, Perejil, Berenjena, Eritritol, Inulina, Aceite de Menta y Bicarbonato de Sodio',
     longTailKeywords: [
-      'mejor combo para controlar el olor y desintoxicar el cuerpo',
+      'mejor combo para controlar el olor y depurar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
       'cuidado para una protección integral y bienestar orgánico',
       'beneficios del combo Protección Total para la vitalidad diaria',
       'fórmula balanceada para una higiene profunda y detox hepático',
-      'bienestar integral y fresapoya con productos',
+      'bienestar integral y frescura con productos',
       'cómo mejorar la salud general con calidad certificada',
       'combo para la limpieza interna y externa',
-      'solución natural para las toxinas y falta de protección orgánica',
+      'apoyo natural para las toxinas y falta de protección orgánica',
       'protección y limpieza segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2788,25 +2788,25 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['locion', 'colageno'],
-    seoTitle: 'Cómo solucionar la incomodidad muscular y articular con Combo Alivio Muscular',
-    seoDescription: 'Recupera tu movilidad con el Combo Alivio Muscular. Fórmula balanceada para bienestar integral, nutrición articular y calidad certificada. ¡Pídelo hoy!',
+    seoTitle: 'Cómo ayudar con la incomodidad muscular y articular con Combo Alivio Muscular',
+    seoDescription: 'Apoya tu movilidad con el Combo Alivio Muscular. Fórmula balanceada para bienestar integral y calidad certificada. ¡Pídelo hoy!',
     whyChoose: {
-      title: 'Libertad de movimiento total',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo nutre tus articulaciones con Colágeno y alivia la incomodidad muscular con la Loción Termoactiva (Salicilato de Metilo). Calidad certificada para tu movilidad.'
+      title: 'Bienestar en movimiento',
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo apoya tus articulaciones con Colágeno y favorece el bienestar muscular con la Loción Termoactiva (Salicilato de Metilo). Calidad certificada para tu movilidad.'
     },
     badge: 'COMBO N°6',
     keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
     components: 'Extractos naturales relajantes, Colágeno Hidrolizado y Citrato de Magnesio',
     longTailKeywords: [
       'mejor combo para el molestias articulares y espalda naturalmente',
-      'cómo mejorar la movilidad articular y aliviar tensiones musculares',
+      'cómo mejorar la movilidad articular y favorecer el bienestar muscular',
       'cuidado para la recuperación física y elasticidad corporal',
       'beneficios del combo Alivio Muscular para el bienestar integral',
       'fórmula balanceada para nutrir cartílagos y relajar músculos',
-      'bienestar integral y vitalidad con facilidades',
+      'bienestar integral y vitalidad en movimiento',
       'cómo recuperar la movilidad diaria con calidad certificada',
       'combo para deportistas y adultos activos',
-      'solución natural para la artritis y contracturas musculares',
+      'soporte natural para la artritis y contracturas musculares',
       'alivio y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2835,7 +2835,7 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['cafetolio', 'megamac'],
-    seoTitle: 'Cómo solucionar el cansancio extremo y falta de enfoque con Combo Energía Máxima',
+    seoTitle: 'Cómo favorecer la vitalidad ante el cansancio extremo y falta de enfoque con Combo Energía Máxima',
     seoDescription: 'Potencia tu rendimiento con el Combo Energía Máxima. Fórmula balanceada para vitalidad extrema, bienestar integral y calidad certificada. ¡Compra segura!',
     whyChoose: {
       title: 'Energía pura para tus retos',
@@ -2849,11 +2849,11 @@ export const PROMOTIONS: Promotion[] = [
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
       'cuidado para la vitalidad máxima y nutrición avanzada',
       'beneficios del combo Energía Máxima para el bienestar integral',
-      'fórmula balanceada para superar el cansancio y la fatiga diaria',
+      'fórmula balanceada para favorecer la vitalidad diaria',
       'bienestar integral y vitalidad con suplementos',
       'cómo potenciar el rendimiento intelectual con calidad certificada',
       'combo para personas con alta exigencia diaria',
-      'solución natural para el agotamiento y falta de concentración',
+      'apoyo natural para el agotamiento y falta de concentración',
       'energía y nutrición segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
@@ -2882,7 +2882,7 @@ export const PROMOTIONS: Promotion[] = [
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     products: ['tyruss-full', 'rtafull'],
-    seoTitle: 'Cómo solucionar la falta de vitalidad y pesadez con Combo Vitalidad & Limpieza',
+    seoTitle: 'Cómo favorecer la vitalidad y reducir la pesadez con Combo Vitalidad & Limpieza',
     seoDescription: 'Siéntete imparable con el Combo Vitalidad & Limpieza. Fórmula balanceada para depuración natural, bienestar integral y calidad certificada. ¡Pídelo hoy!',
     whyChoose: {
       title: 'Vitalidad renovada cada mañana',
@@ -2892,7 +2892,7 @@ export const PROMOTIONS: Promotion[] = [
     keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Zenhogar, combo salud',
     components: 'Clorofila, Espirulina, Chlorella, Alcachofa, Flor de Jamaica, Omega 3, Espinaca, Aguacate y Té Verde',
     longTailKeywords: [
-      'mejor combo para limpiar el cuerpo y recuperar la energía total',
+      'mejor combo para depurar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',
       'cuidado para una vitalidad renovada y equilibrio natural',
       'beneficios del combo Vitalidad & Limpieza para el bienestar integral',
@@ -2900,7 +2900,7 @@ export const PROMOTIONS: Promotion[] = [
       'bienestar integral y ligereza con nutrición',
       'cómo mantener el ritmo de vida activo con calidad certificada',
       'combo para la salud y rendimiento masculino',
-      'solución natural para la pesadez y falta de vitalidad extrema',
+      'apoyo natural para la pesadez y falta de vitalidad extrema',
       'limpieza y energía segura con ingredientes de alta pureza'
     ],
     seoFaqs: [
