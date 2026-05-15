@@ -7,6 +7,7 @@ import { CheckCircle2, ShoppingCart, ArrowLeft, Star, Zap, ShieldCheck, Trending
 import { cn, formatCurrency, cleanPromoName } from '../utils';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import Breadcrumbs from '../components/Breadcrumbs';
 import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import { track } from '../utils/pixel';
@@ -94,6 +95,8 @@ export default function ComboLanding() {
           }).filter(Boolean).join(' · ')
         }}
       />
+
+      <Breadcrumbs />
 
       {/* Hero Section */}
       <section className="relative pt-4 pb-12 lg:pt-8 lg:pb-20 overflow-hidden">

@@ -4,6 +4,7 @@ import { PRODUCTS, CATEGORIES } from '../constants';
 import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap, ShieldCheck } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { formatCurrency, cn } from '../utils';
 
 export default function CategoryPage() {
@@ -77,6 +78,9 @@ export default function CategoryPage() {
         type="category"
         productData={{ categoryProducts }}
       />
+      
+      <Breadcrumbs />
+
       {/* Header Section */}
       <section className={cn("py-4 lg:py-6 relative overflow-hidden", theme.bg)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-12">

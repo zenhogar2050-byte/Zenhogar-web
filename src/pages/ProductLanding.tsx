@@ -7,6 +7,7 @@ import { cn, formatCurrency } from '../utils';
 import { useEffect, useState, useRef } from 'react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
+import Breadcrumbs from '../components/Breadcrumbs';
 import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import OrderBump from '../components/OrderBump';
@@ -139,6 +140,8 @@ export default function ProductLanding() {
           invima: product.invima
         }}
       />
+
+      <Breadcrumbs />
 
       {/* Hero Section */}
       <section className="relative pt-4 pb-12 lg:pt-8 lg:pb-20 overflow-hidden">

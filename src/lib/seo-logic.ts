@@ -192,6 +192,34 @@ export const generateSchemaGraph = (params: {
         });
     }
     graph.push(webPage);
+    
+    // 4. BreadcrumbList (Rutas de Exploración para SEO)
+    const breadcrumbs: any[] = [{ "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL }];
+    if (path !== "") {
+        const segments = path.split('/').filter(Boolean);
+        let cumulativePath = "";
+        segments.forEach((segment, index) => {
+            cumulativePath += `/${segment}`;
+            let label = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+            
+            // Refinamiento de etiquetas para rutas conocidas
+            if (segment === "categoria") label = "Categorías";
+            if (segment === "producto") label = "Productos";
+            if (segment === "combo") label = "Ofertas";
+
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": index + 2,
+                "name": label,
+                "item": `${BASE_URL}${cumulativePath}`
+            });
+        });
+    }
+    graph.push({
+        "@type": "BreadcrumbList",
+        "@id": `${fullUrl}#breadcrumb`,
+        "itemListElement": breadcrumbs
+    });
 
     // 5. Entidad Colección (Categoría)
     if (type === "category" && productData?.categoryProducts) {
