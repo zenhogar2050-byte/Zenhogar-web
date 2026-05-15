@@ -31,7 +31,7 @@
   }
 }
 
-/* Optimización de Rendimiento y Estabilidad de Diseño */
+/* Performance Optimizations */
 #promo-banner-mobile {
   min-height: 420px;
   content-visibility: auto;
@@ -44,10 +44,37 @@
   contain-intrinsic-size: 0 380px;
 }
 
+/* Reduced Motion and Paint containment for repeated sections */
+section {
+  contain: content;
+}
+
+#main-content {
+  contain: paint;
+}
+
+/* Optimize image rendering on high DPI screens */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  content-visibility: auto;
+}
+
 /* Evitar parpadeo de fuentes y mejorar renderizado */
 html {
   font-display: swap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+/* Mobile-specific speed improvements */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .animate-marquee {
+    animation-duration: calc(var(--marquee-duration) * 1.5) !important; /* Slower animation on mobile for better CPU performance */
+  }
 }

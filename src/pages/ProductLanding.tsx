@@ -213,9 +213,10 @@ export default function ProductLanding() {
                       alt={`${product.name} miniatura ${index + 1}`} 
                       className="w-full h-full object-contain group-hover/thumb:scale-110 transition-transform" 
                       referrerPolicy="no-referrer"
-                      width="120"
-                      height="120"
+                      width="80"
+                      height="80"
                       loading="lazy"
+                      decoding="async"
                     />
                         )}
                       </button>
@@ -477,7 +478,15 @@ export default function ProductLanding() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full overflow-hidden bg-stone-100 border-2 border-emerald-100 flex-shrink-0">
-                         <img src={avatarUrl} alt={`Avatar de ${testimonial.name}`} className="w-full h-full object-cover" width="48" height="48" loading="lazy" />
+                        <img 
+                          src={avatarUrl} 
+                          alt={`Avatar de ${testimonial.name}`} 
+                          className="w-full h-full object-cover" 
+                          width="48" 
+                          height="48" 
+                          loading="lazy" 
+                          decoding="async"
+                        />
                       </div>
                       <div>
                         <div className="font-bold text-stone-900 text-sm sm:text-base leading-tight">{testimonial.name}</div>

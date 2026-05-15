@@ -155,7 +155,9 @@ export default function Home() {
                           referrerPolicy="no-referrer"
                           width="64"
                           height="64"
-                          loading="lazy"
+                          loading={CATEGORIES.indexOf(category) === 0 ? "eager" : "lazy"}
+                          fetchPriority={CATEGORIES.indexOf(category) === 0 ? "high" : "low"}
+                          decoding="async"
                         />
                       ) : (
                         <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-md" />
@@ -192,10 +194,10 @@ export default function Home() {
                       alt={product.name} 
                       className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
-                      width="300"
-                      height="225"
-                      loading={product === PRODUCTS[0] ? "eager" : "lazy"}
-                      fetchPriority={product === PRODUCTS[0] ? "high" : "low"}
+                      width="350"
+                      height="262"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="flex-1 flex flex-col items-center text-center px-2">
@@ -320,10 +322,10 @@ export default function Home() {
                       alt={COMBO_OF_THE_MONTH.name}
                       width={500}
                       height={500}
-                      loading="eager"
-                      fetchPriority="high"
+                      loading="lazy"
+                      fetchPriority="low"
                       decoding="async"
-                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu"
+                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu hover:scale-105 transition-transform duration-700"
                       referrerPolicy="no-referrer"
                     />
                   )}

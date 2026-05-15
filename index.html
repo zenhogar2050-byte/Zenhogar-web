@@ -25,41 +25,58 @@
     <meta name="application-name" content="ZENHOGAR" />
     <meta name="facebook-domain-verification" content="pnovfv1zfyvmgeao6dtp0spr655uvc" />
 
-    <!-- Performance: Preload Critical Fonts -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZg.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://fonts.gstatic.com/s/outfit/v11/QGYsz_MVcBeNP4NJtEtq.woff2" as="font" type="font/woff2" crossorigin>
-
-    <!-- Google Fonts -->
+    <!-- Preconnect to Origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://connect.facebook.net">
+
+    <!-- Preload Critical Assets (LCP Candidates) -->
+    <link rel="preload" href="/assets/logo/logo-zenhogar.webp" as="image" type="image/webp">
+    
+    <!-- Google Fonts with display=swap for better FCP -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    </noscript>
 
     <script type="text/javascript">
-      // Delayed Loading of Heavy Scripts (Nuclear Option)
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          // Google Analytics
-          var ga = document.createElement('script');
-          ga.async = true;
-          ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
-          document.head.appendChild(ga);
-          
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-57BY2PVKF4');
+      // Delayed Loading of Heavy Scripts to prioritize LCP/FCP
+      function loadThirdParty() {
+        // Only load if not already loaded and after user interaction or timeout
+        if (window.scriptsLoaded) return;
+        window.scriptsLoaded = true;
 
-          // Facebook Pixel (Delayed)
-          if (!window.fbq) {
-            !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
-            }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'));
-            fbq('init', '26749410671349006');
-            fbq('track', 'PageView');
-          }
-        }, 4000); // 4 seconds delay to ensure first paint is perfect
+        // Google Analytics
+        var ga = document.createElement('script');
+        ga.async = true;
+        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-57BY2PVKF4';
+        document.head.appendChild(ga);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-57BY2PVKF4');
+
+        // Facebook Pixel
+        if (!window.fbq) {
+          !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+          n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
+          }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'));
+          fbq('init', '26749410671349006');
+          fbq('track', 'PageView');
+        }
+      }
+
+      window.addEventListener('load', function() {
+        setTimeout(loadThirdParty, 3500); // Priority to visual elements
+      });
+
+      // Also load on first interaction if faster
+      ['mousedown', 'touchstart', 'scroll', 'keydown'].forEach(function(e) {
+        window.addEventListener(e, loadThirdParty, { once: true, passive: true });
       });
 
       // SPA Path handling

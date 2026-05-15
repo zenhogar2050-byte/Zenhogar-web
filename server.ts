@@ -220,7 +220,17 @@ Sitemap: https://zenhogar.live/sitemap.xml
     });
   } else {
     const distPath = path.resolve(__dirname, "dist");
-    app.use(express.static(distPath));
+    
+    // Caching strategy for static assets
+    app.use(express.static(distPath, {
+      maxAge: '1y',
+      immutable: true,
+      setHeaders: (res, path) => {
+        if (path.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'no-cache');
+        }
+      }
+    }));
     
     app.get("*", (req, res) => {
       const indexPath = path.resolve(distPath, "index.html");

@@ -18,7 +18,7 @@ export default function PromoBanner() {
   return (
     <div 
       id="promo-banner" 
-      className="bg-blue-800 text-white relative overflow-hidden py-10 sm:py-16 select-none"
+      className="bg-blue-800 text-white relative overflow-hidden py-10 sm:py-16 select-none min-h-[350px] sm:min-h-[500px]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

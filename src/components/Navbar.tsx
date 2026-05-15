@@ -97,16 +97,17 @@ export default function Navbar() {
           <div className="flex items-center gap-4 lg:gap-8 min-w-0">
             <Link to="/" className="flex items-center gap-2 group shrink-0">
               <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
-                <img 
-                  src="/assets/logo/logo-icon.webp" 
-                  alt="Zen Hogar Icon" 
-                  className="w-full h-full object-contain"
-                  referrerPolicy="no-referrer"
-                  loading="eager"
-                  decoding="async"
-                  width="64"
-                  height="64"
-                />
+                  <img 
+                    src="/assets/logo/logo-icon.webp" 
+                    alt="Zen Hogar Icon" 
+                    className="w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    width="64"
+                    height="64"
+                  />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-xl md:text-2xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
