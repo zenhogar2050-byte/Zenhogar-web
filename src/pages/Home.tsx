@@ -61,6 +61,7 @@ export default function Home() {
         title="Combos y Ofertas en Productos Naturales Originales"
         description="Aprovecha nuestras ofertas y combos exclusivos en productos naturales originales. Soluciones naturales para colon irritable, hígado graso, dolor articular y control de peso. Envío gratis y pago contra entrega en Colombia."
         canonicalUrl="/"
+        faqs={GENERAL_FAQS}
       />
 
       {/* Hero Section - Solution Oriented */}

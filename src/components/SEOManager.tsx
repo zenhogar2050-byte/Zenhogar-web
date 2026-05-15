@@ -8,7 +8,8 @@ const SEOManager = ({
     canonicalUrl, 
     ogImage = '', 
     type = "website", 
-    productData = null 
+    productData = null,
+    faqs = []
 }) => {
     const baseUrl = "https://zenhogar.live";
     
@@ -31,7 +32,7 @@ const SEOManager = ({
     const finalDescription = productData 
         ? `${description} Reg. Sant. INVIMA: ${invimaDisplay}.` 
         : description;
-
+ 
     // 2. Generación del Grafo de Esquema Único
     const schemaData = generateSchemaGraph({
         type,
@@ -39,7 +40,8 @@ const SEOManager = ({
         description: finalDescription,
         canonicalUrl: fullUrl,
         ogImage: finalImage,
-        productData
+        productData,
+        faqs
     });
 
     return (

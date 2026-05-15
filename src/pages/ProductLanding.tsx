@@ -124,6 +124,7 @@ export default function ProductLanding() {
         canonicalUrl={`/producto/${product.id}`}
         ogImage={product.image}
         type="product"
+        faqs={[...(product.seoFaqs || []), ...GENERAL_FAQS]}
         productData={{
           id: product.id,
           masterId: product.masterId,

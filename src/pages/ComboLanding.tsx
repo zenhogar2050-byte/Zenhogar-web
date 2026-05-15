@@ -75,6 +75,7 @@ export default function ComboLanding() {
         canonicalUrl={`/combo/${combo.id}`}
         ogImage={combo.image}
         type="product"
+        faqs={[...(combo.seoFaqs || []), ...GENERAL_FAQS]}
         productData={{
           id: combo.id,
           name: combo.name,

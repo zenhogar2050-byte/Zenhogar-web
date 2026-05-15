@@ -120,7 +120,19 @@ async function startServer() {
     const productsUrls = PRODUCTS.map(p => `${baseUrl}/producto/${p.id}`);
     const categoriesUrls = CATEGORIES.map(c => `${baseUrl}/categoria/${c.id}`);
     const combosUrls = PROMOTIONS.map(p => `${baseUrl}/combo/${p.id}`);
-    const allUrls = [baseUrl, ...productsUrls, ...categoriesUrls, ...combosUrls];
+    
+    // Páginas estáticas adicionales
+    const staticPages = [
+      "",
+      "/nosotros",
+      "/politica-privacidad",
+      "/terminos-servicio",
+      "/devoluciones-garantia",
+      "/condiciones-entrega",
+      "/categorias"
+    ].map(p => `${baseUrl}${p}`);
+
+    const allUrls = [...staticPages, ...productsUrls, ...categoriesUrls, ...combosUrls];
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

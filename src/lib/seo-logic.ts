@@ -1,139 +1,18 @@
 const BASE_URL = "https://zenhogar.live";
 
 export const generateSchemaGraph = (params: {
-    type: string, title: string, description: string, canonicalUrl: string, ogImage?: string, productData?: any 
+    type: string, 
+    title: string, 
+    description: string, 
+    canonicalUrl: string, 
+    ogImage?: string, 
+    productData?: any,
+    faqs?: { q: string, a: string }[]
 }) => {
-    const { type, title, description, canonicalUrl, ogImage, productData } = params;
+    const { type, title, description, canonicalUrl, ogImage, productData, faqs } = params;
     
     const path = canonicalUrl.replace(BASE_URL, "").replace(/\/$/, "");
     const fullUrl = `${BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
-
-    // Si es un producto, devolvemos el esquema ATÓMICO del producto para Merchant Center
-    if (type === "product" && productData) {
-        const currentYear = new Date().getFullYear();
-        const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
-        const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
-
-        const cleanPrice = (val: any) => {
-            if (!val) return 0;
-            const strVal = String(val).replace(/\./g, "").replace(/,/g, "").replace(/\u00a0/g, "").replace(/[^\d]/g, "");
-            return Math.round(Number(strVal) || 0);
-        };
-
-        const lowPriceClean = cleanPrice(productData.lowPrice || productData.basePrice);
-        const highPriceClean = cleanPrice(productData.highPrice || productData.basePrice);
-        const offerCountNum = Number(productData.offerCount || 1);
-
-        const getSchemaCondition = (cond?: string) => {
-            if (cond?.toLowerCase() === 'new') return "https://schema.org/NewCondition";
-            if (cond?.toLowerCase() === 'used') return "https://schema.org/UsedCondition";
-            if (cond?.toLowerCase() === 'refurbished') return "https://schema.org/RefurbishedCondition";
-            return "https://schema.org/NewCondition";
-        };
-
-        const offersBase = {
-            "priceCurrency": "COP",
-            "itemCondition": getSchemaCondition(productData.condition),
-            "availability": "https://schema.org/InStock",
-            "priceValidUntil": dynamicPriceValidUntil,
-            "url": fullUrl,
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "CO",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "merchantReturnDays": "30",
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn",
-                "url": `${BASE_URL}/devoluciones-garantia`
-            },
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "COP"
-                },
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "CO"
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 0,
-                        "maxValue": 1,
-                        "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 1,
-                        "maxValue": 3,
-                        "unitCode": "DAY"
-                    }
-                }
-            }
-        };
-
-        // For Google Merchant Center, we provide exactly the primary individual offer 
-        // to match the product feed and avoid "Misleading Information" suspensions.
-        // We use the masterId as SKU and MPN which is the standard for dropshipping feeds.
-        const offer: any = {
-            "@type": "Offer",
-            ...offersBase,
-            "price": lowPriceClean,
-            "name": `1 Unidad de ${productData.name}`
-        };
-
-        const productEntity: any = {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": productData.name,
-            "description": productData.description || description,
-            "sku": String(productData.masterId || productData.id).toUpperCase(),
-            "mpn": String(productData.masterId || productData.id).toUpperCase(),
-            "category": productData.googleCategory || productData.category,
-            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
-            "brand": { 
-                "@type": "Brand", 
-                "name": "Zenhogar" 
-            },
-            "offers": offer
-        };
-
-        if (productData.reviews && productData.reviews.length > 0) {
-            const totalRating = productData.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
-            const avgRating = (totalRating / productData.reviews.length).toFixed(1);
-
-            productEntity.aggregateRating = {
-                "@type": "AggregateRating",
-                "ratingValue": avgRating,
-                "reviewCount": productData.reviews.length,
-                "bestRating": 5,
-                "worstRating": 1
-            };
-
-            const currentDate = new Date();
-            productEntity.review = productData.reviews.map((r: any, idx: number) => {
-                const reviewDate = new Date(currentDate);
-                reviewDate.setDate(reviewDate.getDate() - (idx * 3 + 2)); 
-
-                return {
-                    "@type": "Review",
-                    "author": { "@type": "Person", "name": r.name },
-                    "datePublished": r.date || reviewDate.toISOString().split('T')[0],
-                    "reviewBody": r.text,
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "bestRating": 5,
-                        "ratingValue": r.rating || 5,
-                        "worstRating": 1
-                    }
-                };
-            });
-        }
-        return productEntity;
-    }
 
     const graph: any[] = [];
 
@@ -192,8 +71,8 @@ export const generateSchemaGraph = (params: {
         });
     }
     graph.push(webPage);
-    
-    // 4. BreadcrumbList (Rutas de Exploración para SEO)
+
+    // 4. BreadcrumbList
     const breadcrumbs: any[] = [{ "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL }];
     if (path !== "") {
         const segments = path.split('/').filter(Boolean);
@@ -201,8 +80,6 @@ export const generateSchemaGraph = (params: {
         segments.forEach((segment, index) => {
             cumulativePath += `/${segment}`;
             let label = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-            
-            // Refinamiento de etiquetas para rutas conocidas
             if (segment === "categoria") label = "Categorías";
             if (segment === "producto") label = "Productos";
             if (segment === "combo") label = "Ofertas";
@@ -221,22 +98,106 @@ export const generateSchemaGraph = (params: {
         "itemListElement": breadcrumbs
     });
 
-    // 5. Entidad Colección (Categoría)
-    if (type === "category" && productData?.categoryProducts) {
+    // 5. FAQ Schema (FAQPage)
+    if (faqs && faqs.length > 0) {
         graph.push({
-            "@type": "CollectionPage",
-            "@id": `${fullUrl}#collection`,
-            "mainEntity": {
-                "@type": "ItemList",
-                "itemListElement": productData.categoryProducts.map((p: any, index: number) => ({
-                    "@type": "ListItem",
-                    "position": index + 1,
-                    "url": `${BASE_URL}/producto/${p.id}`,
-                    "name": p.name,
-                    "image": `${BASE_URL}${p.image}`
-                }))
-            }
+            "@type": "FAQPage",
+            "@id": `${fullUrl}#faq`,
+            "mainEntity": faqs.map(item => ({
+                "@type": "Question",
+                "name": item.q,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.a
+                }
+            }))
         });
+    }
+
+    // 6. Entidad Producto (si aplica)
+    if (type === "product" && productData) {
+        const currentYear = new Date().getFullYear();
+        const validUntilYear = currentYear > 2026 ? currentYear + 1 : 2026;
+        const dynamicPriceValidUntil = `${validUntilYear}-12-31`;
+
+        const cleanPrice = (val: any) => {
+            if (!val) return 0;
+            const strVal = String(val).replace(/\./g, "").replace(/,/g, "").replace(/\u00a0/g, "").replace(/[^\d]/g, "");
+            return Math.round(Number(strVal) || 0);
+        };
+
+        const lowPriceClean = cleanPrice(productData.lowPrice || productData.basePrice);
+        const getSchemaCondition = (cond?: string) => {
+            if (cond?.toLowerCase() === 'new') return "https://schema.org/NewCondition";
+            return "https://schema.org/NewCondition";
+        };
+
+        const productEntity: any = {
+            "@type": "Product",
+            "@id": `${fullUrl}#product`,
+            "name": productData.name,
+            "description": productData.description || description,
+            "sku": String(productData.masterId || productData.id).toUpperCase(),
+            "mpn": String(productData.masterId || productData.id).toUpperCase(),
+            "category": productData.googleCategory || productData.category,
+            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
+            "brand": { "@id": `${BASE_URL}/#organization` },
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "COP",
+                "itemCondition": getSchemaCondition(productData.condition),
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": dynamicPriceValidUntil,
+                "url": fullUrl,
+                "price": lowPriceClean,
+                "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "CO",
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                    "merchantReturnDays": "30",
+                    "returnMethod": "https://schema.org/ReturnByMail",
+                    "returnFees": "https://schema.org/FreeReturn",
+                    "url": `${BASE_URL}/devoluciones-garantia`
+                },
+                "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "COP" },
+                    "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "CO" },
+                    "deliveryTime": {
+                        "@type": "ShippingDeliveryTime",
+                        "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+                        "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY" }
+                    }
+                }
+            }
+        };
+
+        if (productData.reviews && productData.reviews.length > 0) {
+            const totalRating = productData.reviews.reduce((acc: number, r: any) => acc + (r.rating || 5), 0);
+            const avgRating = (totalRating / productData.reviews.length).toFixed(1);
+
+            productEntity.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": avgRating,
+                "reviewCount": productData.reviews.length,
+                "bestRating": 5,
+                "worstRating": 1
+            };
+
+            const currentDate = new Date();
+            productEntity.review = productData.reviews.map((r: any, idx: number) => {
+                const reviewDate = new Date(currentDate);
+                reviewDate.setDate(reviewDate.getDate() - (idx * 3 + 2)); 
+                return {
+                    "@type": "Review",
+                    "author": { "@type": "Person", "name": r.name },
+                    "datePublished": reviewDate.toISOString().split('T')[0],
+                    "reviewBody": r.text,
+                    "reviewRating": { "@type": "Rating", "bestRating": 5, "ratingValue": r.rating || 5, "worstRating": 1 }
+                };
+            });
+        }
+        graph.push(productEntity);
     }
 
     return {

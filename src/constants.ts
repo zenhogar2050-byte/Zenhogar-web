@@ -82,12 +82,12 @@ export const PRODUCTS: Product[] = [
     name: 'RtaFull',
     category: 'salud-bienestar',
     shortDescription: 'Apoyo Hepático y Desintoxicación Digestiva Natural.',
-    description: `Recupera la sensación de ligereza con RtaFull, el concentrado depurativo diseñado para favorecer la limpieza natural de tu organismo. Su fórmula combina extractos botánicos de alcachofa, berenjena, apio y flor de jamaica, que actúan en armonía para promover la eliminación de toxinas. RtaFull es el aliado ideal para quienes buscan reducir la pesadez abdominal, mejorar la digestión y revitalizar su bienestar desde el interior.
+    description: `Recupera la sensación de ligereza con RtaFull, el suplemento diseñado para favorecer la depuración natural de tu organismo. Su fórmula combina extractos botánicos de alcachofa, berenjena, apio y flor de jamaica, que actúan en armonía para promover la reducción de toxinas. RtaFull es el aliado ideal para quienes buscan reducir la pesadez abdominal, favorecer la digestión y revitalizar su bienestar desde el interior.
 
-Ideal para procesos de detox y limpieza profunda, este suplemento especialmente formulado ayuda a descongestionar el sistema digestivo, promoviendo una sensación de bienestar inmediato y una vitalidad renovada. Con su formato líquido de rápida absorción, RtaFull asegura que los activos naturales lleguen directamente a tu organismo donde más se necesitan.
+Ideal para procesos de detox y depuración profunda, este suplemento especialmente formulado ayuda a descongestionar el sistema digestivo, promoviendo una sensación de bienestar inmediato y una vitalidad renovada. Con su formato líquido de rápida absorción, RtaFull asegura que los activos naturales lleguen directamente a tu organismo donde más se necesitan.
 
-✔️ Depuración Total: Limpia profundamente el hígado y los riñones de impurezas y grasas.
-✔️ Adiós a la Inflamación: Reduce visiblemente la pesadez estomacal y la hinchazón tras las comidas.
+✔️ Depuración Total: Ayuda a la limpieza interna del hígado y los riñones de impurezas y grasas.
+✔️ Adiós a la Inflamación: Reduce la pesadez estomacal y la sensación de hinchazón tras las comidas.
 ✔️ Alianza Herbal: El poder del apio y el perejil para una función renal óptima y defensas activas.`,
     seoTitle: 'Rtafull: Apoyo para la desintoxicación del organismo naturalmente | Zenhogar',
     seoDescription: 'Apoya tu salud hepática y favorece la reducción de la pesadez con Rtafull. Concentrado natural con Alcachofa y Berenjena para una digestión más ligera. ¡Registro INVIMA!',
@@ -280,8 +280,8 @@ Ideal para toda la familia, este suplemento de sabor neutro se disuelve instant�
     masterId: '22967',
     name: 'Resvisfactor (Calostro Bovino)',
     category: 'salud-bienestar',
-    shortDescription: 'Escudo Inmunológico y Protección Celular Avanzada.',
-    description: `Fortalece tus defensas naturales y protege tu organismo con Resvisfactor, el sistema de protección biológica de vanguardia. Esta poderosa fórmula combina el calostro bovino (el "oro líquido" de la naturaleza) con los beneficios milenarios del hongo Shiitake y los betaglucanos del Ganoderma Lucidum. Diseñado para ser el escudo diario de tu familia, Resvisfactor ayuda a modular la respuesta inmunológica, acelerar la recuperación física y proporcionar una carga masiva de antioxidantes que combaten el daño celular.
+    shortDescription: 'Favorece Tu Sistema Inmunológico y Vitalidad Celular Avanzada.',
+    description: `Fortalece tus defensas naturales y protege tu organismo con Resvisfactor, el sistema de protección biológica de vanguardia. Esta poderosa fórmula combina el calostro bovino (el "oro líquido" de la naturaleza) con los beneficios milenarios del hongo Shiitake y los betaglucanos del Ganoderma Lucidum. Diseñado para ser el soporte diario de tu familia, Resvisfactor ayuda a modular la respuesta inmunológica, acelerar la recuperación física y proporcionar una carga masiva de antioxidantes que combaten el daño celular.
 
 Enriquecido con un complejo multivitamínico total y Omega 3, 6 y 9, este suplemento no solo previene infecciones recurrentes, sino que aporta una vitalidad inmediata para enfrentar jornadas exigentes. Su base nutricional de proteína de soya y suero lo convierte en el complemento ideal para adultos mayores, jóvenes y personas que buscan una protección superior contra virus y bacterias en un entorno cambiante.
 
@@ -347,7 +347,7 @@ Enriquecido con un complejo multivitamínico total y Omega 3, 6 y 9, este suplem
     name: 'CLA 500',
     category: 'salud-bienestar',
     shortDescription: 'Tonificación Metabólica y Confort Articular Profundo.',
-    description: `Esculpe tu mejor versión y reconforta tu cuerpo con CLA 500, el suplemento metabólico avanzado diseñado para quienes buscan una transformación física consciente y segura. Su fórmula maestra aprovecha el Ácido Linoleico Conjugado (CLA) de alta pureza para movilizar las grasas acumuladas y transformarlas en energía, evitando el temido "efecto rebote". Potenciado con Cúrcuma y un toque de Pimienta Negra, este suplemento ofrece una potente acción antiinflamatoria que alivia la pesadez en las articulaciones y favorece la recuperación muscular post-entrenamiento.
+    description: `Saca la mejor versión de ti y reconforta tu cuerpo con CLA 500, el suplemento metabólico avanzado diseñado para quienes buscan una transformación física consciente y segura. Su fórmula maestra aprovecha el Ácido Linoleico Conjugado (CLA) de alta pureza para movilizar las grasas acumuladas y transformarlas en energía, evitando el temido "efecto rebote". Potenciado con Cúrcuma y un toque de Pimienta Negra, este suplemento ofrece una potente acción antiinflamatoria que alivia la pesadez en las articulaciones y favorece la recuperación muscular post-entrenamiento.
 
 Además de su acción en la quema de grasas, CLA 500 protege tus células del paso del tiempo gracias a su carga antioxidante, ayudando a mantener una piel firme y elástica durante tu proceso de cambio. Es la solución ideal para deportistas y personas activas que desean definir su musculatura, mejorar su movilidad articular y fortalecer su sistema óseo con el respaldo de la Vitamina D3 y el Magnesio.
 
@@ -486,12 +486,12 @@ Rico en antioxidantes de alta potencia, Cafetolio purifica tu hígado y desintox
     name: 'Loción Termoactiva',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Muscular Termoactivo y Recuperación Profunda.',
-    description: `Experimenta un alivio inmediato y reconfortante con nuestra Loción Termoactiva, el tratamiento de choque diseñado para liberar la tensión acumulada en tus músculos y articulaciones. Su potente fórmula botánica combina los beneficios ancestrales de la uña de gato, la árnica y el castaño de indias para penetrar profundamente en las capas de la piel, proporcionando un calor terapéutico que relaja las fibras musculares y mejora la circulación local al instante.
+    description: `Experimenta un alivio inmediato y reconfortante con nuestra Loción Termoactiva, el cuidado intensivo diseñado para liberar la tensión acumulada en tus músculos y articulaciones. Su potente fórmula botánica combina los beneficios ancestrales de la uña de gato, la árnica y el castaño de indias para penetrar profundamente en las capas de la piel, proporcionando un calor reconfortante que relaja las fibras musculares y mejora la sensación de bienestar local al instante.
 
-Ideal para deportistas que buscan acelerar su recuperación o para quienes sufren de fatiga muscular tras largas jornadas laborales, esta loción no grasosa se absorbe en segundos sin manchar la ropa. Ya sea una contractura en el cuello, pesadez en las piernas o un dolor articular inoportuno, la Loción Termoactiva de ZENHOGAR actúa como un analgésico natural que devuelve la movilidad y el confort a tu cuerpo.
+Ideal para deportistas que buscan acelerar su recuperación o para quienes sufren de fatiga muscular tras largas jornadas de trabajo o actividad, esta loción no grasosa se absorbe en segundos sin manchar la ropa. Ya sea una molestia en el cuello, pesadez en las piernas o un dolor articular inoportuno, la Loción Termoactiva de ZENHOGAR actúa como un aliado natural que devuelve la movilidad y el confort a tu cuerpo.
 
-✔️ Calor Reparador: Estimula el flujo sanguíneo para desinflamar y aliviar el dolor rápidamente.
-✔️ Alianza Botánica: Árnica y Chuchuguaza que trabajan en sinergia contra golpes y torceduras.
+✔️ Calor Reparador: Estimula la superficie cutánea para reconfortar y aliviar la zona rápidamente.
+✔️ Alianza Botánica: Árnica y Chuchuguaza que trabajan en sinergia para reconfortar tras golpes y torceduras.
 ✔️ Bienestar Inmediato: Textura ligera de rápida acción que relaja tensiones y mejora la flexibilidad.`,
     seoTitle: 'Loción Termoactiva: Alivio para Dolores Musculares y Articulares | Zenhogar',
     seoDescription: 'Alivia el dolor y la tensión con la Loción Termoactiva de ZENHOGAR. Efecto calor profundo con Árnica y Uña de Gato para recuperación muscular total. ¡Registro INVIMA!',
@@ -557,7 +557,7 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
     name: 'C-Lagen',
     category: 'salud-bienestar',
     shortDescription: 'Regeneración Articular con Vitalidad Marina.',
-    description: `Recupera la libertad de movimiento con C-Lagen, el colágeno hidrolizado de origen marino diseñado específicamente para fortalecer y regenerar tus articulaciones críticas como rodillas, caderas y hombros. Su estructura molecular superior asegura una absorción hasta 1.5 veces mayor que los colágenos tradicionales, permitiendo que sus péptidos lleguen directamente al cartílago y tendones para restaurar su resistencia y elasticidad.
+    description: `Recupera la libertad de movimiento con C-Lagen, el colágeno hidrolizado de origen marino diseñado específicamente para fortalecer y regenerar tus articulaciones críticas como rodillas, caderas y hombros. Su estructura molecular especializada asegura una absorción hasta 1.5 veces mayor que los colágenos tradicionales, permitiendo que sus péptidos lleguen directamente al cartílago y tendones para restaurar su resistencia y elasticidad.
 
 Potenciado con un complejo multivitamínico total y citrato de magnesio, C-Lagen no solo protege tus huesos del desgaste, sino que nutre el sistema nervioso para una respuesta muscular más ágil. Es la solución definitiva para quienes sienten rigidez al despertar o molestias al subir escaleras, proporcionando una base sólida de minerales que mantienen tu esqueleto joven y funcional a cualquier edad.
 
@@ -691,8 +691,8 @@ Con un refrescante sabor a durazno maduro, Citramix no solo mejora tu descanso n
     masterId: '23012',
     name: 'Coffee + Colágeno',
     category: 'salud-bienestar',
-    shortDescription: 'Ritual de Belleza y Vitalidad Matutina Superior.',
-    description: `Transforma tu primera taza del día en un potente ritual de rejuvenecimiento con Coffee + Colágeno. Esta deliciosa mezcla combina el aroma estimulante del café soluble premium con los beneficios estructurales del colágeno hidrolizado, todo sobre una base cremosa y saludable de coco. Diseñado para nutrir tu belleza desde la raíz, este café funcional fortalece tu cabello, aporta brillo a tu piel y robustez a tus uñas mientras te proporciona la energía necessária para conquistar tu jornada.
+    shortDescription: 'Ritual de Belleza y Vitalidad Diaria Especializada.',
+    description: `Transforma tu primera taza del día en un potente ritual de rejuvenecimiento con Coffee + Colágeno. Esta deliciosa mezcla combina el aroma estimulante del café soluble premium con los beneficios estructurales del colágeno hidrolizado, todo sobre una base cremosa y saludable de coco. Diseñado para nutrir tu belleza desde la raíz, este café funcional fortalece tu cabello, aporta brillo a tu piel y robustez a tus uñas mientras te proporciona la energía necesária para conquistar tu jornada.
 
 Libre de lácteos y grasas trans, nuestra fórmula se apoya en los triglicéridos de cadena media (MCT) del coco para una energía cerebral sostenida sin pesadez estomacal. Enriquecido con 12 vitaminas fundamentales, Coffee + Colágeno es más que un capricho; es tu seguro diario de vitalidad que cuida tu estética y tu sistema óseo en cada sorbo.
 
@@ -820,8 +820,8 @@ Libre de rellenos, sabores artificiales o aditivos innecesarios, esta fórmula d
     masterId: '11299',
     name: 'Iprossmen',
     category: 'salud-bienestar',
-    shortDescription: 'Salud Masculina Integral y Escudo Próstatico.',
-    description: `Protege tu vitalidad y cuida tu salud con Iprossmen, la solución fitoterapéutica avanzada diseñada exclusivamente para las necesidades del hombre moderno. Su fórmula de alta precisión aprovecha el poder antioxidante del licopeno de tomate y los arándanos rojos para crear un blindaje natural que reconforta la zona pélvica y optimiza la función urinaria. Iprossmen ayuda a regular los procesos inflamatorios de la próstata, permitiéndote mantener una vida activa y libre de molestias persistentes.
+    shortDescription: 'Salud Masculina Integral y Apoyo al Bienestar Urinario.',
+    description: `Protege tu vitalidad y cuida tu salud con Iprossmen, la solución fitoterapéutica avanzada diseñada exclusivamente para las necesidades del hombre moderno. Su fórmula de alta precisión aprovecha el poder antioxidante del licopeno de tomate y los arándanos rojos para brindar soporte natural que reconforta la zona pélvica y favorece la función urinaria. Iprossmen ayuda a regular los procesos inflamatorios de la próstata, permitiéndote mantener una vida activa y libre de molestias persistentes.
 
 Enriquecido con jengibre, ciruela y vitamina E, este elixir masculino actúa como un potente regenerador celular que combate el envejecimiento del sistema reproductor. Es el aliado indispensable para hombres que buscan prevención y equilibrio hormonal, asegurando un flujo de energía constante y un bienestar integral que se siente desde los primeros días de uso.
 
@@ -885,8 +885,8 @@ Enriquecido con jengibre, ciruela y vitamina E, este elixir masculino actúa com
     masterId: '129333',
     name: 'KDS 10',
     category: 'salud-bienestar',
-    shortDescription: 'Blindaje Vitamínico y Energía Vital Familiar.',
-    description: `Asegura la nutrición de quienes más quieres con KDS 10, el sistema multivitamínico de espectro completo diseñado para cubrir las brechas nutricionales de toda la familia. Su fórmula magistral sobre una base cremosa de coco potencia la absorción de vitaminas A, C, D, E y el complejo B, proporcionando un blindaje inmunológico real y una energía física inagotable. Ideal para niños en etapa de crecimiento, adultos con jornadas exigentes y personas mayores, KDS 10 garantiza que el organismo reciba cada mineral esencial para su correcto funcionamiento.
+    shortDescription: 'Suplemento Vitamínico y Energía Vital Familiar.',
+    description: `Asegura la nutrición de quienes más quieres con KDS 10, el sistema multivitamínico de espectro completo diseñado para cubrir las brechas nutricionales de toda la familia. Su fórmula diseñada sobre una base cremosa de coco potencia la absorción de vitaminas A, C, D, E y el complejo B, proporcionando un blindaje inmunológico real y una energía física inagotable. Ideal para niños en etapa de crecimiento, adultos con jornadas exigentes y personas mayores, KDS 10 garantiza que el organismo reciba cada mineral esencial para su correcto funcionamiento.
 
 Más que un simple suplemento, KDS 10 actúa como un revitalizante metabólico que combate la fatiga mental y fortalece la estructura ósea gracias a su aporte de zinc y hierro. Su deliciosa textura y fácil disolución lo convierten en el complemento perfecto para el desayuno diario, brindando la tranquilidad de saber que tu salud y la de los tuyos está respaldada por una fórmula de grado superior y calidad certificada.
 
@@ -955,7 +955,7 @@ Más que un simple suplemento, KDS 10 actúa como un revitalizante metabólico q
     name: 'Liofhim',
     category: 'salud-bienestar',
     shortDescription: 'Ritual de Descanso Nocturno y Sueño Reparador.',
-    description: `Recupera el placer de dormir profundamente y despierta con una energía renovada gracias a Liofhim, el elixir de relajación botánica de ZENHOGAR. Su fórmula experta en apagar el ruido mental combina extractos concentrados de manzanilla, albahaca y hierbabuena, actuando como un bálsamo para el sistema nervioso estresado. Liofhim no solo te ayuda a conciliar el sueño en minutos, sino que garantiza que cada hora de descanso sea de alta calidad, evitando los micro-despertares y la agitación nocturna.
+    description: `Recupera el placer de dormir profundamente y despierta con una energía renovada gracias a Liofhim, el complemento de relajación botánica de ZENHOGAR. Su fórmula ayuda a calmar la mente, combina extractos concentrados de manzanilla, albahaca y hierbabuena, actuando como un bálsamo para promover la serenidad. Liofhim facilita el descanso nocturno y promueve un sueño de alta calidad, ayudando a mantener la continuidad del reposo y evitando la agitación nocturna.
 
 A diferencia de los somníferos químicos, Liofhim promueve un descanso fisiológico natural sin causar dependencia ni somnolencia al día siguiente. Es el aliado perfecto para calmar la ansiedad nocturna, relajar los músculos y permitir que tu mente se regenere por completo. Despídete del insomnio y redescubre lo que significa tener una mente clara y un cuerpo revitalizado cada mañana.
 
@@ -1022,7 +1022,7 @@ A diferencia de los somníferos químicos, Liofhim promueve un descanso fisioló
     shortDescription: 'Bienestar Digestivo y Ligereza Metabólica.',
     description: `Recupera la armonía de tu sistema digestivo con Liteplex, el concentrado botánico diseñado para proporcionar un alivio rápido y natural contra la pesadez y la acidez. Su fórmula de alta pureza combina extractos de jengibre, menta y albahaca, que actúan como un bálsamo reconfortante en el tracto digestivo, facilitando una digestión ligera incluso después de comidas abundantes. Liteplex es el aliado ideal para quienes buscan mantener un metabolismo activo y un vientre plano sin recurrir a químicos agresivos.
 
-Endulzado naturalmente con estevia, este refrescante elixir con sabor a limón se absorbe instantáneamente, proporcionando una sensación de frescura y bienestar que perdura. Es la solución perfecta para llevar contigo y asegurar que tu jornada no se vea interrumpida por molestias abdominales, permitiéndote disfrutar de cada momento con total ligereza y confort.
+Endulzado naturalmente con estevia, este refrescante suplemento con sabor a limón se absorbe instantáneamente, proporcionando una sensación de frescura y bienestar que perdura. Es la solución perfecta para llevar contigo y asegurar que tu jornada no se vea interrumpida por molestias abdominales, permitiéndote disfrutar de cada momento con total ligereza y confort.
 
 ✔️ Alivio Estomacal: Calma la acidez y la pesadez abdominal con la frescura natural del limón y la menta.
 ✔️ Digestión Ágil: El jengibre y la albahaca estimulan el tránsito digestivo para evitar la hinchazón.
@@ -1088,7 +1088,7 @@ Endulzado naturalmente con estevia, este refrescante elixir con sabor a limón s
     name: 'Maxlite',
     category: 'salud-bienestar',
     shortDescription: 'Nutrición Estructural y Vitalidad Osteoarticular.',
-    description: `Eleva tu nutrición diaria con Maxlite, la mezcla súper-alimento diseñada para fortalecer tu estructura física y rejuvenecer tu piel desde el interior. Esta fórmula premium combina los péptidos de colágeno hidrolizado con la riqueza proteica de la quinua orgánica, creando un sistema de soporte completo para tus huesos, articulaciones y tejidos. Enriquecido con un potente escudo antioxidante de resveratrol y omega 3-6-9, Maxlite combate el desgaste celular y promueve una elasticidad superior en todo tu cuerpo.
+    description: `Eleva tu nutrición diaria con Maxlite, la mezcla súper-alimento diseñada para fortalecer tu estructura física y rejuvenecer tu piel desde el interior. Esta fórmula premium combina los péptidos de colágeno hidrolizado con la riqueza proteica de la quinua orgánica, creando un sistema de soporte completo para tus huesos, articulaciones y tejidos. Enriquecido con el potente antioxidante de resveratrol y omega 3-6-9, Maxlite combate el desgaste celular y promueve una elasticidad superior en todo tu cuerpo.
 
 Complementado con un amplio espectro de vitaminas esenciales, este suplemento es el aliado perfecto para personas activas que no desean que el paso del tiempo limite su ritmo. Su textura ligera y nutritiva nutre profundamente la fibra capilar y la dermis, devolviéndole la luminosidad al rostro y la firmeza al cabello, todo con el respaldo de una fórmula balanceada de alta pureza.
 
@@ -1228,9 +1228,9 @@ Enriquecido con una base proteica de suero y minerales críticos como el magnesi
     name: 'Resveratrol',
     category: 'salud-bienestar',
     shortDescription: 'Protección Celular y Ritual de Juventud Longevital.',
-    description: `Detén el paso del tiempo y protege tu salud celular con Resveratrol, el elixir de longevidad definitivo que combina la ciencia antienvejecimiento más avanzada con la pureza de la naturaleza. Nuestra fórmula líquida de alta potencia entrega una dosis masiva de resveratrol puro, potenciada con 10,000 mg de colágeno hidrolizado de fácil absorción. Este sistema antioxidante bicapa actúa neutralizando los radicales libres desde el interior, promoviendo una regeneración profunda que se refleja en una piel más firme, un cabello radiante y una vitalidad renovada.
+    description: `Detén el paso del tiempo y protege tu salud celular con Resveratrol, el suplemento para longevidad definitivo que combina la ciencia antienvejecimiento más avanzada con la pureza de la naturaleza. Nuestra fórmula en polvo de alta pureza entrega una dosis masiva de resveratrol, potenciada con 10,000 mg de colágeno hidrolizado de fácil absorción. Este sistema antioxidante bicapa actúa neutralizando los radicales libres desde el interior, promoviendo una regeneración profunda que se refleja en una piel más firme, un cabello radiante y una vitalidad renovada.
 
-Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZENHOGAR es un escudo protector para tu sistema cardiovascular y cerebral. Es el ritual diario indispensable para quienes buscan una juventud prolongada y un bienestar integral, asegurando que cada célula de tu cuerpo funcione en su nivel óptimo para una vida larga, activa y saludable.
+Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZENHOGAR es un excelente coadyudante para tu sistema cardiovascular y cerebral. Es el ritual diario indispensable para quienes buscan una juventud prolongada y un bienestar integral, asegurando que cada célula de tu cuerpo funcione en su nivel óptimo para una vida larga, activa y saludable.
 
 ✔️ Blindaje Antioxidante: Protege el ADN celular contra el daño oxidativo y el envejecimiento prematuro.
 ✔️ Regeneración de Tejidos: 10,000 mg de colágeno que restauran la turgencia de la piel y salud articular.
@@ -1297,10 +1297,10 @@ Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZEN
     masterId: '23015',
     name: 'Eventone',
     category: 'belleza-integral',
-    shortDescription: 'Brillo, Juventud y Tono Uniforme para tu Rostro.',
-    description: `Ilumina tu belleza natural con Eventone, el suero perfeccionador de alto impacto diseñado para combatir las manchas y unificar el tono de tu piel. Su fórmula maestra combina el poder regenerador del Bio-Retinol (alternativa natural al retinol tradicional) con la hidratación profunda del ácido hialurónico y extractos calmantes de manzanilla. Eventone actúa penetrando las capas profundas de la dermis para equilibrar la producción de pigmento, reduciendo visiblemente las manchas causadas por el sol, la edad o factores hormonales.
+    shortDescription: 'Brillo, Vitalidad y Tono Uniforme para tu Rostro.',
+    description: `Ilumina tu belleza natural con Eventone, el suero perfeccionador de alto impacto diseñado para favorecer la uniformidad y unificar el tono de tu piel. Su fórmula maestra combina el poder regenerador del Bio-Retinol (alternativa natural al retinol tradicional) con la hidratación profunda del ácido hialurónico y extractos calmantes de manzanilla. Eventone es el aliado ideal penetrando las capas profundas de la dermis para equilibrar la apariencia de la piel, reduciendo visiblemente las irregularidades causadas por el sol, la edad o factores externos.
 
-Además de su acción aclarante, Eventone proporciona un efecto relleno que suaviza las líneas de expresión y mejora la firmeza de la piel, devolviéndole su luminosidad y brillo natural. Con su textura sedosa de rápida absorción, es el tratamiento nocturno ideal para quienes buscan un rostro rejuvenecido, libre de irregularidades y con una vitalidad renovada.
+Además de su acción iluminadora, Eventone proporciona un efecto revitalizador que suaviza las líneas de expresión y mejora la firmeza de la piel, devolviéndole su luminosidad y brillo natural. Con su textura sedosa de rápida absorción, es el cuidado nocturno ideal para quienes buscan un rostro natural, libre de irregularidades y con una vitalidad renovada.
 
 ✔️ Tono Uniforme: Reduce progresivamente la intensidad de las manchas y equilibra el color de la piel.
 ✔️ Hidratación y Relleno: Ácido hialurónico de alto peso molecular que suaviza arrugas y mejora la turgencia.
@@ -1369,7 +1369,7 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
 
 A diferencia de los autobronceadores convencionales, nuestra fórmula de secado rápido garantiza una aplicación libre de manchas y un aroma delicado que transforma tu rutina de cuidado en un ritual de lujo. Disfruta de una piel luminosa, nutrida y con ese aspecto de "recién llegada de vacaciones" durante todo el año, manteniendo la salud y la vitalidad de tu dermis con la excelencia de ZENHOGAR.
 
-✔️ Tono Canela Superior: Logra un bronceado natural, intenso y uniforme sin necesidad de exposición al sol.
+✔️ Tono Canela: Logra un bronceado natural, intenso y uniforme sin necesidad de exposición al sol.
 ✔️ Hidratación Luminosa: Nutre profundamente con vitamina E, evitando la resequedad y aportando un brillo saludable.
 ✔️ Acabado Terciopelo: Textura no grasa que se absorbe velozmente, permitiéndote vestirte de inmediato con total confianza.`,
     seoTitle: 'Golden Passion: Autobronceador de Lujo y Brillo Dorado | Zenhogar',
@@ -1434,10 +1434,10 @@ A diferencia de los autobronceadores convencionales, nuestra fórmula de secado 
     masterId: '11346',
     name: 'Hydrastrik',
     category: 'belleza-integral',
-    shortDescription: 'Arquitectura de Piel Elástica y Nutrición Intensiva.',
-    description: `Desafía los límites de la elasticidad cutánea con Hydrastrik, el tratamiento premium diseñado para blindar tu piel contra las estrías y la flacidez. Esta suntuosa mezcla de aceites puros de almendras, coco y aguacate crea una barrera lipídica de alta resistencia que nutre las fibras de colágeno y elastina en las capas más profundas de la dermis. Hydrastrik es el aliado indispensable durante etapas de cambio físico, garantizando que tu piel se mantenga firme, flexible y libre de marcas visibles.
+    shortDescription: 'Elásticidad y Nutrición Profunda Para Tu Piel.',
+    description: `Desafía los límites de la elasticidad cutánea con Hydrastrik, el cuidado premium diseñado para blindar tu piel contra las estrías y la flacidez. Esta mezcla de aceites puros de almendras, coco y aguacate ayuda a crear una barrera lipídica de alta resistencia que nutre las fibras de colágeno y elastina en las capas más profundas de la dermis. Hydrastrik es el aliado indispensable durante etapas de cambio físico, ayudando a que tu piel se mantenga firme, flexible y con apariencia saludable.
 
-Su textura fluida y su aroma envolvente lo convierten en el complemento perfecto para un masaje terapéutico que revitaliza los sentidos mientras restaura la suavidad perdida. Con cada aplicación, Hydrastrik infunde vitalidad a la piel deshidratada, devolviéndole su turgencia natural y una sedosidad incomparable que se siente desde el primer contacto.
+Su textura fluida y su aroma envolvente lo convierten en el complemento perfecto para un masaje terapéutico que revitaliza los sentidos mientras restaura la suavidad perdida. Con cada aplicación, Hydrastrik infunde vitalidad a la piel deshidratada, devolviéndole su vitalidad natural y una sedosidad incomparable que se siente desde el primer contacto.
 
 ✔️ Elasticidad Blindada: Prepara y fortalece los tejidos para prevenir rupturas y marcas por estiramiento.
 ✔️ Regeneración Botánica: Aceites de grado superior que aceleran la renovación celular y suavizan cicatrices.
@@ -1572,10 +1572,10 @@ Especialmente eficaz para suavizar zonas propensas a la resequedad y el sombread
   {
     id: 'tonico-capilar',
     masterId: '11260',
-    name: 'Tónico Capilar (Extractos Mágicos)',
+    name: 'Tónico Capilar',
     category: 'belleza-integral',
     shortDescription: 'Densificadora Capilar y Ritual de Crecimiento Avanzado.',
-    description: `Recupera la abundancia y la fuerza de tu cabello con el Tónico Capilar Extractos Mágicos, la joya de la ciencia capilar de ZENHOGAR. Este tratamiento de alto impacto está formulado con una concentración revolucionaria de Trichogen al 8% y un complejo de 16 extractos botánicos puros que trabajan en sinergia para despertar los folículos inactivos. Diseñado para combatir la caída desde la raíz, este tónico no solo frena el debilitamiento, sino que acelera el nacimiento de hebras más gruesas, densas y resistentes.
+    description: `Recupera la abundancia y la fuerza de tu cabello con el Tónico Capilar, la joya de la ciencia capilar de ZENHOGAR. Este nutriente de alto impacto está formulado con una concentración revolucionaria de Trichogen al 8% y un complejo de 16 extractos botánicos puros que trabajan en sinergia para revitalizar los folículos. Diseñado para combatir la caída, este tónico no solo frena el debilitamiento, sino que favorece el nacimiento de hebras más gruesas, densas y resistentes.
 
 Perfecto para revitalizar el cuero cabelludo, así como para poblar con precisión cejas y barba, su aplicación en spray garantiza que los nutrientes premium como la cebolla y el ginkgo biloba penetren profundamente. Es el sistema definitivo para transformar un cabello frágil en una melena (o barba) llena de vigor, brillo y vitalidad, con resultados respaldados por la biotecnología capilar más avanzada.
 
@@ -1676,7 +1676,7 @@ Enriquecido con inulina (prebiótico natural), Tufoff no solo brinda frescura in
     keywords: 'mal aliento, frescura bucal, menta canela, Tufoff, Zenhogar, higiene oral rápida',
     components: 'Eritritol, Inulina, Aceite de Menta, Canela y Bicarbonato de Sodio',
     longTailKeywords: [
-      'mejor producto para eliminar el mal aliento de forma inmediata',
+      'mejor producto para neutralizar el mal aliento de forma inmediata',
       'cómo mantener un aliento fresco durante todo el día naturalmente',
       'dulces sin azúcar para neutralizar el olor a comida en la boca',
       'beneficios del bicarbonato de sodio para la higiene bucal rápida',
@@ -1781,7 +1781,7 @@ Su fórmula avanzada refuerza la barrera natural de la piel, protegiéndola cont
     name: 'Derman (Mascarilla Íntima)',
     category: 'salud-sexual',
     shortDescription: 'Protección, Frescura y Equilibrio para tu Zona Íntima.',
-    description: `Derman es una mascarilla íntima en crema diseñada científicamente para brindar higiene, protección y confort absoluto en las áreas más delicadas del cuerpo. Su fórmula magistral combina las propiedades regeneradoras de la Caléndula con el poder hidratante del Aloe Vera y la Manzanilla, creando una barrera protectora que mantiene el equilibrio natural de la flora y previene irritaciones comunes tras la depilación o el uso de ropa ajustada.
+    description: `Derman es una mascarilla íntima en crema diseñada científicamente para brindar higiene, protección y confort absoluto en las áreas más delicadas del cuerpo. Su fórmula combina las propiedades regeneradoras de la Caléndula con el poder hidratante del Aloe Vera y la Manzanilla, creando una barrera protectora que mantiene el equilibrio natural de la flora y previene irritaciones comunes tras la depilación o el uso de ropa ajustada.
 
 Ideal para el cuidado diario, Derman calma instantáneamente el ardor, evita los brotes cutáneos y proporciona una sensación duradera de frescura y suavidad, permitiéndote sentirte cómoda y segura en todo momento con la garantía de una fórmula gentil y probada.
 
@@ -1985,7 +1985,7 @@ Su fórmula fluida de pH balanceado ha sido optimizada para respetar la delicada
     name: 'Mammoth (Crema Voluminizante)',
     category: 'salud-sexual',
     shortDescription: 'Firmeza, Elasticidad y Apariencia Saludable para tu Piel.',
-    description: `Mammoth es una crema corporal de alto desempeño diseñada para mejorar visiblemente la apariencia y elasticidad de la piel en zonas que requieren mayor firmeza. Su fórmula avanzada combina el efecto tensor del extracto de Acmella Oleracea con la nutrición profunda de la Vitamina E y el aceite de parafina USP, creando un tratamiento que suaviza irregularidades y devuelve la lozanía a la piel.
+    description: `Mammoth es una crema corporal de alto desempeño diseñada para mejorar visiblemente la apariencia y elasticidad de la piel en zonas que requieren mayor firmeza. Su fórmula avanzada combina el efecto tensor del extracto de Acmella Oleracea con la nutrición profunda de la Vitamina E y el aceite de parafina USP, creando un cuidado que suaviza irregularidades y devuelve la lozanía a la piel.
 
 Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textura cutánea, proporcionando una hidratación extrema que evita la resequedad y el aspecto opaco. Su consistencia profesional permite una aplicación fluida y una absorción completa sin dejar residuos grasos, haciendo que tu piel luzca y se sienta más fuerte y revitalizada.
 
@@ -2053,12 +2053,12 @@ Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textur
     masterId: '52600',
     name: 'Tyruss Full',
     category: 'salud-bienestar',
-    shortDescription: 'Nutrición Verde Avanzada para una Desintoxicación Integral.',
-    description: `Tyruss Full es una mezcla nutricional premium en polvo diseñada para quienes buscan una purificación profunda y una fuente de energía natural estable. Su fórmula magistral combina la proteína de arveja con el poder de los superalimentos verdes: Clorofila, Espirulina y Chlorella. Esta sinergia vegetal actúa como un potente agente oxigenador y depurativo que ayuda a liberar el cuerpo de toxinas acumuladas, mejorando la digestión y fortaleciendo el sistema inmunológico.
+    shortDescription: 'Nutrición Verde Avanzada y Apoyo al Equilibrio Femenino.',
+    description: `Tyruss Full es una mezcla nutricional premium en polvo diseñada para quienes buscan una purificación profunda, mantener su energía, es un excelente coadyudante para las mujeres que se encuentran en etapas de transición y cambio biologico. Su fórmula combina la proteína de arveja con el poder de los superalimentos verdes: Clorofila, Espirulina y Chlorella. Esta sinergia vegetal actúa como un potente agente oxigenador y depurativo que ayuda a liberar el cuerpo de toxinas acumuladas, mejorando la digestión y fortaleciendo el sistema inmunológico.
 
 Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esenciales, Tyruss Full no solo limpia tu organismo, sino que nutre tus células para combatir la fatiga y promover un metabolismo saludable. Su alto contenido de fibra asegura un tránsito intestinal fluido, brindando una sensación de ligereza y bienestar abdominal desde la primera semana de uso.
 
-✔️ Desintoxicación Profunda: Oxigena la sangre y ayuda a eliminar metales pesados e impurezas.
+✔️ Desintoxicación Profunda: Ayuda a depurar impurezas del organismo.
 ✔️ Digestión y Tránsito: Fibra natural que optimiza el movimiento intestinal y reduce la inflamación.
 ✔️ Energía y Saciedad: Aporta proteínas y grasas saludables que mantienen tu energía constante y controlan el apetito.`,
     seoTitle: 'Tyruss Full Nutrición Verde | Detox con Clorofila y Espirulina',
@@ -2260,7 +2260,7 @@ Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracia
     masterId: '129308',
     name: '+NAD',
     category: 'salud-bienestar',
-    shortDescription: 'El Secreto de la Longevidad y Vitalidad Celular.',
+    shortDescription: 'Soporte Avanzado para la Vitalidad y el Bienestar Celular.',
     description: `+NAD es la fórmula de vanguardia en nutrición para el bienestar celular, diseñada para revitalizar tu organismo desde lo más profundo. Combinando Nicotinamida (un precursor directo del NAD+) con el poder antioxidante del Resveratrol y el Calostro Bovino, este suplemento ayuda a proteger las células y optimizar la producción de energía contra el daño oxidativo.
 
 Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita una absorción superior de sus ingredientes clave como la Quercetina y la Lactoferrina. +NAD es el aliado perfecto para quienes desean mantener una mente clara, una piel firme y un cuerpo lleno de energía vital a pesar del paso de los años, proporcionando un soporte inmunológico y regenerativo sin precedentes.
@@ -2394,12 +2394,12 @@ Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lác
   {
     id: 'hemocream',
     masterId: '58626',
-    name: 'Cuidado Botánico Avanzado',
+    name: 'Hemocream',
     category: 'salud-bienestar',
-    shortDescription: 'Cuidado Botánico Avanzado en zonas sensibles.',
-    description: `Recupera tu comodidad diaria con este cuidado botánico avanzado, la solución magistral diseñada para brindar alivio profundo y protección a la zona anal sensible. Su fórmula integra el poder de la fitoterapia moderna mediante una sinergia de 11 extractos botánicos premium, liderados por el Castaño de Indias, la Caléndula y el Hamamelis. Estos ingredientes actúan en conjunto para reducir la inflamación, calmar el ardor persistente y favorecer la microcirculación, proporcionando una barrera refrescante que mitiga el malestar desde la primera aplicación.
+    shortDescription: 'Cuidado Botánico Avanzado en Zonas Sensibles.',
+    description: `Recupera tu comodidad diaria con este cuidado botánico avanzado, la solución magistral diseñada para brindar alivio profundo y protección a la zona íntima. Su fórmula intégra el poder de la fitoterapia moderna mediante una sinergia de 11 extractos botánicos premium, liderados por el Castaño de Indias, la Caléndula y el Hamamelis. Estos ingredientes actúan en conjunto para reducir la incomodidad, calmar el ardor persistente y favorecer la microcirculación, proporcionando una barrera refrescante que mitiga el malestar desde la primera aplicación.
 
-Especialmente formulada para pieles frágiles, esta solución botánica ayuda a regenerar los tejidos irritados por hemorroides o fisuras, facilitando el tránsito intestinal y reduciendo la fricción durante la evacuación. Su textura ligera y sedosa se absorbe sin dejar residuos grasos, permitiéndote retomar tus actividades con total confort y la seguridad de un cuidado 100% natural, certificado por expertos.
+Especialmente formulada para pieles frágiles, esta solución botánica esencial ayuda a regenerar los tejidos irritados en las zonas íntimas más sensibles, aportando suavidad y reduciendo la fricción en los momentos de mayor sensibilidad. Su textura ligera y sedosa se absorbe sin dejar residuos grasos, permitiéndote retomar tus actividades con total confort y la seguridad de un cuidado 100% natural, certificado por expertos.
 
 ✔️ Alivio Antiinflamatorio: Calma instantáneamente el dolor, el ardor y la picazón en zonas sensibles.
 ✔️ Regeneración Celular: La caléndula y el aloe vera aceleran la recuperación natural de los tejidos afectados.
@@ -2424,7 +2424,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica ayuda a 
       '/assets/products/hemocream-apoyo-1.webp',
       '/assets/products/hemocream-apoyo-2.webp',
       '/assets/products/hemocream-apoyo-3.webp',
-      '/assets/products/hemocream-apoyo-4.webp'
+      '/assets/products/hemocream-apoyo-4.png'
     ],
     keywords: 'hemorroides, ardor anal, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, cuidado botánico, Zenhogar, fisura anal',
     components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena, Manzanilla y Centella Asiática',
@@ -2441,7 +2441,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica ayuda a 
       { q: '¿Cómo debo aplicar este producto para obtener mejores resultados?', a: 'Se recomienda aplicar una pequeña cantidad en la zona afectada 2 o 3 veces al día, preferiblemente después de ir al baño.' },
       { q: '¿Este producto brinda alivio de inmediato?', a: 'Sí, sus extractos de menta y manzanilla brindan una calma refrescante que mejora tu bienestar desde el primer uso.' },
       { q: '¿Contiene corticoides?', a: 'No, es una fórmula 100% botánica, lo que permite un uso prolongado y seguro sin efectos secundarios hormonales.' },
-      { q: '¿Es segura durante el embarazo?', a: 'Al ser natural con calidad certificada es generalmente segura, pero siempre recomendamos consultar a su médico tratante.' }
+      { q: '¿Es segura durante el embarazo?', a: 'Al ser natural con calidad certificada es generalmente segura, pero siempre recomendamos consultar a su profesional de salud.' }
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 65000 },
@@ -2508,7 +2508,7 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
   whyChoose: {
     title: 'El dúo dinámico de tu bienestar',
-    description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción reconfortatoria de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para confortar tu vientre y fortalecer tus defensas con calidad garantizada.'
+    description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción reconfortante de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para confortar tu vientre y fortalecer tus defensas con calidad garantizada.'
   },
   badge: 'OFERTA DEL MES',
   benefits: [
@@ -2546,7 +2546,7 @@ export const PROMOTIONS: Promotion[] = [
   {
     id: 'promo-1',
     name: 'Combo Piel Radiante',
-    description: 'El Combo Piel Radiante es un tratamiento integral de doble acción diseñado para renovar la luminosidad, uniformidad y salud de tu piel desde el nivel celular hacia el exterior. Esta potente combinación une la eficacia de la crema Miskinne, que actúa directamente sobre la suavidad e hidratación externa con Caléndula y Avena, con el poder del Resveratrol líquido, que aporta una carga masiva de antioxidantes para proteger las células del daño oxidativo. Es el ritual perfecto para quienes buscan una piel visiblemente más joven, elástica y radiante, combatiendo la opacidad y los signos de fatiga desde adentro.',
+    description: 'El Combo Piel Radiante es un cuidado integral de doble acción diseñado para renovar la luminosidad, uniformidad y salud de tu piel desde el nivel celular hacia el exterior. Esta potente combinación une la eficacia de la crema Miskinne, que actúa directamente sobre la suavidad e hidratación externa con Caléndula y Avena, con el poder del Resveratrol líquido, que aporta una carga masiva de antioxidantes para proteger las células del daño oxidativo. Es el ritual perfecto para quienes buscan una piel visiblemente más joven, elástica y radiante, favoreciendo la vitalidad desde adentro.',
     image: '/assets/combos/promo-1.webp',
     price: 104850,
     originalPrice: 139800,
@@ -2722,7 +2722,7 @@ export const PROMOTIONS: Promotion[] = [
     ],
     benefits: [
       'Apoyo en el control de peso',
-      'Eliminación de toxinas acumuladas',
+      'Depuración de toxinas acumuladas',
       'Acelera el metabolismo naturalmente',
       'Mejora la absorción de nutrientes'
     ],
