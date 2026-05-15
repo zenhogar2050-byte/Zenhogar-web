@@ -135,12 +135,15 @@ export const generateSchemaGraph = (params: {
         const productEntity: any = {
             "@type": "Product",
             "@id": `${fullUrl}#product`,
+            "mainEntityOfPage": { "@id": `${fullUrl}#webpage` },
             "name": productData.name,
-            "description": productData.description || description,
+            "description": (productData.description || description).substring(0, 5000), // Safety limit
             "sku": String(productData.masterId || productData.id).toUpperCase(),
             "mpn": String(productData.masterId || productData.id).toUpperCase(),
             "category": productData.googleCategory || productData.category,
-            "image": ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`,
+            "image": [
+                ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`
+            ],
             "brand": { "@id": `${BASE_URL}/#organization` },
             "offers": {
                 "@type": "Offer",
