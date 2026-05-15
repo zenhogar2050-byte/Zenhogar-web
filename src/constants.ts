@@ -39,7 +39,7 @@ export interface Product {
   videoUrlMp4?: string;
   videoPoster?: string;
   googleCategory?: string;
-  condition?: 'new' | 'used' | 'refurbished';
+  condition?: 'new';
 }
 
 export const CATEGORIES = [
@@ -79,22 +79,24 @@ export const PRODUCTS: Product[] = [
   {
     id: 'rtafull',
     masterId: '11323',
-    name: 'Rtafull',
+    name: 'RtaFull',
     category: 'salud-bienestar',
-    shortDescription: 'Depura tu hígado y elimina la pesadez estomacal de inmediato.',
-    description: `Bebida concentrada desarrollada para apoyar la salud digestiva y facilitar la regulación del tránsito lento. Sus extractos naturales actúan de forma sinérgica para estimular la eliminación de grasas y toxinas, promoviendo una limpieza profunda del hígado y los riñones de manera segura. 
-    
-✔️ Limpieza Profunda: Con Alcachofa y Berenjena que trabajan para limpiar impurezas del organismo. 
-✔️ Vientre Ligero: Ayuda a reducir la sensación de pesadez y estimula la digestión para sentirte más liviano cada día. 
-✔️ Fuerza Natural: El poder de la Flor de Jamaica y el Apio para mantener tus defensas altas.
-Calidad Certificada (INVIMA: PSA-000932-2017)`,
-    seoTitle: 'Limpieza Natural y Cuidado del Hígado con Rtafull',
-    seoDescription: '✔️ Limpieza Profunda: Con Alcachofa y Berenjena. Ayuda a reducir la sensación de pesadez y estimula la digestión. ¡Calidad INVIMA!',
+    shortDescription: 'Vitalidad Hepática y Desintoxicación Digestiva.',
+    description: `Recupera la ligereza de tu cuerpo con RtaFull, el concentrado depurativo de alta potencia diseñado para ayudar a limpiar tu hígado y riñones de manera natural. Su fórmula combina extractos botánicos de alcachofa, berenjena, apio y flor de jamaica, que actúan en sinergia para estimular la eliminación de toxinas y grasas acumuladas. RtaFull es la solución definitiva para quienes buscan combatir la pesadez abdominal, mejorar la digestión y revitalizar su metabolismo desde el interior.
+
+Ideal para procesos de detox y limpieza profunda, este suplemento especialmente formulado ayuda a descongestionar el sistema digestivo, promoviendo una sensación de bienestar inmediato y una vitalidad renovada. Con su formato líquido de rápida absorción, RtaFull asegura que los activos naturales lleguen directamente a tu organismo donde más se necesitan.
+
+✔️ Depuración Total: Limpia profundamente el hígado y los riñones de impurezas y grasas.
+✔️ Adiós a la Inflamación: Reduce visiblemente la pesadez estomacal y la hinchazón tras las comidas.
+✔️ Alianza Herbal: El poder del apio y el perejil para una función renal óptima y defensas activas.`,
+    seoTitle: 'Rtafull: Cómo limpiar el hígado y desintoxicar el organismo naturalmente | Zenhogar',
+    seoDescription: 'Purifica tu hígado y elimina la pesadez con Rtafull. Concentrado natural con Alcachofa y Berenjena para una desintoxicación total y digestión ligera. ¡Registro INVIMA!',
     benefits: [
-      'Hígado depurado y saludable',
-      'Adiós a la pesadez tras comer',
-      'Estimula la digestión lenta',
-      'Riqueza herbal de alta pureza'
+      'Depuración profunda de hígado y riñones de toxinas acumuladas',
+      'Elimina de forma inmediata la pesadez y el malestar tras comer',
+      'Estimula el metabolismo digestivo para un vientre más ligero',
+      'Fórmula líquida concentrada de absorción ultra-rápida y segura',
+      'Ingredientes 100% naturales con certificación de calidad oficial'
     ],
     image: '/assets/products/rtafull.webp',
     basePrice: 79900,
@@ -145,17 +147,22 @@ Calidad Certificada (INVIMA: PSA-000932-2017)`,
     masterId: '11341',
     name: 'Coliplus',
     category: 'salud-bienestar',
-    shortDescription: 'Regula tu tránsito intestinal y limpia el colon naturalmente.',
-    description: `Mezcla de ingredientes naturales diseñada para limpiar el colon de manera efectiva, combatir el estreñimiento y mejorar la digestión diaria. Su fórmula rica en fibra ayuda a reducir la hinchazón abdominal y promueve un tránsito intestinal regular y saludable. 
+    shortDescription: 'Renovación Intestinal y Equilibrio Digestivo Natural.',
+    description: `Libera tu sistema digestivo con Coliplus, la mezcla de fibras premium diseñada para restaurar el tránsito intestinal y purificar el colon de forma gentil y efectiva. Su combinación única de linaza, pitaya y espirulina actúa como un suave motor interno que combate el estreñimiento crónico y reduce la hinchazón abdominal persistente. Coliplus no solo facilita el ir al baño con regularidad, sino que nutre tu microbiota intestinal para una salud digestiva de largo plazo.
 
-Mezcla de fibras naturales para una digestión fácil y regular. Apto para diabéticos y con un rendimiento de hasta 2 meses.`,
-    seoTitle: 'Limpieza Intestinal Natural con Coliplus Sabor Manzana',
-    seoDescription: 'Ve al baño de forma fácil y regular con Pitaya y Espirulina. Coliplus es apto para diabéticos y rinde 2 meses. ¡Salud intestinal con calidad INVIMA!',
+Formulado sin azúcares añadidos, es el aliado perfecto para personas diabéticas o quienes buscan cuidar su figura sin sacrificar el sabor. Con un delicioso toque a manzana verde, Coliplus se integra fácilmente en tu rutina diaria, proporcionando hasta 2 meses de bienestar continuo y una sensación de ligereza abdominal inigualable.
+
+✔️ Regularidad Garantizada: Mezcla de chía y pitaya que asegura un movimiento intestinal fluido y natural.
+✔️ Colon Saludable: Limpieza profunda de residuos acumulados sin causar irritación ni cólicos.
+✔️ Rendimiento Superior: Fórmula concentrada de 450g que rinde el doble que las fibras convencionales.`,
+    seoTitle: 'Coliplus: Cómo regular el tránsito intestinal y limpiar el colon | Zenhogar',
+    seoDescription: 'Recupera tu regularidad con Coliplus. Fibra natural con Pitaya y Espirulina para limpiar el colon y desinflamar el vientre. ¡Rinde 2 meses y tiene Registro INVIMA!',
     benefits: [
-      'Tránsito intestinal fluido',
-      'Endulzado sin calorías',
-      'Tarro súper rendidor',
-      'Fibra natural con pitaya'
+      'Regula el tránsito intestinal combatiendo el estreñimiento de raíz',
+      'Desinflama el colon y reduce la pesadez abdominal de forma estable',
+      'Fórmula apta para diabéticos, libre de azúcares y calorías extras',
+      'Nutre la flora intestinal con superalimentos como la espirulina',
+      'Máxima rentabilidad: rinde hasta 60 días de bienestar diario'
     ],
     image: '/assets/products/coliplus.webp',
     basePrice: 75900,
@@ -207,17 +214,22 @@ Mezcla de fibras naturales para una digestión fácil y regular. Apto para diab�
     masterId: '11312',
     name: 'Colágeno + Citrato de Magnesio',
     category: 'salud-bienestar',
-    shortDescription: 'Fortalece tus articulaciones y mejora la calidad de tu sueño.',
-    description: `Fórmula diseñada para restaurar la elasticidad de la piel y fortalecer el sistema estructural del cuerpo desde el interior. Este suplemento combina colágeno hidrolizado de fácil absorción con citrato de magnesio, un mineral esencial que potencia la regeneración de tejidos, mejora la movilidad de las articulaciones y ayuda a reducir los signos visibles del envejecimiento como la flacidez y las arrugas. 
+    shortDescription: 'Regeneración Estructural y Vitalidad Osteomuscular.',
+    description: `Restaura la elasticidad de tu cuerpo y fortalece tu sistema estructural desde el interior con nuestro Colágeno Hidrolizado + Citrato de Magnesio. Esta fórmula avanzada de alta pureza ha sido diseñada para quienes buscan recuperar la movilidad perdida, proteger sus articulaciones del desgaste y mejorar la calidad de su descanso nocturno. La combinación de péptidos de colágeno de fácil absorción con el citrato de magnesio potencia la regeneración de tejidos, cartílagos y ligamentos, combatiendo los signos visibles del envejecimiento como la flacidez y las líneas de expresión.
 
-Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para todas las edades y enfocado en la hidratación de tu piel.`,
-    seoTitle: 'Colágeno + Citrato de Magnesio: Bienestar y Energía',
-    seoDescription: 'Fortalece tus articulaciones y mejora tu digestión con Colágeno + Citrato de Magnesio. Calidad INVIMA para tu bienestar integral diaria.',
+Ideal para toda la familia, este suplemento de sabor neutro se disuelve instantáneamente sin dejar grumos, siendo el complemento perfecto para tus bebidas diarias. El magnesio no solo optimiza la síntesis de colágeno, sino que promueve una relajación muscular profunda, ayudando a reducir el estrés y los calambres para que despiertes con una energía renovada.
+
+✔️ Movilidad y Fuerza: Nutre profundamente el sistema óseo y mejora la flexibilidad de las articulaciones.
+✔️ Belleza desde el Interior: Hidrata la piel en sus capas más profundas, fortaleciendo también cabello y uñas.
+✔️ Pureza Familiar: Sabor neutro y disolución rápida, apto para todas las edades y estilos de vida activos.`,
+    seoTitle: 'Colágeno + Citrato de Magnesio: Regeneración Articular y Piel Firme | Zenhogar',
+    seoDescription: 'Fortalece tus articulaciones y mejora la firmeza de tu piel con Colágeno + Citrato de Magnesio. Fórmula pura para vitalidad ósea y descanso reparador. ¡Calidad INVIMA!',
     benefits: [
-      'Sin sabor, mézclalo con cualquier bebida',
-      'Apto para niños y adultos mayores',
-      'Hidratación profunda desde el interior',
-      'Disolución rápida sin dejar grumos'
+      'Fortalece la estructura ósea y protege las articulaciones del desgaste',
+      'Mejora notablemente la elasticidad de la piel y reduce la flacidez',
+      'Promueve una relajación muscular profunda y un sueño reparador',
+      'Sabor totalmente neutro, ideal para mezclar con café, jugos o agua',
+      'Fórmula familiar segura para niños, adultos y personas mayores'
     ],
     image: '/assets/products/Colagenocitratodemagnesio.webp',
     basePrice: 85000,
@@ -268,17 +280,22 @@ Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para tod
     masterId: '22967',
     name: 'Resvisfactor (Calostro Bovino)',
     category: 'salud-bienestar',
-    shortDescription: 'Aumenta tus defensas y protege tu cuerpo contra virus.',
-    description: `Suplemento nutricional a base de proteína de soya y suero, enriquecido con Calostro Bovino, Hongo Shiitake y Betaglucanos de Ganoderma Lucidum. Contiene una mezcla completa de Omega 3, 6 y 9, aminoácidos (L-Glutamina, L-Arginina) y un amplio complejo multivitamínico. Endulzado con Stevia, es el aliado ideal para complementar la nutrición diaria y el bienestar general.
+    shortDescription: 'Escudo Inmunológico y Protección Celular Avanzada.',
+    description: `Fortalece tus defensas naturales y protege tu organismo con Resvisfactor, el sistema de protección biológica de vanguardia. Esta poderosa fórmula combina el calostro bovino (el "oro líquido" de la naturaleza) con los beneficios milenarios del hongo Shiitake y los betaglucanos del Ganoderma Lucidum. Diseñado para ser el escudo diario de tu familia, Resvisfactor ayuda a modular la respuesta inmunológica, acelerar la recuperación física y proporcionar una carga masiva de antioxidantes que combaten el daño celular.
 
-✔️ Escudo Natural: Con Calostro Bovino y Hongos Naturales (Shiitake) para fortalecer tu sistema inmunológico. ✔️ Energía para Todos: Ideal para adultos mayores y jóvenes que buscan protección contra virus y bacterias. ✔️ Bienestar diario: Ayuda a la recuperación del cuerpo y aporta vitalidad inmediata.`,
-    seoTitle: 'Refuerzo Total para tus Defensas con Resvisfactor Calostro Bovino',
-    seoDescription: '✔️ Escudo Natural: Con Calostro Bovino y Shiitake. Fortalece tu sistema inmunológico y aporta vitalidad inmediata. ¡Calidad INVIMA!',
+Enriquecido con un complejo multivitamínico total y Omega 3, 6 y 9, este suplemento no solo previene infecciones recurrentes, sino que aporta una vitalidad inmediata para enfrentar jornadas exigentes. Su base nutricional de proteína de soya y suero lo convierte en el complemento ideal para adultos mayores, jóvenes y personas que buscan una protección superior contra virus y bacterias en un entorno cambiante.
+
+✔️ Fortalecimiento Inmune: Calostro y Shiitake que actúan como un blindaje natural contra agentes externos.
+✔️ Recuperación y Vitalidad: Aminoácidos esenciales (L-Arginina, L-Glutamina) para una regeneración muscular óptima.
+✔️ Nutrición Completa: Omega 3-6-9 y vitaminas esenciales para el equilibrio metabólico de toda la familia.`,
+    seoTitle: 'Resvisfactor Calostro Bovino: Refuerzo Total de Defensas | Zenhogar',
+    seoDescription: 'Fortalece tu sistema inmunológico con Resvisfactor. Fórmula con Calostro Bovino y Shiitake para un escudo natural y vitalidad inmediata. ¡Calidad INVIMA garantizada!',
     benefits: [
-      'Refuerza el sistema inmunológico',
-      'Ideal para toda la familia',
-      'Aporta vitalidad inmediata',
-      'Recuperación física superior'
+      'Eleva significativamente las defensas naturales y la respuesta inmune',
+      'Aporta una sensación de vigor y vitalidad constante durante el día',
+      'Ideal para la protección familiar contra virus, gripes y bacterias',
+      'Acelera la recuperación física y protege las células del estrés oxidativo',
+      'Fórmula completa con Omega 3-6-9 y 12 vitaminas fundamentales'
     ],
     image: '/assets/products/Resvisfactor.webp',
     basePrice: 89900,
@@ -329,17 +346,22 @@ Colágeno de sabor neutro ideal para mezclar con cualquier bebida, apto para tod
     masterId: '61652',
     name: 'CLA 500',
     category: 'salud-bienestar',
-    shortDescription: 'Reconforta articulaciones y reduce la pesadez corporal.',
-    description: `Suplemento nutricional integral diseñado para complementar un estilo de vida activo. Su fórmula avanzada combina los beneficios del Ácido Linoleico Conjugado (CLA) con nutrientes esenciales como Magnesio, Vitamina D3 y Colágeno Hidrolizado, potenciados con extractos de Cúrcuma y Pimienta Negra. Ideal para quienes buscan un soporte metabólico y nutricional que favorezca el bienestar general y la recuperación física diaria.
+    shortDescription: 'Tonificación Metabólica y Confort Articular Profundo.',
+    description: `Esculpe tu mejor versión y reconforta tu cuerpo con CLA 500, el suplemento metabólico avanzado diseñado para quienes buscan una transformación física consciente y segura. Su fórmula maestra aprovecha el Ácido Linoleico Conjugado (CLA) de alta pureza para movilizar las grasas acumuladas y transformarlas en energía, evitando el temido "efecto rebote". Potenciado con Cúrcuma y un toque de Pimienta Negra, este suplemento ofrece una potente acción antiinflamatoria que alivia la pesadez en las articulaciones y favorece la recuperación muscular post-entrenamiento.
 
-Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulaciones y proteger tu piel del paso del tiempo.`,
-    seoTitle: 'Reconforta tus Articulaciones con CLA 500 Cúrcuma y Pimienta',
-    seoDescription: 'Reduce la pesadez y protege tu piel con CLA 500. Máximo aprovechamiento gracias al toque de pimienta negra. ¡Salud natural con calidad INVIMA!',
+Además de su acción en la quema de grasas, CLA 500 protege tus células del paso del tiempo gracias a su carga antioxidante, ayudando a mantener una piel firme y elástica durante tu proceso de cambio. Es la solución ideal para deportistas y personas activas que desean definir su musculatura, mejorar su movilidad articular y fortalecer su sistema óseo con el respaldo de la Vitamina D3 y el Magnesio.
+
+✔️ Movilización de Grasas: Ayuda a tu cuerpo a utilizar las reservas de tejido adiposo como combustible real.
+✔️ Alivio y Confort: La cúrcuma y pimienta negra reducen la inflamación articular y la rigidez corporal.
+✔️ Definición Muscular: Favorece la tonificación y protege la masa magra durante la pérdida de peso.`,
+    seoTitle: 'CLA 500 Cúrcuma y Pimienta: Tonificación y Salud Articular | Zenhogar',
+    seoDescription: 'Define tu figura y alivia tus articulaciones con CLA 500. Fórmula con Cúrcuma y Magnesio para un metabolismo activo y confort corporal. ¡Calidad INVIMA certificada!',
     benefits: [
-      'Reduce la pesadez en articulaciones',
-      'Máxima absorción gracias a la pimienta',
-      'Protección celular contra el paso del tiempo',
-      'Ayuda en procesos de tonificación muscular'
+      'Promueve la movilización de grasas y ayuda en la tonificación muscular',
+      'Potente acción antiinflamatoria que reduce la pesadez en articulaciones',
+      'Optimiza la absorción de nutrientes gracias al extracto de pimienta negra',
+      'Protege las células contra el envejecimiento y flacidez prematura',
+      'Aporte esencial de Vitamina D3 y Magnesio para la salud ósea integral'
     ],
     image: '/assets/products/CLA500.webp',
     basePrice: 75900,
@@ -394,17 +416,22 @@ Aprovecha los beneficios de la cúrcuma y la pimienta para confortar articulacio
     masterId: '11262',
     name: 'Café Verde Cafetolio',
     category: 'salud-bienestar',
-    shortDescription: 'Activa tu metabolismo y controla la ansiedad de picar.',
-    description: `Alimento en polvo a base de café verde puro molido, reconocido por su contenido natural de ácido clorogénico. Este producto es una opción ideal para quienes buscan un complemento natural en sus hábitos de bienestar diarios. Actúa como un antioxidante natural que complementa un estilo de vida saludable y una dieta equilibrada, proporcionando vitalidad de forma orgánica. 100% Café Puro, apto para veganos.
+    shortDescription: 'Activación Metabólica y Control Natural de Saciedad.',
+    description: `Potencia tu metabolismo y recupera el control de tu apetito con Café Verde Cafetolio, el concentrado orgánico de granos sin tostar que conserva intactas todas las propiedades del ácido clorogénico. A diferencia del café tradicional, nuestro Café Verde actúa como un termogénico inteligente que ayuda a tu cuerpo a quemar grasas de forma natural mientras bloquea la absorción de azúcares innecesarios. Es el aliado perfecto para quienes buscan un vientre plano y una energía constante sin los picos de ansiedad o nerviosismo.
 
-Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu vientre plano y darte energía.`,
-    seoTitle: 'Limpieza Natural y Vientre Plano con Café Verde Cafetolio',
-    seoDescription: 'Elimina grasa y limpia tu hígado con el poder del grano al natural de Cafetolio. Energía pura sin nerviosismos. ¡Calidad INVIMA garantizada!',
+Rico en antioxidantes de alta potencia, Cafetolio purifica tu hígado y desintoxica tu organismo en cada taza. Su formato de molienda fina permite una preparación versátil y rápida, ideal para integrar en tu rutina diaria como un ritual de salud que revitaliza tu sistema digestivo y te mantiene activo durante toda la jornada.
+
+✔️ Quema de Grasa Natural: El ácido clorogénico estimula la utilización de reservas lipídicas como energía.
+✔️ Control de Ansiedad: Ayuda a regular los niveles de glucosa, reduciendo el deseo impulsivo de picar dulce.
+✔️ Pureza Orgánica: 100% café verde puro, libre de aditivos químicos y apto para estilos de vida veganos.`,
+    seoTitle: 'Café Verde Cafetolio: Vientre Plano y Metabolismo Activo | Zenhogar',
+    seoDescription: 'Activa tu quema de grasa natural con Café Verde Cafetolio. Rico en ácido clorogénico para un metabolismo acelerado y energía sin ansiedad. ¡Calidad INVIMA certificada!',
     benefits: [
-      'Activa el metabolismo naturalmente',
-      'Ayuda a mantener un vientre plano',
-      'Energía duradera sin causar ansiedad',
-      'Apoya la depuración del hígado'
+      'Acelera el metabolismo promoviendo la quema de grasa abdominal',
+      'Controla eficazmente la ansiedad y el deseo de comer entre horas',
+      'Proporciona energía natural y duradera sin causar nerviosismo',
+      'Limpia profundamente el hígado y actúa como potente antioxidante',
+      'Grano 100% natural al natural, conservando todos sus fitoquímicos'
     ],
     image: '/assets/products/Cafetolio.webp',
     basePrice: 99900,
@@ -458,17 +485,22 @@ Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu v
     masterId: '11236',
     name: 'Loción Termoactiva',
     category: 'salud-bienestar',
-    shortDescription: 'Alivio Rápido para Músculos y Articulaciones.',
-    description: `Loción de masaje ideal para la relajación muscular y el alivio de tensiones después del ejercicio o actividades físicas exigentes. Sus componentes activos de absorción rápida proporcionan una sensación de alivio local en músculos y articulaciones, ayudando en casos de contracturas o fatiga.
+    shortDescription: 'Alivio Muscular Termoactivo y Recuperación Profunda.',
+    description: `Experimenta un alivio inmediato y reconfortante con nuestra Loción Termoactiva, el tratamiento de choque diseñado para liberar la tensión acumulada en tus músculos y articulaciones. Su potente fórmula botánica combina los beneficios ancestrales de la uña de gato, la árnica y el castaño de indias para penetrar profundamente en las capas de la piel, proporcionando un calor terapéutico que relaja las fibras musculares y mejora la circulación local al instante.
 
-✔️ Calma el Dolor: Con extractos de Uña de Gato y Caléndula que alivian golpes, torceduras y calambres. ✔️ Relajación Total: Ideal para aplicar después del ejercicio o tras un día de mucho esfuerzo físico. ✔️ Efecto Rápido: Se absorbe velozmente proporcionando alivio y descanso en la zona afectada.`,
-    seoTitle: 'Alivio Rápido para Músculos y Articulaciones - Loción Termoactiva',
-    seoDescription: '✔️ Calma el Dolor: Con Uña de Gato y Caléndula. Alivio para golpes, torceduras y calambres con efecto calor. ¡Registro INVIMA!',
+Ideal para deportistas que buscan acelerar su recuperación o para quienes sufren de fatiga muscular tras largas jornadas laborales, esta loción no grasosa se absorbe en segundos sin manchar la ropa. Ya sea una contractura en el cuello, pesadez en las piernas o un dolor articular inoportuno, la Loción Termoactiva de ZENHOGAR actúa como un analgésico natural que devuelve la movilidad y el confort a tu cuerpo.
+
+✔️ Calor Reparador: Estimula el flujo sanguíneo para desinflamar y aliviar el dolor rápidamente.
+✔️ Alianza Botánica: Árnica y Chuchuguaza que trabajan en sinergia contra golpes y torceduras.
+✔️ Bienestar Inmediato: Textura ligera de rápida acción que relaja tensiones y mejora la flexibilidad.`,
+    seoTitle: 'Loción Termoactiva: Alivio para Dolores Musculares y Articulares | Zenhogar',
+    seoDescription: 'Elimina el dolor y la tensión con la Loción Termoactiva de ZENHOGAR. Efecto calor profundo con Árnica y Uña de Gato para recuperación muscular total. ¡Registro INVIMA!',
     benefits: [
-      'Alivio muscular casi instantáneo',
-      'Relaja tensiones por esfuerzo físico',
-      'Efecto calmante ante torceduras',
-      'Fórmula herbal no grasosa'
+      'Alivio casi instantáneo de dolores musculares, golpes y calambres',
+      'Efecto calor profundo que relaja tensiones y desinflama tejidos',
+      'Fórmula botánica con extractos de alta pureza y absorción rápida',
+      'Ideal para masajes de recuperación deportiva y relajación diaria',
+      'No deja residuos grasos y es amable con todo tipo de piel'
     ],
     image: '/assets/products/Termoactiva.webp',
     basePrice: 79900,
@@ -524,17 +556,22 @@ Bebida de café verde al natural que ayuda a limpiar tu organismo, mantener tu v
     masterId: '144660',
     name: 'C-Lagen',
     category: 'salud-bienestar',
-    shortDescription: 'Refuerzo del Mar para tus Rodillas.',
-    description: `Alimento en polvo a base de harina de arroz y proteína de suero, cuyo protagonista es el Colágeno Hidrolizado de Origen Marino. Esta fórmula se complementa con Citrato de Magnesio y una premezcla de 12 vitaminas y 8 minerales. Ideal para quienes buscan mantener la elasticidad de los tejidos y el bienestar de las articulaciones, contribuyendo a la vitalidad del sistema nervioso.
+    shortDescription: 'Regeneración Articular con Vitalidad Marina.',
+    description: `Recupera la libertad de movimiento con C-Lagen, el colágeno hidrolizado de origen marino diseñado específicamente para fortalecer y regenerar tus articulaciones críticas como rodillas, caderas y hombros. Su estructura molecular superior asegura una absorción hasta 1.5 veces mayor que los colágenos tradicionales, permitiendo que sus péptidos lleguen directamente al cartílago y tendones para restaurar su resistencia y elasticidad.
 
-Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos y mejorar tu movilidad diaria.`,
-    seoTitle: 'Refuerzo de Colágeno Marino para Rodillas y Articulaciones | C-Lagen',
-    seoDescription: 'Recupera tu movilidad con C-Lagen. Colágeno de mar de fácil absorción con Magnesio para huesos fuertes y sanos. ¡Calidad INVIMA!',
+Potenciado con un complejo multivitamínico total y citrato de magnesio, C-Lagen no solo protege tus huesos del desgaste, sino que nutre el sistema nervioso para una respuesta muscular más ágil. Es la solución definitiva para quienes sienten rigidez al despertar o molestias al subir escaleras, proporcionando una base sólida de minerales que mantienen tu esqueleto joven y funcional a cualquier edad.
+
+✔️ Poder Oceánico: Colágeno marino de alta biodisponibilidad para una reconstrucción articular real.
+✔️ Huesos Macizos: Minerales esenciales que previenen la desmineralización y fortalecen la densidad ósea.
+✔️ Movilidad sin Límites: Nutre profundamente ligamentos y tendones para un caminar fluido y sin dolor.`,
+    seoTitle: 'C-Lagen Colágeno Marino: Salud de Rodillas y Articulaciones | Zenhogar',
+    seoDescription: 'Fortalece tus rodillas y recupera tu movilidad con C-Lagen. Colágeno Marino puro con Magnesio para una regeneración articular superior. ¡Registro INVIMA certificado!',
     benefits: [
-      'Absorción fácil y rápida por ser marino',
-      'Magnesio para mayor firmeza en los huesos',
-      'Camina y muévete con total libertad',
-      'Fortalece tendones y ligamentos'
+      'Máxima biodisponibilidad gracias a su origen marino de alta pureza',
+      'Protege y regenera cartílagos desgastados en rodillas y caderas',
+      'Fortalece la densidad ósea con su aporte de magnesio y minerales',
+      'Mejora notablemente la flexibilidad de tendones y ligamentos',
+      'Deliciosa fórmula en polvo de fácil disolución para tu rutina diaria'
     ],
     image: '/assets/products/C-lagen.webp',
     basePrice: 93500,
@@ -589,18 +626,22 @@ Colágeno de origen marino diseñado para fortalecer tus articulaciones, huesos 
     masterId: '129312',
     name: 'Citramix',
     category: 'salud-bienestar',
-    shortDescription: 'Relajante de Músculos y Nervios.',
-    description: `Complemento alimenticio avanzado formulado con una mezcla de hierbas aromáticas, té verde e inulina. Su ingrediente principal es el Citrato de Magnesio, mineral clave para el bienestar muscular y óseo. Está enriquecido con un complejo multivitamínico (A, C, D, E y complejo B) y minerales esenciales que contribuyen a disminuir la sensación de cansancio y fatiga diaria. 
-Sabor: Durazno.
+    shortDescription: 'Equilibrio Neuro-Muscular y Relax Profundo.',
+    description: `Encuentra la calma y libera la tensión acumulada con Citramix, la solución maestra de magnesio diseñada para equilibrar tu sistema nervioso y relajar tus músculos de forma integral. Su fórmula avanzada utiliza una mezcla estratégica de citrato y bisglicinato de magnesio, asegurando que cada célula de tu cuerpo reciba este mineral vital para evitar calambres, tics nerviosos y la rigidez muscular provocada por el estrés diario.
 
-Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar calambres y mantener la calma diaria.`,
-    seoTitle: 'Relaja Músculos y Nervios con Citramix Sabor Durazno',
-    seoDescription: 'Dile adiós a la tensión y calambres con Citramix. Tres tipos de magnesio para descansar mejor y tener una digestión ligera. ¡Calidad INVIMA!',
+Con un refrescante sabor a durazno maduro, Citramix no solo mejora tu descanso nocturno, sino que su alto contenido de fibra previene la pesadez abdominal y regula la presión arterial de manera natural. Enriquecido con un complejo multivitamínico revitalizante, es el complemento perfecto para desconectar tras una jornada exigente, ayudándote a recuperar la paz mental y la ligereza física que necesitas.
+
+✔️ Triple Acción de Magnesio: Optimiza la relajación muscular y combate el estrés crónico de raíz.
+✔️ Adiós a los Calambres: Previene espasmos y rigidez, mejorando la flexibilidad de todo el cuerpo.
+✔️ Bienestar Digestivo: La inulina incorporada promueve una digestión ligera y un vientre desinflamado.`,
+    seoTitle: 'Citramix Magnesio Durazno: Relax Muscular y Paz Mental | Zenhogar',
+    seoDescription: 'Dile adiós al estrés y los calambres con Citramix. Triple aporte de Magnesio para un descanso profundo y músculos relajados. ¡Delicioso sabor a durazno!',
     benefits: [
-      'Músculos descansados y sin calambres',
-      'Evita la pesadez abdominal con fibra natural',
-      'Calma total en días de mucho estrés',
-      'Sabor delicioso a durazno maduro'
+      'Relaja profundamente los músculos evitando calambres y rigidez',
+      'Combate el agotamiento nervioso y mejora la calidad del descanso',
+      'Promueve una digestión sana y libre de pesadez abdominal diaria',
+      'Aporta un complejo vitamínico completo para la vitalidad celular',
+      'Sabor premium a durazno, ideal para disfrutar frío en la noche'
     ],
     image: '/assets/products/Citramix.webp',
     basePrice: 79900,
@@ -650,17 +691,22 @@ Mezcla natural con tres tipos de magnesio para relajar tus músculos, evitar cal
     masterId: '23012',
     name: 'Coffee + Colágeno',
     category: 'salud-bienestar',
-    shortDescription: 'Café con Vitaminas para tu Belleza.',
-    description: `Deliciosa mezcla nutricional en polvo que combina la energía del café soluble con los beneficios del Colágeno Hidrolizado en una base cremosa de coco. Fortificado con vitaminas esenciales (A, C, D, E, B) y minerales como Calcio y Magnesio. Es el aliado perfecto para comenzar el día, aportando nutrientes que favorecen la salud de la piel, el cabello y las uñas mientras disfrutas de un sabor excepcional. 
- 
-Combina tu café matutino con el poder del colágeno y crema de coco para fortalecer tu cabello, uñas y defensas sin caer pesado.`,
-    seoTitle: 'Tu Ritual de Belleza Matutino con Coffee + Colágeno',
-    seoDescription: 'Fortalece cabello y uñas con Coffee + Colágeno. Hecho con crema de coco y 12 vitaminas para tu vitalidad. ¡Calidad INVIMA garantizada!',
+    shortDescription: 'Ritual de Belleza y Vitalidad Matutina Superior.',
+    description: `Transforma tu primera taza del día en un potente ritual de rejuvenecimiento con Coffee + Colágeno. Esta deliciosa mezcla combina el aroma estimulante del café soluble premium con los beneficios estructurales del colágeno hidrolizado, todo sobre una base cremosa y saludable de coco. Diseñado para nutrir tu belleza desde la raíz, este café funcional fortalece tu cabello, aporta brillo a tu piel y robustez a tus uñas mientras te proporciona la energía necessária para conquistar tu jornada.
+
+Libre de lácteos y grasas trans, nuestra fórmula se apoya en los triglicéridos de cadena media (MCT) del coco para una energía cerebral sostenida sin pesadez estomacal. Enriquecido con 12 vitaminas fundamentales, Coffee + Colágeno es más que un capricho; es tu seguro diario de vitalidad que cuida tu estética y tu sistema óseo en cada sorbo.
+
+✔️ Belleza Estructural: Bio-péptidos de colágeno que restauran la firmeza de la piel y fuerza capilar.
+✔️ Energía con Propósito: Café funcional con crema de coco que activa tu mente sin irritar el estómago.
+✔️ Blindaje Vitamínico: Carga completa de vitaminas A, C, D, E y complejo B para defensas invencibles.`,
+    seoTitle: 'Coffee + Colágeno con Crema de Coco: Belleza y Energía | Zenhogar',
+    seoDescription: 'Fortalece tu cabello y uñas mientras disfrutas tu café. Coffee + Colágeno con base de Coco y 12 vitaminas para una belleza integral. ¡Calidad INVIMA!',
     benefits: [
-      'Fortalece cabello y uñas desde la raíz',
-      'Con crema de coco, no genera pesadez',
-      'Aporta 12 vitaminas esenciales para el día',
-      'El ritual de belleza más delicioso'
+      'Fortalece la fibra capilar y las uñas desde las capas internas',
+      'Promueve una piel luminosa y elástica gracias al colágeno puro',
+      'Aporta energía limpia y sostenida con los beneficios del coco',
+      'Contiene el 50% del requerimiento diario de vitaminas clave',
+      'Sabor gourmet cremoso sin azúcar añadida ni pesadez gástrica'
     ],
     image: '/assets/products/Coffe+colageno.webp',
     basePrice: 75900,
@@ -709,17 +755,22 @@ Combina tu café matutino con el poder del colágeno y crema de coco para fortal
     masterId: '164776',
     name: 'Creatina 100%',
     category: 'salud-bienestar',
-    shortDescription: 'Fuerza para tus Músculos y Cerebro.',
-    description: `Optimiza tu rendimiento físico y potencia tu fuerza muscular con creatina monohidratada de máxima pureza. Es el aliado perfecto para mejorar la recuperación post-entrenamiento y mantener la vitalidad muscular en deportistas, adultos mayores y personas con dietas veganas. 
+    shortDescription: 'Poder Muscular y Agudeza Mental Superior.',
+    description: `Alcanza tu máximo potencial físico y cognitivo con nuestra Creatina 100% Pura, el suplemento de grado farmacéutico diseñado para quienes no aceptan menos que la perfección. Nuestra creatina monohidratada de alta densidad optimiza la resíntesis de ATP, permitiéndote entrenar con una fuerza explosiva y recuperarte en tiempo récord. No es solo un aliado para el músculo; la creatina es un potente combustible cerebral que mejora la memoria de trabajo y la velocidad de procesamiento mental, manteniéndote enfocado y alerta en tus desafíos diarios.
 
-Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despierta y concentrada.`,
-    seoTitle: 'Creatina 100% Pura para Fuerza Muscular y Cerebral',
-    seoDescription: 'Potencia tus músculos y cerebro con Creatina 100% pura. Ideal para fuerza real y vitalidad en adultos. ¡Calidad de grado farmacéutico USP!',
+Libre de rellenos, sabores artificiales o aditivos innecesarios, esta fórmula de máxima pureza es ideal tanto para deportistas de élite como para adultos mayores que desean preservar su vitalidad muscular y cognitiva. Su solubilidad instantánea permite consumirla fácilmente en cualquier bebida, garantizando que cada gramo trabaje en favor de tu rendimiento integral.
+
+✔️ Fuerza Real: Potencia la contracción muscular y el volumen celular para una estructura física sólida.
+✔️ Enfoque Cerebral: Nutre las neuronas y reduce la fatiga mental, mejorando la concentración sostenida.
+✔️ Grado Farmacéutico: Pureza total bajo estándares USP, asegurando un suplemento limpio y ultra-seguro.`,
+    seoTitle: 'Creatina 100% Pura Monohidratada: Fuerza y Enfoque | Zenhogar',
+    seoDescription: 'Potencia tus músculos y cerebro con Creatina 100% pura de ZENHOGAR. Grado farmacéutico USP para fuerza real, recuperación rápida y claridad mental. ¡Compra calidad!',
     benefits: [
-      'Pureza máxima sin rellenos ni sabores',
-      'Mantiene la fuerza en brazos y piernas',
-      'Mayor concentración y energía mental',
-      'Grado farmacéutico para tu seguridad'
+      'Aumenta la fuerza explosiva y el rendimiento físico de alta intensidad',
+      'Mejora significativamente la memoria, el enfoque y la agudeza mental',
+      'Acelera la recuperación muscular post-entrenamiento evitando el catabolismo',
+      'Fórmula 100% pura monohidratada, sin rellenos ni azúcares añadidos',
+      'Calidad de grado farmacéutico USP para una seguridad y absorción total'
     ],
     image: '/assets/products/creatina100.webp',
     basePrice: 105000,
@@ -769,17 +820,22 @@ Creatina 100% pura para darte fuerza real, vitalidad y mantener tu mente despier
     masterId: '11299',
     name: 'Iprossmen',
     category: 'salud-bienestar',
-    shortDescription: 'Protección Natural para el Hombre.',
-    description: `Novedosa bebida funcional diseñada con ingredientes de origen natural que tienen un impacto positivo en las funciones del organismo masculino, especialmente en la salud de la próstata. Su fórmula avanzada utiliza tecnologías de extracción para mantener activos sus principios de alto poder antioxidante, como carotenoides y polifenoles, que ayudan a reducir la inflamación, prevenir enfermedades degenerativas y fortalecer el sistema inmunológico. 
+    shortDescription: 'Salud Masculina Integral y Escudo Próstatico.',
+    description: `Protege tu vitalidad y cuida tu salud con Iprossmen, la solución fitoterapéutica avanzada diseñada exclusivamente para las necesidades del hombre moderno. Su fórmula de alta precisión aprovecha el poder antioxidante del licopeno de tomate y los arándanos rojos para crear un blindaje natural que reconforta la zona pélvica y optimiza la función urinaria. Iprossmen ayuda a regular los procesos inflamatorios de la próstata, permitiéndote mantener una vida activa y libre de molestias persistentes.
 
-Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y mantener tu energía a largo plazo.`,
-    seoTitle: 'Protección Natural de la Próstata y Vitalidad con Iprossmen',
-    seoDescription: 'Cuida tu próstata con el poder del tomate de árbol y arándanos de Iprossmen. Bienestar masculino y prevención garantizada. ¡Calidad INVIMA!',
+Enriquecido con jengibre, ciruela y vitamina E, este elixir masculino actúa como un potente regenerador celular que combate el envejecimiento del sistema reproductor. Es el aliado indispensable para hombres que buscan prevención y equilibrio hormonal, asegurando un flujo de energía constante y un bienestar integral que se siente desde los primeros días de uso.
+
+✔️ Bienestar Pélvico: Ayuda a desinflamar y proteger la salud de la próstata de forma preventiva.
+✔️ Vigor Natural: Extractos frutales que aportan antioxidantes clave para la vitalidad masculina.
+✔️ Protección Celular: Rico en vitamina E y polifenoles que combaten el daño oxidativo sistémico.`,
+    seoTitle: 'Iprossmen: Salud de la Próstata y Bienestar del Hombre | Zenhogar',
+    seoDescription: 'Cuida tu salud masculina con Iprossmen. Fórmula natural con Licopeno de Tomate y Arándanos para proteger la próstata y darte vigor diario. ¡Registro INVIMA certificado!',
     benefits: [
-      'Cuida y reconforta la zona pélvica naturalmente',
-      'Aporta vigor y energía para el día a día',
-      'Complemento ideal para la salud masculina',
-      'Fórmula rica en extracto de tomate y arándanos'
+      'Protege y reconforta la salud de la próstata de manera preventiva',
+      'Mejora notablemente la función urinaria y reduce la inflamación pélvica',
+      'Aporta una potente carga de antioxidantes específicos para el hombre',
+      'Favorece el equilibrio hormonal y mantiene los niveles de vigor elevados',
+      'Fórmula líquida de alta absorción con ingredientes naturales certificados'
     ],
     image: '/assets/products/Iprossmen.webp',
     basePrice: 79900,
@@ -829,17 +885,22 @@ Aliado ideal para cuidar la salud masculina, confortar la zona pélvica y manten
     masterId: '129333',
     name: 'KDS 10',
     category: 'salud-bienestar',
-    shortDescription: 'Fórmula avanzada multivitamínica.',
-    description: `Suplemento nutricional diseñado para fortalecer el sistema inmune y proporcionar energía constante durante el día. Su fórmula enriquecida con vitaminas y minerales es el complemento ideal para el crecimiento infantil y el rendimiento diario en adultos.
+    shortDescription: 'Blindaje Vitamínico y Energía Vital Familiar.',
+    description: `Asegura la nutrición de quienes más quieres con KDS 10, el sistema multivitamínico de espectro completo diseñado para cubrir las brechas nutricionales de toda la familia. Su fórmula magistral sobre una base cremosa de coco potencia la absorción de vitaminas A, C, D, E y el complejo B, proporcionando un blindaje inmunológico real y una energía física inagotable. Ideal para niños en etapa de crecimiento, adultos con jornadas exigentes y personas mayores, KDS 10 garantiza que el organismo reciba cada mineral esencial para su correcto funcionamiento.
 
-KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.`,
-    seoTitle: 'Cómo solucionar la falta de vitaminas y defensas bajas con KDS 10',
-    seoDescription: 'Fortalece tu organismo con el complejo multivitamínico KDS 10. Fórmula balanceada para bienestar integral y calidad certificada. ¡Compra ahora!',
+Más que un simple suplemento, KDS 10 actúa como un revitalizante metabólico que combate la fatiga mental y fortalece la estructura ósea gracias a su aporte de zinc y hierro. Su deliciosa textura y fácil disolución lo convierten en el complemento perfecto para el desayuno diario, brindando la tranquilidad de saber que tu salud y la de los tuyos está respaldada por una fórmula de grado superior y calidad certificada.
+
+✔️ Inmunidad Total: Fortalece las defensas naturales contra virus y bacterias del entorno escolar y laboral.
+✔️ Crecimiento y Vigor: Aporta los ladrillos nutricionales necesarios para el desarrollo físico y mental.
+✔️ Absorción Superior: Base de coco que facilita el transporte de micronutrientes a las células de forma eficiente.`,
+    seoTitle: 'KDS 10 Multivitamínico Familiar: Defensas y Vitalidad | Zenhogar',
+    seoDescription: 'Fortalece a toda tu familia con KDS 10. Complejo completo de vitaminas y minerales para defensas altas y energía sin límites. ¡Nutrición inteligente certificada!',
     benefits: [
-      'Complejo completo de vitaminas y minerales',
-      'Fortalece las defensas de toda la familia',
-      'Combate el cansancio físico y mental',
-      'Base cremosa de coco para mejor absorción'
+      'Proporciona el 100% de las vitaminas y minerales esenciales diarios',
+      'Fortalece drásticamente el sistema inmunológico de niños y adultos',
+      'Elimina el cansancio físico recurrente y mejora el enfoque mental',
+      'Delicioso sabor y base de coco que asegura una digestión ligera',
+      'Ideal para complementar dietas con deficiencias o periodos de desgaste'
     ],
     image: '/assets/products/Kds10.webp',
     basePrice: 79900,
@@ -893,17 +954,22 @@ KDS 10 aporta los nutrientes esenciales que tu cuerpo necesita cada día.`,
     masterId: '57848',
     name: 'Liofhim',
     category: 'salud-bienestar',
-    shortDescription: 'Bebida de Plantas para Dormir Profundo.',
-    description: `Producto especializado diseñado para ayudar a conciliar el sueño y garantizar un descanso reparador durante la noche. Gracias a su mezcla de hierbas relajantes, ayuda a reducir el estrés y la ansiedad, permitiendo que el cuerpo entre en un estado de relajación profunda. 
+    shortDescription: 'Ritual de Descanso Nocturno y Sueño Reparador.',
+    description: `Recupera el placer de dormir profundamente y despierta con una energía renovada gracias a Liofhim, el elixir de relajación botánica de ZENHOGAR. Su fórmula experta en apagar el ruido mental combina extractos concentrados de manzanilla, albahaca y hierbabuena, actuando como un bálsamo para el sistema nervioso estresado. Liofhim no solo te ayuda a conciliar el sueño en minutos, sino que garantiza que cada hora de descanso sea de alta calidad, evitando los micro-despertares y la agitación nocturna.
 
-Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar renovado cada mañana.`,
-    seoTitle: 'Duerme Profundo y Despierta Renovado con Liofhim',
-    seoDescription: 'Apaga la mente y logra un descanso real con Liofhim. Mezcla de Manzanilla y Albahaca para dormir rápido y sin interrupciones. ¡Calidad INVIMA!',
+A diferencia de los somníferos químicos, Liofhim promueve un descanso fisiológico natural sin causar dependencia ni somnolencia al día siguiente. Es el aliado perfecto para calmar la ansiedad nocturna, relajar los músculos y permitir que tu mente se regenere por completo. Despídete del insomnio y redescubre lo que significa tener una mente clara y un cuerpo revitalizado cada mañana.
+
+✔️ Apagado Mental: Calma el flujo de pensamientos intrusivos para una relajación profunda e inmediata.
+✔️ Sueño Continuo: Ayuda a mantener un estado de descanso estable y sin interrupciones durante la noche.
+✔️ Amanecer Vital: Fórmula herbal que asegura despertar sin pesadez, con máxima claridad y vigor.`,
+    seoTitle: 'Liofhim Descanso Profundo: Sueño Reparador y Calma Natural | Zenhogar',
+    seoDescription: 'Duerme profundamente con Liofhim. Mezcla botánica de Manzanilla y Albahaca para apagar la mente y despertar renovado cada mañana. ¡Sin somnolencia diurna!',
     benefits: [
-      'Ayuda a conciliar el sueño en pocos minutos',
-      'Evita los despertares a mitad de la noche',
-      'Despierta con la mente clara y renovada',
-      'Deliciosa mezcla de manzanilla y albahaca'
+      'Facilita el inicio del sueño profundo de forma rápida y natural',
+      'Elimina los despertares nocturnos logrando un descanso ininterrumpido',
+      'Reduce significativamente el estrés y la tensión acumulada del día',
+      'Despierta con la mente lúcida y energía renovada sin efectos secundarios',
+      'Sabor botánico relajante de alta pureza con registro INVIMA certificado'
     ],
     image: '/assets/products/Liofhim.webp',
     basePrice: 75900,
@@ -953,16 +1019,22 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     masterId: '26272',
     name: 'Liteplex',
     category: 'salud-bienestar',
-    shortDescription: 'Alivio Natural para tu Digestión.',
-    description: `Bebida funcional concentrada que combina extractos botánicos de té verde, jengibre, albahaca y menta en una fórmula de rápida absorción. Su composición está diseñada para ofrecer una sensación de frescura y ligereza, siendo un excelente acompañamiento para hábitos de vida saludables y una alimentación equilibrada. Sabor: Limón.
+    shortDescription: 'Bienestar Digestivo y Ligereza Metabólica.',
+    description: `Recupera la armonía de tu sistema digestivo con Liteplex, el concentrado botánico diseñado para proporcionar un alivio rápido y natural contra la pesadez y la acidez. Su fórmula de alta pureza combina extractos de jengibre, menta y albahaca, que actúan como un bálsamo reconfortante en el tracto digestivo, facilitando una digestión ligera incluso después de comidas abundantes. Liteplex es el aliado ideal para quienes buscan mantener un metabolismo activo y un vientre plano sin recurrir a químicos agresivos.
 
-✔️ Bienestar Estomacal: Con Jengibre, Limón y Albahaca que ayudan a calmar la pesadez y la acidez de forma natural. ✔️ Recuperación: Ideal para cuidar tu sistema digestivo después de comidas pesadas o molestias persistentes. ✔️ Sin Azúcar: Endulzado con Estevia, perfecto para cuidar tu salud sin sumar calorías.`,
-    seoTitle: 'Alivio Natural para tu Digestión con Liteplex',
-    seoDescription: '✔️ Bienestar Estomacal: Con Jengibre y Limón. Calma la pesadez y acidez de forma natural y sin azúcar. ¡Registro INVIMA!',
+Endulzado naturalmente con estevia, este refrescante elixir con sabor a limón se absorbe instantáneamente, proporcionando una sensación de frescura y bienestar que perdura. Es la solución perfecta para llevar contigo y asegurar que tu jornada no se vea interrumpida por molestias abdominales, permitiéndote disfrutar de cada momento con total ligereza y confort.
+
+✔️ Alivio Estomacal: Calma la acidez y la pesadez abdominal con la frescura natural del limón y la menta.
+✔️ Digestión Ágil: El jengibre y la albahaca estimulan el tránsito digestivo para evitar la hinchazón.
+✔️ Pureza Saludable: Sin azúcar añadida y bajo en calorías, ideal para mantener tu equilibrio metabólico diaria.`,
+    seoTitle: 'Liteplex Alivio Digestivo: Digestión Ligera y Bienestar Natural | Zenhogar',
+    seoDescription: 'Dile adiós a la pesadez y la acidez con Liteplex de ZENHOGAR. Concentrado de Jengibre y Limón para una digestión ágil y un vientre desinflamado. ¡Calidad INVIMA!',
     benefits: [
-      'Calma la pesadez y acidez',
-      'Ideal tras comidas pesadas',
-      'Endulzado con Estevia'
+      'Alivio casi inmediato contra la pesadez estomacal y la acidez',
+      'Promueve una digestión ágil y previene la hinchazón abdominal',
+      'Fórmula líquida concentrada de origen botánico y rápida absorción',
+      'Endulzado con estevia, apto para quienes cuidan su figura y salud',
+      'Delicioso sabor a limón que proporciona frescura y ligereza constante'
     ],
     image: '/assets/products/Liteplex.webp',
     basePrice: 79900,
@@ -1015,16 +1087,22 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     masterId: '11264',
     name: 'Maxlite',
     category: 'salud-bienestar',
-    shortDescription: 'Nutrición Integral para Huesos y Piel.',
-    description: `Mezcla nutricional premium en polvo que integra los beneficios del Colágeno Hidrolizado con la riqueza nutritiva de la Quinua. Enriquecido con Resveratrol, Omega 3, 6 y 9, además de un amplio espectro de vitaminas (A, C, D, E y complejo B) y minerales esenciales. Su fórmula balanceada está diseñada para complementar la nutrición diaria, apoyando el bienestar integral de quienes buscan mantener una vida activa y saludable.
+    shortDescription: 'Nutrición Estructural y Vitalidad Osteoarticular.',
+    description: `Eleva tu nutrición diaria con Maxlite, la mezcla súper-alimento diseñada para fortalecer tu estructura física y rejuvenecer tu piel desde el interior. Esta fórmula premium combina los péptidos de colágeno hidrolizado con la riqueza proteica de la quinua orgánica, creando un sistema de soporte completo para tus huesos, articulaciones y tejidos. Enriquecido con un potente escudo antioxidante de resveratrol y omega 3-6-9, Maxlite combate el desgaste celular y promueve una elasticidad superior en todo tu cuerpo.
 
-✔️ Cuidado de Articulaciones: Con colágeno y quinua para mantener tus huesos y articulaciones fuertes y sanos. ✔️ Piel y Cabello: Ayuda a mejorar la apariencia de la piel y fortalecer el cabello desde adentro. ✔️ Multivitamínico: Aporta las vitaminas esenciales para que tu cuerpo funcione con vitalidad.`,
-    seoTitle: 'Nutrición Integral para Huesos y Piel con Maxlite',
-    seoDescription: '✔️ Cuidado de Articulaciones: Colágeno y quinua para huesos fuertes. Nutre piel y cabello con vitaminas esenciales. ¡Registro INVIMA!',
+Complementado con un amplio espectro de vitaminas esenciales, este suplemento es el aliado perfecto para personas activas que no desean que el paso del tiempo limite su ritmo. Su textura ligera y nutritiva nutre profundamente la fibra capilar y la dermis, devolviéndole la luminosidad al rostro y la firmeza al cabello, todo con el respaldo de una fórmula balanceada de alta pureza.
+
+✔️ Cuidado Articular Superior: Colágeno y quinua que restauran la movilidad y protegen contra el desgaste.
+✔️ Piel y Cabello Radiante: Biotina y vitaminas que fortalecen la queratina natural y reducen la flacidez.
+✔️ Energía Multivitamínica: Carga completa de micronutrientes para una vitalidad inagotable y defensas fuertes.`,
+    seoTitle: 'Maxlite Colágeno y Quinua: Nutrición Celular y Salud Articular | Zenhogar',
+    seoDescription: 'Fortalece tus huesos y rejuvenece tu piel con Maxlite. Fórmula con Quinua, Colágeno y Resveratrol para una vitalidad integral y movilidad sin límites. ¡Calidad INVIMA!',
     benefits: [
-      'Huesos y articulaciones fuertes',
-      'Vitalidad para tu ritmo diario',
-      'Piel más firme y elástica'
+      'Fortalece la estructura ósea y protege las articulaciones del desgaste diario',
+      'Mejora visiblemente la firmeza de la piel y la salud de cabello y uñas',
+      'Aporta una carga de energía natural gracias a los superalimentos como la quinua',
+      'Potente acción antioxidante preventiva con Resveratrol y Omega 3-6-9',
+      'Suplemento nutricional integral ideal para mantener un estilo de vida activo'
     ],
     image: '/assets/products/Maxlite.webp',
     basePrice: 89900,
@@ -1079,17 +1157,22 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     masterId: '11247',
     name: 'Megamac',
     category: 'salud-bienestar',
-    shortDescription: 'Energía Renovada y Vitalidad Física.',
-    description: `Poderosa fórmula nutricional en polvo que reúne ingredientes tradicionales de la biodiversidad colombiana como la Maca, el Borojó y el Chontaduro. Fortificado con una base proteica de suero y un complejo multivitamínico y mineral enriquecido con Hierro, Magnesio, Zinc y Calcio. Ideal como complemento alimenticio para quienes requieren un aporte extra de vitalidad y energía en su rutina diaria.
+    shortDescription: 'Potencia Ancestral y Energía Vital Extrema.',
+    description: `Recupera el vigor y la energía que tu cuerpo reclama con Megamac, el revitalizador natural más potente de nuestra línea. Inspirado en la sabiduría de la biodiversidad colombiana, Megamac combina los extractos sagrados de maca, borojó y chontaduro en una fórmula de alta densidad nutricional diseñada para erradicar el cansancio crónico y la debilidad física. Es el combustible ideal para quienes enfrentan jornadas extenuantes, deportistas de alto rendimiento o cualquier persona que busque un impulso real de vitalidad.
 
-✔️ Potencia Natural: Con Maca, Borojó y Chontaduro para combatir el cansancio y la debilidad diaria. ✔️ Energía Física: Ideal para personas que buscan un extra de fuerza y rendimiento en sus actividades. ✔️ Bienestar General: Ayuda a fortalecer las defensas y mantener el cerebro despierto y rápido.`,
-    seoTitle: 'Energía Renovada y Vitalidad Física con Megamac',
-    seoDescription: '✔️ Potencia Natural: Maca, Borojó y Chontaduro. Combate el cansancio y fortalece tus defensas. ¡Calidad INVIMA!',
+Enriquecido con una base proteica de suero y minerales críticos como el magnesio y el zinc, este suplemento no solo mejora tu respuesta física, sino que mantiene tu mente alerta y enfocada bajo presión. Megamac actúa como un tónico integral que fortalece tus defensas y optimiza tu fuerza muscular, permitiéndote alcanzar metas que antes parecían inalcanzables con la seguridad de una nutrición pura y equilibrada.
+
+✔️ Energía Explosiva: Maca y Borojó que actúan como motores naturales de vitalidad física y mental.
+✔️ Recuperación Máxima: Proteína de suero y aminoácidos que reconstruyen el vigor tras el esfuerzo.
+✔️ Enfoque y Resistencia: Minerales clave que combaten la fatiga y mantienen el sistema nervioso equilibrado.`,
+    seoTitle: 'Megamac Borojó y Maca: Energía Extrema y Vigor Natural | Zenhogar',
+    seoDescription: 'Combate el cansancio y potencia tu energía con Megamac. Fórmula ancestral con Borojó y Chontaduro para una vitalidad inagotable y rendimiento superior. ¡Registro INVIMA!',
     benefits: [
-      'Combate el cansancio crónico',
-      'Mejora el rendimiento físico',
-      'Fortalece defensas naturales',
-      'Ideal para jornadas exigentes'
+      'Efecto revitalizante inmediato contra el cansancio físico y mental crónico',
+      'Aumenta significativamente el rendimiento en actividades de alta exigencia',
+      'Fortalece las defensas naturales y aporta minerales críticos para la salud',
+      'Ideal para recuperar el vigor tras largas jornadas de trabajo o entrenamiento',
+      'Fórmula balanceada con superalimentos colombianos de máxima pureza'
     ],
     image: '/assets/products/Megamac.webp',
     basePrice: 89900,
@@ -1144,13 +1227,23 @@ Bebida natural que ayuda a apagar la mente, lograr un descanso real y despertar 
     masterId: '129297',
     name: 'Resveratrol',
     category: 'salud-bienestar',
-    shortDescription: 'El poder del resveratrol.',
-    description: `Avanzada fórmula líquida que combina el poder antioxidante del Resveratrol puro con 10.000 mg de Colágeno Hidrolizado. Enriquecido con extractos de arándano y uva liofilizada, este suplemento ofrece un soporte nutricional excepcional para el cuidado celular y el bienestar general, promoviendo una vitalidad renovada desde el interior.
+    shortDescription: 'Protección Celular y Ritual de Juventud Longevital.',
+    description: `Detén el paso del tiempo y protege tu salud celular con Resveratrol, el elixir de longevidad definitivo que combina la ciencia antienvejecimiento más avanzada con la pureza de la naturaleza. Nuestra fórmula líquida de alta potencia entrega una dosis masiva de resveratrol puro, potenciada con 10,000 mg de colágeno hidrolizado de fácil absorción. Este sistema antioxidante bicapa actúa neutralizando los radicales libres desde el interior, promoviendo una regeneración profunda que se refleja en una piel más firme, un cabello radiante y una vitalidad renovada.
 
-Potente antioxidante para el cuidado celular y antienvejecimiento.`,
-    seoTitle: 'Cómo solucionar el envejecimiento prematuro y daño celular con Resveratrol',
-    seoDescription: 'Protege tus células con el poder del Resveratrol. Fórmula balanceada antioxidante para bienestar integral y calidad certificada. ¡Compra ahora!',
-    benefits: ['Antioxidante', 'Cuidado celular', 'Antiedad'],
+Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZENHOGAR es un escudo protector para tu sistema cardiovascular y cerebral. Es el ritual diario indispensable para quienes buscan una juventud prolongada y un bienestar integral, asegurando que cada célula de tu cuerpo funcione en su nivel óptimo para una vida larga, activa y saludable.
+
+✔️ Blindaje Antioxidante: Protege el ADN celular contra el daño oxidativo y el envejecimiento prematuro.
+✔️ Regeneración de Tejidos: 10,000 mg de colágeno que restauran la turgencia de la piel y salud articular.
+✔️ Vitalidad Cardiovascular: Los polifenoles de la uva promueven una circulación sana y longevidad estable.`,
+    seoTitle: 'Resveratrol Antioxidante con 10,000mg de Colágeno | Zenhogar',
+    seoDescription: 'Protege tus células y rejuvenece tu piel con el Resveratrol de ZENHOGAR. Potente antioxidante líquido con Colágeno para una vitalidad celular superior. ¡Alta absorción!',
+    benefits: [
+      'Potente acción antioxidante que combate el envejecimiento celular prematuro',
+      'Restituye la firmeza y elasticidad de la piel con 10,000 mg de colágeno',
+      'Protege el sistema cardiovascular y cerebral del estrés oxidativo diario',
+      'Fórmula líquida concentrada para una absorción inmediata y efectiva',
+      'Cuidado integral que promueve la longevidad y una vitalidad renovada'
+    ],
     image: '/assets/products/Resveratrol.webp',
     basePrice: 79900,
     size: '350g',
@@ -1271,17 +1364,22 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
     masterId: '61681',
     name: 'Golden Passion',
     category: 'belleza-integral',
-    shortDescription: 'Bronceado Natural sin necesidad de Sol.',
-    description: `Aceite corporal autobronceador diseñado para proporcionar un tono canela natural y uniforme sin necesidad de exposición solar. Su fórmula enriquecida con Vitamina E hidrata profundamente la piel, dejándola suave, luminosa y con un acabado radiante. Ideal para quienes buscan un bronceado saludable y seguro en cualquier época del año.
+    shortDescription: 'Destello Dorado y Bronceado de Lujo sin Sol.',
+    description: `Envuelve tu cuerpo en un resplandor eterno con Golden Passion, el aceite autobronceador de alta gama diseñado para quienes exigen un tono canela perfecto sin los riesgos de la radiación solar. Su fórmula sofisticada, enriquecida con vitamina E y aceites preciosos, se funde instantáneamente con tu piel para revelar un color dorado, uniforme y radiante en cuestión de horas. Golden Passion no solo embellece; hidrata profundamente, dejando un acabado satinado y una suavidad sedosa que resalta cada curva de tu cuerpo.
 
-✔️ Color Saludable: Logra un tono canela envidiable en pocas horas sin arriesgar tu piel a los rayos del sol. ✔️ Sin Manchas: Su fórmula de rápida absorción asegura un color uniforme en todo el cuerpo. ✔️ Rico en Vitaminas: Contiene vitamina E para hidratar la piel mientras luce un color radiante.`,
-    seoTitle: 'Bronceado Natural sin necesidad de Sol con Golden Passion',
-    seoDescription: '✔️ Color Saludable: Tono canela sin sol. Sin manchas y rico en Vitamina E para una piel radiante. ¡Registro INVIMA!',
+A diferencia de los autobronceadores convencionales, nuestra fórmula de secado rápido garantiza una aplicación libre de manchas y un aroma delicado que transforma tu rutina de cuidado en un ritual de lujo. Disfruta de una piel luminosa, nutrida y con ese aspecto de "recién llegada de vacaciones" durante todo el año, manteniendo la salud y la vitalidad de tu dermis con la excelencia de ZENHOGAR.
+
+✔️ Tono Canela Superior: Logra un bronceado natural, intenso y uniforme sin necesidad de exposición al sol.
+✔️ Hidratación Luminosa: Nutre profundamente con vitamina E, evitando la resequedad y aportando un brillo saludable.
+✔️ Acabado Terciopelo: Textura no grasa que se absorbe velozmente, permitiéndote vestirte de inmediato con total confianza.`,
+    seoTitle: 'Golden Passion: Autobronceador de Lujo y Brillo Dorado | Zenhogar',
+    seoDescription: 'Presume un bronceado perfecto todo el año con Golden Passion. Aceite autobronceador enriquecido con Vitamina E para un tono canela natural y piel radiante. ¡Sin manchas!',
     benefits: [
-      'Tono canela uniforme en horas',
-      'Sin riesgos por exposición al sol',
-      'Nutre e hidrata con Vitamina E',
-      'Folleto de aplicación fácil incluido'
+      'Proporciona un bronceado canela natural y uniforme en pocas horas',
+      'Protege y nutre la piel con una potente dosis de Vitamina E pura',
+      'Evita los daños acumulativos causados por la radiación UV del sol',
+      'Fórmula satinada que aporta una luminosidad sofisticada y no grasa',
+      'Incluye guía de aplicación experta para un resultado profesional en casa'
     ],
     image: '/assets/products/Goldenpassion.webp',
     basePrice: 79900,
@@ -1336,17 +1434,22 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
     masterId: '11346',
     name: 'Hydrastrik',
     category: 'belleza-integral',
-    shortDescription: 'Hidratación Profunda contra las Estrías.',
-    description: `Aceite corporal de hidratación intensiva formulado con una mezcla premium de aceites naturales de almendras, coco y aguacate. Diseñado para mejorar la elasticidad de la piel y prevenir la aparición de estrías, este producto proporciona una nutrición profunda y duradera, dejando la piel visiblemente más suave y flexible. Ideal para el cuidado diario y masajes relajantes.
+    shortDescription: 'Arquitectura de Piel Elástica y Nutrición Intensiva.',
+    description: `Desafía los límites de la elasticidad cutánea con Hydrastrik, el tratamiento premium diseñado para blindar tu piel contra las estrías y la flacidez. Esta suntuosa mezcla de aceites puros de almendras, coco y aguacate crea una barrera lipídica de alta resistencia que nutre las fibras de colágeno y elastina en las capas más profundas de la dermis. Hydrastrik es el aliado indispensable durante etapas de cambio físico, garantizando que tu piel se mantenga firme, flexible y libre de marcas visibles.
 
-✔️ Piel Elástica: Mezcla aceites de coco, almendras y aguacate que preparan la piel para evitar estiramientos bruscos. ✔️ Regeneración Celular: Ayuda a mejorar la textura de la piel, haciéndola sentir más suave y flexible. ✔️ Uso Versátil: Perfecto para masajes relajantes gracias a su agradable sensación sensorial.`,
-    seoTitle: 'Hidratación Profunda contra las Estrías con Hydrastrik',
-    seoDescription: '✔️ Piel Elástica: Aceites de coco y aguacate. Regeneración celular para una piel suave y flexible. ¡Registro INVIMA!',
+Su textura fluida y su aroma envolvente lo convierten en el complemento perfecto para un masaje terapéutico que revitaliza los sentidos mientras restaura la suavidad perdida. Con cada aplicación, Hydrastrik infunde vitalidad a la piel deshidratada, devolviéndole su turgencia natural y una sedosidad incomparable que se siente desde el primer contacto.
+
+✔️ Elasticidad Blindada: Prepara y fortalece los tejidos para prevenir rupturas y marcas por estiramiento.
+✔️ Regeneración Botánica: Aceites de grado superior que aceleran la renovación celular y suavizan cicatrices.
+✔️ Confort Sensorial: Ideal para masajes relajantes, dejando la piel nutrida sin sensación pegajosa.`,
+    seoTitle: 'Hydrastrik: Aceite Anti-Estrías y Elasticidad Cutánea | Zenhogar',
+    seoDescription: 'Protege tu piel y previene estrías con Hydrastrik. Mezcla de aceites puros de Almendras y Aguacate para una elasticidad máxima y suavidad extrema. ¡Calidad INVIMA!',
     benefits: [
-      'Previene la aparición de estrías',
-      'Mejora elasticidad de la piel',
-      'Mezcla de aceites naturales puros',
-      'Perfecto para masajes corporales'
+      'Previene eficazmente la formación de estrías al mejorar la elasticidad',
+      'Nutrición profunda con óleos naturales de Almendra, Coco y Aguacate',
+      'Mejora visiblemente la textura y firmeza en zonas críticas del cuerpo',
+      'Fórmula de absorción inteligente ideal para masajes y rituales de cuidado',
+      'Restaura la barrera lipídica natural devolviendo la flexibilidad a la piel'
     ],
     image: '/assets/products/Hydrastrik.webp',
     basePrice: 82500,
@@ -1401,17 +1504,22 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
     masterId: '11290',
     name: 'Miskinne',
     category: 'belleza-integral',
-    shortDescription: 'Piel Uniforme y Libre de Manchas.',
-    description: `Crema corporal especializada en el cuidado y protección de la piel. Su fórmula con avena y caléndula proporciona una hidratación suave y calmante, ideal para pieles delicadas. Ayuda a unificar el tono de la piel al atenuar manchas superficiales, dejando una sensación de frescura y suavidad extrema con un delicado aroma natural.
+    shortDescription: 'Perfeccionador Cutáneo y Escudo de Suavidad Calmante.',
+    description: `Redescubre la claridad y la suavidad de un rostro perfecto con Miskinne, la crema perfeccionadora diseñada para pieles que exigen un cuidado extra-delicado. Su fórmula magistral, centrada en las propiedades calmantes de la avena natural y la caléndula orgánica, actúa como un escudo protector que alivia la irritación mientras trabaja activamente en unificar el tono de la piel. Miskinne penetra suavemente para atenuar irregularidades pigmentarias, devolviéndole a tu cutis su luminosidad original y una textura de seda.
 
-✔️ Tono Parejo: Ayuda a reducir visiblemente las manchas causadas por el sol, la edad o cicatrices previas. ✔️ Protección y Cuidado: Actúa de forma suave para evitar que aparezcan nuevas zonas osapoyas en la piel. ✔️ Aroma Natural: Con un suave toque de avena que deja una sensación de limpieza y confort.`,
-    seoTitle: 'Piel Uniforme y Libre de Manchas con Miskinne',
-    seoDescription: '✔️ Tono Parejo: Reduce manchas de sol y edad. Protección suave con aroma natural a avena. ¡Registro INVIMA!',
+Especialmente eficaz para suavizar zonas propensas a la resequedad y el sombreado, esta crema proporciona una hidratación profunda que calma la piel estresada por factores ambientales. Con su aroma limpio y reconfortante, Miskinne transforma tu rutina nocturna en un acto de purificación y equilibrio, asegurando que cada mañana despiertes con una piel visiblemente más radiante, descansada y uniforme.
+
+✔️ Tono Sublime: Reduce progresivamente la apariencia de manchas sutiles y zonas sombreadas.
+✔️ Calma Absoluta: La caléndula y la avena alivian instantáneamente la rojez y la sensibilidad cutánea.
+✔️ Nutrición Sedosa: Crea una barrera de suavidad que mantiene la humedad esencial durante horas.`,
+    seoTitle: 'Miskinne: Crema Unificadora de Tono y Cuidado Gentil | Zenhogar',
+    seoDescription: 'Unifica tu tono y calma tu piel con Miskinne de ZENHOGAR. Hidratación profunda con Avena y Caléndula para un rostro luminoso y libre de manchas. ¡Suavidad total!',
     benefits: [
-      'Reduce manchas de sol y edad',
-      'Ayuda a proteger contra nuevas alteraciones de tono',
-      'Sensación de limpieza con avena',
-      'Cuidado suave y seguro'
+      'Atenúa visiblemente manchas superficiales y empareja el tono de la piel',
+      'Proporciona un alivio inmediato a pieles sensibles, secas o irritadas',
+      'Enriquecida con Avena y Caléndula para una nutrición natural y suave',
+      'Protege la dermis contra futuras alteraciones de tono y agresiones externas',
+      'Fórmula hipoalergénica de alta pureza con registro INVIMA certificado'
     ],
     image: '/assets/products/Miskinne.webp',
     basePrice: 59900,
@@ -1466,17 +1574,22 @@ Además de su acción aclarante, Eventone proporciona un efecto relleno que suav
     masterId: '11260',
     name: 'Tónico Capilar (Extractos Mágicos)',
     category: 'belleza-integral',
-    shortDescription: 'Fortalece y Estimula el Crecimiento de tu Cabello.',
-    description: `Fórmula capilar avanzada diseñada para fortalecer el cabello desde la raíz y estimular el crecimiento de nuevas hebras. Enriquecido con una mezcla de 16 extractos botánicos naturales y Trichogen al 8%, este tónico es el aliado ideal para combatir la caída y mejorar la densidad capilar en cuero cabelludo, cejas y barba, devolviendo el vigor y brillo natural al cabello.
+    shortDescription: 'Densificadora Capilar y Ritual de Crecimiento Avanzado.',
+    description: `Recupera la abundancia y la fuerza de tu cabello con el Tónico Capilar Extractos Mágicos, la joya de la ciencia capilar de ZENHOGAR. Este tratamiento de alto impacto está formulado con una concentración revolucionaria de Trichogen al 8% y un complejo de 16 extractos botánicos puros que trabajan en sinergia para despertar los folículos inactivos. Diseñado para combatir la caída desde la raíz, este tónico no solo frena el debilitamiento, sino que acelera el nacimiento de hebras más gruesas, densas y resistentes.
 
-✔️ Cabello más fuerte: Su fórmula avanzada ayuda a recuperar el vigor desde la raíz, evitando que se quiebre o se caiga. ✔️ Nacimiento de nuevo cabello: Ideal para poblar zonas delgadas en el cuero cabelludo, cejas o barba. ✔️ Nutrición Herbal: Contiene una mezcla de 16 extractos de plantas que mantienen el cabello sano y brillante.`,
-    seoTitle: 'Fortalece y Estimula el Crecimiento Capilar con Tónico Capilar',
-    seoDescription: '✔️ Cabello más fuerte: Recupera el vigor desde la raíz. Nutrición herbal con 16 extractos para brillo y fuerza. ¡Registro INVIMA!',
+Perfecto para revitalizar el cuero cabelludo, así como para poblar con precisión cejas y barba, su aplicación en spray garantiza que los nutrientes premium como la cebolla y el ginkgo biloba penetren profundamente. Es el sistema definitivo para transformar un cabello frágil en una melena (o barba) llena de vigor, brillo y vitalidad, con resultados respaldados por la biotecnología capilar más avanzada.
+
+✔️ Arquitectura Capilar: Fortalece el anclaje del cabello reduciendo la caída y el quiebre de forma visible.
+✔️ Densidad y Crecimiento: El Trichogen al 8% estimula la zona de crecimiento para un mayor volumen folicular.
+✔️ Vitalidad Herbal: 16 extractos que nutren, purifican y devuelven el brillo natural a la fibra capilar.`,
+    seoTitle: 'Tónico Capilar con Trichogen al 8%: Crecimiento y Densidad | Zenhogar',
+    seoDescription: 'Detén la caída y estimula el crecimiento con el Tónico capilar de ZENHOGAR. 16 extractos naturales y Trichogen 8% para un cabello, barba y cejas fuertes y densos.',
     benefits: [
-      'Evita que el cabello se quiebre',
-      'Puebla zonas con poco vello',
-      'Nutrición profunda desde la raíz',
-      'Resultados en cabello, cejas o barba'
+      'Detiene la caída excesiva y fortalece el cabello desde el folículo piloso',
+      'Estimula el crecimiento rápido de nuevas hebras más gruesas y resistentes',
+      'Puebla con eficacia zonas de baja densidad en el cuero cabelludo, barba y cejas',
+      'Nutre profundamente la raíz con 16 extractos botánicos y Trichogen al 8%',
+      'Mejora notablemente la textura, el brillo y la salud integral del cabello'
     ],
     image: '/assets/products/tonico.webp',
     basePrice: 89900,

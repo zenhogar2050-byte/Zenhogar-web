@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import compression from "compression";
 import dotenv from "dotenv";
+import { PRODUCTS, CATEGORIES, PROMOTIONS } from "./src/constants.js";
 
 dotenv.config();
 
@@ -109,6 +110,93 @@ async function startServer() {
       console.error("[Abandoned Error]:", error.message);
       res.status(500).json({ status: "error", message: error.message });
     }
+  });
+
+  // --- SEO Endpoints ---
+  
+  // SEO: Sitemap.xml
+  app.get("/sitemap.xml", (req, res) => {
+    const baseUrl = "https://zenhogar.live";
+    const productsUrls = PRODUCTS.map(p => `${baseUrl}/producto/${p.id}`);
+    const categoriesUrls = CATEGORIES.map(c => `${baseUrl}/categoria/${c.id}`);
+    const combosUrls = PROMOTIONS.map(p => `${baseUrl}/combo/${p.id}`);
+    const allUrls = [baseUrl, ...productsUrls, ...categoriesUrls, ...combosUrls];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  ${allUrls.map(url => `
+  <url>
+    <loc>${url}</loc>
+    <changefreq>daily</changefreq>
+    <priority>${url === baseUrl ? '1.0' : '0.8'}</priority>
+  </url>`).join('')}
+</urlset>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(xml.trim());
+  });
+
+  // SEO: Robots.txt
+  app.get("/robots.txt", (req, res) => {
+    const robots = `User-agent: *
+Allow: /
+Sitemap: https://zenhogar.live/sitemap.xml
+`;
+    res.header("Content-Type", "text/plain");
+    res.send(robots);
+  });
+
+  // SEO: Google Merchant Feed
+  app.get("/google-feed.xml", (req, res) => {
+    const baseUrl = "https://zenhogar.live";
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<channel>
+  <title>Zenhogar - Salud y Bienestar</title>
+  <link>${baseUrl}</link>
+  <description>Tu aliado en salud natural, suplementos y bienestar integral en Colombia.</description>
+  ${PRODUCTS.map(p => `
+  <item>
+    <g:id>${p.masterId}</g:id>
+    <g:title>${p.name}</g:title>
+    <g:description>${p.shortDescription || p.description.substring(0, 150)}</g:description>
+    <g:link>${baseUrl}/producto/${p.id}</g:link>
+    <g:image_link>${baseUrl}${p.image}</g:image_link>
+    <g:condition>${p.condition || 'new'}</g:condition>
+    <g:availability>in stock</g:availability>
+    <g:price>${p.basePrice} COP</g:price>
+    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
+    <g:brand>Zenhogar</g:brand>
+    <g:mpn>${p.masterId}</g:mpn>
+    <g:shipping>
+      <g:country>CO</g:country>
+      <g:service>Envío Gratis</g:service>
+      <g:price>0 COP</g:price>
+    </g:shipping>
+  </item>`).join('')}
+  ${PROMOTIONS.map(p => `
+  <item>
+    <g:id>${p.id}</g:id>
+    <g:title>${p.name}</g:title>
+    <g:description>${p.description.substring(0, 150)}</g:description>
+    <g:link>${baseUrl}/combo/${p.id}</g:link>
+    <g:image_link>${baseUrl}${p.image}</g:image_link>
+    <g:condition>${p.condition || 'new'}</g:condition>
+    <g:availability>in stock</g:availability>
+    <g:price>${p.price} COP</g:price>
+    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
+    <g:brand>Zenhogar</g:brand>
+    <g:shipping>
+      <g:country>CO</g:country>
+      <g:service>Envío Gratis</g:service>
+      <g:price>0 COP</g:price>
+    </g:shipping>
+  </item>`).join('')}
+</channel>
+</rss>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(xml.trim());
   });
 
   // --- Manejo de Frontend (Vite o Estáticos) ---

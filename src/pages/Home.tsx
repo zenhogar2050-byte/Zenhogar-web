@@ -404,7 +404,12 @@ export default function Home() {
                       {product.benefits.slice(0, 2).map((benefit, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0" />
-                          <span className="text-xs text-stone-700 font-medium line-clamp-1">{benefit}</span>
+                          <span className={cn(
+                            "text-xs text-stone-700 font-medium line-clamp-1 inline-block",
+                            i === 0 ? "h-[37px] w-[310px] pl-[2px] pt-[5px] text-left" : "h-[43px] w-[313px] pl-[2px] pt-[10px]"
+                          )}>
+                            {benefit}
+                          </span>
                         </div>
                       ))}
                     </div>
