@@ -144,7 +144,10 @@ export const generateSchemaGraph = (params: {
             "image": [
                 ogImage?.startsWith('http') ? ogImage : `${BASE_URL}${ogImage || ''}`
             ],
-            "brand": { "@id": `${BASE_URL}/#organization` },
+            "brand": { 
+                "@type": "Brand", 
+                "name": "Zenhogar" 
+            },
             "offers": {
                 "@type": "Offer",
                 "priceCurrency": "COP",

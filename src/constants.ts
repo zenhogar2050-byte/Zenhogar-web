@@ -2281,6 +2281,7 @@ Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita 
     basePrice: 79900,
     size: '350g',
     presentation: 'Polvo',
+    invima:'2018DM-0018869',
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     supportImages: [
