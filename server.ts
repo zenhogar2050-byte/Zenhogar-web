@@ -20,6 +20,14 @@ async function startServer() {
   app.use(express.json());
   app.set('trust proxy', true);
 
+  // Redirigir HTTP a HTTPS en producción
+  app.use((req, res, next) => {
+    if (process.env.NODE_ENV === "production" && req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect(301, `https://${req.hostname}${req.url}`);
+    }
+    next();
+  });
+
   // Health check
   app.get("/health-check", (req, res) => res.send("OK"));
 
@@ -121,12 +129,11 @@ async function startServer() {
     const categoriesUrls = CATEGORIES.map(c => `${baseUrl}/categoria/${c.id}`);
     const combosUrls = PROMOTIONS.map(p => `${baseUrl}/combo/${p.id}`);
     
-    // Páginas estáticas adicionales
+    // Páginas estáticas adicionales sincronizadas con generate-static.ts
     const staticPages = [
       "",
-      "/nosotros",
+      "/quienes-somos",
       "/politica-privacidad",
-      "/terminos-servicio",
       "/devoluciones-garantia",
       "/condiciones-entrega",
       "/categorias"
@@ -246,7 +253,18 @@ Sitemap: https://zenhogar.live/sitemap.xml
       }
     }));
     
-    app.get("*", (req, res) => {
+    app.get("*", (req, res, next) => {
+      const url = req.path;
+      const distPath = path.resolve(__dirname, "dist");
+      
+      // Intentar servir el archivo estático específico (ej: /quienes-somos -> quienes-somos.html)
+      let filePath = path.join(distPath, url === "/" ? "index.html" : `${url}.html`);
+      
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+      }
+      
+      // Fallback a index.html para rutas SPA dinámicas
       const indexPath = path.resolve(distPath, "index.html");
       if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);

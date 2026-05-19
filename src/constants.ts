@@ -212,7 +212,7 @@ Formulado sin azúcares añadidos, es el aliado perfecto para personas diabétic
   {
     id: 'colageno',
     masterId: '11312',
-    name: 'Colágeno + Citrato de Magnesio',
+    name: 'Colágeno',
     category: 'salud-bienestar',
     shortDescription: 'Regeneración Estructural y Vitalidad Osteomuscular.',
     description: `Restaura la elasticidad de tu cuerpo y fortalece tu sistema estructural desde el interior con nuestro Colágeno Hidrolizado + Citrato de Magnesio. Esta fórmula avanzada de alta pureza ha sido diseñada para quienes buscan recuperar la movilidad perdida, proteger sus articulaciones del desgaste y mejorar la calidad de su descanso nocturno. La combinación de péptidos de colágeno de fácil absorción con el citrato de magnesio potencia la regeneración de tejidos, cartílagos y ligamentos, combatiendo los signos visibles del envejecimiento como la flacidez y las líneas de expresión.
@@ -278,7 +278,7 @@ Ideal para toda la familia, este suplemento de sabor neutro se disuelve instant�
   {
     id: 'resvis',
     masterId: '22967',
-    name: 'Resvisfactor (Calostro Bovino)',
+    name: 'Resvisfactor',
     category: 'salud-bienestar',
     shortDescription: 'Favorece Tu Sistema Inmunológico y Vitalidad Celular Avanzada.',
     description: `Fortalece tus defensas naturales y protege tu organismo con Resvisfactor, el sistema de protección biológica de vanguardia. Esta poderosa fórmula combina el calostro bovino (el "oro líquido" de la naturaleza) con los beneficios milenarios del hongo Shiitake y los betaglucanos del Ganoderma Lucidum. Diseñado para ser el soporte diario de tu familia, Resvisfactor ayuda a modular la respuesta inmunológica, acelerar la recuperación física y proporcionar una carga masiva de antioxidantes que combaten el daño celular.
@@ -414,7 +414,7 @@ Además de su acción en la quema de grasas, CLA 500 protege tus células del pa
   {
     id: 'cafetolio',
     masterId: '11262',
-    name: 'Café Verde Cafetolio',
+    name: 'Cafetolio',
     category: 'salud-bienestar',
     shortDescription: 'Activación Metabólica y Control Natural de Saciedad.',
     description: `Potencia tu metabolismo y recupera el control de tu apetito con Café Verde Cafetolio, el concentrado orgánico de granos sin tostar que conserva intactas todas las propiedades del ácido clorogénico. A diferencia del café tradicional, nuestro Café Verde actúa como un termogénico inteligente que ayuda a tu cuerpo a quemar grasas de forma natural mientras bloquea la absorción de azúcares innecesarios. Es el aliado perfecto para quienes buscan un vientre plano y una energía constante sin los picos de ansiedad o nerviosismo.
@@ -483,7 +483,7 @@ Rico en antioxidantes de alta potencia, Cafetolio purifica tu hígado y desintox
   {
     id: 'locion',
     masterId: '11236',
-    name: 'Loción Termoactiva',
+    name: 'Termoactiva',
     category: 'salud-bienestar',
     shortDescription: 'Alivio Muscular Termoactivo y Recuperación Profunda.',
     description: `Experimenta un alivio inmediato y reconfortante con nuestra Loción Termoactiva, el cuidado intensivo diseñado para liberar la tensión acumulada en tus músculos y articulaciones. Su potente fórmula botánica combina los beneficios ancestrales de la uña de gato, la árnica y el castaño de indias para penetrar profundamente en las capas de la piel, proporcionando un calor reconfortante que relaja las fibras musculares y mejora la sensación de bienestar local al instante.

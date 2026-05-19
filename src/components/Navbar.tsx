@@ -16,7 +16,6 @@ const SYMPTOMS = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
@@ -94,7 +93,19 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 md:h-28 items-center">
-          <div className="flex items-center gap-4 lg:gap-8 min-w-0">
+          <div className="flex items-center gap-2 md:gap-4 lg:gap-8 min-w-0">
+            {/* Mobile Menu Button - Moved to Left */}
+            <button
+              onClick={() => {
+                setIsOpen(!isOpen);
+                setIsSearchOpen(false);
+              }}
+              className="md:hidden p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+
             <Link to="/" className="flex items-center gap-2 group shrink-0">
               <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
                   <img 
@@ -270,7 +281,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Actions - Buttons on Right */}
           <div className="md:hidden flex items-center gap-1">
             <button
               onClick={() => {
@@ -294,16 +305,6 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <button
-              onClick={() => {
-                setIsOpen(!isOpen);
-                setIsSearchOpen(false);
-              }}
-              className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
-              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
 
@@ -427,36 +428,18 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* Mobile Products */}
-              <div>
-                <button 
-                  onClick={() => setIsProductsOpen(!isProductsOpen)}
-                  className="w-full flex items-center justify-between text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] px-2 mb-4"
+
+
+              {/* Mobile About Us */}
+              <div className="pt-4 border-t border-stone-100">
+                <Link
+                  to="/quienes-somos"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-stone-900 font-bold hover:bg-stone-50 rounded-xl transition-colors"
                 >
-                  Todos los Productos
-                  <ChevronDown className={cn("w-4 h-4 transition-transform", isProductsOpen && "rotate-180")} />
-                </button>
-                <AnimatePresence>
-                  {isProductsOpen && (
-                    <motion.div 
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="grid grid-cols-1 gap-1 overflow-hidden"
-                    >
-                      {PRODUCTS.map(product => (
-                        <Link
-                          key={product.id}
-                          to={`/producto/${product.id}`}
-                          onClick={() => setIsOpen(false)}
-                          className="px-4 py-2.5 text-sm text-stone-600 hover:bg-stone-50 rounded-lg transition-colors font-display"
-                        >
-                          {product.name}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <Activity className="w-5 h-5 text-emerald-600" />
+                  Sobre Nosotros
+                </Link>
               </div>
             </div>
           </motion.div>

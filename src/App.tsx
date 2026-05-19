@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import PromoBanner from './components/PromoBanner';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import TopBanner from './components/TopBanner';
-import SocialProof from './components/SocialProof';
 import { track, markFacebookEntry, initPixel } from './utils/pixel';
 
 function SEOCleaner() {
@@ -117,7 +116,6 @@ function AppContent() {
         </Suspense>
       </main>
       <WhatsAppFloat />
-      <SocialProof />
     </div>
   );
 }
