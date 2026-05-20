@@ -26,23 +26,10 @@ export default function Checkout() {
   });
   const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
   const [abandonedId, setAbandonedId] = useState<string | null>(null);
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
 
   // Endpoints
   const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
   const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
-
-  useEffect(() => {
-    if (timeLeft <= 0 || items.length === 0) return;
-    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft, items.length]);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  };
 
   useEffect(() => {
     if (items.length === 0 || isSubmitting) return;
@@ -351,18 +338,6 @@ export default function Checkout() {
                 <ShoppingBag className="w-6 h-6 text-emerald-600" /> Resumen de Compra
               </h1>
 
-              {items.length > 0 && (
-                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                    <p className="text-xs font-bold text-amber-900 uppercase tracking-wider">Tu descuento está reservado por:</p>
-                  </div>
-                  <div className="bg-white px-4 py-1.5 rounded-xl border border-amber-200 text-amber-700 font-mono font-black text-lg">
-                    {formatTime(timeLeft)}
-                  </div>
-                </div>
-              )}
-
               <div className="space-y-6">
                 <AnimatePresence mode="popLayout">
                   {items.map((item) => (
@@ -435,15 +410,6 @@ export default function Checkout() {
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-stone-100 sticky top-24">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-stone-900">Envío y Pago</h2>
-                <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest leading-none">
-                    {Math.floor(Math.random() * (12 - 4 + 1)) + 4} Finalizando pedido ahora
-                  </span>
-                </div>
               </div>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

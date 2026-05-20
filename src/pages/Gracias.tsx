@@ -97,9 +97,9 @@ export default function Gracias() {
           <span className="inline-block px-4 py-1.5 bg-stone-100 rounded-full text-stone-600 font-black text-[10px] tracking-[0.2em] uppercase">
             ORDEN REGISTRADA: #{ticketNumber}
           </span>
-          <h1 className="text-3xl font-black text-stone-900">¡Casi listo!</h1>
+          <h1 className="text-3xl font-black text-stone-900">¡Excelente!</h1>
           <p className="text-stone-500 font-medium px-4">
-            Tu pedido ha sido reservado. Por favor, confírmalo ahora por WhatsApp para despacharlo hoy mismo.
+            Tu pedido ha sido registrado. En breve recibiras una notificación con la guia. Si quieres puedes confírmarlo por WhatsApp para agilizar su despacho.
           </p>
         </div>
 
@@ -114,11 +114,7 @@ export default function Gracias() {
             <Send className="w-6 h-6 fill-current" /> CONFIRMAR PEDIDO
           </a>
           
-          <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100">
-            <p className="text-[11px] text-amber-800 font-bold leading-tight">
-              ⚠️ Si no confirmas por WhatsApp, tu despacho podría tardar hasta 48 horas adicionales en procesarse.
-            </p>
-          </div>
+
         </div>
 
         <Link 

@@ -2074,6 +2074,7 @@ Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esen
     basePrice: 89900,
     size: '500g',
     presentation: 'Polvo',
+    invima: 'RSA-0021928-2022',
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     supportImages: [
