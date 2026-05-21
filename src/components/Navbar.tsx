@@ -120,7 +120,7 @@ export default function Navbar() {
                     height="64"
                   />
               </div>
-              <div className="flex flex-col leading-none">
+              <div className="flex flex-col leading-none md:-translate-y-5 lg:translate-y-0">
                 <span className="text-xl md:text-2xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
                 <span className="text-[10px] md:text-[12px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
               </div>
@@ -129,7 +129,7 @@ export default function Navbar() {
 
           {/* Desktop Central Navigation - Categories & Search */}
           <div className="hidden md:flex items-center gap-4 lg:gap-8 flex-1 max-w-2xl mx-6 lg:mx-12">
-            <div className="flex items-center gap-3 lg:gap-5 shrink-0">
+            <div className="flex items-center gap-3 lg:gap-5 shrink-0 md:translate-y-6 lg:translate-y-0">
               {CATEGORIES.map((category) => (
                 <Link
                   key={category.id}

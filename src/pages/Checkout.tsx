@@ -291,6 +291,7 @@ export default function Checkout() {
         total: total, 
         ticketNumber: currentTicket,
         whatsappUrl: finalWhatsappUrl,
+        email: formData.email || "contacto@zenhogar.live",
         items: items.map(i => ({
           id: i.productId, 
           name: i.productName, 
@@ -302,7 +303,7 @@ export default function Checkout() {
       clearCart();
       navigate('/gracias', { 
         state: { 
-          orderData: { value: total, currency: 'COP' },
+          orderData: { value: total, currency: 'COP', email: formData.email || "contacto@zenhogar.live" },
           whatsappUrl: finalWhatsappUrl,
           ticketNumber: currentTicket
         } 
@@ -313,7 +314,7 @@ export default function Checkout() {
       console.error('Error:', error);
       navigate('/gracias', { 
         state: { 
-          orderData: { value: total, currency: 'COP' },
+          orderData: { value: total, currency: 'COP', email: formData.email || "contacto@zenhogar.live" },
           whatsappUrl: `https://api.whatsapp.com/send?phone=573024102568&text=${encodeURIComponent('Error al procesar pedido, por favor contactar soporte.')}`,
           ticketNumber: 'ERROR'
         } 

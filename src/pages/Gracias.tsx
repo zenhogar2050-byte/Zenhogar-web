@@ -22,7 +22,11 @@ export default function Gracias() {
   const getInitialData = () => {
     if (location.state) {
       return {
-        orderData: location.state.orderData,
+        orderData: {
+          value: location.state.orderData?.value || 0,
+          currency: location.state.orderData?.currency || 'COP',
+          email: location.state.orderData?.email || "contacto@zenhogar.live"
+        },
         whatsappUrl: location.state.whatsappUrl,
         ticketNumber: location.state.ticketNumber
       };
@@ -32,7 +36,11 @@ export default function Gracias() {
       const saved = JSON.parse(localStorage.getItem('lastOrder') || '{}');
       if (saved.total) {
         return {
-          orderData: { value: saved.total, currency: 'COP' },
+          orderData: { 
+            value: saved.total, 
+            currency: 'COP', 
+            email: saved.email || "contacto@zenhogar.live" 
+          },
           whatsappUrl: saved.whatsappUrl || 'https://wa.me/573024102568',
           ticketNumber: saved.ticketNumber || 'N/A'
         };
@@ -42,13 +50,84 @@ export default function Gracias() {
     }
     
     return {
-      orderData: { value: 0, currency: 'COP' },
+      orderData: { value: 0, currency: 'COP', email: "contacto@zenhogar.live" },
       whatsappUrl: 'https://wa.me/573024102568',
       ticketNumber: 'PENDIENTE'
     };
   };
 
   const { orderData, whatsappUrl, ticketNumber } = getInitialData();
+
+  // Integración de Google Customer Reviews Opt-In
+  useEffect(() => {
+    const emailToUse = orderData.email || 'contacto@zenhogar.live';
+    const orderIdToUse = ticketNumber || `ZH-${Date.now()}`;
+    const countryToUse = 'CO'; // Colombia (CO)
+
+    // Calcular fecha estimada de entrega: Hoy + 3 días en formato YYYY-MM-DD
+    const deliveryDateStr = (() => {
+      const date = new Date();
+      date.setDate(date.getDate() + 3);
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    })();
+
+    // Configurar la función global renderOptIn requerida por el script de GAPI
+    (window as any).renderOptIn = () => {
+      console.log('🚀 GAPI onload: Iniciando renderOptIn de Google Customer Reviews...');
+      if ((window as any).gapi) {
+        (window as any).gapi.load('surveyoptin', () => {
+          console.log('⚙️ GAPI surveyoptin cargado. Renderizando encuesta con:', {
+            merchant_id: 5781084661,
+            order_id: orderIdToUse,
+            email: emailToUse,
+            delivery_country: countryToUse,
+            estimated_delivery_date: deliveryDateStr,
+            opt_in_style: 'CENTER_DIALOG'
+          });
+          
+          try {
+            (window as any).gapi.surveyoptin.render({
+              "merchant_id": 5781084661,
+              "order_id": orderIdToUse,
+              "email": emailToUse,
+              "delivery_country": countryToUse,
+              "estimated_delivery_date": deliveryDateStr,
+              "opt_in_style": "CENTER_DIALOG"
+            });
+            console.log('✅ Llamada a gapi.surveyoptin.render ejecutada correctamente.');
+          } catch (err) {
+            console.error('❌ Error al renderizar la encuesta de Google:', err);
+          }
+        });
+      } else {
+        console.warn('⚠️ GAPI no está definido en el objeto window al invocar renderOptIn.');
+      }
+    };
+
+    // Si GAPI ya está cargado por visitas/rutas anteriores, llamamos directamente
+    if ((window as any).gapi && (window as any).gapi.surveyoptin) {
+      console.log('⚡ GAPI y surveyoptin ya existen, ejecutando renderOptIn directamente.');
+      (window as any).renderOptIn();
+    }
+
+    // Crear y cargar el script de la plataforma de Google de forma asíncrona
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/platform.js?onload=renderOptIn';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    // Limpieza al desmontar el componente
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+      delete (window as any).renderOptIn;
+    };
+  }, [ticketNumber, orderData.email]);
 
   // Registro automático de la compra en el Píxel al cargar la página
   useEffect(() => {

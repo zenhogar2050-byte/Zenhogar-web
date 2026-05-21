@@ -49,6 +49,10 @@ export default function PromoBanner() {
   };
 
   const currentPromo = baseItems[currentIndex];
+  const prevIndex = (currentIndex - 1 + baseItems.length) % baseItems.length;
+  const nextIndex = (currentIndex + 1) % baseItems.length;
+  const prevPromo = baseItems[prevIndex];
+  const nextPromo = baseItems[nextIndex];
 
   return (
     <div 
@@ -63,19 +67,51 @@ export default function PromoBanner() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/40 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative w-full max-w-5xl px-4 sm:px-12 flex items-center justify-center">
+      <div className="relative w-full max-w-5xl lg:max-w-[1250px] px-4 sm:px-12 flex items-center justify-center">
         {/* Navigation Arrows */}
         <button 
           onClick={prevSlide}
-          className="absolute left-2 sm:left-4 z-20 p-2 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all active:scale-95 group border border-white/10"
+          className="absolute left-2 sm:left-4 lg:left-2 xl:left-4 z-20 p-2 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all active:scale-95 group border border-white/10"
           aria-label="Anterior"
         >
           <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-white group-hover:-translate-x-1 transition-transform" />
         </button>
 
+        {/* Combo Anterior Preview (Desktop Only) */}
+         <div 
+          onClick={prevSlide}
+          className="hidden lg:flex absolute lg:left-20 xl:left-24 z-10 flex-col items-center gap-2 group cursor-pointer select-none opacity-90 hover:opacity-100 transition-all duration-300 transform hover:-translate-x-1 w-[187px] h-[196px]"
+        >
+          <div className="rounded-[2.5rem] p-2 bg-white flex items-center justify-center overflow-hidden shadow-lg border-2 border-white/25 w-[187px] h-[196px] transform transition-transform duration-300 group-hover:scale-105">
+            <img 
+              src={prevPromo.image} 
+              alt={prevPromo.name} 
+              className="max-w-full max-h-[90%] object-contain mix-blend-multiply"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        {/* Combo Siguiente Preview (Desktop Only) */}
+        <div 
+          onClick={nextSlide}
+          className="hidden lg:flex absolute lg:right-20 xl:right-24 z-10 flex-col items-center gap-2 group cursor-pointer select-none opacity-90 hover:opacity-100 transition-all duration-300 transform hover:translate-x-1 w-[187px] h-[196px]"
+        >
+          <div className="rounded-[2.5rem] p-2 bg-white flex items-center justify-center overflow-hidden shadow-lg border-2 border-white/25 w-[187px] h-[196px] transform transition-transform duration-300 group-hover:scale-105">
+            <img 
+              src={nextPromo.image} 
+              alt={nextPromo.name} 
+              className="max-w-full max-h-[90%] object-contain mix-blend-multiply"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
         <button 
           onClick={nextSlide}
-          className="absolute right-2 sm:right-4 z-20 p-2 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all active:scale-95 group border border-white/10"
+          className="absolute right-2 sm:right-4 lg:right-2 xl:right-4 z-20 p-2 sm:p-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-all active:scale-95 group border border-white/10"
           aria-label="Siguiente"
         >
           <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-white group-hover:translate-x-1 transition-transform" />
