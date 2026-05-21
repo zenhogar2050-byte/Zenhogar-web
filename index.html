@@ -68,6 +68,22 @@
           fbq('init', '26749410671349006');
           fbq('track', 'PageView');
         }
+
+        // Google Merchant Badge Widget
+        var mw = document.createElement('script');
+        mw.id = 'merchantWidgetScript';
+        mw.src = 'https://www.gstatic.com/shopping/merchant/merchantwidget.js';
+        mw.defer = true;
+        mw.addEventListener('load', function () {
+          if (window.merchantwidget) {
+            window.merchantwidget.start({
+              merchant_id: 5781084661,
+              position: 'BOTTOM_LEFT',
+              region: 'CO'
+            });
+          }
+        });
+        document.head.appendChild(mw);
       }
 
       window.addEventListener('load', function() {
