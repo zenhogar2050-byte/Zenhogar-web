@@ -88,33 +88,28 @@ export default function CategoryPage() {
         productData={{ categoryProducts }}
       />
       
+      {/* Floating Category Navigation */}
+      <button 
+        onClick={() => navigate(-1)}
+        className="fixed left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-40 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
+        aria-label="Volver"
+      >
+        <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
+      </button>
+
+      <button 
+        onClick={handleNextCategory}
+        className="fixed right-2 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-40 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
+        aria-label="Siguiente"
+      >
+        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
+      </button>
+
       <Breadcrumbs />
 
       {/* Header Section */}
       <section className={cn("py-4 lg:py-6 relative overflow-hidden", theme.bg)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col gap-6">
-          <div className="grid grid-cols-2 w-full shrink-0">
-            <div className="flex justify-start">
-              <button 
-                onClick={() => navigate(-1)} 
-                className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-white/50 group"
-                aria-label="Volver a la página anterior"
-              >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                <span className="text-base sm:text-lg">Volver</span>
-              </button>
-            </div>
-            <div className="flex justify-end">
-              <button 
-                onClick={handleNextCategory} 
-                className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -mr-3 rounded-xl hover:bg-white/50 group"
-                aria-label="Ir a la siguiente categoría"
-              >
-                <span className="text-base sm:text-lg">Siguiente</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 15 }}
