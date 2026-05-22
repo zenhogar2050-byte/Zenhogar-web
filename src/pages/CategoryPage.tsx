@@ -92,7 +92,7 @@ export default function CategoryPage() {
 
       {/* Header Section */}
       <section className={cn("py-4 lg:py-6 relative overflow-hidden", theme.bg)}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col gap-6">
           <div className="grid grid-cols-2 w-full shrink-0">
             <div className="flex justify-start">
               <button 
@@ -117,10 +117,10 @@ export default function CategoryPage() {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-row items-center gap-4 lg:gap-8 flex-1"
+            className="flex flex-row items-center gap-4 lg:gap-8 flex-grow"
           >
             <div className="shrink-0">
               {category.image ? (
