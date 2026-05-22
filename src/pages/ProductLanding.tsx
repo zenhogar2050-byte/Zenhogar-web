@@ -379,7 +379,7 @@ export default function ProductLanding() {
 
 
 
-              <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200 lg:h-[965px] h-auto pb-8">
+              <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200 h-auto pb-8">
                 <div className="grid gap-2 sm:gap-3">
                   {product.promos.map((promo) => {
                     const originalPrice = product.basePrice * promo.units;
@@ -391,7 +391,7 @@ export default function ProductLanding() {
                         key={promo.id}
                         onClick={() => setSelectedPromo(promo.id)}
                         className={cn(
-                          "relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left lg:h-[70px] h-auto min-h-[70px] py-3 sm:py-4",
+                          "relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left h-auto min-h-[70px] py-3 sm:py-4",
                           selectedPromo === promo.id
                             ? "border-emerald-600 bg-emerald-600 shadow-lg"
                             : "border-transparent bg-stone-100 hover:bg-stone-200"
