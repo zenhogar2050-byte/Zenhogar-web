@@ -153,7 +153,7 @@ export default function ProductLanding() {
       {/* Floating Page Navigation */}
       <button 
         onClick={() => navigate(-1)}
-        className="fixed left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-20 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
+        className="fixed left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-50 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
         aria-label="Volver"
       >
         <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -161,7 +161,7 @@ export default function ProductLanding() {
 
       <button 
         onClick={handleNextProduct}
-        className="fixed right-2 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-20 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
+        className="fixed right-2 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-50 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
         aria-label="Siguiente"
       >
         <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />

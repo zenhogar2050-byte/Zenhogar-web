@@ -1,33 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function WhatsAppFloat() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
-  
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 6000);
-    return () => clearTimeout(timer);
-  }, []);
 
-  if (!isVisible) return null;
+  // Hide WhatsApp float on home page and category pages
+  if (location.pathname === '/' || location.pathname.startsWith('/categoria/')) {
+    return null;
+  }
 
-  // Detect product context from URL
+  // Detect context from URL
   let productContext = '';
+  let categoryContext = '';
+  
   if (location.pathname.startsWith('/producto/')) {
     const id = location.pathname.split('/').pop() || '';
     productContext = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   } else if (location.pathname.startsWith('/combo/')) {
     const id = location.pathname.split('/').pop() || '';
     productContext = `Combo ${id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`;
+  } else if (location.pathname.startsWith('/categoria/')) {
+    const id = location.pathname.split('/').pop() || '';
+    categoryContext = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   }
 
   const whatsappNumber = '573024102568'; 
-  const message = productContext 
-    ? `Hola *ZENHOGAR*! 👋\n\nEstoy interesado en el producto: *${productContext}*\n\nMe gustaría recibir más información. ¿Podrían ayudarme?`
-    : 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
+  
+  let message = 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
+  if (productContext) {
+    message = `Hola *ZENHOGAR*! 👋\n\nEstoy interesado en el producto: *${productContext}*\n\nMe gustaría recibir más información. ¿Podrían ayudarme?`;
+  } else if (categoryContext) {
+    message = `Hola *ZENHOGAR*! 👋\n\nEstoy buscando productos de la categoría: *${categoryContext}*\n\n¿Me podrían asesorar para elegir el mejor para mí?`;
+  } else if (location.pathname === '/') {
+    message = `Hola *ZENHOGAR*! 👋\n\nEstoy visitando su tienda y me gustaría recibir información sobre sus productos y las ofertas del mes. ✨`;
+  }
     
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
 
