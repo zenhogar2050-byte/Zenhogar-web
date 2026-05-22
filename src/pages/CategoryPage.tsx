@@ -13,6 +13,15 @@ export default function CategoryPage() {
   const category = CATEGORIES.find(c => c.id === id);
   const categoryProducts = PRODUCTS.filter(p => p.category === id);
 
+  const currentIndex = CATEGORIES.findIndex(c => c.id === id);
+  const nextCategory = currentIndex !== -1 ? CATEGORIES[(currentIndex + 1) % CATEGORIES.length] : null;
+
+  const handleNextCategory = () => {
+    if (nextCategory) {
+      navigate(`/categoria/${nextCategory.id}`);
+    }
+  };
+
   if (!category) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -84,13 +93,28 @@ export default function CategoryPage() {
       {/* Header Section */}
       <section className={cn("py-4 lg:py-6 relative overflow-hidden", theme.bg)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-12">
-          <button 
-            onClick={() => navigate(-1)} 
-            className="shrink-0 inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-white/50 group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-base sm:text-lg">Volver</span>
-          </button>
+          <div className="grid grid-cols-2 w-full shrink-0">
+            <div className="flex justify-start">
+              <button 
+                onClick={() => navigate(-1)} 
+                className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-white/50 group"
+                aria-label="Volver a la página anterior"
+              >
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                <span className="text-base sm:text-lg">Volver</span>
+              </button>
+            </div>
+            <div className="flex justify-end">
+              <button 
+                onClick={handleNextCategory} 
+                className="inline-flex items-center gap-2 text-stone-500 hover:text-stone-900 transition-all font-bold p-3 -mr-3 rounded-xl hover:bg-white/50 group"
+                aria-label="Ir a la siguiente categoría"
+              >
+                <span className="text-base sm:text-lg">Siguiente</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -117,7 +141,7 @@ export default function CategoryPage() {
               <h1 className="text-lg sm:text-xl lg:text-2xl font-black text-[var(--color-brand-primary)] mb-0.5 font-display leading-tight">
                 {category.name}
               </h1>
-              <p className="text-[9px] sm:text-[10px] lg:text-sm text-stone-600 max-w-xl leading-snug line-clamp-2">
+              <p className="text-base text-justify text-stone-600 max-w-xl leading-relaxed">
                 {category.description}
               </p>
             </div>
@@ -129,7 +153,7 @@ export default function CategoryPage() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-24 bg-white flex-grow">
+      <section className="pt-[23px] pb-24 bg-white flex-grow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {categoryProducts.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
