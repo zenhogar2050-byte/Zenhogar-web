@@ -111,8 +111,12 @@ export default function ComboLanding() {
             <span className="text-base sm:text-lg">Volver</span>
           </button>
 
+          <h1 className="lg:hidden text-3xl sm:text-4xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
+            {cleanPromoName(combo.name)}
+          </h1>
+
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-start">
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-4 lg:gap-12">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -216,17 +220,56 @@ export default function ComboLanding() {
                 <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-emerald-50/50 blur-[100px] rounded-full" />
               </motion.div>
 
-              {/* Desktop Why Choose & FAQ - Below left column seals */}
-              <div className="hidden lg:block relative z-10">
-                <div className="p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm mb-10">
-                  <h3 className="text-2xl font-black text-emerald-900 mb-4 flex items-center gap-3">
-                    <Info className="w-7 h-7" /> {combo.whyChoose?.title || '¿Por qué elegir este combo?'}
+              {combo.components && (
+                <div id="combo-components" className="lg:mt-8 mt-4 p-6 rounded-3xl border-2 border-emerald-100 shadow-sm transition-all">
+                  <h3 className="text-sm font-black text-emerald-950 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+                    <Zap className="w-4 h-4 fill-emerald-500 text-emerald-500" /> Componentes Activos del Combo
                   </h3>
-                  <p className="text-xl text-emerald-800 leading-relaxed font-medium">
-                    {combo.whyChoose?.description || 'Este combo ha sido diseñado para ofrecerte una solución integral y efectiva, combinando lo mejor de nuestros productos para potenciar tu bienestar natural.'}
+                  <p className="text-stone-800 text-lg font-extrabold leading-relaxed italic mb-4">
+                    {combo.components}
                   </p>
-                </div>
 
+                  {combo.componentBenefits && combo.componentBenefits.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-emerald-200/50 space-y-3">
+                      <h4 className="text-xs font-black text-emerald-900 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" /> Cómo beneficia tu cuerpo:
+                      </h4>
+                      <ul className="space-y-3.5">
+                        {combo.componentBenefits.map((cb, idx) => (
+                          <li key={idx} className="text-stone-700 text-base leading-relaxed flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3">
+                            <span className="font-extrabold text-emerald-950 shrink-0 min-w-[170px] text-sm inline-block text-left">
+                              {cb.name}
+                            </span>
+                            <span className="text-stone-600 font-medium sm:pt-0.5">{cb.benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="lg:mt-8 mt-4 p-6 rounded-3xl border-2 border-emerald-100 shadow-sm">
+                <h3 className="text-xl font-black text-emerald-950 uppercase tracking-widest mb-6 flex items-center gap-3">
+                  <TrendingUp className="w-6 h-6" /> Beneficios del Combo:
+                </h3>
+                <div className="space-y-6">
+                  {combo.benefits?.map((benefit, i) => (
+                    <div key={i} className="flex items-start gap-4 group">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-50 border-2 border-emerald-500 flex items-center justify-center shadow-sm mt-0.5 group-hover:scale-110 transition-transform">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                      </div>
+                      <div className="flex-1">
+                        <span className="text-stone-800 text-lg font-black leading-tight block">{benefit}</span>
+                        <div className="w-12 h-0.5 bg-emerald-100 mt-1 transition-all group-hover:w-full" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop FAQ - Below left column seals */}
+              <div className="hidden lg:block relative z-10">
                 <FAQSection 
                   specificFaqs={combo.seoFaqs} 
                   generalFaqs={GENERAL_FAQS} 
@@ -248,7 +291,7 @@ export default function ComboLanding() {
                 </div>
               </div>
 
-              <h1 className="text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
+              <h1 className="hidden lg:block text-3xl lg:text-5xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
                 {cleanPromoName(combo.name)}
               </h1>
               
@@ -265,35 +308,7 @@ export default function ComboLanding() {
                 </h2>
               </div>
 
-              {combo.components && (
-                <div className="mb-8 p-6 bg-emerald-50/30 rounded-3xl border-2 border-emerald-100 shadow-sm transition-all hover:bg-emerald-50">
-                  <h3 className="text-sm font-black text-emerald-900 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
-                    <Zap className="w-4 h-4 fill-emerald-500 text-emerald-500" /> Componentes Activos del Combo
-                  </h3>
-                  <p className="text-stone-700 text-lg font-medium leading-relaxed italic">
-                    {combo.components}
-                  </p>
-                </div>
-              )}
 
-              <div className="mb-10">
-                <h3 className="text-xl font-black text-emerald-900 uppercase tracking-widest mb-6 flex items-center gap-3">
-                  <TrendingUp className="w-6 h-6" /> Beneficios del Combo:
-                </h3>
-                <div className="space-y-6">
-                  {combo.benefits?.map((benefit, i) => (
-                    <div key={i} className="flex items-start gap-4 group">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-50 border-2 border-emerald-500 flex items-center justify-center shadow-sm mt-0.5 group-hover:scale-110 transition-transform">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-stone-800 text-lg font-black leading-tight block">{benefit}</span>
-                        <div className="w-12 h-0.5 bg-emerald-100 mt-1 transition-all group-hover:w-full" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200">
                 <div className="grid gap-2 sm:gap-3">
@@ -363,17 +378,18 @@ export default function ComboLanding() {
                 <TrustBar className="mt-8" />
               </div>
 
-              {/* Why buy section - Mobile only */}
-              <div className="lg:hidden">
-                <div className="mt-10 p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm">
-                  <h3 className="text-2xl font-black text-emerald-900 mb-4 flex items-center gap-3">
-                    <Info className="w-7 h-7" /> {combo.whyChoose?.title || '¿Por qué elegir este combo?'}
-                  </h3>
-                  <p className="text-xl text-emerald-800 leading-relaxed font-medium">
-                    {combo.whyChoose?.description || 'Este combo ha sido diseñado para ofrecerte una solución integral y efectiva, combinando lo mejor de nuestros productos para potenciar tu bienestar natural.'}
-                  </p>
-                </div>
+              {/* Why Choose Section - Always visible under the payment zone */}
+              <div className="mt-8 p-8 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-sm">
+                <h3 className="text-2xl font-black text-emerald-950 mb-4 flex items-center gap-3">
+                  <Info className="w-7 h-7" /> {combo.whyChoose?.title || '¿Por qué elegir este combo?'}
+                </h3>
+                <p className="text-xl text-emerald-800 leading-relaxed font-medium">
+                  {combo.whyChoose?.description || 'Este combo ha sido diseñado para ofrecerte una solución integral y efectiva, combinando lo mejor de nuestros productos para potenciar tu bienestar natural.'}
+                </p>
+              </div>
 
+              {/* FAQ Section - Mobile only (desktop is on left column) */}
+              <div className="lg:hidden">
                 <FAQSection 
                   specificFaqs={combo.seoFaqs} 
                   generalFaqs={GENERAL_FAQS} 

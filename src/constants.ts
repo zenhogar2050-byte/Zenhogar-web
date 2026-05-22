@@ -1,3 +1,8 @@
+export interface ComponentBenefit {
+  name: string;
+  benefit: string;
+}
+
 export interface Product {
   id: string;
   masterId: string;
@@ -8,6 +13,7 @@ export interface Product {
   image: string;
   basePrice: number;
   size?: string;
+  componentBenefits?: ComponentBenefit[];
   category: string;
   promos: {
     id: string;
@@ -114,6 +120,20 @@ Ideal para procesos de detox y depuración profunda, este suplemento especialmen
     ],
     keywords: 'limpieza hígado, digestión ligera, pesadez abdominal, depurar el organismo, alcachofa, Rtafull, Zenhogar, bienestar hepático',
     components: 'Alcachofa, Flor de Jamaica, Berenjena, Apio y Perejil',
+    componentBenefits: [
+    {
+        'name': 'Alcachofa y Berenjena',
+        'benefit': 'Favorecen los procesos digestivos naturales y apoyan la correcta asimilación de las grasas de los alimentos.'
+    },
+    {
+        'name': 'Apio y Perejil',
+        'benefit': 'Contribuyen a la eliminación normal de líquidos en el organismo y apoyan las funciones de depuración natural.'
+    },
+    {
+        'name': 'Flor de Jamaica',
+        'benefit': 'Aporta antioxidantes que ayudan a proteger las células frente al estrés oxidativo cotidiano.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento líquido para limpiar el hígado rápidamente',
       'cómo reducir la sensación de pesadez abdominal después de comer mucho',
@@ -180,6 +200,24 @@ Formulado sin azúcares añadidos, es el aliado perfecto para personas diabétic
     ],
     keywords: 'limpieza intestinal, estreñimiento, fibras naturales, pitaya, espirulina, digestión fácil, salud digestiva, Coliplus, Zenhogar',
     components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Chía y Espirulina',
+    componentBenefits: [
+    {
+        'name': 'Linaza',
+        'benefit': 'Aporta fibra natural y mucílagos que favorecen el tránsito intestinal y apoyan una evacuación regular.'
+    },
+    {
+        'name': 'Pitaya',
+        'benefit': 'Promueve el movimiento intestinal de forma natural y ayuda a mitigar la sensación de pesadez o tránsito lento.'
+    },
+    {
+        'name': 'Flor de Jamaica y Alcachofa',
+        'benefit': 'Contribuyen a reducir la pesadez estomacal y promueven el confort digestivo general.'
+    },
+    {
+        'name': 'Espirulina',
+        'benefit': 'Aporta nutrientes esenciales que apoyan y protegen el equilibrio de la flora intestinal.'
+    }
+],
     longTailKeywords: [
       'mejor fibra natural para ir al baño regularmente',
       'cómo limpiar el colon sin azúcar de forma segura',
@@ -246,6 +284,16 @@ Ideal para toda la familia, este suplemento de sabor neutro se disuelve instant�
     ],
     keywords: 'colágeno natural, sabor neutro, hidratación piel, colágeno familiar, piel suave, Zenhogar, colágeno puro',
     components: 'Colágeno Hidrolizado y Citrato de Magnesio',
+    componentBenefits: [
+    {
+        'name': 'Colágeno Hidrolizado',
+        'benefit': 'Proporciona los aminoácidos necesarios que apoyan la estructura natural y la firmeza de la piel y los cartílagos.'
+    },
+    {
+        'name': 'Citrato de Magnesio',
+        'benefit': 'Apoya el funcionamiento muscular normal y contribuye al mantenimiento saludable del sistema óseo.'
+    }
+],
     longTailKeywords: [
       'mejor colágeno sin sabor para mezclar con jugos',
       'cómo hidratar la piel desde adentro con colágeno natural',
@@ -312,6 +360,20 @@ Enriquecido con un complejo multivitamínico total y Omega 3, 6 y 9, este suplem
     ],
     keywords: 'antioxidante, sistema inmune, resveratrol, energía vital, defensas, vitalidad diaria, Resvis Factor, Zenhogar',
     components: 'Calostro Bovino, Shiitake, Quinua, Malta y Vitaminas',
+    componentBenefits: [
+    {
+        'name': 'Calostro Bovino y Shiitake',
+        'benefit': 'Favorecen el fortalecimiento de las defensas naturales y apoyan el normal funcionamiento del sistema inmune.'
+    },
+    {
+        'name': 'Quinua y Malta',
+        'benefit': 'Aportan energía limpia y aminoácidos esenciales.'
+    },
+    {
+        'name': 'Vitaminas',
+        'benefit': 'Contribuyen al rendimiento energético diario y al buen funcionamiento general del organismo.'
+    }
+],
     longTailKeywords: [
       'mejor antioxidante natural para proteger las células',
       'cómo fortalecer el sistema inmunológico con resveratrol',
@@ -378,6 +440,16 @@ Además de su acción en la quema de grasas, CLA 500 protege tus células del pa
     ],
     keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
     components: 'Cloruro de Magnesio, Vitamina D3, Cúrcuma y Pimienta Negra',
+    componentBenefits: [
+    {
+        'name': 'Cúrcuma y Pimienta Negra',
+        'benefit': 'La pimienta optimiza la absorción de la cúrcuma, favoreciendo el alivio, la recuperación y el confort muscular.'
+    },
+    {
+        'name': 'Cloruro de Magnesio y D3',
+        'benefit': 'Contribuyen al mantenimiento saludable de los huesos y apoyan la regeneración natural de los tejidos.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento de cúrcuma para confortar articulaciones',
       'cómo absorber mejor los beneficios de la cúrcuma con pimienta',
@@ -448,6 +520,12 @@ Rico en antioxidantes de alta potencia, Cafetolio purifica tu hígado y desintox
     ],
     keywords: 'café verde, vientre plano, control de peso, limpiar hígado, energía natural, metabolismo, Cafetolio, Zenhogar',
     components: 'Café Verde 100% natural',
+    componentBenefits: [
+    {
+        'name': 'Café Verde',
+        'benefit': 'Rico en ácido clorogénico, un antioxidante natural que promueve un metabolismo más activo y contribuye a la vitalidad diaria.'
+    }
+],
     longTailKeywords: [
       'mejor café verde para tener el vientre plano',
       'cómo limpiar el hígado y movilizar energías naturalmente',
@@ -517,6 +595,20 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
     ],
     keywords: 'dolor muscular, tensión cuello, cansancio en piernas, fatiga muscular, masajes, alivio rápido, loción termoactiva, Zenhogar',
     components: 'Árnica, Castaño de Indias, Caléndula, Uña de Gato y Chuchuguaza',
+    componentBenefits: [
+    {
+        'name': 'Árnica y Uña de Gato',
+        'benefit': 'Brindan un rápido alivio y confort en los músculos de forma externa.'
+    },
+    {
+        'name': 'Castaño de Indias',
+        'benefit': 'Favorece la sensación de ligereza y ayuda a mitigar la pesadez en las zonas aplicadas.'
+    },
+    {
+        'name': 'Caléndula y Chuchuguaza',
+        'benefit': 'Calman la irritación de la piel y aportan una sensación de bienestar y movilidad en las articulaciones.'
+    }
+],
     longTailKeywords: [
       'mejor loción con efecto calor para tensión en la espalda',
       'cómo aliviar la tensión muscular en el cuello rápidamente',
@@ -588,6 +680,16 @@ Potenciado con un complejo multivitamínico total y citrato de magnesio, C-Lagen
     ],
     keywords: 'colágeno marino, molestias articulares, salud articular, huesos fuertes, magnesio, movilidad, C-Lagen, Zenhogar',
     components: 'Colágeno Marino, Citrato de Magnesio, Vitaminas y Minerales',
+    componentBenefits: [
+    {
+        'name': 'Colágeno Marino',
+        'benefit': 'Posee una excelente absorción que favorece la elasticidad de la piel y apoya su firmeza natural.'
+    },
+    {
+        'name': 'Citrato de Magnesio, Vitaminas y Minerales',
+        'benefit': 'Contribuyen al bienestar de las articulaciones y promueven una agradable sensación de relajación y descanso.'
+    }
+],
     longTailKeywords: [
       'mejor colágeno marino para fortalecer las rodillas',
       'cómo mejorar la movilidad articular sin rigidez',
@@ -657,6 +759,16 @@ Con un refrescante sabor a durazno maduro, Citramix no solo mejora tu descanso n
     ],
     keywords: 'magnesio, calambres, estrés, digestión ligera, relajación muscular, paz mental, Citramix, Zenhogar',
     components: 'Citrato de Magnesio, Bisglicinato de Magnesio y Vitaminas',
+    componentBenefits: [
+    {
+        'name': 'Citrato y Bisglicinato de Magnesio',
+        'benefit': 'Doble fuente de magnesio de alta disponibilidad que apoya el rendimiento muscular, ayuda a evitar la fatiga y promueve un descanso profundo y reparador.'
+    },
+    {
+        'name': 'Vitaminas',
+        'benefit': 'Disminuyen el cansancio diario.'
+    }
+],
     longTailKeywords: [
       'mejor mezcla de magnesio para evitar calambres musculares',
       'cómo mantener la calma y reducir el estrés diariamente',
@@ -722,6 +834,20 @@ Libre de lácteos y grasas trans, nuestra fórmula se apoya en los triglicérido
     ],
     keywords: 'café con colágeno, crema de coco, belleza integral, fortalecer cabello, uñas fuertes, vitaminas, Coffee Colágeno, Zenhogar',
     components: 'Crema de Coco, Colágeno Hidrolizado y Café Soluble',
+    componentBenefits: [
+    {
+        'name': 'Café Soluble',
+        'benefit': 'Aporta un impulso rápido de energía y mejora el enfoque diario.'
+    },
+    {
+        'name': 'Crema de Coco',
+        'benefit': 'Proporciona grasas saludables (MCT) que apoyan el rendimiento mental y la claridad.'
+    },
+    {
+        'name': 'Colágeno Hidrolizado',
+        'benefit': 'Favorece y fortalece la estructura natural del cabello, la piel y las uñas.'
+    }
+],
     longTailKeywords: [
       'mejor café con colágeno para fortalecer cabello y uñas',
       'cómo cuidar tu belleza mientras tomas el café matutino',
@@ -786,6 +912,12 @@ Libre de rellenos, sabores artificiales o aditivos innecesarios, esta fórmula d
     ],
     keywords: 'creatina pura, fuerza muscular, rendimiento cerebral, vitalidad, Zenhogar, creatina USP',
     components: 'Creatina monohidratada 100% pura',
+    componentBenefits: [
+    {
+        'name': 'Creatina Monohidratada',
+        'benefit': 'Optimiza los niveles de energía en los músculos, favoreciendo un mayor rendimiento, fuerza y resistencia durante el entrenamiento.'
+    }
+],
     longTailKeywords: [
       'mejor creatina pura para ganar fuerza en brazos y piernas',
       'cómo mantener la mente despierta y concentrada naturalmente',
@@ -851,6 +983,20 @@ Enriquecido con jengibre, ciruela y vitamina E, este elixir masculino actúa com
     ],
     keywords: 'salud masculina, próstata, vitalidad, tomate de árbol, prevención, bienestar hombre, Iprossmen, Zenhogar',
     components: 'Té Verde, Tomate de Árbol, Arándanos, Mandarina, Jengibre, Ciruela y Vitamina E',
+    componentBenefits: [
+    {
+        'name': 'Té Verde, Tomate de Árbol y Arándanos',
+        'benefit': 'Aportan licopeno y polifenoles que favorecen el bienestar del sistema urinario y apoyan la salud del hombre.'
+    },
+    {
+        'name': 'Mandarina, Jengibre y Ciruela',
+        'benefit': 'Mejoran la digestión y absorción.'
+    },
+    {
+        'name': 'Vitamina E',
+        'benefit': 'Excelente antioxidante natural que ayuda a proteger las células.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento natural para confortar la zona pélvica',
       'cómo cuidar la salud masculina de forma natural y segura',
@@ -916,6 +1062,20 @@ Más que un simple suplemento, KDS 10 actúa como un revitalizante metabólico q
     ],
     keywords: 'multivitamínico, vitalidad diaria, vitaminas y minerales, KDS 10, Zenhogar',
     components: 'Crema de coco, Proteína de suero, Magnesio, Hierro, Zinc y Complejo Vitamínico',
+    componentBenefits: [
+    {
+        'name': 'Proteína de suero y Crema de coco',
+        'benefit': 'Aportan bloques de construcción muscular y energía.'
+    },
+    {
+        'name': 'Hierro y Zinc',
+        'benefit': 'undamentales para apoyar la producción de glóbulos rojos y contribuir al desarrollo físico y cognitivo diario.'
+    },
+    {
+        'name': 'Magnesio y Vitaminas',
+        'benefit': 'Contribuyen al funcionamiento normal del sistema inmunológico.'
+    }
+],
     longTailKeywords: [
       'mejor multivitamínico líquido para adultos y niños',
       'cómo asegurar la ingesta diaria de vitaminas esenciales',
@@ -986,6 +1146,20 @@ A diferencia de los somníferos químicos, Liofhim promueve un descanso fisioló
     ],
     keywords: 'dormir profundo, insomnio, descanso real, manzanilla, albahaca, sueño reparador, Liofhim, Zenhogar',
     components: 'Manzanilla, Albahaca, Anís, Hierbabuena y Vitaminas C y E',
+    componentBenefits: [
+    {
+        'name': 'Manzanilla, Albahaca y Anís',
+        'benefit': 'Extractos herbales con propiedades relajantes que promueven la tranquilidad, disminuyen el estrés diario y facilitan un descanso profundo.'
+    },
+    {
+        'name': 'Hierbabuena',
+        'benefit': 'Aporta una sensación de alivio y confort digestivo ideal para las noches.'
+    },
+    {
+        'name': 'Vitaminas C y E',
+        'benefit': 'Apoyan la regeneración natural de las células y protegen el cuerpo durante el descanso nocturno.'
+    }
+],
     longTailKeywords: [
       'mejor bebida natural para dormir profundo toda la noche',
       'cómo evitar los despertares a medianoche y descansar',
@@ -1050,6 +1224,16 @@ Endulzado naturalmente con estevia, este refrescante suplemento con sabor a lim�
     ],
     keywords: 'digestión ligera, alivio estomacal, acidez, pesadez, Liteplex, Zenhogar, jengibre, limón',
     components: 'Té Verde, Jengibre, Limón, Albahaca y Menta',
+    componentBenefits: [
+    {
+        'name': 'Té Verde y Jengibre',
+        'benefit': 'Estimulan la digestión lenta y favorecen el bienestar y confort de las paredes estomacales.'
+    },
+    {
+        'name': 'Limón, Albahaca y Menta',
+        'benefit': 'Ayudan a mantener un pH equilibrado en el estómago, aportan frescura y promueven una digestión ligera y sin pesadez.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento líquido para acelerar el metabolismo',
       'cómo mejorar la digestión y el metabolismo naturalmente',
@@ -1119,6 +1303,16 @@ Complementado con un amplio espectro de vitaminas esenciales, este suplemento es
     ],
     keywords: 'colágeno ligera, quinua, articulaciones, piel firme, Maxlite, Zenhogar',
     components: 'Péptidos de Colágeno, Resveratrol, Quinua, Omega 3-6-9 y Vitaminas',
+    componentBenefits: [
+    {
+        'name': 'Péptidos de Colágeno',
+        'benefit': 'Estructuras de alta absorción que apoyan la producción natural de colágeno y contribuyen al bienestar del sistema óseo.'
+    },
+    {
+        'name': 'Resveratrol y Omegas',
+        'benefit': 'Favorecen la salud cardiovascular y aportan antioxidantes que ayudan a retrasar los efectos del estrés oxidativo en las células.'
+    }
+],
     longTailKeywords: [
       'mejor colágeno de alta absorción para deportistas',
       'cómo fortalecer las articulaciones sin sentir pesadez',
@@ -1189,6 +1383,20 @@ Enriquecido con una base proteica de suero y minerales críticos como el magnesi
     ],
     keywords: 'energía extrema, vitalidad, rendimiento, Megamac, Zenhogar',
     components: 'Maca, Borojó, Proteína de Suero, Vitaminas y Minerales',
+    componentBenefits: [
+    {
+        'name': 'Maca y Borojó',
+        'benefit': 'Actúan como energizantes naturales que optimizan el rendimiento físico y ayudan a disminuir la fatiga.'
+    },
+    {
+        'name': 'Proteína de Suero',
+        'benefit': 'Nutre la masa muscular.'
+    },
+    {
+        'name': 'Vitaminas y Minerales',
+        'benefit': 'Ideales para recuperar energía en el desgaste diario.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento natural para el cansancio físico y mental',
       'cómo aumentar el rendimiento en días de alta exigencia',
@@ -1259,6 +1467,16 @@ Enriquecido con extractos de arándanos y uva liofilizada, el Resveratrol de ZEN
     ],
     keywords: 'resveratrol, antioxidante, antiedad, cuidado celular, Zenhogar',
     components: 'Resveratrol, Colágeno Hidrolizado (10.000mg), Arándano y Uva liofilizada',
+    componentBenefits: [
+    {
+        'name': 'Resveratrol, Arándano y Uva',
+        'benefit': 'Altos en polifenoles que favorecen la salud cardiovascular y ayudan a proteger las células contra el daño oxidativo.'
+    },
+    {
+        'name': '10.000mg de Colágeno',
+        'benefit': 'Alta dosis que apoya la elasticidad y la firmeza natural de la piel.'
+    }
+],
     longTailKeywords: [
       'mejor antioxidante natural para promover la vitalidad celular',
       'cómo proteger las células del daño oxidativo con resveratrol',
@@ -1329,6 +1547,20 @@ Además de su acción iluminadora, Eventone proporciona un efecto revitalizador 
     ],
     keywords: 'unificar tono piel, atenuar irregularidades de tono, piel radiante, brillo natural, manchas oscuras, Eventone, Zenhogar, bio retinol',
     components: 'Bio Retinol, Ácido Hialurónico, Colágeno, B5, Manzanilla y Aloe Vera',
+    componentBenefits: [
+    {
+        'name': 'Bio Retinol',
+        'benefit': 'Favorece la revitalización de la piel para mejorar su textura y suavizar la apariencia de los signos de la edad.'
+    },
+    {
+        'name': 'Ácido Hialurónico',
+        'benefit': 'Retiene la humedad cutánea.'
+    },
+    {
+        'name': 'Colágeno, B5, Manzanilla y Aloe Vera',
+        'benefit': 'Calman, brindan una hidratación completa y apoyan la firmeza natural del rostro.'
+    }
+],
     longTailKeywords: [
       'mejor crema para unificar el tono de la piel y atenuar manchas faciales',
       'cómo devolver el brillo natural al rostro de forma segura con bio retinol',
@@ -1396,6 +1628,16 @@ A diferencia de los autobronceadores convencionales, nuestra fórmula de secado 
     ],
     keywords: 'autobronceador, brillo piel, nutrición profunda, Golden Passion, Zenhogar',
     components: 'DHA, Vitamina E, Ácido Oleico y Ácido Palmitoleico',
+    componentBenefits: [
+    {
+        'name': 'DHA y Vitamina E',
+        'benefit': 'Ayudan a proteger la barrera cutánea frente a la oxidación externa.'
+    },
+    {
+        'name': 'Ácido Oleico y Palmitoleico',
+        'benefit': 'Nutren la superficie de la piel, favoreciendo un tono bronceado uniforme, luminoso y saludable.'
+    }
+],
     longTailKeywords: [
       'mejor aceite corporal para un brillo dorado natural',
       'cómo nutrir la piel seca y darle luminosidad',
@@ -1466,6 +1708,16 @@ Su textura fluida y su aroma envolvente lo convierten en el complemento perfecto
     ],
     keywords: 'hidratación intensiva, piel seca, fresapoya, Hydrastrik, Zenhogar',
     components: 'Almendras, Semillas de Uva, Jojoba, Coco, Mango y Aguacate',
+    componentBenefits: [
+    {
+        'name': 'Aceites de Jojoba, Almendras y Semillas de Uva',
+        'benefit': 'Nutren la piel intensamente, ayudando a mantener su flexibilidad y suavidad natural.'
+    },
+    {
+        'name': 'Coco, Mango y Aguacate',
+        'benefit': 'Forman una barrera protectora que ayuda a prevenir la sequedad y mantiene la hidratación.'
+    }
+],
     longTailKeywords: [
       'mejor crema hidratante para piel muy seca y sensible',
       'cómo mantener la piel hidratada durante 24 horas',
@@ -1536,6 +1788,16 @@ Especialmente eficaz para suavizar zonas propensas a la resequedad y el sombread
     ],
     keywords: 'cuidado piel, suavidad, protección diaria, Miskinne, Zenhogar',
     components: 'Avena, Caléndula, Manteca de Karité, Vitamina E',
+    componentBenefits: [
+    {
+        'name': 'Avena y Caléndula',
+        'benefit': 'Calman la piel sensible e irritada.'
+    },
+    {
+        'name': 'Manteca de Karité y Vitamina E',
+        'benefit': 'Humectan intensamente y favorecen la elasticidad de la piel, ayudando a suavizar la apariencia de marcas e imperfecciones.'
+    }
+],
     longTailKeywords: [
       'mejor crema corporal para pieles delicadas y sensibles',
       'cómo proteger la piel de las agresiones diarias naturalmente',
@@ -1606,6 +1868,16 @@ Perfecto para revitalizar el cuero cabelludo, así como para poblar con precisi�
     ],
     keywords: 'caída cabello, crecimiento capilar, fortalecer raíz, tónico capilar, Zenhogar',
     components: 'Trichogen al 8%, Cebolla, Ginkgo Biloba y 16 extractos herbales',
+    componentBenefits: [
+    {
+        'name': 'Trichogen al 8%',
+        'benefit': 'Complejo capilar que ayuda a disminuir la caída y fortalece el cabello desde la raíz.'
+    },
+    {
+        'name': 'Cebolla y Ginkgo Biloba',
+        'benefit': 'Estimulan y nutren la zona capilar, favoreciendo el crecimiento saludable y el engrosamiento del nuevo cabello.'
+    }
+],
     longTailKeywords: [
       'mejor tónico capilar para evitar la caída del cabello',
       'cómo estimular el crecimiento del cabello de forma natural',
@@ -1675,6 +1947,20 @@ Enriquecido con inulina (prebiótico natural), Tufoff no solo brinda frescura in
     ],
     keywords: 'mal aliento, frescura bucal, menta canela, Tufoff, Zenhogar, higiene oral rápida',
     components: 'Eritritol, Inulina, Aceite de Menta, Canela y Bicarbonato de Sodio',
+    componentBenefits: [
+    {
+        'name': 'Aceite de Menta y Canela',
+        'benefit': 'Neutralizan los malos olores bucales, aportando una sensación de frescura al instante.'
+    },
+    {
+        'name': 'Bicarbonato de Sodio',
+        'benefit': 'Ayuda a equilibrar el pH bucal para prevenir las causas del mal aliento y mantener la boca limpia.'
+    },
+    {
+        'name': 'Eritritol e Inulina',
+        'benefit': 'Apoyan el cuidado de la salud oral con un agradable sabor natural que no afecta tus hábitos saludables.'
+    }
+],
     longTailKeywords: [
       'mejor producto para neutralizar el mal aliento de forma inmediata',
       'cómo mantener un aliento fresco durante todo el día naturalmente',
@@ -1742,6 +2028,20 @@ Su fórmula avanzada refuerza la barrera natural de la piel, protegiéndola cont
     ],
     keywords: 'botox natural, voluminizante, firmeza, Akha, Zenhogar',
     components: 'Extracto de Acmella Oleracea, Maca, Ginseng, Zinc, L-Arginina',
+    componentBenefits: [
+    {
+        'name': 'Acmella Oleracea',
+        'benefit': 'Aporta un efecto tonificante que mejora la firmeza y la elasticidad de la piel en el cuidado masculino.'
+    },
+    {
+        'name': 'Maca, Ginseng y L-Arginina',
+        'benefit': 'Brindan una intensa sensación de vitalidad y frescura, ideal para hombres.'
+    },
+    {
+        'name': 'Zinc',
+        'benefit': 'Contribuye a mantener la suavidad y el estado óptimo de la piel.'
+    }
+],
     longTailKeywords: [
       'mejor crema natural para mejorar la firmeza de la piel en hombres',
       'cómo recuperar la elasticidad cutánea con extractos de maca y ginseng',
@@ -1812,6 +2112,20 @@ Ideal para el cuidado diario, Derman calma instantáneamente el ardor, evita los
     ],
     keywords: 'bienestar íntimo, arginina, ácido salicílico, salud íntima, Derman, Zenhogar',
     components: 'Ácido Salicílico, Arginina, Ácido Undecilénico y Lanolina',
+    componentBenefits: [
+    {
+        'name': 'Ácido Salicílico',
+        'benefit': 'Exfolia suavemente y previene vellos encarnados tras la depilación.'
+    },
+    {
+        'name': 'Arginina y Lanolina',
+        'benefit': 'Humectan intensamente y reconfortan la piel frente a la fricción o irritación.'
+    },
+    {
+        'name': 'Ácido Undecilénico',
+        'benefit': 'Aporta una agradable sensación de frescura, limpieza y confort prolongado en áreas delicadas.'
+    }
+],
     longTailKeywords: [
       'mejor mascarilla íntima para prevenir irritación tras la depilación con cera',
       'cómo mantener el pH balanceado y la frescura en la zona delicada femenina',
@@ -1881,6 +2195,20 @@ Enriquecida con Vitaminas del Complejo B, Haydar no solo despierta tu cuerpo, si
     ],
     keywords: 'vitalidad extra, ánimo, rendimiento, Haydar, Zenhogar',
     components: 'Borojó, Maca, Taurina, Cafeína, Guaraná y Vitaminas del Complejo B',
+    componentBenefits: [
+    {
+        'name': 'Taurina, Cafeína y Guaraná',
+        'benefit': 'Combinación ideal que eleva el enfoque mental, mejora la concentración e incrementa la energía diaria.'
+    },
+    {
+        'name': 'Borojó y Maca',
+        'benefit': 'Mantienen el vigor físico prolongado.'
+    },
+    {
+        'name': 'Complejo B',
+        'benefit': 'Optimiza el metabolismo energético.'
+    }
+],
     longTailKeywords: [
       'mejor bebida energizante natural con borojó y maca para rendimiento',
       'cómo obtener energía explosiva de forma saludable sin exceso de azúcar',
@@ -1949,6 +2277,16 @@ Su fórmula fluida de pH balanceado ha sido optimizada para respetar la delicada
     ],
     keywords: 'confianza femenina, bienestar íntimo, salud sexual mujer, Instant Virgin, Zenhogar, firmeza vaginal natural',
     components: 'Aloe Vera, D-Pantenol y Sulfato de Aluminio',
+    componentBenefits: [
+    {
+        'name': 'Aloe Vera y D-Pantenol',
+        'benefit': 'Brindan una hidratación completa y favorecen el cuidado diario de la piel en zonas de alta sensibilidad.'
+    },
+    {
+        'name': 'Sulfato de Aluminio',
+        'benefit': 'Aporta una acción acondicionadora suave que ayuda a mantener el confort y el equilibrio natural de la piel.'
+    }
+],
     longTailKeywords: [
       'mejor gel para recuperar la sensación de firmeza íntima tras el parto',
       'cómo mejorar el bienestar sexual y la plenitud de la mujer naturalmente',
@@ -2015,6 +2353,16 @@ Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textur
     ],
     keywords: 'fuerza masculina, rendimiento, vitalidad, Mamooth, Zenhogar',
     components: 'Acmella Oleracea, Aceite de Parafina USP y Vitamina E',
+    componentBenefits: [
+    {
+        'name': 'Acmella Oleracea',
+        'benefit': 'Reconocida por su capacidad para reafirmar y tensar la apariencia visual de la piel.'
+    },
+    {
+        'name': 'Aceite de Parafina USP y Vitamina E',
+        'benefit': 'Forman una barrera altamente hidratante que mejora progresivamente la tersura de las áreas deseadas.'
+    }
+],
     longTailKeywords: [
       'mejor crema reafirmante para mejorar el volumen y textura de la piel',
       'cómo lograr una piel más firme y elástica con vitamina E y maca',
@@ -2084,6 +2432,20 @@ Enriquecido con Omega 3 proveniente de chía y linaza, además de vitaminas esen
     ],
     keywords: 'equilibrio hormonal femenino, salud metabólica, tiroides, menopausia, sofocos, energía estable, Tyruss Full, Zenhogar',
     components: 'Clorofila, Espirulina, Chlorella, Proteína de Arveja, Almendras y Omega 3',
+    componentBenefits: [
+    {
+        'name': 'Clorofila, Espirulina y Chlorella',
+        'benefit': 'Microalgas y extractos verdes que promueven la limpieza natural del organismo y aportan un extra de vitalidad.'
+    },
+    {
+        'name': 'Proteína de Arveja y Almendras',
+        'benefit': 'Nutrición vegetal limpia.'
+    },
+    {
+        'name': 'Omega 3',
+        'benefit': 'Apoya la elasticidad y el cuidado de la piel.'
+    }
+],
     longTailKeywords: [
       'mejor batido verde detox para depurar el colon y reconfortar el cuerpo',
       'cómo oxigenar la sangre y mejorar la digestión con clorofila y espirulina',
@@ -2153,6 +2515,20 @@ Diseñada para acompañarte en jornadas exigentes, Zafir te ayuda a mantener el 
     ],
     keywords: 'energía inmediata, impulso natural, enfoque mental, vitalidad, Zafir, Zenhogar, bebida energizante',
     components: 'Borojó, Maca, Taurina, Cafeína y Vitaminas B3, B6, B12 y Biotina',
+    componentBenefits: [
+    {
+        'name': 'Taurina y Cafeína',
+        'benefit': 'Reducen la fatiga mental y física, favoreciendo un mejor rendimiento'
+    },
+    {
+        'name': 'Borojó y Maca',
+        'benefit': 'Entregan vitalidad constante sin bajones.'
+    },
+    {
+        'name': 'Vitaminas B y Biotina',
+        'benefit': 'Apoyan la transformación de los nutrientes en energía activa para el día a día.'
+    }
+],
     longTailKeywords: [
       'mejor bebida energizante con frutos rojos para vitalidad y enfoque',
       'cómo recargar energía de forma natural con maca borojó y guaraná',
@@ -2223,6 +2599,20 @@ Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracia
     ],
     keywords: 'vitalidad masculina, vigor natural, rendimiento sexual, potencia hombre, Zeus, Zenhogar, Borojó, Maca',
     components: 'Borojó, Chontaduro, Maca, Guaraná, Fenogreco y Açaí',
+    componentBenefits: [
+    {
+        'name': 'Borojó, Chontaduro y Maca',
+        'benefit': 'Tradicionales dinamizadores que favorecen la resistencia muscular y el vigor físico diario.'
+    },
+    {
+        'name': 'Guaraná y Fenogreco',
+        'benefit': 'Brindan energía sostenida.'
+    },
+    {
+        'name': 'Açaí',
+        'benefit': 'Aporta una excelente fuente de antioxidantes que protegen el organismo.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento de vigor masculino con borojó chontaduro y maca',
       'cómo mejorar la resistencia física y potencia del hombre naturalmente',
@@ -2292,6 +2682,20 @@ Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita 
     ],
     keywords: 'energía natural, antiedad, vitalidad celular, piel firme, cansancio, +NAD, Zenhogar',
     components: 'Colágeno (10g), Crema de Coco, NAD, Vitaminas A, C, D, E y complejo B',
+    componentBenefits: [
+    {
+        'name': 'NAD',
+        'benefit': 'Favorece la renovación natural y el correcto funcionamiento de las células, devolviendo una profunda vitalidad al organismo.'
+    },
+    {
+        'name': '10g de Colágeno y Crema de Coco',
+        'benefit': 'Aportan una profunda nutrición que favorece la firmeza y la apariencia saludable de la piel.'
+    },
+    {
+        'name': 'Vitaminas',
+        'benefit': 'Aportan antioxidantes esenciales que ayudan a proteger las células contra el daño oxidativo diario.'
+    }
+],
     longTailKeywords: [
       'mejor suplemento para bienestar celular con NAD+ y resveratrol',
       'cómo nutrir las células y aumentar la energía vital naturalmente',
@@ -2362,6 +2766,16 @@ Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lác
     ],
     keywords: 'café energizante, potencia masculina, vitalidad, Titan Coffee, Zenhogar, vigor natural',
     components: 'Maca, Chontaduro, Borojó, Café soluble y Crema de Coco',
+    componentBenefits: [
+    {
+        'name':'Café Soluble y Crema de Coco',
+        'benefit': 'Elevan el estado de alerta mental y el enfoque sin generar picos de nerviosismo o agitación.'
+    },
+    {
+        'name': 'Maca, Chontaduro y Borojó',
+        'benefit': 'Mantienen al cuerpo activo y previenen el agotamiento físico durante el día.'
+    }
+],
     longTailKeywords: [
       'mejor café funcional con maca y borojó para rendimiento máximo',
       'cómo tener energía física y mental constante con café de alta potencia',
@@ -2430,6 +2844,20 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     ],
     keywords: 'hemorroides, ardor anal, picazón, caléndula, aloe vera, plantas medicinales, alivio natural, cuidado botánico, Zenhogar, fisura anal',
     components: 'Caléndula, Castaño de Indias, Aloe Vera, Avena, Manzanilla y Centella Asiática',
+    componentBenefits: [
+    {
+        'name': 'Caléndula, Manzanilla y Aloe Vera',
+        'benefit': 'Calman el ardor y la sensibilidad cutánea aportando un alivio rápido y reconfortante.'
+    },
+    {
+        'name': 'Castaño de Indias y Centella Asiática',
+        'benefit': 'Favorecen la microcirculación y ayudan a disminuir la sensación de pesadez e inflamación.'
+    },
+    {
+        'name': 'Avena',
+        'benefit': 'Humecta y protege la barrera natural.'
+    }
+],
     longTailKeywords: [
       'mejor crema botánica para calmar el ardor anal rápidamente',
       'cómo favorecer el bienestar ante las hemorroides de forma natural y con facilidad',
@@ -2482,6 +2910,7 @@ export interface Promotion {
   badge?: string;
   keywords?: string;
   components?: string;
+  componentBenefits?: ComponentBenefit[];
   longTailKeywords?: string[];
   seoFaqs?: { q: string; a: string }[];
   benefits?: string[];
@@ -2521,6 +2950,20 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   ],
   keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
   components: 'Calostro Bovino, Hongo Shiitake, Resveratrol, Linaza, Pitaya, Flor de Jamaica, Alcachofa, Betaglucanos y Vitaminas',
+    componentBenefits: [
+    {
+        'name': 'Calostro, Shiitake y Betaglucanos',
+        'benefit': 'Fortalecen el sistema inmunológico, apoyando las defensas naturales del organismo.'
+    },
+    {
+        'name': 'Linaza, Pitaya y Alcachofa',
+        'benefit': 'Promueven el tránsito intestinal regular y favorecen la digestión saludable de forma natural.'
+    },
+    {
+        'name': 'Resveratrol y Vitaminas',
+        'benefit': 'Aportan soporte antioxidante y celular.'
+    }
+],
   longTailKeywords: [
     'mejor combo natural para reconfortar el vientre y subir defensas',
     'cómo depurar el colon y el hígado de forma efectiva y segura',
@@ -2564,6 +3007,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°1',
     keywords: 'Resveratrol, Miskinne, antioxidante, cuidado de la piel, rejuvenecimiento, bienestar, Zenhogar, combo belleza',
     components: 'Arbutina (5%), Resveratrol, Colágeno Hidrolizado (10.000mg), Crema de Coco, Arándano y Uva liofilizada',
+    componentBenefits: [
+    {
+        'name': 'Arbutina (5%)',
+        'benefit': 'Trabaja atenuando la apariencia de manchas superficiales externas y pecas.'
+    },
+    {
+        'name': 'Resveratrol, Arándano y Uva',
+        'benefit': 'Protegen la estructura cutánea frente al daño oxidativo y los radicales libres.'
+    },
+    {
+        'name': '10.000mg de Colágeno y Crema de Coco',
+        'benefit': 'Favorecen la elasticidad, firmeza y nutrición natural de la piel, uñas y cabello.'
+    }
+],
     longTailKeywords: [
       'mejor combo para revitalizar la piel y dar luminosidad natural',
       'cómo proteger las células y suavizar la piel al mismo tiempo',
@@ -2611,6 +3068,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'OFERTA N° 2',
     keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
     components: 'Bio Retinol, Ácido Hialurónico, Resveratrol, Colágeno Hidrolizado, Vitamina B5 y extractos de Uva y Arándano',
+    componentBenefits: [
+    {
+        'name': 'Bio Retinol y Ácido Hialurónico',
+        'benefit': 'Aclaran y aceleran la renovación de las capas de la piel externa rellenando líneas de expresión.'
+    },
+    {
+        'name': 'Resveratrol, extractos de Uva y Arándano',
+        'benefit': 'Combaten el daño oxidativo y ayudan a disminuir los signos del envejecimiento prematuro.'
+    },
+    {
+        'name': 'Colágeno Hidrolizado y B5',
+        'benefit': 'Hidratan profundamente y promueven la firmeza y elasticidad natural.'
+    }
+],
     longTailKeywords: [
       'mejor combo para atenuar irregularidades de tono y unificar el tono de la piel',
       'cómo nutrir las células y favorecer el bienestar cutáneo de forma segura',
@@ -2658,6 +3129,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'OFERTA N°3',
     keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
     components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Semillas de Chía, Espirulina, Té Verde y Perejil',
+    componentBenefits: [
+    {
+        'name': 'Linaza, Chía y Pitaya',
+        'benefit': 'Promueven el tránsito intestinal de forma suave y natural, favoreciendo una digestión ligera y constante.'
+    },
+    {
+        'name': 'Alcachofa, Té Verde y Perejil',
+        'benefit': 'Apoyan la eliminación natural de líquidos y favorecen el correcto funcionamiento del metabolismo diario.'
+    },
+    {
+        'name': 'Flor de Jamaica y Espirulina',
+        'benefit': 'Ayudan a disminuir la sensación de pesadez o hinchazón en la zona abdominal y protegen la digestión.'
+    }
+],
     longTailKeywords: [
       'mejor combo detox para depurar el colon y el hígado naturalmente',
       'cómo reducir la sensación de pesadez abdominal y favorecer la digestión',
@@ -2705,6 +3190,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°4',
     keywords: 'Liteplex, Rtafull, control de peso, controlar medidas, desintoxicación, metabolism, Zenhogar, combo salud',
     components: 'Té Verde, Jengibre, Alcachofa, Flor de Jamaica, Perejil, Berenjena, Apio y Albahaca',
+    componentBenefits: [
+    {
+        'name': 'Jengibre y Albahaca',
+        'benefit': 'Disminuyen la sensación de pesadez, la acidez y aportan un alivio reconfortante al sistema digestivo.'
+    },
+    {
+        'name': 'Alcachofa, Berenjena, Apio y Té Verde',
+        'benefit': 'Optimizan el procesamiento de alimentos pesados y favorecen la eliminación natural de toxinas y líquidos.'
+    },
+    {
+        'name': 'Flor de Jamaica y Perejil',
+        'benefit': 'Ayudan a eliminar líquidos acumulados.'
+    }
+],
     longTailKeywords: [
       'mejor combo para moldear la figura y depurar el cuerpo',
       'cómo favorecer el metabolismo y liberar toxinas naturalmente',
@@ -2752,6 +3251,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°5',
     keywords: 'Tufoff, Rtafull, protección, limpieza profunda, defensas, bienestar, Zenhogar, combo salud',
     components: 'Flor de Jamaica, Alcachofa, Perejil, Berenjena, Eritritol, Inulina, Aceite de Menta y Bicarbonato de Sodio',
+    componentBenefits: [
+    {
+        'name': 'Alcachofa, Berenjena y Perejil',
+        'benefit': 'Favorecen el procesamiento de las comidas pesadas y apoyan la eliminación natural de líquidos y toxinas del organismo.'
+    },
+    {
+        'name': 'Bicarbonato de Sodio y Aceite de Menta',
+        'benefit': 'Neutralizan los ácidos y componentes que causan el mal aliento, aportando un alivio fresco y rápido.'
+    },
+    {
+        'name': 'Inulina y Eritritol',
+        'benefit': 'Brindan una protección bucal e higiene bucal duradera.'
+    }
+],
     longTailKeywords: [
       'mejor combo para controlar el olor y depurar el cuerpo',
       'cómo fortalecer las defensas y limpiar impurezas naturalmente',
@@ -2799,6 +3312,16 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°6',
     keywords: 'Loción Termoactiva, Colágeno, dolor muscular, articulaciones, recuperación, alivio, Zenhogar, combo bienestar',
     components: 'Extractos naturales relajantes, Colágeno Hidrolizado y Citrato de Magnesio',
+    componentBenefits: [
+    {
+        'name': 'Extractos Naturales Relajantes',
+        'benefit': 'Proveen acción térmica localizada externa para disminuir la rigidez y liberar la tensión muscular acumulada.'
+    },
+    {
+        'name': 'Colágeno Hidrolizado y Citrato de Magnesio',
+        'benefit': 'Apoyan el bienestar de las articulaciones, favoreciendo la flexibilidad y el correcto descanso muscular.'
+    }
+],
     longTailKeywords: [
       'mejor combo para el molestias articulares y espalda naturalmente',
       'cómo mejorar la movilidad articular y favorecer el bienestar muscular',
@@ -2846,6 +3369,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°7',
     keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Zenhogar, combo energía',
     components: 'Maca, Chontaduro, Borojó, Café Verde, Hierro, Magnesio, Zinc y Vitaminas del complejo B',
+    componentBenefits: [
+    {
+        'name': 'Maca, Chontaduro y Borojó',
+        'benefit': 'Dinamizan la fuerza física, el vigor y la resistencia prolongada.'
+    },
+    {
+        'name': 'Café Verde',
+        'benefit': 'Favorece el correcto funcionamiento del metabolismo y aporta un alto contenido de antioxidantes.'
+    },
+    {
+        'name': 'Vitaminas B, Hierro, Magnesio y Zinc',
+        'benefit': 'Elevan la concentración mental y el metabolismo diario.'
+    }
+],
     longTailKeywords: [
       'mejor combo para tener energía todo el día de forma natural',
       'cómo mejorar el enfoque mental y rendimiento físico extremo',
@@ -2893,6 +3430,20 @@ export const PROMOTIONS: Promotion[] = [
     badge: 'COMBO N°8',
     keywords: 'Tyruss-Full, Rtafull, vitalidad, limpieza, energía, bienestar, Zenhogar, combo salud',
     components: 'Clorofila, Espirulina, Chlorella, Alcachofa, Flor de Jamaica, Omega 3, Espinaca, Aguacate y Té Verde',
+    componentBenefits: [
+    {
+        'name': 'Clorofila, Espirulina y Chlorella',
+        'benefit': 'Aportan una potente acción antioxidante que promueve el balance natural y la vitalidad del organismo.'
+    },
+    {
+        'name': 'Alcachofa, Flor de Jamaica y Té Verde',
+        'benefit': 'Favorecen una digestión ligera y apoyan la eliminación natural de toxinas y líquidos acumulados.'
+    },
+    {
+        'name': 'Espinaca, Aguacate y Omega 3',
+        'benefit': 'Aportan nutrientes vitales y protegen la salud de los tejidos.'
+    }
+],
     longTailKeywords: [
       'mejor combo para depurar el cuerpo y recuperar la energía total',
       'cómo mejorar el desempeño diario y la depuración orgánica',
