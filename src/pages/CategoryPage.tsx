@@ -22,13 +22,21 @@ export default function CategoryPage() {
     }
   };
 
+  const handleGoBack = () => {
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  };
+
   if (!category) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Categoría no encontrada</h1>
           <button 
-            onClick={() => navigate(-1)} 
+            onClick={handleGoBack} 
             className="text-emerald-600 font-black flex items-center justify-center gap-3 p-4 rounded-2xl hover:bg-emerald-50 transition-all active:scale-95 group"
           >
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
@@ -90,7 +98,7 @@ export default function CategoryPage() {
       
       {/* Floating Category Navigation */}
       <button 
-        onClick={() => navigate(-1)}
+        onClick={handleGoBack}
         className="fixed left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-50 bg-white/90 backdrop-blur-md text-stone-700 hover:text-emerald-600 hover:bg-white w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 opacity-50 hover:opacity-100 transition-all border border-stone-200/80 flex items-center justify-center group focus:outline-none"
         aria-label="Volver"
       >

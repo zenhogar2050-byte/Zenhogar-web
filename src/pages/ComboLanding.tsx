@@ -23,6 +23,14 @@ export default function ComboLanding() {
 
   const combo = PROMOTIONS.find(p => p.id === id) || (COMBO_OF_THE_MONTH.id === id ? COMBO_OF_THE_MONTH : null);
 
+  const handleGoBack = () => {
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  };
+
   // Video Support
   const hasVideo = combo?.videoUrl || combo?.videoUrlMp4;
   const [showVideo, setShowVideo] = useState(!!hasVideo);
@@ -44,7 +52,7 @@ export default function ComboLanding() {
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <h1 className="text-2xl font-bold mb-4">Combo no encontrado</h1>
         <button 
-          onClick={() => navigate(-1)} 
+          onClick={handleGoBack} 
           className="text-emerald-600 font-black flex items-center gap-3 p-4 rounded-2xl hover:bg-emerald-50 transition-all active:scale-95 group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
@@ -103,7 +111,7 @@ export default function ComboLanding() {
       <section className="relative pt-4 pb-12 lg:pt-8 lg:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button 
-            onClick={() => navigate(-1)}
+            onClick={handleGoBack}
             className="mb-4 flex items-center gap-2 text-stone-500 hover:text-emerald-600 transition-all font-bold p-3 -ml-3 rounded-xl hover:bg-stone-50/50 group"
             aria-label="Volver a la página anterior"
           >

@@ -55,7 +55,7 @@ import {
   Home
 } from 'lucide-react';
 import { formatCurrency, cn } from '../utils';
-import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db, getCurrentCounterValue, updateCounterValue } from '../lib/firebase';
+import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db, getCurrentCounterValue, updateCounterValue, getNextOrderTicket, saveOrderToFirebase } from '../lib/firebase';
 import InventoryManager from '../components/InventoryManager';
 import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
@@ -117,6 +117,138 @@ export default function AdminDashboard() {
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
   const [selectedOrderIds, setSelectedOrderIds] = useState<Set<string>>(new Set());
+
+  const [isSavingManualOrder, setIsSavingManualOrder] = useState(false);
+
+  const openNewManualOrderModal = () => {
+    setSelectedOrder({
+      id: 'draft-new',
+      customer: {
+        nombre: '',
+        apellido: '',
+        fullName: '',
+        email: '',
+        telefono: '',
+        phone: '',
+        identification: '',
+        ciudad: '',
+        city: '',
+        direccion: '',
+        address: '',
+        department: '',
+        departamento: ''
+      },
+      cart: {
+        items: [],
+        total: 0
+      },
+      order_details: '',
+      tracking_guide: '',
+      ticket_number: '',
+      status: 'pending',
+      type: 'order',
+      created_at: new Date().toISOString()
+    });
+  };
+
+  const handleCreateManualOrder = async () => {
+    if (!selectedOrder) return;
+    const { customer, order_details, total, tracking_guide, status } = selectedOrder;
+
+    const nombreVal = (customer.nombre || customer.fullName || '').trim();
+    if (!nombreVal) {
+      alert('Por favor ingrese el Nombre de Cliente.');
+      return;
+    }
+
+    const telefonoVal = (customer.telefono || customer.phone || '').trim();
+    if (!telefonoVal) {
+      alert('Por favor ingrese el Teléfono/Celular.');
+      return;
+    }
+
+    const direccionVal = (customer.direccion || customer.address || '').trim();
+    if (!direccionVal) {
+      alert('Por favor ingrese la Dirección y Barrio.');
+      return;
+    }
+
+    const ciudadVal = (customer.ciudad || customer.city || '').trim();
+    if (!ciudadVal) {
+      alert('Por favor ingrese la Ciudad.');
+      return;
+    }
+
+    const departamentoVal = (customer.departamento || customer.department || '').trim();
+    if (!departamentoVal) {
+      alert('Por favor ingrese el Departamento.');
+      return;
+    }
+
+    const detailsVal = (order_details || '').trim();
+    if (!detailsVal) {
+      alert('Por favor ingrese los detalles de los productos adquiridos.');
+      return;
+    }
+
+    setIsSavingManualOrder(true);
+    try {
+      // 1. Obtener consecutivo
+      const ticketNum = await getNextOrderTicket();
+      
+      // 2. Formatear datos del pedido
+      const newOrderData = {
+        customer: {
+          nombre: nombreVal,
+          apellido: (customer.apellido || '').trim(),
+          fullName: (nombreVal + (customer.apellido ? ' ' + customer.apellido : '')).trim(),
+          telefono: telefonoVal,
+          phone: telefonoVal,
+          email: (customer.email || '').trim(),
+          identification: (customer.identification || '').trim(),
+          direccion: direccionVal,
+          address: direccionVal,
+          ciudad: ciudadVal,
+          city: ciudadVal,
+          departamento: departamentoVal,
+          department: departamentoVal,
+        },
+        cart: {
+          items: [
+            {
+              id: 'manual',
+              productName: detailsVal,
+              name: detailsVal,
+              price: Number(total) || 0,
+              quantity: 1
+            }
+          ],
+          total: Number(total) || 0
+        },
+        order_details: detailsVal,
+        tracking_guide: (tracking_guide || '').trim(),
+        ticket_number: ticketNum,
+        status: status || 'pending',
+        type: 'order',
+        mastershop_status: 'pending_manual'
+      };
+
+      // 3. Guardar en Firebase
+      const success = await saveOrderToFirebase(newOrderData);
+      if (success) {
+        alert(`Pedido manual registrado exitosamente con ticket ${ticketNum}!`);
+        setSelectedOrder(null);
+        fetchOrders();
+      } else {
+        alert('Hubo un error al guardar el pedido en base de datos.');
+      }
+    } catch (err: any) {
+      console.error('Error al registrar pedido manual:', err);
+      alert('Error técnico al registrar el pedido manual.');
+    } finally {
+      setIsSavingManualOrder(false);
+    }
+  };
 
   const toggleSelectOrder = (id: string) => {
     setSelectedOrderIds(prev => {
@@ -1262,6 +1394,15 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       >
                         <RefreshCw className="w-3 h-3" />
                       </button>
+
+                      <button 
+                        onClick={openNewManualOrderModal}
+                        className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg font-bold text-[10px] uppercase hover:bg-emerald-700 transition-all flex items-center gap-1.5 shadow-sm shadow-emerald-600/10"
+                        title="Registrar un nuevo pedido recibido manualmente (WhatsApp)"
+                      >
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>Nuevo Pedido Manual</span>
+                      </button>
                       
                       {/* Botón de Sincronización Masiva Pedido -> Logística (Solo si hay pendientes) */}
                       {filteredOrders.some(o => 
@@ -1901,8 +2042,302 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         </div>
       </main>
 
-      {/* Detail Modal */}
-      {selectedOrder && (
+       {/* Detail Modal */}
+      {selectedOrder && selectedOrder.id === 'draft-new' && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-10">
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            onClick={() => setSelectedOrder(null)}
+            className="absolute inset-0 bg-stone-900/60 backdrop-blur-sm" 
+          />
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            className="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col"
+          >
+            {/* Modal Header */}
+            <div className="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <ShoppingBag className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-black text-stone-900 tracking-tight font-outfit">Registrar Pedido Manual (WhatsApp)</h3>
+                  <p className="text-[10px] uppercase font-black text-stone-400 tracking-widest font-outfit">Nuevo registro en base de datos</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedOrder(null)}
+                className="w-10 h-10 rounded-xl bg-stone-200 text-stone-500 flex items-center justify-center hover:bg-stone-300 transition-all"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-grow overflow-y-auto p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                {/* Left Column: Customer Form */}
+                <div className="space-y-6">
+                  <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                    <User className="w-3 h-3" /> Datos del Cliente
+                  </h4>
+
+                  <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Nombres*</label>
+                        <input 
+                          type="text"
+                          required
+                          value={selectedOrder.customer.nombre || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, nombre: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Ej: Juan Jacobo"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Apellidos</label>
+                        <input 
+                          type="text"
+                          value={selectedOrder.customer.apellido || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, apellido: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Ej: Giraldo Restrepo"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Teléfono / Celular*</label>
+                        <input 
+                          type="text"
+                          required
+                          value={selectedOrder.customer.telefono || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, telefono: e.target.value, phone: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Ej: 3024102568"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-mono text-stone-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Cédula / NIT</label>
+                        <input 
+                          type="text"
+                          value={selectedOrder.customer.identification || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, identification: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Opcional"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Email (Opcional)</label>
+                      <input 
+                        type="email"
+                        value={selectedOrder.customer.email || ''}
+                        onChange={(e) => {
+                          const updatedCust = { ...selectedOrder.customer, email: e.target.value };
+                          setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                        }}
+                        placeholder="Ej: cliente@correo.com"
+                        className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Dirección y Barrio*</label>
+                      <input 
+                        type="text"
+                        required
+                        value={selectedOrder.customer.direccion || ''}
+                        onChange={(e) => {
+                          const updatedCust = { ...selectedOrder.customer, direccion: e.target.value, address: e.target.value };
+                          setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                        }}
+                        placeholder="Ej: Calle 45 # 12 - 34, Apt 402, Barrio Belén"
+                        className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad*</label>
+                        <input 
+                          type="text"
+                          required
+                          value={selectedOrder.customer.ciudad || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, ciudad: e.target.value, city: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Ej: Medellín"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento*</label>
+                        <input 
+                          type="text"
+                          required
+                          value={selectedOrder.customer.departamento || ''}
+                          onChange={(e) => {
+                            const updatedCust = { ...selectedOrder.customer, departamento: e.target.value, department: e.target.value };
+                            setSelectedOrder({ ...selectedOrder, customer: updatedCust });
+                          }}
+                          placeholder="Ej: Antioquia"
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Order Details, Total & Logistics */}
+                <div className="space-y-6">
+                  <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-2">
+                    <Package className="w-3 h-3" /> Detalles de Compra
+                  </h4>
+
+                  <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-4">
+                    <div>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Productos Adquiridos*</label>
+                      <textarea 
+                        required
+                        rows={3}
+                        value={selectedOrder.order_details || ''}
+                        onChange={(e) => {
+                          setSelectedOrder({ ...selectedOrder, order_details: e.target.value });
+                        }}
+                        placeholder="Ej: 1x Inmunidad Dual (Resvisfactor + Coliplus)"
+                        className="w-full px-4 py-2.5 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 resize-none animate-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Valor Total COP*</label>
+                        <div className="relative">
+                          <span className="absolute left-3.5 top-2.5 text-stone-400 text-xs font-bold font-mono">$</span>
+                          <input 
+                            type="number"
+                            required
+                            min={0}
+                            value={selectedOrder.total || ''}
+                            onChange={(e) => {
+                              setSelectedOrder({ ...selectedOrder, total: parseFloat(e.target.value) || 0 });
+                            }}
+                            placeholder="Ej: 129900"
+                            className="w-full pl-7 pr-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-mono font-bold text-stone-800"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Estado Inicial del Pedido</label>
+                        <select 
+                          value={selectedOrder.status}
+                          onChange={(e) => {
+                            setSelectedOrder({ ...selectedOrder, status: e.target.value as any });
+                          }}
+                          className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 cursor-pointer"
+                        >
+                          <option value="pending">Pendiente de Confirmar</option>
+                          <option value="confirmed">Confirmado (Por Alistar)</option>
+                          <option value="ready_to_ship">Listo para Despacho</option>
+                          <option value="shipped_with_guide">Despachado (Con Guía)</option>
+                          <option value="completed">Completada (Entregada)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Guía de Transporte (Opcional)</label>
+                      <input 
+                        type="text"
+                        value={selectedOrder.tracking_guide || ''}
+                        onChange={(e) => {
+                          setSelectedOrder({ ...selectedOrder, tracking_guide: e.target.value });
+                        }}
+                        placeholder="Ingresa la guía si ya la tienes..."
+                        className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-mono text-stone-800"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Realtime WhatsApp Message Generator */}
+                  <section className="bg-emerald-50 p-6 rounded-[2rem] border border-emerald-100 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <h4 className="text-[10px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-2">
+                        <Phone className="w-3 h-3" /> Generador de WhatsApp
+                      </h4>
+                      {selectedOrder.customer.telefono && (
+                        <a 
+                          href={`https://wa.me/${(selectedOrder.customer.telefono || '').replace(/\+/g, '').replace(/\s/g, '').replace(/^0+/, '')}?text=${encodeURIComponent(generateClientMessage({
+                            ...selectedOrder,
+                            ticket_number: 'N_SISTEMA'
+                          }))}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-3 py-1 bg-emerald-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all flex items-center gap-1.5"
+                        >
+                          <Phone className="w-3 h-3" /> Abrir WhatsApp
+                        </a>
+                      )}
+                    </div>
+                    <div className="bg-white/80 p-3.5 rounded-xl text-[11px] leading-relaxed text-emerald-950 border border-emerald-100 whitespace-pre-wrap font-medium h-24 overflow-y-auto">
+                      {selectedOrder.customer.nombre ? (
+                        generateClientMessage({
+                          ...selectedOrder,
+                          ticket_number: 'N_SISTEMA'
+                        })
+                      ) : (
+                        <span className="text-stone-400 italic">Completa el nombre para generar la plantilla de WhatsApp...</span>
+                      )}
+                    </div>
+                  </section>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button 
+                      onClick={handleCreateManualOrder}
+                      disabled={isSavingManualOrder}
+                      className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-600/50 text-white font-black uppercase tracking-widest rounded-3xl shadow-xl shadow-emerald-500/10 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-xs"
+                    >
+                      {isSavingManualOrder ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                          <span>Registrando Pedido...</span>
+                        </>
+                      ) : (
+                        <>
+                          <ClipboardCheck className="w-4 h-4" />
+                          <span>Guardar Pedido Manual</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {selectedOrder && selectedOrder.id !== 'draft-new' && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-10">
           <motion.div 
             initial={{ opacity: 0 }} 

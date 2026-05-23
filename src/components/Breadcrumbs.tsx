@@ -56,16 +56,16 @@ export default function Breadcrumbs() {
 
   return (
     <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <ol className="flex flex-wrap items-center gap-2 text-[15px] font-medium text-stone-500">
+      <ol className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-stone-500">
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-2">
-            {index > 0 && <ChevronRight className="w-4 h-4 text-stone-300 shrink-0" />}
+            {index > 0 && <ChevronRight className="w-3.5 h-3.5 text-stone-300 shrink-0" />}
             {item.path && !item.isCurrent ? (
               <Link
                 to={item.path}
                 className="hover:text-emerald-600 transition-colors flex items-center gap-1.5"
               >
-                {index === 0 && <Home className="w-4 h-4" />}
+                {index === 0 && <Home className="w-3.5 h-3.5" />}
                 {item.label}
               </Link>
             ) : (

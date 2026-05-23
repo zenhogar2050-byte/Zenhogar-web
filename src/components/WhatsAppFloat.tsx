@@ -7,11 +7,6 @@ export default function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
 
-  // Hide WhatsApp float on home page and category pages
-  if (location.pathname === '/' || location.pathname.startsWith('/categoria/')) {
-    return null;
-  }
-
   // Detect context from URL
   let productContext = '';
   let categoryContext = '';
