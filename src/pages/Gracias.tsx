@@ -85,7 +85,7 @@ export default function Gracias() {
             email: emailToUse,
             delivery_country: countryToUse,
             estimated_delivery_date: deliveryDateStr,
-            opt_in_style: 'CENTER_DIALOG'
+            opt_in_style: 'BOTTOM_RIGHT_DIALOG'
           });
           
           try {
@@ -95,7 +95,7 @@ export default function Gracias() {
               "email": emailToUse,
               "delivery_country": countryToUse,
               "estimated_delivery_date": deliveryDateStr,
-              "opt_in_style": "CENTER_DIALOG"
+              "opt_in_style": "BOTTOM_RIGHT_DIALOG"
             });
             console.log('✅ Llamada a gapi.surveyoptin.render ejecutada correctamente.');
           } catch (err) {
