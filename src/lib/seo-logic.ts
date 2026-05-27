@@ -72,25 +72,96 @@ export const generateSchemaGraph = (params: {
     }
     graph.push(webPage);
 
-    // 4. BreadcrumbList
+    // 4. BreadcrumbList (imita la navegación real sin generar enlaces 404 artificiales como /producto o /categoria)
     const breadcrumbs: any[] = [{ "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL }];
+    
     if (path !== "") {
         const segments = path.split('/').filter(Boolean);
-        let cumulativePath = "";
-        segments.forEach((segment, index) => {
-            cumulativePath += `/${segment}`;
-            let label = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-            if (segment === "categoria") label = "Categorías";
-            if (segment === "producto") label = "Productos";
-            if (segment === "combo") label = "Ofertas";
+        const segment0 = segments[0];
+        const segment1 = segments[1];
+
+        const categoryNames: { [key: string]: string } = {
+            'salud-bienestar': 'Salud y Bienestar',
+            'belleza-integral': 'Belleza Integral',
+            'salud-sexual': 'Salud Sexual'
+        };
+
+        if (segment0 === "producto" && segment1) {
+            // Es una página de producto
+            let categoryId = "salud-bienestar"; // valor por defecto seguro
+            let categoryLabel = "Salud y Bienestar";
+            let productLabel = title.split('|')[0].trim();
+
+            if (productData) {
+                if (productData.category && categoryNames[productData.category]) {
+                    categoryId = productData.category;
+                    categoryLabel = categoryNames[productData.category];
+                }
+                if (productData.name) {
+                    productLabel = productData.name;
+                }
+            } else {
+                // Heurística de respaldo basada en el id si no está productData
+                if (["maxlite-colageno", "miskinne", "tonico-capilar", "derman"].includes(segment1)) {
+                    categoryId = "belleza-integral";
+                    categoryLabel = "Belleza Integral";
+                } else if (["megamac", "zeus", "instant-virgin", "mamooth"].includes(segment1)) {
+                    categoryId = "salud-sexual";
+                    categoryLabel = "Salud Sexual";
+                }
+            }
 
             breadcrumbs.push({
                 "@type": "ListItem",
-                "position": index + 2,
-                "name": label,
-                "item": `${BASE_URL}${cumulativePath}`
+                "position": 2,
+                "name": categoryLabel,
+                "item": `${BASE_URL}/categoria/${categoryId}`
             });
-        });
+
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": 3,
+                "name": productLabel,
+                "item": `${BASE_URL}/producto/${segment1}`
+            });
+        } else if (segment0 === "categoria" && segment1) {
+            // Es una página de categoría
+            const categoryLabel = categoryNames[segment1] || (segment1.charAt(0).toUpperCase() + segment1.slice(1).replace(/-/g, ' '));
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": 2,
+                "name": categoryLabel,
+                "item": `${BASE_URL}/categoria/${segment1}`
+            });
+        } else if (segment0 === "combo" && segment1) {
+            // Es una página de combo de ofertas
+            let comboLabel = title.split('|')[0].trim();
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": 2,
+                "name": comboLabel,
+                "item": `${BASE_URL}/combo/${segment1}`
+            });
+        } else {
+            // Cualquier otra página (Quiénes somos, Políticas, etc.)
+            segments.forEach((segment, index) => {
+                let label = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+                if (segment === "quienes-somos") label = "Quiénes Somos";
+                if (segment === "politica-privacidad") label = "Política de Privacidad";
+                if (segment === "politica-reembolso") label = "Política de Reembolso";
+                if (segment === "terminos-servicio") label = "Términos del Servicio";
+                if (segment === "condiciones-entrega") label = "Condiciones de Entrega";
+                if (segment === "devoluciones-garantia") label = "Devoluciones y Garantía";
+                if (segment === "checkout") label = "Carrito de Compras";
+
+                breadcrumbs.push({
+                    "@type": "ListItem",
+                    "position": index + 2,
+                    "name": label,
+                    "item": `${BASE_URL}/${segment}`
+                });
+            });
+        }
     }
     graph.push({
         "@type": "BreadcrumbList",

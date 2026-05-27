@@ -90,6 +90,7 @@ interface Order {
   status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'finalizada' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
   type: 'order' | 'abandoned';
   created_at: string;
+  gclid?: string;
 }
 
 export default function AdminDashboard() {
@@ -1563,9 +1564,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200" onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}>
-                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px] cursor-pointer hover:text-emerald-600 decoration-emerald-500/30 underline-offset-2">
-                                    {displayName}
-                                  </span>
+                                  <div className="flex flex-col gap-1 items-start">
+                                    <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px] cursor-pointer hover:text-emerald-600 decoration-emerald-500/30 underline-offset-2">
+                                      {displayName}
+                                    </span>
+                                    {order.gclid && (
+                                      <span className="inline-flex items-center px-1.5 py-0.5 bg-emerald-50 text-[7.5px] font-mono font-bold text-emerald-600 rounded border border-emerald-100 animate-pulse" title={`GCLID: ${order.gclid}`}>
+                                        GCLID
+                                      </span>
+                                    )}
+                                  </div>
                                 </td>
                                 <td className="px-2 py-1.5 text-center border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black">
@@ -2548,6 +2556,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
                         <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
                       </div>
+                      {selectedOrder.gclid && (
+                        <div className="col-span-2 pt-2 border-t border-stone-100">
+                          <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1 select-none">Google Click ID (GCLID)</p>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className="font-mono text-[10px] px-2 py-1 bg-white border border-stone-200 text-stone-700 rounded-lg select-all break-all block flex-1 font-bold">
+                              {selectedOrder.gclid}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                       <div className="col-span-2 pt-2 border-t border-stone-100">
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Sincronización Logística (Mastershop)</p>
                         {selectedOrder.mastershop_status !== 'sync_success' && !selectedOrder.tracking_guide ? (

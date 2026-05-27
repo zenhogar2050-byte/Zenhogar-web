@@ -41,6 +41,21 @@ export const markFacebookEntry = () => {
   if (isFb) sessionStorage.setItem(FB_KEY, Date.now().toString());
 };
 
+export const markGoogleEntry = () => {
+  if (typeof window === 'undefined') return;
+  const p = new URLSearchParams(window.location.search);
+  const gclid = p.get('gclid');
+  if (gclid) {
+    sessionStorage.setItem('gclid', gclid);
+    localStorage.setItem('gclid', gclid);
+  }
+};
+
+export const getGclid = () => {
+  if (typeof window === 'undefined') return '';
+  return sessionStorage.getItem('gclid') || localStorage.getItem('gclid') || '';
+};
+
 export const track = (event, data = {}) => {
   if (typeof window !== 'undefined' && window.fbq) {
     const processedData = { ...data };

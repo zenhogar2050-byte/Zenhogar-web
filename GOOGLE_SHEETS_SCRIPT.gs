@@ -39,9 +39,9 @@ function doPost(e) {
       let orderSheet = ss.getSheetByName("Pedidos") || ss.insertSheet("Pedidos");
       
       if (orderSheet.getLastRow() === 0) {
-        const headers = ["Ticket N°", "Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor", "Guia", "Estado"];
+        const headers = ["Ticket N°", "Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor", "Guia", "Estado", "GCLID"];
         orderSheet.appendRow(headers);
-        orderSheet.getRange(1, 1, 1, 12).setFontWeight("bold").setBackground("#dcfce7");
+        orderSheet.getRange(1, 1, 1, 13).setFontWeight("bold").setBackground("#dcfce7");
       }
 
       // Generar Ticket Correlativo
@@ -63,7 +63,8 @@ function doPost(e) {
         contents.order_details || "Sin detalles",
         contents.total || 0,
         "", // Guia
-        "Nuevo" // Estado
+        "Nuevo", // Estado
+        contents.gclid || customer.gclid || "" // GCLID (Columna M)
       ];
 
       orderSheet.appendRow(rowData);
@@ -98,8 +99,8 @@ function doPost(e) {
     } else if (contents.type === "abandoned") {
       let abandonoSheet = ss.getSheetByName("Abandonos") || ss.insertSheet("Abandonos");
       if (abandonoSheet.getLastRow() === 0) {
-        abandonoSheet.appendRow(["Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor"]);
-        abandonoSheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#fef3c7");
+        abandonoSheet.appendRow(["Fecha y Hora", "Nombre", "Celular", "Email", "Direccion", "Ciudad", "Departamento", "Producto", "Valor", "GCLID"]);
+        abandonoSheet.getRange(1, 1, 1, 10).setFontWeight("bold").setBackground("#fef3c7");
       }
       abandonoSheet.appendRow([
         timestamp,
@@ -110,7 +111,8 @@ function doPost(e) {
         customer.city || "",
         customer.department || "",
         contents.order_details || "N/A",
-        contents.total || 0
+        contents.total || 0,
+        contents.gclid || customer.gclid || "" // GCLID (Columna J)
       ]);
       return response({ status: "success" });
     }

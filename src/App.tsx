@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import PromoBanner from './components/PromoBanner';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import TopBanner from './components/TopBanner';
-import { track, markFacebookEntry, initPixel } from './utils/pixel';
+import { track, markFacebookEntry, initPixel, markGoogleEntry } from './utils/pixel';
 
 function SEOCleaner() {
   useEffect(() => {
@@ -53,6 +53,7 @@ function ScrollToTop() {
 export default function App() {
   useEffect(() => {
     markFacebookEntry();
+    markGoogleEntry();
   }, []);
 
   return (
