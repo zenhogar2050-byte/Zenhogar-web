@@ -12,7 +12,7 @@ import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
 import OrderBump from '../components/OrderBump';
 import FAQSection from '../components/FAQSection';
-import { track } from '../utils/pixel';
+import { track, trackGoogleBeginCheckout } from '../utils/pixel';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
 import StickyCTA from '../components/StickyCTA';
@@ -114,14 +114,16 @@ export default function ProductLanding() {
 
   const handleBuyNow = (promoId: string) => {
     const promo = product.promos.find(p => p.id === promoId);
+    const price = Number(promo?.price || product.basePrice);
     track('InitiateCheckout', { 
       content_ids: [String(product.id)], 
       content_name: product.name, 
-      value: Number(promo?.price || product.basePrice), 
+      value: price, 
       currency: 'COP', 
       num_items: 1, 
       content_type: 'product' 
     });
+    trackGoogleBeginCheckout(price);
     addToCart(product, promoId);
     navigate('/checkout');
   };
@@ -130,15 +132,16 @@ export default function ProductLanding() {
 
   const handleBumpAccept = () => {
     if (!currentBump) return;
-    
+    const price = Number(currentBump.targetCombo.price);
     track('InitiateCheckout', { 
       content_ids: [String(currentBump.targetCombo.id)], 
       content_name: currentBump.targetCombo.name, 
-      value: Number(currentBump.targetCombo.price), 
+      value: price, 
       currency: 'COP', 
       num_items: 1, 
       content_type: 'product_combo' 
     });
+    trackGoogleBeginCheckout(price);
 
     addComboToCart(currentBump.targetCombo); 
     navigate('/checkout');

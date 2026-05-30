@@ -10,7 +10,7 @@ import SEOManager from '../components/SEOManager';
 import Breadcrumbs from '../components/Breadcrumbs';
 import TrustBar from '../components/TrustBar';
 import ConfidenceBadges from '../components/ConfidenceBadges';
-import { track } from '../utils/pixel';
+import { track, trackGoogleBeginCheckout } from '../utils/pixel';
 import { useEffect, useState, useRef } from 'react';
 import StickyCTA from '../components/StickyCTA';
 import ProductVideo from '../components/ProductVideo';
@@ -82,14 +82,16 @@ export default function ComboLanding() {
   }
 
   const handleBuyNow = () => {
+    const price = Number(combo.price);
     track('InitiateCheckout', { 
       content_ids: [String(combo.id)], 
       content_name: combo.name, 
-      value: Number(combo.price), 
+      value: price, 
       currency: 'COP', 
       num_items: 1, 
       content_type: 'product' 
     });
+    trackGoogleBeginCheckout(price);
     addComboToCart(combo);
     navigate('/checkout');
   };

@@ -5,7 +5,7 @@ import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS, GIFT_PRODUCTS 
 import { formatCurrency, formatPriceForAPI } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track, trackGoogleBeginCheckout } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 import { saveOrderToFirebase, getNextOrderTicket } from '../lib/firebase';
@@ -30,6 +30,13 @@ export default function Checkout() {
   // Endpoints
   const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
   const MASTER_TUNNEL_URL = 'https://autosync-ms.zenhogar2050.workers.dev/';
+
+  // Track begin_checkout in GA4 when landing on the page with items in the cart
+  useEffect(() => {
+    if (items.length > 0) {
+      trackGoogleBeginCheckout(total);
+    }
+  }, []);
 
   useEffect(() => {
     if (items.length === 0 || isSubmitting) return;
@@ -100,6 +107,7 @@ export default function Checkout() {
 
   const handleBumpAccept = () => {
     if (!bumpOpportunity) return;
+    const price = Number(bumpOpportunity.targetCombo.price);
     
     track('InitiateCheckout', { 
       content_ids: [String(bumpOpportunity.targetCombo.id)], 
@@ -109,6 +117,7 @@ export default function Checkout() {
       num_items: 1, 
       content_type: 'product_combo_bump' 
     });
+    trackGoogleBeginCheckout(price);
 
     removeFromCart(bumpOpportunity.originalItem.productId, bumpOpportunity.originalItem.promoId);
     addComboToCart(bumpOpportunity.targetCombo);

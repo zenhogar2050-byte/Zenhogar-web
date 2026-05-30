@@ -56,3 +56,69 @@ export const trackPurchaseIfFromFacebook = (data) => {
   const mins = (Date.now() - parseInt(entry)) / 60000;
   if (mins < 30) track('Purchase', data);
 };
+
+// Google Analytics (GA4) Helper Functions
+export const trackGooglePurchase = (orderData, ticketNumber) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    try {
+      window.gtag('event', 'purchase', {
+        transaction_id: ticketNumber || 'N/A',
+        value: Math.round(Number(orderData.value || 0)),
+        currency: 'COP',
+        items: [
+          {
+            item_id: ticketNumber || 'N/A',
+            item_name: orderData.content_name || 'Compra Zen Hogar',
+            price: Math.round(Number(orderData.value || 0)),
+            quantity: 1
+          }
+        ]
+      });
+      console.log('📊 [GA4] Purchase event tracked successfully:', ticketNumber, orderData.value);
+    } catch (e) {
+      console.error('❌ [GA4] Error tracking purchase:', e);
+    }
+  } else {
+    console.warn('⚠️ [GA4] gtag is not defined on window object');
+  }
+};
+
+export const trackGoogleWhatsAppClick = (orderData) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    try {
+      window.gtag('event', 'whatsapp_confirmation', {
+        value: Math.round(Number(orderData?.value || 0)),
+        currency: 'COP',
+        event_category: 'Engagement',
+        event_label: 'Confirmar Pedido WhatsApp'
+      });
+      console.log('📊 [GA4] WhatsApp Confirmation clicked and tracked successfully');
+    } catch (e) {
+      console.error('❌ [GA4] Error tracking WhatsApp click:', e);
+    }
+  } else {
+    console.warn('⚠️ [GA4] gtag is not defined on window object');
+  }
+};
+
+export const trackGoogleBeginCheckout = (value) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    try {
+      window.gtag('event', 'begin_checkout', {
+        value: Math.round(Number(value || 0)),
+        currency: 'COP',
+        items: [
+          {
+            item_name: 'Checkout Zen Hogar',
+            price: Math.round(Number(value || 0)),
+            quantity: 1
+          }
+        ]
+      });
+      console.log('📊 [GA4] Begin Checkout event tracked successfully:', value);
+    } catch (e) {
+      console.error('❌ [GA4] Error tracking begin_checkout:', e);
+    }
+  }
+};
+

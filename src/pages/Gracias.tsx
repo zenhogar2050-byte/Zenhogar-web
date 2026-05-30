@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle2, Send, ShoppingBag } from 'lucide-react';
-import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track, trackGooglePurchase } from '../utils/pixel';
 
 export default function Gracias() {
   const location = useLocation();
@@ -138,17 +138,13 @@ export default function Gracias() {
         content_name: 'Compra Finalizada',
         content_ids: [ticketNumber]
       });
+      // Registrar la compra estructurada en Google Analytics (GA4)
+      trackGooglePurchase({
+        value: orderData.value,
+        content_name: 'Compra Finalizada'
+      }, ticketNumber);
     }
   }, [orderData.value, ticketNumber]);
-
-  // Evento adicional para cuando el usuario hace clic en el botón de confirmación
-  const handleWhatsAppClick = () => {
-    track('Contact', { 
-      value: orderData.value, 
-      currency: 'COP',
-      content_category: 'WhatsApp Confirmation'
-    });
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-stone-50">
@@ -187,7 +183,6 @@ export default function Gracias() {
             href={whatsappUrl} 
             target="_blank" 
             rel="noopener noreferrer" 
-            onClick={handleWhatsAppClick}
             className="w-full inline-flex items-center justify-center gap-3 px-8 py-6 bg-emerald-600 text-white rounded-2xl font-black text-xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/30 active:scale-95"
           >
             <Send className="w-6 h-6 fill-current" /> CONFIRMAR PEDIDO
