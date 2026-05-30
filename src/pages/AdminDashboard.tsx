@@ -290,13 +290,128 @@ export default function AdminDashboard() {
     try {
       // 1. Obtener consecutivo
       const ticketNum = await getNextOrderTicket();
-      
-      // 2. Formatear datos del pedido
+      const customerFullName = (nombreVal + (customer.apellido ? ' ' + customer.apellido : '')).trim();
+
+      // 2. Sincronización con Google Sheets (Gateway Principal)
+      const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
+      const sheetsPayload = {
+        type: 'order',
+        customer: {
+          fullName: customerFullName || "Cliente",
+          email: (customer.email || '').trim() || "contacto@zenhogar.live",
+          phone: telefonoVal,
+          identification: (customer.identification || '').trim() || "123456789",
+          address: direccionVal,
+          city: ciudadVal,
+          department: departamentoVal,
+        },
+        order_details: detailsVal,
+        total: Math.round(Number(total) || 0),
+        ticket_number: ticketNum
+      };
+
+      try {
+        const sheetsResponse = await fetch(GATEWAY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(sheetsPayload),
+        });
+        const sheetsResult = await sheetsResponse.json();
+        console.log("✅ Pedido manual registrado en Sheets:", sheetsResult);
+      } catch (sheetsErr) {
+        console.error("❌ Error silencioso registrando pedido manual en Sheets:", sheetsErr);
+      }
+
+      // 3. Sincronización con Mastershop (Mastershop Worker Tunnel)
+      let mastershopStatus: 'sync_success' | 'pending_manual' = 'sync_success';
+      try {
+        const orderItemsForMastershop = manualOrderItems.length > 0 ? manualOrderItems : [
+          {
+            internalId: 'manual',
+            productId: 'manual',
+            productName: detailsVal,
+            name: detailsVal,
+            price: Number(total) || 0,
+            quantity: 1
+          }
+        ];
+
+        const resolvedItems = orderItemsForMastershop.flatMap(item => {
+          const promo = (item.productId === COMBO_OF_THE_MONTH.id || (item.name || item.productName || '').toLowerCase().includes(COMBO_OF_THE_MONTH.name.toLowerCase()))
+            ? COMBO_OF_THE_MONTH
+            : PROMOTIONS.find(p => p.id === item.productId || (item.name || item.productName || '').toLowerCase().includes(p.name.toLowerCase()));
+
+          const getMasterId = (id: string, name?: string): number => {
+            const product = PRODUCTS.find(p => p.id === id) || 
+                            PRODUCTS.find(p => name && p.name.toLowerCase() === name.toLowerCase());
+            if (product && product.masterId) return parseInt(product.masterId, 10);
+            const gift = GIFT_PRODUCTS.find(g => g.id === id) ||
+                         GIFT_PRODUCTS.find(g => name && g.name.toLowerCase() === name.toLowerCase());
+            if (gift && gift.masterId) return parseInt(gift.masterId, 10);
+            return 0;
+          };
+
+          if (promo && (promo as any).products) {
+            const promoProducts: string[] = (promo as any).products;
+            const totalUnitsInCombo = promoProducts.length * item.quantity;
+            const pricePerUnit = Math.round((item.price * item.quantity) / totalUnitsInCombo);
+            
+            return promoProducts.map(pId => {
+              const product = PRODUCTS.find(p => p.id === pId);
+              return {
+                id_product: getMasterId(pId, product?.name),
+                quantity: item.quantity,
+                price: pricePerUnit
+              };
+            });
+          } else {
+            const itemUnits = (item as any).units;
+            const totalUnits = (itemUnits && itemUnits > 1) ? (itemUnits * item.quantity) : item.quantity;
+            const pricePerUnit = Math.round((item.price * item.quantity) / totalUnits);
+            return [{
+              id_product: getMasterId(item.internalId || item.productId, item.name || item.productName),
+              quantity: totalUnits,
+              price: pricePerUnit
+            }];
+          }
+        });
+
+        const mastershopData = {
+          ticket: ticketNum,
+          fullName: sheetsPayload.customer.fullName,
+          email: sheetsPayload.customer.email,
+          phone: sheetsPayload.customer.phone,
+          identification: sheetsPayload.customer.identification,
+          address: sheetsPayload.customer.address,
+          city: sheetsPayload.customer.city,
+          department: sheetsPayload.customer.department,
+          details: detailsVal.replace(/\n/g, ' '),
+          total: Math.round(Number(total) || 0),
+          order_items: resolvedItems
+        };
+
+        const msResponse = await fetch('https://autosync-ms.zenhogar2050.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(mastershopData),
+          mode: 'cors'
+        });
+
+        if (!msResponse.ok) {
+          throw new Error(`Mastershop Worker Error: ${msResponse.status}`);
+        }
+        console.log("✅ Pedido manual registrado en Mastershop");
+      } catch (msErr) {
+        console.error("⚠️ Sincronización automática de pedido manual con Mastershop falló:", msErr);
+        mastershopStatus = 'pending_manual';
+      }
+
+      // 4. Formatear y guardar datos del pedido en Firebase
       const newOrderData = {
         customer: {
           nombre: nombreVal,
           apellido: (customer.apellido || '').trim(),
-          fullName: (nombreVal + (customer.apellido ? ' ' + customer.apellido : '')).trim(),
+          fullName: customerFullName,
           telefono: telefonoVal,
           phone: telefonoVal,
           email: (customer.email || '').trim(),
@@ -331,10 +446,10 @@ export default function AdminDashboard() {
         ticket_number: ticketNum,
         status: status || 'pending',
         type: 'order',
-        mastershop_status: 'pending_manual'
+        mastershop_status: mastershopStatus
       };
 
-      // 3. Guardar en Firebase
+      // 5. Guardar en Firebase
       const success = await saveOrderToFirebase(newOrderData);
       if (success) {
         alert(`Pedido manual registrado exitosamente con ticket ${ticketNum}!`);
