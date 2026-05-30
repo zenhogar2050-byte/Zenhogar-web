@@ -21,7 +21,26 @@ export default function ComboLanding() {
   const { addComboToCart } = useCart();
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
-  const combo = PROMOTIONS.find(p => p.id === id) || (COMBO_OF_THE_MONTH.id === id ? COMBO_OF_THE_MONTH : null);
+  // Normalización de slugs tanto para ID como Nombre de Combos
+  const cleanStr = (str: string) => 
+    str.toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "") // Limpiar tildes y acentos
+       .replace(/[^a-z0-9]+/g, '-')     // Reemplazar espacios y caracteres no alfa-numéricos con guion
+       .replace(/-+/g, '-')             // Colapsar guiones múltiples
+       .replace(/^-+|-+$/g, '');        // Recortar guiones iniciales/finales
+
+  const targetIdClean = id ? cleanStr(id) : '';
+
+  const combo = PROMOTIONS.find(p => {
+    const cleanId = cleanStr(p.id);
+    const cleanName = cleanStr(p.name);
+    return cleanId === targetIdClean || cleanName === targetIdClean;
+  }) || (
+    cleanStr(COMBO_OF_THE_MONTH.id) === targetIdClean || cleanStr(COMBO_OF_THE_MONTH.name) === targetIdClean
+      ? COMBO_OF_THE_MONTH
+      : null
+  );
 
   const handleGoBack = () => {
     if (window.history.state && window.history.state.idx > 0) {

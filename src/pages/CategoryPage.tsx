@@ -10,10 +10,29 @@ import { formatCurrency, cn } from '../utils';
 export default function CategoryPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const category = CATEGORIES.find(c => c.id === id);
-  const categoryProducts = PRODUCTS.filter(p => p.category === id);
 
-  const currentIndex = CATEGORIES.findIndex(c => c.id === id);
+  // Normalización ultra-robusta de slugs para emparejar enlaces basados tanto en ID como en Nombre de la categoría
+  const cleanStr = (str: string) => 
+    str.toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "") // Limpiar tildes y acentos
+       .replace(/[^a-z0-9]+/g, '-')     // Reemplazar espacios y caracteres no alfa-numéricos con guion
+       .replace(/-+/g, '-')             // Colapsar guiones múltiples
+       .replace(/^-+|-+$/g, '');        // Recortar guiones iniciales/finales
+
+  const targetIdClean = id ? cleanStr(id) : '';
+
+  const category = CATEGORIES.find(c => {
+    const cleanId = cleanStr(c.id);
+    const cleanName = cleanStr(c.name);
+    return cleanId === targetIdClean || cleanName === targetIdClean;
+  });
+
+  const categoryProducts = category 
+    ? PRODUCTS.filter(p => cleanStr(p.category) === cleanStr(category.id))
+    : [];
+
+  const currentIndex = category ? CATEGORIES.findIndex(c => c.id === category.id) : -1;
   const nextCategory = currentIndex !== -1 ? CATEGORIES[(currentIndex + 1) % CATEGORIES.length] : null;
 
   const handleNextCategory = () => {

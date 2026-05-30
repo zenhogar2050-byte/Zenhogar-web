@@ -26,8 +26,24 @@ export default function ProductLanding() {
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
-  const product = PRODUCTS.find(p => p.id === id);
-  const currentIndex = PRODUCTS.findIndex(p => p.id === id);
+  // Normalización ultra-robusta de slugs para emparejar enlaces basados tanto en ID como en Nombre comercial del producto
+  const cleanStr = (str: string) => 
+    str.toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "") // Limpiar tildes y acentos
+       .replace(/[^a-z0-9]+/g, '-')     // Reemplazar espacios y caracteres no alfa-numéricos con guion
+       .replace(/-+/g, '-')             // Colapsar guiones múltiples
+       .replace(/^-+|-+$/g, '');        // Recortar guiones iniciales/finales
+
+  const targetIdClean = id ? cleanStr(id) : '';
+
+  const product = PRODUCTS.find(p => {
+    const cleanId = cleanStr(p.id);
+    const cleanName = cleanStr(p.name);
+    return cleanId === targetIdClean || cleanName === targetIdClean;
+  });
+
+  const currentIndex = product ? PRODUCTS.findIndex(p => p.id === product.id) : -1;
   const nextProduct = currentIndex !== -1 ? PRODUCTS[(currentIndex + 1) % PRODUCTS.length] : null;
 
   const handleNextProduct = () => {

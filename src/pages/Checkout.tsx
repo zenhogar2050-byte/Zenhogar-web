@@ -5,7 +5,7 @@ import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS, GIFT_PRODUCTS 
 import { formatCurrency, formatPriceForAPI } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchaseIfFromFacebook, track, getGclid } from '../utils/pixel';
+import { trackPurchaseIfFromFacebook, track } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 import { saveOrderToFirebase, getNextOrderTicket } from '../lib/firebase';
@@ -48,13 +48,11 @@ export default function Checkout() {
             customer: formData,
             order_details: orderDetails,
             total: formatPriceForAPI(total),
-            type: 'abandoned',
-            gclid: getGclid()
+            type: 'abandoned'
           });
 
           const sheetsPayload = {
             type: 'abandoned',
-            gclid: getGclid(),
             customer: {
               fullName: formData.fullName || "Pte. Nombre",
               email: formData.email || "contacto@zenhogar.live",
@@ -139,7 +137,6 @@ export default function Checkout() {
     try {
         const sheetsPayload = {
           type: 'order',
-          gclid: getGclid(),
           customer: {
             fullName: formData.fullName || "Cliente",
             email: formData.email || "contacto@zenhogar.live",
@@ -265,8 +262,7 @@ export default function Checkout() {
         cart: { items, total: formatPriceForAPI(total) },
         type: 'order',
         ticket_number: currentTicket,
-        mastershop_status: mastershopStatus,
-        gclid: getGclid()
+        mastershop_status: mastershopStatus
       });
 
       if (abandonedId) {

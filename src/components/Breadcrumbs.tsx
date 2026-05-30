@@ -13,30 +13,51 @@ export default function Breadcrumbs() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
 
+  // Normalización ultra-robusta de slugs para emparejar enlaces basados tanto en ID como en Nombre
+  const cleanStr = (str: string) => 
+    str.toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "") // Limpiar tildes y acentos
+       .replace(/[^a-z0-9]+/g, '-')     // Reemplazar espacios y caracteres no alfa-numéricos con guion
+       .replace(/-+/g, '-')             // Colapsar guiones múltiples
+       .replace(/^-+|-+$/g, '');        // Recortar guiones iniciales/finales
+
   const getBreadcrumbs = (): BreadcrumbItem[] => {
     const items: BreadcrumbItem[] = [
       { label: 'Inicio', path: '/' },
     ];
 
     if (pathnames[0] === 'categoria') {
-      const categoryId = pathnames[1];
-      const category = CATEGORIES.find((c) => c.id === categoryId);
+      const targetIdClean = pathnames[1] ? cleanStr(pathnames[1]) : '';
+      const category = CATEGORIES.find((c) => {
+        const cleanId = cleanStr(c.id);
+        const cleanName = cleanStr(c.name);
+        return cleanId === targetIdClean || cleanName === targetIdClean;
+      });
       if (category) {
         items.push({ label: category.name, isCurrent: true });
       }
     } else if (pathnames[0] === 'producto') {
-      const productId = pathnames[1];
-      const product = PRODUCTS.find((p) => p.id === productId);
+      const targetIdClean = pathnames[1] ? cleanStr(pathnames[1]) : '';
+      const product = PRODUCTS.find((p) => {
+        const cleanId = cleanStr(p.id);
+        const cleanName = cleanStr(p.name);
+        return cleanId === targetIdClean || cleanName === targetIdClean;
+      });
       if (product) {
-        const category = CATEGORIES.find((c) => c.id === product.category);
+        const category = CATEGORIES.find((c) => cleanStr(c.id) === cleanStr(product.category));
         if (category) {
           items.push({ label: category.name, path: `/categoria/${category.id}` });
         }
         items.push({ label: product.name, isCurrent: true });
       }
     } else if (pathnames[0] === 'combo') {
-      const comboId = pathnames[1];
-      const combo = PROMOTIONS.find((p) => p.id === comboId);
+      const targetIdClean = pathnames[1] ? cleanStr(pathnames[1]) : '';
+      const combo = PROMOTIONS.find((p) => {
+        const cleanId = cleanStr(p.id);
+        const cleanName = cleanStr(p.name);
+        return cleanId === targetIdClean || cleanName === targetIdClean;
+      });
       if (combo) {
         items.push({ label: 'Combos y Ofertas', isCurrent: true });
         items.push({ label: combo.name, isCurrent: true });

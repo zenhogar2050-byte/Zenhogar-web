@@ -34,6 +34,7 @@ import {
   Phone,
   Mail,
   ExternalLink,
+  Info,
   Lock,
   Eye,
   EyeOff,
@@ -57,8 +58,9 @@ import {
 import { formatCurrency, cn } from '../utils';
 import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFirebase, clearAllOrdersFromFirebase, db, getCurrentCounterValue, updateCounterValue, getNextOrderTicket, saveOrderToFirebase } from '../lib/firebase';
 import InventoryManager from '../components/InventoryManager';
+import { useInventory } from '../hooks/useInventory';
 import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
-import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
+import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../constants';
 import * as XLSX from 'xlsx';
 
 interface Order {
@@ -90,8 +92,24 @@ interface Order {
   status: 'pending' | 'confirmed' | 'ready_to_ship' | 'shipped_with_guide' | 'in_transit' | 'delivered' | 'completed' | 'finalizada' | 'waiting_delivery' | 'declined' | 'cancelled' | 'with_issue';
   type: 'order' | 'abandoned';
   created_at: string;
-  gclid?: string;
 }
+
+const formatDuration = (ms: number) => {
+  if (ms <= 0) return 'N/A';
+  const mins = Math.floor(ms / (1000 * 60));
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+
+  if (days > 0) {
+    const remainingHours = hours % 24;
+    return `${days}d ${remainingHours}h`;
+  }
+  if (hours > 0) {
+    const remainingMins = mins % 60;
+    return `${hours}h ${remainingMins}m`;
+  }
+  return `${mins}m`;
+};
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -112,8 +130,19 @@ export default function AdminDashboard() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [trackingInput, setTrackingInput] = useState('');
   const [copying, setCopying] = useState(false);
-  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'settings'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'analytics' | 'inventory' | 'settings' | 'routes'>('orders');
+  const [copiedRouteId, setCopiedRouteId] = useState<string | null>(null);
   const [systemCounter, setSystemCounter] = useState<number>(1000);
+
+  const handleCopyRouteLink = (path: string, routeId: string) => {
+    const fullUrl = `https://zenhogar.live${path}`;
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      setCopiedRouteId(routeId);
+      setTimeout(() => setCopiedRouteId(null), 2000);
+    }).catch(err => {
+      console.error('Error copying link:', err);
+    });
+  };
   const [isUpdatingCounter, setIsUpdatingCounter] = useState(false);
   const [isEditingCustomer, setIsEditingCustomer] = useState(false);
   const [editedCustomer, setEditedCustomer] = useState<any>(null);
@@ -121,7 +150,72 @@ export default function AdminDashboard() {
 
   const [isSavingManualOrder, setIsSavingManualOrder] = useState(false);
 
+  const { inventory } = useInventory();
+  const [manualOrderItems, setManualOrderItems] = useState<any[]>([]);
+  const [manualProductSearchTerm, setManualProductSearchTerm] = useState('');
+
+  const updateManualOrderProducts = (newItems: any[], currentOrder: any) => {
+    setManualOrderItems(newItems);
+    if (!currentOrder) return;
+
+    // Calculate details text
+    const detailsText = newItems
+      .map(item => `${item.quantity}x ${item.name} (${formatCurrency(item.price)})`)
+      .join(', ');
+
+    // Calculate total price
+    const totalSum = newItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+    setSelectedOrder({
+      ...currentOrder,
+      order_details: detailsText,
+      total: totalSum
+    });
+  };
+
+  const handleToggleManualProduct = (prod: any) => {
+    if (!selectedOrder) return;
+    const exists = manualOrderItems.find(item => item.internalId === prod.internalId);
+    if (exists) {
+      const filtered = manualOrderItems.filter(item => item.internalId !== prod.internalId);
+      updateManualOrderProducts(filtered, selectedOrder);
+    } else {
+      const newItem = {
+        internalId: prod.internalId,
+        idProduct: prod.idProduct || null,
+        name: prod.name,
+        price: prod.basePrice || 0,
+        quantity: 1
+      };
+      updateManualOrderProducts([...manualOrderItems, newItem], selectedOrder);
+    }
+  };
+
+  const handleUpdateManualProductQuantity = (internalId: string, q: number) => {
+    if (!selectedOrder) return;
+    const updated = manualOrderItems.map(item => {
+      if (item.internalId === internalId) {
+        return { ...item, quantity: Math.max(1, q) };
+      }
+      return item;
+    });
+    updateManualOrderProducts(updated, selectedOrder);
+  };
+
+  const handleUpdateManualProductPrice = (internalId: string, p: number) => {
+    if (!selectedOrder) return;
+    const updated = manualOrderItems.map(item => {
+      if (item.internalId === internalId) {
+        return { ...item, price: Math.max(0, p) };
+      }
+      return item;
+    });
+    updateManualOrderProducts(updated, selectedOrder);
+  };
+
   const openNewManualOrderModal = () => {
+    setManualOrderItems([]);
+    setManualProductSearchTerm('');
     setSelectedOrder({
       id: 'draft-new',
       customer: {
@@ -215,7 +309,13 @@ export default function AdminDashboard() {
           department: departamentoVal,
         },
         cart: {
-          items: [
+          items: manualOrderItems.length > 0 ? manualOrderItems.map(item => ({
+            id: item.internalId,
+            productName: item.name,
+            name: item.name,
+            price: Number(item.price) || 0,
+            quantity: Number(item.quantity) || 1
+          })) : [
             {
               id: 'manual',
               productName: detailsVal,
@@ -381,9 +481,13 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: status as any } : o));
     
     try {
-      // REGLA: Si el estado es "completed" o "finalizada", actualizar Google Sheets y borrar del admin
-      if (status === 'completed' || status === 'finalizada') {
-        const confirmCompleted = window.confirm(`¿Confirmas que el pedido ${order.ticket_number || order.id} está FINALIZADO? Se actualizará en el Google Sheet y se borrará de este panel.`);
+      // REGLA: Si el estado es "completed", "finalizada", "cancelled" o "cancelada", actualizar Google Sheets y borrar del admin
+      if (status === 'completed' || status === 'finalizada' || status === 'cancelled' || status === 'cancelada') {
+        const isCancel = status === 'cancelled' || status === 'cancelada';
+        const labelCompleto = isCancel ? 'CANCELADO' : 'FINALIZADO';
+        const labelSheet = isCancel ? 'Cancelada' : 'Finalizada';
+
+        const confirmCompleted = window.confirm(`¿Confirmas que el pedido ${order.ticket_number || order.id} está ${labelCompleto}? Se actualizará en el Google Sheet y se borrará de este panel.`);
         if (!confirmCompleted) {
           setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: originalStatus as any } : o));
           return;
@@ -394,7 +498,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             ticket: order.ticket_number || order.id, 
-            status: 'Finalizada' 
+            status: labelSheet 
           })
         });
 
@@ -442,6 +546,29 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
       await updateDoc(orderRef, updateData);
       setEditingCell(null);
+
+      // Sincronizar guía al Google Sheets si corresponde
+      if (field === 'tracking_guide') {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+          try {
+            await fetch('/api/orders/status', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                ticket: order.ticket_number || order.id, 
+                tracking_guide: value,
+                guia: value,
+                status: order.status || 'shipped_with_guide'
+              })
+            });
+            console.log(`[Google Sheets] Sincronización exitosa inline para guía: ${value}`);
+          } catch (sheetErr) {
+            console.error('Error synchronizing guide to Google Sheets from Cell:', sheetErr);
+          }
+        }
+      }
+
       // No need to fetch immediately if optimistic worked, but let's do it for consistency
       // fetchOrders(); 
     } catch (err) {
@@ -469,7 +596,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   };
 
   const handleUpdateTracking = async (orderId: string, customStatus?: string) => {
-    if (customStatus === 'completed' || customStatus === 'finalizada') {
+    if (customStatus === 'completed' || customStatus === 'finalizada' || customStatus === 'cancelled' || customStatus === 'cancelada') {
       return updateStatus(orderId, customStatus);
     }
     try {
@@ -482,6 +609,27 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       }
       
       await updateDoc(orderRef, updateData);
+
+      // Sincronizar guía al Google Sheets
+      const order = orders.find(o => o.id === orderId);
+      if (order) {
+        try {
+          await fetch('/api/orders/status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              ticket: order.ticket_number || order.id, 
+              tracking_guide: trackingInput,
+              guia: trackingInput,
+              status: newStatus || order.status
+            })
+          });
+          console.log(`[Google Sheets] Sincronización exitosa desde modal para guía: ${trackingInput}`);
+        } catch (sheetErr) {
+          console.error('Error synchronizing tracking from modal to Google Sheets:', sheetErr);
+        }
+      }
+
       setSelectedOrder(prev => prev ? { 
         ...prev, 
         tracking_guide: trackingInput,
@@ -895,6 +1043,63 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     };
   }, [filteredOrders]);
 
+  const statusPipelineStats = useMemo(() => {
+    const statsMap: Record<string, { count: number; totalMs: number; maxMs: number }> = {};
+    
+    const activeStatuses = [
+      { id: 'pending', label: 'Pendiente', color: 'amber' },
+      { id: 'confirmed', label: 'Confirmado', color: 'emerald' },
+      { id: 'ready_to_ship', label: 'Por Alistar', color: 'blue' },
+      { id: 'shipped_with_guide', label: 'Guía Generada', color: 'purple' },
+      { id: 'in_transit', label: 'En Tránsito', color: 'indigo' },
+      { id: 'waiting_delivery', label: 'Espera Entrega', color: 'amber' },
+      { id: 'delivered', label: 'Entregado', color: 'emerald' },
+      { id: 'with_issue', label: 'Con Novedad', color: 'red' }
+    ];
+
+    activeStatuses.forEach(s => {
+      statsMap[s.id] = { count: 0, totalMs: 0, maxMs: 0 };
+    });
+
+    const now = new Date().getTime();
+    const ordersOnly = orders.filter(o => o.type === 'order');
+
+    ordersOnly.forEach(o => {
+      const status = o.status;
+      if (!statsMap[status]) return;
+
+      const createdAtStr = o.created_at;
+      if (!createdAtStr) {
+        statsMap[status].count += 1;
+        return;
+      }
+
+      const createdAt = new Date(createdAtStr).getTime();
+      const ageMs = now - createdAt;
+      
+      statsMap[status].count += 1;
+      if (ageMs > 0) {
+        statsMap[status].totalMs += ageMs;
+        if (ageMs > statsMap[status].maxMs) {
+          statsMap[status].maxMs = ageMs;
+        }
+      }
+    });
+
+    return activeStatuses.map(s => {
+      const data = statsMap[s.id];
+      const avgMs = data.count > 0 ? (data.totalMs / data.count) : 0;
+      return {
+        id: s.id,
+        label: s.label,
+        color: s.color,
+        count: data.count,
+        avgMs,
+        maxMs: data.maxMs
+      };
+    });
+  }, [orders]);
+
   const chartData = useMemo(() => {
     let daysToDisplay: string[] = [];
     
@@ -1013,7 +1218,10 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           </div>
           <h1 className="text-2xl font-bold text-center mb-1">Panel de Administración</h1>
           <p className="text-[9px] text-center text-stone-400 font-bold uppercase tracking-[0.2em] mb-6">v1.2.0 - Inventory Smartv2</p>
-          <div className="space-y-4">
+          <form 
+            onSubmit={(e) => { e.preventDefault(); fetchOrders(); }}
+            className="space-y-4"
+          >
             <div>
               <label className="block text-xs font-bold text-stone-500 uppercase tracking-widest mb-2 px-1">Contraseña de acceso</label>
               <div className="relative">
@@ -1021,7 +1229,6 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                   type={showPassword ? "text" : "password"} 
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); setError(null); }}
-                  onKeyPress={(e) => e.key === 'Enter' && fetchOrders()}
                   className={cn(
                     "w-full px-5 py-4 bg-stone-50 border rounded-2xl focus:ring-2 outline-none transition-all pr-14",
                     error ? "border-red-300 focus:ring-red-500" : "border-stone-200 focus:ring-emerald-500"
@@ -1043,13 +1250,13 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
               )}
             </div>
             <button 
-              onClick={fetchOrders}
+              type="submit"
               disabled={loading}
               className="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition-all disabled:opacity-50"
             >
               {loading ? 'Verificando...' : 'Entrar al Panel'}
             </button>
-          </div>
+          </form>
         </motion.div>
       </div>
     );
@@ -1129,6 +1336,17 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           </button>
 
           <button 
+            onClick={() => setActiveTab('routes')}
+            className={cn(
+              "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
+              activeTab === 'routes' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" : "text-stone-400 hover:bg-white/10"
+            )}
+            title="Rutas de Campaña"
+          >
+            <ExternalLink className="w-6 h-6" />
+          </button>
+
+          <button 
             onClick={() => setActiveTab('settings')}
             className={cn(
               "p-3 rounded-2xl transition-all duration-300 w-full flex justify-center",
@@ -1174,6 +1392,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           <span className="text-[8px] font-black uppercase">Stock</span>
         </button>
         <button 
+          onClick={() => setActiveTab('routes')}
+          className={cn(
+            "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
+            activeTab === 'routes' ? "text-emerald-400 bg-white/10" : "text-stone-500"
+          )}
+        >
+          <ExternalLink className="w-5 h-5" />
+          <span className="text-[8px] font-black uppercase">Rutas</span>
+        </button>
+        <button 
           onClick={() => setActiveTab('settings')}
           className={cn(
             "p-3 rounded-xl transition-all flex flex-col items-center gap-1",
@@ -1190,7 +1418,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         <header className="bg-white border-b border-stone-200 p-4 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 sticky top-0 z-40">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-bold text-stone-900 tracking-tight">
-              {activeTab === 'orders' ? 'Pedidos' : activeTab === 'analytics' ? 'Analítica' : 'Inventario Mastershop'}
+              {activeTab === 'orders' ? 'Pedidos' : activeTab === 'analytics' ? 'Analítica' : activeTab === 'inventory' ? 'Inventario Mastershop' : activeTab === 'routes' ? 'Rutas de Campaña' : 'Configuración'}
             </h1>
             <div className="h-4 w-px bg-stone-200 hidden sm:block" />
             <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.2</p>
@@ -1238,6 +1466,121 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                     icon={<Hash className="w-5 h-5" />}
                     color="amber"
                   />
+                </div>
+
+                {/* Pipeline & Real-Time Tracking Counters */}
+                <div id="status-pipeline-counters" className="bg-white p-6 rounded-[2.5rem] border border-stone-100 shadow-sm mb-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                      <h2 className="text-sm font-bold text-stone-900 tracking-tight flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-emerald-600 animate-pulse" />
+                        Monitoreo de Tickets y Cuellos de Botella (Tiempos de Atención)
+                      </h2>
+                      <p className="text-[10px] text-stone-400 font-medium">
+                        Promedio y antigüedad de tickets por estado. Haz clic en un estado para filtrar rápidamente la tabla.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3">
+                    {statusPipelineStats.map((st) => {
+                      const isSelected = selectedStatuses.includes(st.id);
+                      let borderClass = "border-stone-100";
+                      let bgClass = "bg-stone-50 hover:bg-stone-100/70";
+                      let countBadgeColor = "bg-stone-200 text-stone-700";
+                      
+                      if (st.count > 0) {
+                        if (st.color === 'amber') {
+                          borderClass = isSelected ? "border-amber-400 ring-2 ring-amber-400/20" : "border-amber-100";
+                          bgClass = isSelected ? "bg-amber-50" : "bg-amber-50/40 hover:bg-amber-50/60";
+                          countBadgeColor = "bg-amber-500 text-white";
+                        } else if (st.color === 'emerald') {
+                          borderClass = isSelected ? "border-emerald-400 ring-2 ring-emerald-400/20" : "border-emerald-100";
+                          bgClass = isSelected ? "bg-emerald-50" : "bg-emerald-50/30 hover:bg-emerald-50/60";
+                          countBadgeColor = "bg-emerald-600 text-white";
+                        } else if (st.color === 'blue') {
+                          borderClass = isSelected ? "border-blue-400 ring-2 ring-blue-400/20" : "border-blue-100";
+                          bgClass = isSelected ? "bg-blue-50" : "bg-blue-50/30 hover:bg-blue-50/60";
+                          countBadgeColor = "bg-blue-600 text-white";
+                        } else if (st.color === 'purple') {
+                          borderClass = isSelected ? "border-purple-400 ring-2 ring-purple-400/20" : "border-purple-100";
+                          bgClass = isSelected ? "bg-purple-50" : "bg-purple-50/30 hover:bg-purple-50/60";
+                          countBadgeColor = "bg-purple-600 text-white";
+                        } else if (st.color === 'indigo') {
+                          borderClass = isSelected ? "border-indigo-400 ring-2 ring-indigo-400/20" : "border-indigo-100";
+                          bgClass = isSelected ? "bg-indigo-50" : "bg-indigo-50/30 hover:bg-indigo-50/60";
+                          countBadgeColor = "bg-indigo-600 text-white";
+                        } else if (st.color === 'red') {
+                          borderClass = isSelected ? "border-red-400 ring-2 ring-red-400/20" : "border-red-100";
+                          bgClass = isSelected ? "bg-red-50" : "bg-red-50/30 hover:bg-red-50/60";
+                          countBadgeColor = "bg-red-500 text-white";
+                        }
+                      } else {
+                        borderClass = isSelected ? "border-stone-400 ring-2 ring-stone-400/10" : "border-stone-100";
+                        bgClass = isSelected ? "bg-stone-100" : "bg-stone-50/50 hover:bg-stone-100/30";
+                        countBadgeColor = "bg-stone-200 text-stone-500";
+                      }
+
+                      const iconMap: Record<string, any> = {
+                        pending: Clock,
+                        confirmed: CheckCircle2,
+                        ready_to_ship: Package,
+                        shipped_with_guide: FileText,
+                        in_transit: Truck,
+                        waiting_delivery: Clock,
+                        delivered: ClipboardCheck,
+                        with_issue: Info
+                      };
+                      const IconComponent = iconMap[st.id] || Clock;
+                      const hasBottleneck = st.count > 0 && st.id !== 'delivered' && st.maxMs > 24 * 60 * 60 * 1000;
+
+                      return (
+                        <button
+                          key={st.id}
+                          onClick={() => {
+                            if (selectedStatuses.includes(st.id)) {
+                              setSelectedStatuses(selectedStatuses.filter(s => s !== st.id));
+                            } else {
+                              setSelectedStatuses([...selectedStatuses, st.id]);
+                            }
+                          }}
+                          className={cn(
+                            "flex flex-col text-left p-3.5 rounded-2xl border transition-all relative group",
+                            borderClass,
+                            bgClass
+                          )}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="p-1 rounded-lg bg-white shadow-sm border border-stone-100">
+                              <IconComponent className={cn("w-3.5 h-3.5", st.count > 0 ? "text-stone-800" : "text-stone-400")} />
+                            </div>
+                            <span className={cn("text-[10px] font-black px-1.5 py-0.5 rounded-full transition-all", countBadgeColor)}>
+                              {st.count}
+                            </span>
+                          </div>
+
+                          <span className="text-[10px] font-bold text-stone-800 leading-tight uppercase truncate">
+                            {st.label}
+                          </span>
+
+                          <div className="mt-2 pt-1 border-t border-stone-200/40 flex flex-col gap-0.5">
+                            <div className="flex justify-between items-center text-[8px] text-stone-500 font-medium">
+                              <span>Promedio:</span>
+                              <span className={cn("font-bold", st.count > 0 ? "text-stone-800" : "text-stone-400")}>
+                                {st.count > 0 ? formatDuration(st.avgMs) : 'N/A'}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center text-[8px] text-stone-500 font-medium">
+                              <span>Antiguo:</span>
+                              <span className={cn("font-extrabold", hasBottleneck ? "text-red-500 animate-pulse" : st.count > 0 ? "text-stone-800" : "text-stone-400")}>
+                                {st.count > 0 ? formatDuration(st.maxMs) : 'N/A'}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Filters & Search - Redesigned */}
@@ -1564,16 +1907,9 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200" onClick={() => { setSelectedOrder(order); setTrackingInput(order.tracking_guide || ''); }}>
-                                  <div className="flex flex-col gap-1 items-start">
-                                    <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px] cursor-pointer hover:text-emerald-600 decoration-emerald-500/30 underline-offset-2">
-                                      {displayName}
-                                    </span>
-                                    {order.gclid && (
-                                      <span className="inline-flex items-center px-1.5 py-0.5 bg-emerald-50 text-[7.5px] font-mono font-bold text-emerald-600 rounded border border-emerald-100 animate-pulse" title={`GCLID: ${order.gclid}`}>
-                                        GCLID
-                                      </span>
-                                    )}
-                                  </div>
+                                  <span className="text-[11px] font-normal text-black leading-tight block line-clamp-2 max-w-[150px] cursor-pointer hover:text-emerald-600 decoration-emerald-500/30 underline-offset-2">
+                                    {displayName}
+                                  </span>
                                 </td>
                                 <td className="px-2 py-1.5 text-center border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black">
@@ -1968,6 +2304,294 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
               >
                 <InventoryManager />
               </motion.div>
+            ) : activeTab === 'routes' ? (
+              <motion.div
+                key="routes"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                <div className="bg-white rounded-[2rem] p-6 lg:p-8 border border-stone-100 shadow-sm max-w-5xl mx-auto">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-stone-50">
+                    <div>
+                      <h2 className="text-xl font-bold text-stone-900">Rutas de Campaña y Enlaces</h2>
+                      <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest text-left">Listado Completo de Enlaces para Facebook & Google Ads</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-xl uppercase tracking-wider block md:inline-block">
+                        Soporte Multicaso Activo (Case-Insensitive)
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mb-6 bg-blue-50/50 border border-blue-100 p-4 rounded-2xl flex items-start gap-3 text-left">
+                    <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-bold text-blue-900">¿Por qué es importante esta sección?</p>
+                      <p className="text-[11px] text-blue-700 mt-1 leading-relaxed">
+                        Aquí puedes visualizar, copiar y probar de manera directa la ruta exacta de cualquier producto o combo de ZENHOGAR al rellenar tus campañas. 
+                        <strong> Nota de Robustez:</strong> El sistema ha sido blindado para que las rutas sean completamente insensibles a mayúsculas/minúsculas (ej: <code className="bg-white px-1 py-0.5 rounded text-blue-800 font-mono">/producto/RtaFull</code>, <code className="bg-white px-1 py-0.5 rounded text-blue-800 font-mono">/producto/rtafull</code> o <code className="bg-white px-1 py-0.5 rounded text-blue-800 font-mono">/producto/RTAFULL</code> funcionarán de manera idéntica sin páginas caídas ni errores).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    {/* Column Left: Products */}
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-2 pb-2 border-b border-stone-100">
+                        <Package className="w-5 h-5 text-emerald-600" />
+                        <h3 className="font-bold text-stone-900 text-sm">Productos Individuales ({PRODUCTS.length})</h3>
+                      </div>
+                      
+                      <div className="space-y-3 max-h-[550px] overflow-y-auto pr-2 custom-scrollbar">
+                        {PRODUCTS.map(p => {
+                          const path = `/producto/${p.id}`;
+                          const routeId = `prod-${p.id}`;
+                          const isCopied = copiedRouteId === routeId;
+                          return (
+                            <div key={p.id} className="p-4 bg-stone-50 hover:bg-stone-100/60 border border-stone-100 rounded-2xl transition-all">
+                              <div className="flex justify-between items-start gap-2 mb-2">
+                                <div>
+                                  <h4 className="font-bold text-sm text-stone-900">{p.name}</h4>
+                                  <p className="text-[10px] text-stone-400">ID Master: <span className="font-mono">{p.masterId}</span> | Categoría: <span className="font-semibold">{p.category}</span></p>
+                                </div>
+                                <span className="text-[9px] font-mono bg-stone-200/60 text-stone-600 px-1.5 py-0.5 rounded">
+                                  {p.id}
+                                </span>
+                              </div>
+                              
+                              <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-stone-200/50">
+                                <input 
+                                  type="text" 
+                                  readOnly 
+                                  value={`https://zenhogar.live${path}`} 
+                                  className="flex-grow bg-white border border-stone-200 rounded-lg px-2.5 py-2 text-[11px] font-mono text-stone-600 select-all outline-none"
+                                />
+                                <button
+                                  onClick={() => handleCopyRouteLink(path, routeId)}
+                                  className={cn(
+                                    "px-3 py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1 transition-all active:scale-95 shrink-0",
+                                    isCopied 
+                                      ? "bg-emerald-600 text-white" 
+                                      : "bg-white hover:bg-stone-50 border border-stone-200 text-stone-700"
+                                  )}
+                                >
+                                  {isCopied ? <ClipboardCheck className="w-3.5 h-3.5" /> : <Clipboard className="w-3.5 h-3.5" />}
+                                  {isCopied ? 'Copiado' : 'Copiar'}
+                                </button>
+                                <a 
+                                  href={`https://zenhogar.live${path}`} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="p-2 bg-white hover:bg-stone-50 border border-stone-200 rounded-lg text-stone-500 transition-colors shrink-0"
+                                  title="Abrir en pestaña nueva"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                </a>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Column Right: Combos, Categories & Global */}
+                    <div className="space-y-8">
+                      {/* Combos & Promotions */}
+                      <div>
+                        <div className="flex items-center gap-2 pb-2 border-b border-stone-100 mb-4">
+                          <ShoppingBag className="w-5 h-5 text-emerald-600" />
+                          <h3 className="font-bold text-stone-900 text-sm">Combos y Promociones ({PROMOTIONS.length + 1})</h3>
+                        </div>
+
+                        <div className="space-y-3 max-h-[290px] overflow-y-auto pr-2 custom-scrollbar">
+                          {/* Combo of the Month */}
+                          {COMBO_OF_THE_MONTH && (() => {
+                            const path = `/combo/${COMBO_OF_THE_MONTH.id}`;
+                            const routeId = `combo-${COMBO_OF_THE_MONTH.id}`;
+                            const isCopied = copiedRouteId === routeId;
+                            return (
+                              <div className="p-4 bg-emerald-50/40 hover:bg-emerald-50/60 border border-emerald-100/50 rounded-2xl transition-all">
+                                <div className="flex justify-between items-start gap-2 mb-2">
+                                  <div>
+                                    <div className="flex items-center gap-1.5">
+                                      <h4 className="font-bold text-sm text-stone-950">{COMBO_OF_THE_MONTH.name}</h4>
+                                      <span className="text-[9px] font-black uppercase text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full">
+                                        Combo del Mes (Oferta)
+                                      </span>
+                                    </div>
+                                    <p className="text-[10px] text-stone-400">Oferta principal: <span className="font-semibold">${COMBO_OF_THE_MONTH.price?.toLocaleString('es-CO')}</span></p>
+                                  </div>
+                                  <span className="text-[9px] font-mono bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">
+                                    {COMBO_OF_THE_MONTH.id}
+                                  </span>
+                                </div>
+                                
+                                <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-emerald-100/60">
+                                  <input 
+                                    type="text" 
+                                    readOnly 
+                                    value={`https://zenhogar.live${path}`} 
+                                    className="flex-grow bg-white border border-stone-200 rounded-lg px-2.5 py-2 text-[11px] font-mono text-stone-600 select-all outline-none"
+                                  />
+                                  <button
+                                    onClick={() => handleCopyRouteLink(path, routeId)}
+                                    className={cn(
+                                      "px-3 py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1 transition-all active:scale-95 shrink-0",
+                                      isCopied 
+                                        ? "bg-emerald-600 text-white" 
+                                        : "bg-white hover:bg-stone-50 border border-stone-200 text-stone-700"
+                                    )}
+                                  >
+                                    {isCopied ? <ClipboardCheck className="w-3.5 h-3.5" /> : <Clipboard className="w-3.5 h-3.5" />}
+                                    {isCopied ? 'Copiado' : 'Copiar'}
+                                  </button>
+                                  <a 
+                                    href={`https://zenhogar.live${path}`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="p-2 bg-white hover:bg-stone-50 border border-stone-200 rounded-lg text-stone-500 transition-colors shrink-0"
+                                    title="Abrir en pestaña nueva"
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                  </a>
+                                </div>
+                              </div>
+                            );
+                          })()}
+
+                          {/* Regular promotions */}
+                          {PROMOTIONS.map(promo => {
+                            const path = `/combo/${promo.id}`;
+                            const routeId = `combo-${promo.id}`;
+                            const isCopied = copiedRouteId === routeId;
+                            return (
+                              <div key={promo.id} className="p-4 bg-stone-50 hover:bg-stone-100/60 border border-stone-100 rounded-2xl transition-all">
+                                <div className="flex justify-between items-start gap-2 mb-2">
+                                  <div>
+                                    <h4 className="font-bold text-sm text-stone-900">{promo.name}</h4>
+                                    <p className="text-[10px] text-stone-400">Total: <span className="font-semibold">${promo.price?.toLocaleString('es-CO')}</span></p>
+                                  </div>
+                                  <span className="text-[9px] font-mono bg-stone-200/60 text-stone-600 px-1.5 py-0.5 rounded">
+                                    {promo.id}
+                                  </span>
+                                </div>
+                                
+                                <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-stone-200/50">
+                                  <input 
+                                    type="text" 
+                                    readOnly 
+                                    value={`https://zenhogar.live${path}`} 
+                                    className="flex-grow bg-white border border-stone-200 rounded-lg px-2.5 py-2 text-[11px] font-mono text-stone-600 select-all outline-none"
+                                  />
+                                  <button
+                                    onClick={() => handleCopyRouteLink(path, routeId)}
+                                    className={cn(
+                                      "px-3 py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1 transition-all active:scale-95 shrink-0",
+                                      isCopied 
+                                        ? "bg-emerald-600 text-white" 
+                                        : "bg-white hover:bg-stone-50 border border-stone-200 text-stone-700"
+                                    )}
+                                  >
+                                    {isCopied ? <ClipboardCheck className="w-3.5 h-3.5" /> : <Clipboard className="w-3.5 h-3.5" />}
+                                    {isCopied ? 'Copiado' : 'Copiar'}
+                                  </button>
+                                  <a 
+                                    href={`https://zenhogar.live${path}`} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="p-2 bg-white hover:bg-stone-50 border border-stone-200 rounded-lg text-stone-500 transition-colors shrink-0"
+                                    title="Abrir en pestaña nueva"
+                                  >
+                                    <ExternalLink className="w-4 h-4" />
+                                  </a>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Categories & Global Pages */}
+                      <div>
+                        <div className="flex items-center gap-2 pb-2 border-b border-stone-100 mb-4">
+                          <Home className="w-5 h-5 text-emerald-600" />
+                          <h3 className="font-bold text-stone-900 text-sm">Categorías y Páginas Globales</h3>
+                        </div>
+
+                        <div className="space-y-3 max-h-[290px] overflow-y-auto pr-2 custom-scrollbar">
+                          {/* Categories */}
+                          {CATEGORIES.map(cat => {
+                            const path = `/categoria/${cat.id}`;
+                            const routeId = `cat-${cat.id}`;
+                            const isCopied = copiedRouteId === routeId;
+                            return (
+                              <div key={cat.id} className="p-3 bg-stone-50 hover:bg-stone-100/60 border border-stone-100 rounded-2xl transition-all">
+                                <div className="flex justify-between items-center mb-1">
+                                  <span className="text-xs font-bold text-stone-800">{cat.name}</span>
+                                  <span className="text-[9px] font-mono bg-stone-200 text-stone-500 px-1.5 py-0.5 rounded">
+                                    {cat.id}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <input 
+                                    type="text" 
+                                    readOnly 
+                                    value={`https://zenhogar.live${path}`} 
+                                    className="flex-grow bg-white border border-stone-200 rounded-lg px-2 py-1 text-[10px] font-mono text-stone-500 outline-none"
+                                  />
+                                  <button
+                                    onClick={() => handleCopyRouteLink(path, routeId)}
+                                    className="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors shrink-0 px-2"
+                                  >
+                                    {isCopied ? '¡Copiado!' : 'Copiar'}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {/* Global pages */}
+                          {[
+                            { name: 'Página de Inicio / Home', path: '/' },
+                            { name: 'Quiénes Somos', path: '/quienes-somos' },
+                            { name: 'Política de Privacidad', path: '/politica-privacidad' },
+                            { name: 'Condiciones de Entrega', path: '/condiciones-entrega' },
+                            { name: 'Devoluciones y Garantía', path: '/devoluciones-garantia' },
+                          ].map(page => {
+                            const routeId = `page-${page.path}`;
+                            const isCopied = copiedRouteId === routeId;
+                            return (
+                              <div key={page.path} className="p-3 bg-stone-50 hover:bg-stone-100/60 border border-stone-100 rounded-2xl transition-all">
+                                <div className="flex justify-between items-center mb-1">
+                                  <span className="text-xs font-bold text-stone-800">{page.name}</span>
+                                  <span className="text-[9px] font-mono bg-stone-200 text-stone-500 px-1.5 py-0.5 rounded">
+                                    {page.path === '/' ? 'home' : page.path.slice(1)}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <input 
+                                    type="text" 
+                                    readOnly 
+                                    value={`https://zenhogar.live${page.path}`} 
+                                    className="flex-grow bg-white border border-stone-200 rounded-lg px-2 py-1 text-[10px] font-mono text-stone-500 outline-none"
+                                  />
+                                  <button
+                                    onClick={() => handleCopyRouteLink(page.path, routeId)}
+                                    className="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors shrink-0 px-2"
+                                  >
+                                    {isCopied ? '¡Copiado!' : 'Copiar'}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ) : (
               <motion.div
                 key="settings"
@@ -2223,16 +2847,120 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
                   <div className="bg-stone-50 p-6 rounded-3xl border border-stone-100 space-y-4">
                     <div>
-                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Productos Adquiridos*</label>
+                      <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Seleccionar del Inventario</label>
+                      
+                      {/* Search Products */}
+                      <div className="relative mb-3">
+                        <input
+                          type="text"
+                          placeholder="Buscar producto en inventario..."
+                          value={manualProductSearchTerm}
+                          onChange={(e) => setManualProductSearchTerm(e.target.value)}
+                          className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
+                        />
+                        {manualProductSearchTerm && (
+                          <button
+                            type="button"
+                            onClick={() => setManualProductSearchTerm('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-xs"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Scrollable list of products */}
+                      <div className="max-h-48 overflow-y-auto bg-white border border-stone-200 rounded-xl p-2.5 space-y-2 mb-4 scrollbar-thin scrollbar-thumb-stone-200">
+                        {inventory
+                          .filter((p: any) => 
+                            p.name?.toLowerCase().includes(manualProductSearchTerm.toLowerCase()) ||
+                            p.idProduct?.toString().includes(manualProductSearchTerm) ||
+                            p.internalId?.toLowerCase().includes(manualProductSearchTerm.toLowerCase())
+                          )
+                          .map((prod: any) => {
+                            const selectedItem = manualOrderItems.find(item => item.internalId === prod.internalId);
+                            const isChecked = !!selectedItem;
+                            return (
+                              <div key={prod.internalId} className={cn(
+                                "p-2 rounded-lg border transition-all flex flex-col gap-2",
+                                isChecked ? "bg-emerald-50/50 border-emerald-200" : "bg-stone-50/50 border-stone-100 hover:bg-stone-50"
+                              )}>
+                                <div className="flex items-start gap-2.5">
+                                  <input
+                                    type="checkbox"
+                                    id={`check-${prod.internalId}`}
+                                    checked={isChecked}
+                                    onChange={() => handleToggleManualProduct(prod)}
+                                    className="mt-0.5 rounded border-stone-300 text-emerald-600 focus:ring-emerald-500 h-3.5 w-3.5 cursor-pointer"
+                                  />
+                                  <label htmlFor={`check-${prod.internalId}`} className="flex-grow text-xs leading-tight font-medium text-stone-800 cursor-pointer">
+                                    <span className="font-semibold">{prod.name}</span>
+                                    <span className="text-[10px] text-stone-400 block font-mono">ID: {prod.idProduct || prod.internalId} — Precio Base: {formatCurrency(prod.basePrice)}</span>
+                                  </label>
+                                </div>
+
+                                {isChecked && (
+                                  <div className="flex items-center justify-between gap-4 pl-6 pt-1 border-t border-emerald-100/50 mt-1">
+                                    {/* Quantity controller */}
+                                    <div className="flex items-center gap-1.5 bg-white border border-stone-200 rounded-lg p-0.5 shadow-sm">
+                                      <button
+                                        type="button"
+                                        onClick={() => handleUpdateManualProductQuantity(prod.internalId, (selectedItem.quantity || 1) - 1)}
+                                        className="w-5 h-5 flex items-center justify-center text-xs font-bold text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded"
+                                      >
+                                        -
+                                      </button>
+                                      <span className="text-xs font-mono font-bold w-6 text-center text-stone-800">
+                                        {selectedItem.quantity}
+                                      </span>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleUpdateManualProductQuantity(prod.internalId, (selectedItem.quantity || 1) + 1)}
+                                        className="w-5 h-5 flex items-center justify-center text-xs font-bold text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded"
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+
+                                    {/* Sale Price input */}
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="text-[9px] font-black text-stone-400 uppercase tracking-wider">Precio COP</span>
+                                      <div className="relative max-w-[100px]">
+                                        <span className="absolute left-2 top-1.5 text-stone-400 text-[10px] font-bold font-mono">$</span>
+                                        <input
+                                          type="number"
+                                          min={0}
+                                          value={selectedItem.price}
+                                          onChange={(e) => handleUpdateManualProductPrice(prod.internalId, parseFloat(e.target.value) || 0)}
+                                          className="w-full pl-4 pr-1.5 py-1 bg-white border border-stone-200 rounded-lg text-xs font-mono font-bold text-stone-800 outline-none focus:ring-1 focus:ring-emerald-500"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        {inventory.length === 0 && (
+                          <div className="text-center py-4 text-xs text-stone-400 italic">No hay productos en inventario</div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest block font-sans">Resumen de Productos Adquiridos*</label>
+                        <span className="text-[8px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded uppercase tracking-wider">Auto-Construido</span>
+                      </div>
                       <textarea 
                         required
-                        rows={3}
+                        rows={2}
                         value={selectedOrder.order_details || ''}
                         onChange={(e) => {
                           setSelectedOrder({ ...selectedOrder, order_details: e.target.value });
                         }}
                         placeholder="Ej: 1x Inmunidad Dual (Resvisfactor + Coliplus)"
-                        className="w-full px-4 py-2.5 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 resize-none animate-none"
+                        className="w-full px-4 py-2.5 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 resize-none animate-none font-medium text-stone-600"
                       />
                     </div>
 
@@ -2556,16 +3284,6 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Estado Actual</p>
                         <StatusBadge status={selectedOrder.status} type={selectedOrder.type} />
                       </div>
-                      {selectedOrder.gclid && (
-                        <div className="col-span-2 pt-2 border-t border-stone-100">
-                          <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1 select-none">Google Click ID (GCLID)</p>
-                          <div className="flex items-center gap-1.5 mt-1">
-                            <span className="font-mono text-[10px] px-2 py-1 bg-white border border-stone-200 text-stone-700 rounded-lg select-all break-all block flex-1 font-bold">
-                              {selectedOrder.gclid}
-                            </span>
-                          </div>
-                        </div>
-                      )}
                       <div className="col-span-2 pt-2 border-t border-stone-100">
                         <p className="text-[9px] uppercase font-black text-stone-400 tracking-tighter mb-1">Sincronización Logística (Mastershop)</p>
                         {selectedOrder.mastershop_status !== 'sync_success' && !selectedOrder.tracking_guide ? (
