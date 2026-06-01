@@ -596,11 +596,25 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: status as any } : o));
     
     try {
+      // Traducir código de estado interno a etiqueta en español y legible para Sheets
+      let labelSheet = status;
+      if (status === 'pending') labelSheet = 'Pendiente';
+      else if (status === 'confirmed') labelSheet = 'Confirmado';
+      else if (status === 'ready_to_ship') labelSheet = 'Por Alistar';
+      else if (status === 'shipped_with_guide') labelSheet = 'Guía Generada';
+      else if (status === 'in_transit') labelSheet = 'En Tránsito';
+      else if (status === 'delivered') labelSheet = 'Entregado';
+      else if (status === 'finalizada') labelSheet = 'Finalizada';
+      else if (status === 'waiting_delivery') labelSheet = 'Espera Entrega';
+      else if (status === 'declined') labelSheet = 'Declinada';
+      else if (status === 'cancelled') labelSheet = 'Cancelado';
+      else if (status === 'with_issue') labelSheet = 'Con Novedad';
+
       // REGLA: Si el estado es "completed", "finalizada", "cancelled" o "cancelada", actualizar Google Sheets y borrar del admin
       if (status === 'completed' || status === 'finalizada' || status === 'cancelled' || status === 'cancelada') {
         const isCancel = status === 'cancelled' || status === 'cancelada';
         const labelCompleto = isCancel ? 'CANCELADO' : 'FINALIZADO';
-        const labelSheet = isCancel ? 'Cancelada' : 'Finalizada';
+        const labelSheetFinal = isCancel ? 'Cancelada' : 'Finalizada';
 
         const confirmCompleted = window.confirm(`¿Confirmas que el pedido ${order.ticket_number || order.id} está ${labelCompleto}? Se actualizará en el Google Sheet y se borrará de este panel.`);
         if (!confirmCompleted) {
@@ -613,7 +627,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             ticket: order.ticket_number || order.id, 
-            status: labelSheet 
+            status: labelSheetFinal 
           })
         });
 
@@ -627,11 +641,29 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         }
       }
 
+      // Para otros estados (intermedios), actualizar en Firebase
       const success = await updateOrderStatusInFirebase(orderId, status);
       if (!success) {
         alert('Error al guardar el cambio en la base de datos. Intente de nuevo.');
         fetchOrders(); // Revert to server state
+        return;
       }
+
+      // Y también enviar la actualización del estado a Google Sheets de manera transparente
+      try {
+        await fetch('/api/orders/status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            ticket: order.ticket_number || order.id, 
+            status: labelSheet 
+          })
+        });
+        console.log(`[Google Sheets] Sincronización intermedia exitosa para estado: ${labelSheet}`);
+      } catch (sheetErr) {
+        console.error('Error synchronizing intermediate status to Google Sheets:', sheetErr);
+      }
+
     } catch (err: any) {
       console.error('Error updating status:', err);
       alert(err.message || 'Error técnico al actualizar el estado.');
@@ -666,6 +698,19 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       if (field === 'tracking_guide') {
         const order = orders.find(o => o.id === orderId);
         if (order) {
+          let labelSheet: string = order.status || 'shipped_with_guide';
+          if (labelSheet === 'pending') labelSheet = 'Pendiente';
+          else if (labelSheet === 'confirmed') labelSheet = 'Confirmado';
+          else if (labelSheet === 'ready_to_ship') labelSheet = 'Por Alistar';
+          else if (labelSheet === 'shipped_with_guide') labelSheet = 'Guía Generada';
+          else if (labelSheet === 'in_transit') labelSheet = 'En Tránsito';
+          else if (labelSheet === 'delivered') labelSheet = 'Entregado';
+          else if (labelSheet === 'finalizada') labelSheet = 'Finalizada';
+          else if (labelSheet === 'waiting_delivery') labelSheet = 'Espera Entrega';
+          else if (labelSheet === 'declined') labelSheet = 'Declinada';
+          else if (labelSheet === 'cancelled') labelSheet = 'Cancelado';
+          else if (labelSheet === 'with_issue') labelSheet = 'Con Novedad';
+
           try {
             await fetch('/api/orders/status', {
               method: 'POST',
@@ -674,7 +719,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 ticket: order.ticket_number || order.id, 
                 tracking_guide: value,
                 guia: value,
-                status: order.status || 'shipped_with_guide'
+                status: labelSheet
               })
             });
             console.log(`[Google Sheets] Sincronización exitosa inline para guía: ${value}`);
@@ -728,6 +773,19 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       // Sincronizar guía al Google Sheets
       const order = orders.find(o => o.id === orderId);
       if (order) {
+        let labelSheet: string = newStatus || order.status || 'shipped_with_guide';
+        if (labelSheet === 'pending') labelSheet = 'Pendiente';
+        else if (labelSheet === 'confirmed') labelSheet = 'Confirmado';
+        else if (labelSheet === 'ready_to_ship') labelSheet = 'Por Alistar';
+        else if (labelSheet === 'shipped_with_guide') labelSheet = 'Guía Generada';
+        else if (labelSheet === 'in_transit') labelSheet = 'En Tránsito';
+        else if (labelSheet === 'delivered') labelSheet = 'Entregado';
+        else if (labelSheet === 'finalizada') labelSheet = 'Finalizada';
+        else if (labelSheet === 'waiting_delivery') labelSheet = 'Espera Entrega';
+        else if (labelSheet === 'declined') labelSheet = 'Declinada';
+        else if (labelSheet === 'cancelled') labelSheet = 'Cancelado';
+        else if (labelSheet === 'with_issue') labelSheet = 'Con Novedad';
+
         try {
           await fetch('/api/orders/status', {
             method: 'POST',
@@ -736,7 +794,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
               ticket: order.ticket_number || order.id, 
               tracking_guide: trackingInput,
               guia: trackingInput,
-              status: newStatus || order.status
+              status: labelSheet
             })
           });
           console.log(`[Google Sheets] Sincronización exitosa desde modal para guía: ${trackingInput}`);
