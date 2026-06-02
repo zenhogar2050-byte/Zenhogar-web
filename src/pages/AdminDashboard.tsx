@@ -586,6 +586,56 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     }
   };
 
+  const sendStatusUpdateToSheets = async (payload: { ticket: string; status?: string; tracking_guide?: string; guia?: string }) => {
+    const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
+    
+    const sheetsPayload = {
+      ...payload,
+      type: 'update_status'
+    };
+
+    let localApiSuccess = false;
+    let fallbackSuccess = false;
+
+    // 1. Intentar con la ruta de la API local de la app
+    try {
+      console.log("[Sheets Sync] Intentando sincronización mediante /api/orders/status...");
+      const response = await fetch('/api/orders/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sheetsPayload)
+      });
+      if (response.ok) {
+        console.log("✅ Sincronizado con Google Sheets usando la API de la app");
+        localApiSuccess = true;
+      } else {
+        console.warn(`[Sheets Sync] Respuesta no exitosa de /api/orders/status: ${response.status}`);
+      }
+    } catch (err: any) {
+      console.warn("[Sheets Sync] Error conectando a la API local:", err.message);
+    }
+
+    // 2. Intentar de forma redundante / autónoma con el Cloudflare Worker directo
+    try {
+      console.log("[Sheets Sync] Intentando sincronización directa con Cloudflare Gateway...");
+      const response = await fetch(GATEWAY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sheetsPayload)
+      });
+      if (response.ok) {
+        console.log("✅ Sincronizado con Google Sheets usando Cloudflare Gateway");
+        fallbackSuccess = true;
+      } else {
+        console.error(`[Sheets Sync] Gateway respondió con status: ${response.status}`);
+      }
+    } catch (err: any) {
+      console.error("[Sheets Sync] Error de fallback en Cloudflare Gateway:", err.message);
+    }
+
+    return localApiSuccess || fallbackSuccess;
+  };
+
   const updateStatus = async (orderId: string, status: string) => {
     const order = orders.find(o => o.id === orderId);
     if (!order) return;
@@ -622,22 +672,18 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           return;
         }
 
-        const response = await fetch('/api/orders/status', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            ticket: order.ticket_number || order.id, 
-            status: labelSheetFinal 
-          })
+        const sheetsSynced = await sendStatusUpdateToSheets({ 
+          ticket: order.ticket_number || order.id, 
+          status: labelSheetFinal 
         });
 
-        if (response.ok) {
+        if (sheetsSynced) {
           await deleteOrderFromFirebase(orderId);
           setOrders(prev => prev.filter(o => o.id !== orderId));
           if (selectedOrder?.id === orderId) setSelectedOrder(null);
           return;
         } else {
-          throw new Error('Error al actualizar estado en Google Sheets');
+          throw new Error('Error al actualizar estado en Google Sheets (Sincronización fallida)');
         }
       }
 
@@ -651,15 +697,10 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
       // Y también enviar la actualización del estado a Google Sheets de manera transparente
       try {
-        await fetch('/api/orders/status', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            ticket: order.ticket_number || order.id, 
-            status: labelSheet 
-          })
+        await sendStatusUpdateToSheets({ 
+          ticket: order.ticket_number || order.id, 
+          status: labelSheet 
         });
-        console.log(`[Google Sheets] Sincronización intermedia exitosa para estado: ${labelSheet}`);
       } catch (sheetErr) {
         console.error('Error synchronizing intermediate status to Google Sheets:', sheetErr);
       }
@@ -712,17 +753,12 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           else if (labelSheet === 'with_issue') labelSheet = 'Con Novedad';
 
           try {
-            await fetch('/api/orders/status', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                ticket: order.ticket_number || order.id, 
-                tracking_guide: value,
-                guia: value,
-                status: labelSheet
-              })
+            await sendStatusUpdateToSheets({ 
+              ticket: order.ticket_number || order.id, 
+              tracking_guide: value,
+              guia: value,
+              status: labelSheet
             });
-            console.log(`[Google Sheets] Sincronización exitosa inline para guía: ${value}`);
           } catch (sheetErr) {
             console.error('Error synchronizing guide to Google Sheets from Cell:', sheetErr);
           }
@@ -787,17 +823,12 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         else if (labelSheet === 'with_issue') labelSheet = 'Con Novedad';
 
         try {
-          await fetch('/api/orders/status', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              ticket: order.ticket_number || order.id, 
-              tracking_guide: trackingInput,
-              guia: trackingInput,
-              status: labelSheet
-            })
+          await sendStatusUpdateToSheets({ 
+            ticket: order.ticket_number || order.id, 
+            tracking_guide: trackingInput,
+            guia: trackingInput,
+            status: labelSheet
           });
-          console.log(`[Google Sheets] Sincronización exitosa desde modal para guía: ${trackingInput}`);
         } catch (sheetErr) {
           console.error('Error synchronizing tracking from modal to Google Sheets:', sheetErr);
         }
