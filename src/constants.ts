@@ -581,7 +581,7 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
       'No deja residuos grasos y es amable con todo tipo de piel'
     ],
     image: '/assets/products/Termoactiva.webp',
-    basePrice: 79900,
+    basePrice: 59900,
     size: '120ml',
     presentation: 'Crema / Gel',
     invima: 'NSOC74321-16CO',
@@ -628,10 +628,10 @@ Ideal para deportistas que buscan acelerar su recuperación o para quienes sufre
       { q: '¿Mancha la ropa?', a: 'Nuestra fórmula balanceada es de rápida absorción y no deja residuos grasos ni manchas en las prendas.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+      { id: '1u', label: '1 Unidad', units: 1, price: 59900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 89850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 119800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 179700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Roberto J.', text: 'El calor que genera es perfecto para mis tensión en la espalda. Alivio inmediato.', rating: 5 },
@@ -2340,7 +2340,7 @@ Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textur
       'Protección contra radicales libres gracias a su alto contenido de Vitamina E'
     ],
     image: '/assets/products/Mammoth.webp',
-    basePrice: 89000,
+    basePrice: 59900,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC19282-23CO',
@@ -2382,10 +2382,10 @@ Ideal para masajes tonificantes, Mammoth ayuda a mejorar el contorno y la textur
       { q: '¿Es segura para pieles muy secas?', a: 'Absolutamente, su alto contenido de Vitamina E y aceites nutritivos reconforta la piel seca brindando elasticidad inmediata.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 89000 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 133500 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 178000, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 267000, badge: '🔥 Mejor Oferta' }
+      { id: '1u', label: '1 Unidad', units: 1, price: 59900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 89850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 119800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 179700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Ricardo H.', text: 'Siento una fuerza y potencia que no tenía antes. Muy efectivo para mis entrenamientos.', rating: 5 },
@@ -2752,7 +2752,7 @@ Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lác
       'Sabor delicioso y textura cremosa de calidad gourmet certificada'
     ],
     image: '/assets/products/Titancoffee.webp',
-    basePrice: 89900,
+    basePrice: 69900,
     size: '400g',
     presentation: 'Polvo',
     invima: 'PSA-000982-2018',
@@ -2795,8 +2795,10 @@ Su base cremosa de coco lo hace una opción deliciosa y saludable, libre de lác
       { q: '¿Contiene azúcar añadida?', a: 'Titan Coffee está diseñado para ser una fuente de energía saludable, permitiéndote disfrutar de tu vitalidad diaria con total confianza.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 89900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 134850 }
+      { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 209700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Marcos P.', text: 'El café más potente que he probado. Me mantiene activo todo el día.', rating: 5 },
@@ -2830,7 +2832,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
       'Fórmula botánica fluida, discreta y de rápida absorción sin manchas'
     ],
     image: '/assets/products/Hemocream.webp',
-    basePrice: 65000,
+    basePrice: 59900,
     size: '30ml',
     presentation: 'Crema',
     invima: 'NSOC15678-23CO',
@@ -2874,10 +2876,10 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
       { q: '¿Es segura durante el embarazo?', a: 'Al ser natural con calidad certificada es generalmente segura, pero siempre recomendamos consultar a su profesional de salud.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 65000 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 97500 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 130000, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 195000, badge: '🔥 Mejor Oferta' }
+      { id: '1u', label: '1 Unidad', units: 1, price: 59900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 89850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 119850, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 179700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Jorge T.', text: 'Me ha aliviado mucho el malestar y la inflamación. Muy efectiva.', rating: 5 },
