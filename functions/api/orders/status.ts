@@ -5,7 +5,11 @@ export const onRequestPost: PagesFunction = async (context) => {
   if (!webhookUrl) {
     return new Response(JSON.stringify({ error: "Webhook URL de Google Sheets no configurada en Cloudflare" }), {
       status: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      headers: { 
+        "Content-Type": "application/json", 
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+      }
     });
   }
 
@@ -28,12 +32,20 @@ export const onRequestPost: PagesFunction = async (context) => {
 
     const result = await response.json();
     return new Response(JSON.stringify(result), {
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      headers: { 
+        "Content-Type": "application/json", 
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+      }
     });
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      headers: { 
+        "Content-Type": "application/json", 
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+      }
     });
   }
 };
