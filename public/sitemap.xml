@@ -467,12 +467,22 @@
         </image:image>
     </url>
     <url>
-        <loc>https://zenhogar.live/combo/combo-inmunidad-dual</loc>
+        <loc>https://zenhogar.live/combo/promo-9</loc>
         <lastmod>2026-05-07</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://zenhogar.live/assets/combos/combo-bienestar.webp</image:loc>
             <image:title>Inmunidad Dual</image:title>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/combo/combo-inmunidad-dual</loc>
+        <lastmod>2026-05-07</lastmod>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://zenhogar.live/assets/combos/Combo%20Futbolero.webp</image:loc>
+            <image:title>Combo Futbolero</image:title>
         </image:image>
     </url>
     <url>

@@ -65,6 +65,7 @@ import * as XLSX from 'xlsx';
 
 interface Order {
   id: string;
+  gclid?: string;
   customer: {
     nombre?: string;
     apellido?: string;
@@ -79,6 +80,7 @@ interface Order {
     address?: string;
     department?: string;
     departamento?: string;
+    gclid?: string;
   };
   cart?: {
     items: any[];
@@ -3468,6 +3470,14 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                               </div>
                             </div>
                           </div>
+                          {(selectedOrder.gclid || selectedOrder.customer.gclid) && (
+                            <div className="flex items-center gap-2 pt-2 border-t border-stone-100 text-stone-600 text-sm">
+                              <span className="text-[10px] font-black text-stone-400">GCLID:</span>
+                              <span className="font-mono text-[10px] bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-100 flex items-center select-all break-all">
+                                {selectedOrder.gclid || selectedOrder.customer.gclid}
+                              </span>
+                            </div>
+                          )}
                         </>
                       )}
                     </div>

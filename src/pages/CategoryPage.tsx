@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { PRODUCTS, CATEGORIES } from '../constants';
-import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap, ShieldCheck } from 'lucide-react';
+import { PRODUCTS, CATEGORIES, COMBO_OF_THE_MONTH, PROMOTIONS } from '../constants';
+import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -28,9 +28,23 @@ export default function CategoryPage() {
     return cleanId === targetIdClean || cleanName === targetIdClean;
   });
 
-  const categoryProducts = category 
-    ? PRODUCTS.filter(p => cleanStr(p.category) === cleanStr(category.id))
-    : [];
+  const isCombosCategory = category?.id === 'combos';
+
+  const comboProducts = [
+    ...PROMOTIONS.map(p => ({
+      ...p,
+      basePrice: p.price,
+      shortDescription: p.description,
+      size: 'Envío Gratis',
+      presentation: p.id === 'promo-9' ? 'Kit Completo' : 'Kit Promocional',
+    }))
+  ];
+
+  const categoryProducts = isCombosCategory
+    ? comboProducts
+    : (category 
+        ? PRODUCTS.filter(p => cleanStr(p.category) === cleanStr(category.id))
+        : []);
 
   const currentIndex = category ? CATEGORIES.findIndex(c => c.id === category.id) : -1;
   const nextCategory = currentIndex !== -1 ? CATEGORIES[(currentIndex + 1) % CATEGORIES.length] : null;
@@ -187,12 +201,12 @@ export default function CategoryPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                   className={cn(
-                    "group bg-white rounded-3xl p-4 border border-stone-200 transition-all",
+                    "group bg-white rounded-3xl p-4 border border-stone-200 transition-all flex flex-col h-full",
                     theme.hover
                   )}
                 >
-                  <Link to={`/producto/${product.id}`} className="block">
-                    <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2">
+                  <Link to={isCombosCategory ? `/combo/${product.id}` : `/producto/${product.id}`} className="flex flex-col h-full">
+                    <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 shrink-0">
                       <img
                         src={product.image}
                         alt={product.name}
@@ -203,7 +217,7 @@ export default function CategoryPage() {
                         referrerPolicy="no-referrer"
                       />
                     </div>
-                    <div className="px-2">
+                    <div className="px-2 flex flex-col flex-grow">
                       <div className="flex flex-col gap-2 mb-3">
                         <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{product.name}</h3>
                         <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
@@ -216,22 +230,41 @@ export default function CategoryPage() {
                               </div>
                             </div>
                           )}
-                          {product.invima && (
-                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
-                              <ShieldCheck className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-500 transition-colors" />
-                              <span className="whitespace-nowrap">INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'En trámite' : product.invima}</span>
+                          {isCombosCategory ? (
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-100 shadow-sm">
+                              <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                              <span className="whitespace-nowrap">{product.badge || 'COMBOS'}</span>
                             </div>
+                          ) : (
+                            product.invima && (
+                              <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                                <ShieldCheck className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-500 transition-colors" />
+                                <span className="whitespace-nowrap">INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'En trámite' : product.invima}</span>
+                              </div>
+                            )
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-col gap-1 mb-6">
+                      <div className="flex flex-col gap-1 mb-4">
                         <span className={cn("text-[20px] font-black uppercase tracking-wider", theme.text)}>Es útil para:</span>
                         <p className="text-stone-500 text-sm line-clamp-2">{product.shortDescription}</p>
                       </div>
-                      <div className="flex items-center justify-between">
+
+                      {/* Benefits with checkmarks */}
+                      <div className="space-y-2 mb-6">
+                        {product.benefits.slice(0, 3).map((benefit, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <CheckCircle2 className={cn("w-4 h-4 flex-shrink-0 mt-0.5", theme.text === 'text-stone-600' ? 'text-emerald-800' : theme.text)} />
+                            <span className="text-xs text-stone-700 font-medium">
+                              {benefit}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
                         <span className={cn("text-2xl font-bold", theme.text)}>Desde {formatCurrency(product.basePrice)}</span>
                         <div className={cn(
-                          "w-10 h-10 rounded-full text-white flex items-center justify-center transition-colors bg-stone-900",
+                          "w-10 h-10 rounded-full text-white flex items-center justify-center transition-colors bg-stone-900 shrink-0",
                           category.color === 'emerald' && "group-hover:bg-emerald-600",
                           category.color === 'rose' && "group-hover:bg-rose-600",
                           category.color === 'purple' && "group-hover:bg-purple-600"

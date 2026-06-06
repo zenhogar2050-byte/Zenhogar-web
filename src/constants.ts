@@ -78,6 +78,16 @@ export const CATEGORIES = [
     description: 'Mejora tu vitalidad y rendimiento con soluciones naturales diseñadas para tu bienestar íntimo y energía diaria.',
     seoTitle: 'Salud Sexual y Vitalidad: Potenciadores Naturales para Hombres y Mujeres',
     seoDescription: 'Mejora tu rendimiento y energía con nuestras soluciones naturales para la salud sexual. Discreción, efectividad y calidad garantizada.'
+  },
+  { 
+    id: 'combos', 
+    name: 'Combos', 
+    icon: 'Sparkles',
+    image: '/assets/categories/Combos.webp',
+    color: 'emerald',
+    description: 'Nuestra selección exclusiva de combos especialmente diseñados para multiplicar tu salud integral, belleza y vitalidad al mejor precio y con ahorro garantizado.',
+    seoTitle: 'Combos y Ofertas Especiales de Salud y Bienestar | Zenhogar',
+    seoDescription: 'Accede a los mejores combos de salud, desintoxicación, belleza y bienestar formulados por ZENHOGAR con registro INVIMA y envío sin costo.'
   }
 ];
 
@@ -2928,64 +2938,64 @@ export interface Promotion {
 
 export const COMBO_OF_THE_MONTH: Promotion = {
   id: 'combo-inmunidad-dual',
-  name: 'Inmunidad Dual',
-  description: 'Inmunidad Dual es el sistema de protección definitiva, diseñado científicamente para fortalecer las defensas naturales y optimizar la salud intestinal de manera simultánea. Este combo une la nutrición de alto impacto de Resvisfactor, que aprovecha el calostro bovino y el hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coliplus, que garantiza un colon limpio y un tránsito intestinal regular. Al trabajar en conjunto, ayudan a reducir la pesadez abdominal y permiten que el organismo absorba con eficiencia los nutrientes esenciales para una vida vital.',
-  image: '/assets/combos/combo-bienestar.webp',
-  price: 129900,
-  originalPrice: 165800,
+  name: 'Combo Futbolero',
+  description: 'El Combo Futbolero es la selección definitiva de alto rendimiento diseñada para potenciar la fuerza, el vigor y la recuperación masculina. Al reunir la acción termoactiva para el alivio muscular, la energía pura de Titan Coffee, la depuración intensa de Rtafull, y el cuidado especializado de Hemocream y Mammoth, este kit robustece tu vitalidad integral frente a la rutina diaria de alta exigencia física.',
+  image: '/assets/combos/Combo Futbolero.webp',
+  price: 247700,
+  originalPrice: 329500,
   peso_adicional: 0,
   googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
   condition: 'new',
-  products: ['resvis', 'coliplus'],
-  seoTitle: 'Cómo favorecer el bienestar ante la pesadez abdominal y defensas bajas con Inmunidad Dual',
-  seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
+  products: ['termoactiva', 'rtafull', 'hemocream', 'titan-coffee', 'mammoth'],
+  seoTitle: 'Combo Futbolero para el Alto Rendimiento y Vigor Masculino | ZENHOGAR',
+  seoDescription: 'Potencia tu vigor y acelera tu recuperación con el Combo Futbolero. Energía pura, desintoxicación y alivio físico en un solo pack diario. ¡Ahorra $81.800 con envío gratis!',
   whyChoose: {
-    title: 'El dúo dinámico de tu bienestar',
-    description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción reconfortante de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para confortar tu vientre y fortalecer tus defensas con calidad garantizada.'
+    title: 'Rendimiento y Vigor Masculino Absoluto',
+    description: 'El Combo Futbolero combina energía extrema, desintoxicación hepática y recuperación muscular de grado profesional. Un sistema completo diseñado para el hombre de alta exigencia que busca mantener su vitalidad y fuerza todos los días.'
   },
   badge: 'OFERTA DEL MES',
   benefits: [
-    'Escudo natural contra virus',
-    'Tránsito intestinal regulado',
-    'Vientre plano y sin pesadez',
-    'Protección antioxidante total'
+    'Energía y enfoque extremo con Titan Coffee',
+    'Recuperación y alivio con Termoactiva',
+    'Depuración interna y hepática con Rtafull',
+    'Firmeza y cuidado con Mammoth y Hemocream'
   ],
-  keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
-  components: 'Calostro Bovino, Hongo Shiitake, Resveratrol, Linaza, Pitaya, Flor de Jamaica, Alcachofa, Betaglucanos y Vitaminas',
+  keywords: 'vigor masculino, rendimiento de élite, energía, recuperación muscular, desintoxicación hepática, Titan Coffee, Rtafull, Termoactiva, Hemocream, Mammoth, Zenhogar, combo futbolero',
+  components: 'Titan Coffee, RtaFull, Loción Termoactiva, Hemocream y Crema Mammoth',
     componentBenefits: [
     {
-        'name': 'Calostro, Shiitake y Betaglucanos',
-        'benefit': 'Fortalecen el sistema inmunológico, apoyando las defensas naturales del organismo.'
+        'name': 'Titan Coffee y RtaFull',
+        'benefit': 'Brindan energía mental y física sostenida mientras limpian y desintoxican el hígado de forma profunda.'
     },
     {
-        'name': 'Linaza, Pitaya y Alcachofa',
-        'benefit': 'Promueven el tránsito intestinal regular y favorecen la digestión saludable de forma natural.'
+        'name': 'Loción Termoactiva y Hemocream',
+        'benefit': 'Alivian la fatiga y tensión muscular localizada al tiempo que brindan cuidado de alta protección.'
     },
     {
-        'name': 'Resveratrol y Vitaminas',
-        'benefit': 'Aportan soporte antioxidante y celular.'
+        'name': 'Crema Mammoth',
+        'benefit': 'Mejora notablemente la firmeza, elasticidad y tono de la piel en áreas de mayor exigencia física.'
     }
 ],
   longTailKeywords: [
-    'mejor combo natural para reconfortar el vientre y subir defensas',
-    'cómo depurar el colon y el hígado de forma efectiva y segura',
-    'cuidado para el bienestar integral digestivo e inmune',
-    'beneficios de Inmunidad Dual para la vitalidad y equilibrio natural',
-    'fórmula balanceada para desintoxicación profunda y energía',
-    'bienestar integral y salud con calidad certificada premium',
-    'cómo mejorar la digestión y absorción de nutrientes con combos',
-    'combo para el cuidado de la salud diaria',
-    'apoyo natural para el colon irritable y pesadez abdominal',
-    'limpieza orgánica segura con ingredientes de alta pureza'
+    'mejor combo de rendimiento y vigor para hombres Colombia',
+    'cómo recuperar los músculos después del fútbol o ejercicio',
+    'café energizante con maca y borojó para energía diaria',
+    'limpieza hepática natural y aumento de vitalidad masculina',
+    'crema corporal para masajes y firmeza muscular masculina',
+    'los mejores suplementos naturales para el vigor del hombre',
+    'loción termoactiva de árnica para deportistas y fatiga muscular',
+    'pack de bienestar integral y rendimiento físico masculino',
+    'suplementación natural premium de alto rendimiento para hombres',
+    'cómo estar más activo y con más energía todo el día'
   ],
   seoFaqs: [
-    { q: '¿Por qué este combo es el más recomendado?', a: 'Porque combina el poder antioxidante de Resvis Factor con el bienestar digestivo de Coliplus para una salud integral total.' },
-    { q: '¿En cuánto tiempo veré resultados?', a: 'La mayoría siente una reconfortación y mayor vitalidad desde la primera semana de uso constante.' },
-    { q: '¿Es seguro para personas con gastritis?', a: 'Sí, su fórmula balanceada es gentil con el estómago, promoviendo el equilibrio natural.' }
+    { q: '¿Cómo debo consumir y aplicar los productos del combo?', a: 'Disfruta de Titan Coffee por la mañana para iniciar con energía y toma Rtafull para tu purificación. Aplica la Loción Termoactiva antes o después de la actividad muscular, y usa las cremas Mammoth y Hemocream en tus rutinas de masaje y cuidado de la piel.' },
+    { q: '¿En cuánto tiempo se sienten los efectos de energía y alivio?', a: 'El enfoque y la energía de Titan Coffee son inmediatos, así como el alivio térmico de la Loción Termoactiva. Los beneficios de desintoxicación y firmeza se consolidan con el uso diario continuo.' },
+    { q: '¿Todos los productos del Combo Futbolero tienen registro oficial?', a: 'Sí, absolutamente todos los componentes cuentan con sus respectivos registros INVIMA vigentes, garantizando pureza de grado profesional.' }
   ],
   testimonials: [
-    { name: 'Andrés Castro', text: 'Este combo cambió mi vida digestiva por completo.', rating: 5 },
-    { name: 'Liliana Restrepo', text: 'Me siento mucho más ligera y con más energía.', rating: 5 }
+    { name: 'Carlos Mario G.', text: 'El Titan Coffee me da una energía increíble para entrenar y la loción me quita todo el cansancio de las piernas. Recomendado 100%.', rating: 5 },
+    { name: 'Juan Fernando R.', text: 'Excelente combinación de productos. Me siento mucho más activo, ligero y con mejor rendimiento en mis partidos de fútbol.', rating: 5 }
   ]
 };
 
@@ -3067,7 +3077,7 @@ export const PROMOTIONS: Promotion[] = [
       title: 'Belleza que trasciende el tiempo',
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Belleza Eterna combate las manchas y el tono desigual combinando el poder aclarante de Eventone con la regeneración del Resveratrol. Calidad certificada para un rostro renovado.'
     },
-    badge: 'OFERTA N° 2',
+    badge: 'COMBO N°2',
     keywords: 'Resveratrol, Eventone, belleza interior, antioxidante, tono de piel, nutrición celular, Zenhogar, combo belleza',
     components: 'Bio Retinol, Ácido Hialurónico, Resveratrol, Colágeno Hidrolizado, Vitamina B5 y extractos de Uva y Arándano',
     componentBenefits: [
@@ -3128,7 +3138,7 @@ export const PROMOTIONS: Promotion[] = [
       title: 'Renovación total desde el interior',
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este Combo Detox une Rtafull y Coliplus para limpiar el hígado y colon de forma profunda pero gentil. Despídete de la pesadez y el estreñimiento con calidad certificada.'
     },
-    badge: 'OFERTA N°3',
+    badge: 'COMBO N°3',
     keywords: 'Coliplus, Rtafull, desintoxicación, colon, hígado, digestión, limpieza natural, Zenhogar, combo salud',
     components: 'Linaza, Pitaya, Flor de Jamaica, Alcachofa, Semillas de Chía, Espirulina, Té Verde y Perejil',
     componentBenefits: [
@@ -3472,6 +3482,65 @@ export const PROMOTIONS: Promotion[] = [
     testimonials: [
       { name: 'Javier', text: 'Siento que mi cuerpo funciona mucho mejor.', rating: 5 },
       { name: 'Mónica', text: 'Excelente para recuperar la energía perdida.', rating: 5 }
+    ]
+  },
+  {
+    id: 'promo-9',
+    name: 'Inmunidad Dual',
+    description: 'Inmunidad Dual es el sistema de protección definitiva, diseñado científicamente para fortalecer las defensas naturales y optimizar la salud intestinal de manera simultánea. Este combo une la nutrición de alto impacto de Resvisfactor, que aprovecha el calostro bovino y el hongo shiitake para blindar el sistema inmune, con la acción depurativa de Coliplus, que garantiza un colon limpio y un tránsito intestinal regular. Al trabajar en conjunto, ayudan a reducir la pesadez abdominal y permiten que el organismo absorba con eficiencia los nutrientes esenciales para una vida vital.',
+    image: '/assets/combos/combo-bienestar.webp',
+    price: 129900,
+    originalPrice: 165800,
+    products: ['resvis', 'coliplus'],
+    seoTitle: 'Cómo favorecer el bienestar ante la pesadez abdominal y defensas bajas con Inmunidad Dual',
+    seoDescription: 'Reconforta tu vientre y fortalece tu sistema inmune con el combo Inmunidad Dual. Fórmula balanceada para bienestar integral y calidad certificada. ¡Ahorra $35.900!',
+    whyChoose: {
+      title: 'El dúo dinámico de tu bienestar',
+      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Este combo une la acción reconfortante de Coliplus con el escudo antioxidante de Resvisfactor. Solución certificada para confortar tu vientre y fortalecer tus defensas con calidad garantizada.'
+    },
+    badge: 'COMBO N°9',
+    benefits: [
+      'Escudo natural contra virus',
+      'Tránsito intestinal regulado',
+      'Vientre plano y sin pesadez',
+      'Protección antioxidante total'
+    ],
+    keywords: 'bienestar total, desintoxicación, limpieza hepática, colon irritable, digestión, Rtafull, Coliplus, Zenhogar, combo salud',
+    components: 'Calostro Bovino, Hongo Shiitake, Resveratrol, Linaza, Pitaya, Flor de Jamaica, Alcachofa, Betaglucanos y Vitaminas',
+    componentBenefits: [
+      {
+        name: 'Calostro, Shiitake y Betaglucanos',
+        benefit: 'Fortalecen el sistema inmunológico, apoyando las defensas naturales del organismo.'
+      },
+      {
+        name: 'Linaza, Pitaya y Alcachofa',
+        benefit: 'Promueven el tránsito intestinal regular y favorecen la digestión saludable de forma natural.'
+      },
+      {
+        name: 'Resveratrol y Vitaminas',
+        benefit: 'Aportan soporte antioxidante y celular.'
+      }
+    ],
+    longTailKeywords: [
+      'mejor combo natural para reconfortar el vientre y subir defensas',
+      'cómo depurar el colon y el hígado de forma efectiva y segura',
+      'cuidado para el bienestar integral digestivo e inmune',
+      'beneficios de Inmunidad Dual para la vitalidad y equilibrio natural',
+      'fórmula balanceada para desintoxicación profunda y energía',
+      'bienestar integral y salud con calidad certificada premium',
+      'cómo mejorar la digestión y absorción de nutrientes con combos',
+      'combo para el cuidado de la salud diaria',
+      'apoyo natural para el colon irritable y pesadez abdominal',
+      'limpieza orgánica segura con ingredientes de alta pureza'
+    ],
+    seoFaqs: [
+      { q: '¿Por qué este combo es el más recomendado?', a: 'Porque combina el poder antioxidante de Resvis Factor con el bienestar digestivo de Coliplus para una salud integral total.' },
+      { q: '¿En cuánto tiempo veré resultados?', a: 'La mayoría siente una reconfortación y mayor vitalidad desde la primera semana de uso constante.' },
+      { q: '¿Es seguro para personas con gastritis?', a: 'Sí, su fórmula balanceada es gentil con el estómago, promoviendo el equilibrio natural.' }
+    ],
+    testimonials: [
+      { name: 'Andrés Castro', text: 'Este combo cambió mi vida digestiva por completo.', rating: 5 },
+      { name: 'Liliana Restrepo', text: 'Me siento mucho más ligera y con más energía.', rating: 5 }
     ]
   }
 ];

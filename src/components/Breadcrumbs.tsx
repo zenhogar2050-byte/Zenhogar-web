@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
-import { CATEGORIES, PRODUCTS, PROMOTIONS } from '../constants';
+import { CATEGORIES, PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 
 interface BreadcrumbItem {
   label: string;
@@ -53,13 +53,13 @@ export default function Breadcrumbs() {
       }
     } else if (pathnames[0] === 'combo') {
       const targetIdClean = pathnames[1] ? cleanStr(pathnames[1]) : '';
-      const combo = PROMOTIONS.find((p) => {
+      const combo = [COMBO_OF_THE_MONTH, ...PROMOTIONS].find((p) => {
         const cleanId = cleanStr(p.id);
         const cleanName = cleanStr(p.name);
         return cleanId === targetIdClean || cleanName === targetIdClean;
       });
       if (combo) {
-        items.push({ label: 'Combos y Ofertas', isCurrent: true });
+        items.push({ label: 'Combos', path: '/categoria/combos' });
         items.push({ label: combo.name, isCurrent: true });
       }
     } else if (pathnames[0] === 'checkout') {

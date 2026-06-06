@@ -48,7 +48,8 @@ export default function Home() {
   }, [hash]);
 
   const handleComboBuy = () => {
-    navigate(`/combo/${COMBO_OF_THE_MONTH.id}`);
+    addComboToCart(COMBO_OF_THE_MONTH);
+    navigate('/checkout');
   };
 
   const handlePromoBuy = (promo: any) => {
@@ -177,68 +178,138 @@ export default function Home() {
             })}
           </div>
 
+          {/* Mobile-Only Oferta del Mes (Combo del Mes) */}
+          <div className="mt-10 md:hidden">
+            <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Oferta del Mes</h2>
+            <div
+              className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col"
+            >
+              <Link to={`/combo/${COMBO_OF_THE_MONTH.id}`} className="flex flex-col h-full" aria-label={`Ver detalles de ${COMBO_OF_THE_MONTH.name}`}>
+                <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 shrink-0">
+                  <img
+                    src={COMBO_OF_THE_MONTH.image}
+                    alt={COMBO_OF_THE_MONTH.name}
+                    width={400}
+                    height={400}
+                    loading="lazy"
+                    className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="px-2 flex flex-col flex-grow text-left">
+                  <div className="flex flex-col gap-2 mb-3">
+                    <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{cleanPromoName(COMBO_OF_THE_MONTH.name)}</h3>
+                    
+                    <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
+                      <div className="inline-block px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-100 shadow-sm whitespace-nowrap">
+                        🔒 OFERTA DEL MES
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+                        <span className="whitespace-nowrap">Envío GRATIS + Pago Contraentrega</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1 mb-4">
+                    <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">El combo contiene:</span>
+                    <p className="text-stone-500 text-sm">{COMBO_OF_THE_MONTH.components}</p>
+                  </div>
+
+                  {/* Benefits with checkmarks */}
+                  <div className="space-y-2 mb-6">
+                    {COMBO_OF_THE_MONTH.benefits.slice(0, 4).map((benefit, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0 mt-0.5" />
+                        <span className="text-xs text-stone-700 font-medium">
+                          {benefit}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
+                    <div className="flex flex-col">
+                      <span className="text-stone-400 text-xs line-through">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</span>
+                      <span className="text-2xl font-bold text-stone-900">{formatCurrency(COMBO_OF_THE_MONTH.price)}</span>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center transition-colors group-hover:bg-emerald-600 shrink-0">
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
           {/* New Mobile-Only Best Sellers Section */}
           <div className="mt-10 md:hidden">
             <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Top 6 Más Vendidos</h2>
             
             <div className="grid grid-cols-1 gap-6">
               {PRODUCTS.slice(0, 6).map((product) => (
-                <Link
+                <div
                   key={product.id}
-                  to={`/producto/${product.id}`}
-                  className="flex flex-col bg-white rounded-[2rem] p-5 border border-stone-200 shadow-md active:scale-[0.98] transition-all group"
-                  aria-label={`Ver detalles de ${product.name}`}
+                  className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col h-full"
                 >
-                  <div className="w-full aspect-[4/3] rounded-3xl bg-stone-50 flex items-center justify-center p-6 mb-5 group-active:bg-stone-100 transition-colors">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
-                      className="w-full h-full object-contain"
-                      referrerPolicy="no-referrer"
-                      width="350"
-                      height="262"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <div className="flex-1 flex flex-col items-center text-center px-2">
-                    <div className="flex items-center justify-center gap-2 mb-1">
-                      <h3 className="text-2xl font-black text-stone-900 leading-tight">{product.name}</h3>
+                  <Link to={`/producto/${product.id}`} className="flex flex-col h-full" aria-label={`Ver detalles de ${product.name}`}>
+                    <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 shrink-0">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        width={400}
+                        height={400}
+                        loading="lazy"
+                        className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
                     </div>
-                    <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
-                      {(product.size || product.presentation) && (
-                        <div className="inline-block px-4 py-2 rounded-xl bg-white text-stone-900 text-sm font-normal border-2 border-stone-200 shadow-sm">
-                          <div className="flex items-center gap-2">
-                            {product.size && <span>{product.size}</span>}
-                            {product.size && product.presentation && <span className="w-1.5 h-1.5 rounded-full bg-stone-300" />}
-                            {product.presentation && <span>{product.presentation}</span>}
-                          </div>
+                    <div className="px-2 flex flex-col flex-grow text-left">
+                      <div className="flex flex-col gap-2 mb-3">
+                        <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{product.name}</h3>
+                        <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
+                          {(product.size || product.presentation) && (
+                            <div className="inline-block px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm whitespace-nowrap">
+                              <div className="flex items-center gap-1.5">
+                                {product.size && <span>{product.size}</span>}
+                                {product.size && product.presentation && <span className="w-1 h-1 rounded-full bg-stone-300" />}
+                                {product.presentation && <span>{product.presentation}</span>}
+                              </div>
+                            </div>
+                          )}
+                          {product.invima && (
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                              <ShieldCheck className="w-3.5 h-3.5 text-stone-400 group-hover:text-emerald-500 transition-colors" />
+                              <span className="whitespace-nowrap">INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'En trámite' : product.invima}</span>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {product.invima && (
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-900 text-[12px] font-normal border-2 border-stone-200 shadow-sm transition-all hover:bg-stone-50">
-                          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                          <span className="whitespace-nowrap">REGISTRO INVIMA: {product.invima.includes('proceso') || product.invima.includes('verificación') ? 'Verificación en curso' : product.invima}</span>
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-base text-stone-600 mb-4 leading-relaxed">{product.shortDescription}</p>
-                    
-                    <div className="flex flex-col w-full gap-1 mb-5">
-                      <div className="flex flex-col items-center justify-center pt-2">
-                        <span className="text-[11px] font-bold text-stone-400 uppercase tracking-widest mb-0.5">Desde</span>
-                        <span className="text-4xl text-stone-900 font-black tracking-tight">{formatCurrency(product.basePrice)}</span>
                       </div>
-                      <p className="text-[14px] text-emerald-600 font-black flex items-center justify-center py-2 mt-1">
-                        🚚 Envío incluido + Obsequio 🎁
-                      </p>
-                    </div>
+                      <div className="flex flex-col gap-1 mb-4">
+                        <span className="text-[20px] font-black uppercase tracking-wider text-emerald-800">Es útil para:</span>
+                        <p className="text-stone-500 text-sm line-clamp-2">{product.shortDescription}</p>
+                      </div>
 
-                    <div className="w-full flex items-center justify-center gap-2 mt-auto text-[15px] font-black text-white bg-emerald-600 hover:bg-emerald-500 py-4 rounded-2xl uppercase tracking-widest shadow-lg shadow-emerald-200 transition-all active:scale-[0.98]">
-                      Ver detalle <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      {/* Benefits with checkmarks */}
+                      <div className="space-y-2 mb-6">
+                        {product.benefits.slice(0, 3).map((benefit, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0 mt-0.5" />
+                            <span className="text-xs text-stone-700 font-medium">
+                              {benefit}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
+                        <span className="text-2xl font-bold text-stone-900">Desde {formatCurrency(product.basePrice)}</span>
+                        <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center transition-colors group-hover:bg-emerald-600 shrink-0">
+                          <ArrowRight className="w-5 h-5" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -361,10 +432,10 @@ export default function Home() {
             {PRODUCTS.slice(0, 6).map((product, index) => (
               <div
                 key={product.id}
-                className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all"
+                className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col h-full"
               >
-                <Link to={`/producto/${product.id}`} className="block" aria-label={`Ver detalles de ${product.name}`}>
-                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative">
+                <Link to={`/producto/${product.id}`} className="flex flex-col h-full" aria-label={`Ver detalles de ${product.name}`}>
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 relative shrink-0">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -376,7 +447,7 @@ export default function Home() {
                       referrerPolicy="no-referrer"
                     />
                   </div>
-                  <div className="px-2">
+                  <div className="px-2 flex flex-col flex-grow">
                     <div className="flex flex-col gap-2 mb-3">
                       <h3 className="text-xl font-bold text-[var(--color-brand-primary)] font-display leading-tight">{product.name}</h3>
                       <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
@@ -404,22 +475,19 @@ export default function Home() {
 
                     {/* Benefits with checkmarks */}
                     <div className="space-y-2 mb-6">
-                      {product.benefits.slice(0, 2).map((benefit, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0" />
-                          <span className={cn(
-                            "text-xs text-stone-700 font-medium line-clamp-1 inline-block",
-                            i === 0 ? "h-[37px] w-[310px] pl-[2px] pt-[5px] text-left" : "h-[43px] w-[313px] pl-[2px] pt-[10px]"
-                          )}>
+                      {product.benefits.slice(0, 3).map((benefit, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0 mt-0.5" />
+                          <span className="text-xs text-stone-700 font-medium">
                             {benefit}
                           </span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
                       <span className="text-emerald-700 font-bold">Desde {formatCurrency(product.basePrice)}</span>
-                      <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center group-hover:bg-emerald-600 transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center group-hover:bg-emerald-600 transition-colors shrink-0">
                         <ArrowRight className="w-5 h-5" />
                       </div>
                     </div>

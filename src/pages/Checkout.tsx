@@ -48,18 +48,24 @@ export default function Checkout() {
             `- ${item.productName} (${item.promoLabel}) x${item.quantity}`
           ).join('\n');
 
+          const savedGclid = localStorage.getItem('gclid') || '';
           const uniqueId = `abandoned_${formData.phone.replace(/\D/g, '')}`;
 
           await saveOrderToFirebase({
             id: uniqueId,
-            customer: formData,
+            customer: {
+              ...formData,
+              gclid: savedGclid
+            },
             order_details: orderDetails,
             total: formatPriceForAPI(total),
-            type: 'abandoned'
+            type: 'abandoned',
+            gclid: savedGclid
           });
 
           const sheetsPayload = {
             type: 'abandoned',
+            gclid: savedGclid,
             customer: {
               fullName: formData.fullName || "Pte. Nombre",
               email: formData.email || "contacto@zenhogar.live",
@@ -68,6 +74,7 @@ export default function Checkout() {
               address: formData.address || "Pte. Dirección",
               city: formData.city || "Pte. Ciudad",
               department: formData.department || "Pte. Depto",
+              gclid: savedGclid
             },
             order_details: orderDetails,
             total: formatPriceForAPI(total)
@@ -144,8 +151,10 @@ export default function Checkout() {
     ).join('\n');
 
     try {
+        const savedGclid = localStorage.getItem('gclid') || '';
         const sheetsPayload = {
           type: 'order',
+          gclid: savedGclid,
           customer: {
             fullName: formData.fullName || "Cliente",
             email: formData.email || "contacto@zenhogar.live",
@@ -154,6 +163,7 @@ export default function Checkout() {
             address: formData.address || "Dirección pendiente",
             city: formData.city || "Barranquilla",
             department: formData.department || "Atlántico",
+            gclid: savedGclid
           },
           order_details: orderDetails,
           total: formatPriceForAPI(total)
@@ -265,13 +275,17 @@ export default function Checkout() {
       }
 
       await saveOrderToFirebase({
-        customer: formData,
+        customer: {
+          ...formData,
+          gclid: savedGclid
+        },
         order_details: orderDetails,
         total: formatPriceForAPI(total),
         cart: { items, total: formatPriceForAPI(total) },
         type: 'order',
         ticket_number: currentTicket,
-        mastershop_status: mastershopStatus
+        mastershop_status: mastershopStatus,
+        gclid: savedGclid
       });
 
       if (abandonedId) {

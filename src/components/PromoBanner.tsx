@@ -1,12 +1,50 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { PROMOTIONS, COMBO_OF_THE_MONTH, PRODUCTS } from '../constants';
+import { PRODUCTS } from '../constants';
 import { Link } from 'react-router-dom';
 import { formatCurrency, cleanPromoName, cn } from '../utils';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function PromoBanner() {
-  const baseItems = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
+  const baseItems = [
+    {
+      id: 'hemocream',
+      name: 'Hemocream',
+      image: '/assets/products/Hemocream.webp',
+      originalPrice: 75900,
+      price: 59900,
+      badge: 'OFERTA ESPECIAL 🌟',
+      description: 'Cuidado Botánico Avanzado en Zonas Sensibles.',
+    },
+    {
+      id: 'locion',
+      name: 'Termoactiva',
+      image: '/assets/products/Termoactiva.webp',
+      originalPrice: 75900,
+      price: 59900,
+      badge: 'MÁS VENDIDO 🔥',
+      description: 'Alivio Muscular Termoactivo y Recuperación Profunda.',
+    },
+    {
+      id: 'titan-coffee',
+      name: 'Titan Coffee',
+      image: '/assets/products/Titancoffee.webp',
+      originalPrice: 99900,
+      price: 69900,
+      badge: 'POTENCIA TOTAL ⚡',
+      description: 'Café de Alto Rendimiento para una Energía Inagotable.',
+    },
+    {
+      id: 'mamooth',
+      name: 'Mammoth',
+      image: '/assets/products/Mammoth.webp',
+      originalPrice: 89900,
+      price: 59900,
+      badge: 'FIRMEZA MÁXIMA ✨',
+      description: 'Firmeza, Elasticidad y Apariencia Saludable para tu Piel.',
+    },
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -133,26 +171,24 @@ export default function PromoBanner() {
             className="w-full flex flex-col items-center"
           >
             <Link 
-              to={`/combo/${currentPromo.id}`}
+              to={`/producto/${currentPromo.id}`}
               className="flex flex-col items-center group w-full"
             >
               <div className="relative">
-                {currentPromo.id === COMBO_OF_THE_MONTH.id && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute -top-6 -left-6 z-10 bg-amber-400 text-amber-950 font-black text-[10px] sm:text-xs px-4 py-1.5 rounded-full shadow-lg transform -rotate-12 uppercase tracking-widest border-2 border-white"
-                  >
-                    🚀 Oferta del Mes
-                  </motion.div>
-                )}
+                <motion.div 
+                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  className="absolute -top-6 -left-6 z-10 bg-amber-400 text-amber-950 font-black text-[10px] sm:text-xs px-4 py-2 rounded-full shadow-lg transform -rotate-12 uppercase tracking-widest border-2 border-white flex items-center justify-center gap-1"
+                >
+                  ✨ Oferta Mes de Junio
+                </motion.div>
                 
-                <div className="rounded-[3rem] sm:rounded-[4rem] mb-4 sm:mb-6 flex items-center justify-center p-1 sm:p-2 overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] group-hover:scale-105 transition-all duration-500 bg-white w-48 h-48 sm:w-64 sm:h-64 border-4 border-white/20 ring-1 ring-white/10 group-hover:ring-white/30">
+                <div className="rounded-[3rem] sm:rounded-[4rem] mb-4 sm:mb-6 flex items-center justify-center p-1 sm:p-2 overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] group-hover:scale-105 transition-all duration-500 bg-white w-48 h-48 sm:w-64 sm:h-64 border-4 border-white/20 ring-1 ring-white/10 group-hover:ring-white/30 truncate">
                   <img 
                     src={currentPromo.image} 
                     alt={currentPromo.name} 
                     draggable="false"
-                    className="max-w-full max-h-full object-contain mix-blend-multiply transition-all duration-300 scale-110 group-hover:scale-115"
+                    className="max-w-full max-h-[90%] object-contain mix-blend-multiply transition-all duration-300 scale-110 group-hover:scale-115"
                     referrerPolicy="no-referrer"
                     width="400"
                     height="400"
@@ -169,29 +205,21 @@ export default function PromoBanner() {
                 </div>
 
                 <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 py-1 bg-blue-900/40 rounded-2xl px-8 backdrop-blur-sm border border-white/5 shadow-inner">
-                  {currentPromo.products?.map((id, idx) => {
-                    const product = PRODUCTS.find(p => p.id === id);
-                    if (!product) return null;
-                    return (
-                      <React.Fragment key={id}>
-                        {idx > 0 && <span className="text-blue-400/60 font-bold text-lg px-1">+</span>}
-                        <span className="text-[13px] font-black text-blue-100 uppercase tracking-[0.1em] flex items-center">
-                          {product.name}
-                        </span>
-                      </React.Fragment>
-                    );
-                  })}
+                  <span className="text-[13px] font-black text-blue-100 uppercase tracking-[0.1em] flex items-center text-center">
+                    {currentPromo.description}
+                  </span>
                 </div>
                 
                 <div className="flex flex-col items-center gap-2 sm:gap-4 pt-2">
                   <div className="flex flex-col items-center">
-                    <span className="font-bold text-white line-through text-[13px] mb-1">
-                      {formatCurrency(currentPromo.originalPrice)}
+                    <span className="font-extrabold text-red-200 line-through decoration-red-500/80 decoration-[1.5px] text-[22px] sm:text-[26px] mb-2 bg-red-950/50 px-5 py-1 rounded-full border border-red-500/30 shadow-sm flex items-center gap-1.5">
+                      Antes: {formatCurrency(currentPromo.originalPrice)}
                     </span>
                     <div className="relative group">
                       <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-emerald-400 rounded-full blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                      <span className="relative font-black rounded-full shadow-2xl transform text-lg sm:text-3xl px-8 sm:px-14 py-3 sm:py-5 bg-white text-blue-800 flex items-center justify-center">
-                        Solo por {formatCurrency(currentPromo.price)}
+                      <span className="relative font-black rounded-full shadow-2xl transform text-lg sm:text-3xl px-8 sm:px-14 py-2.5 sm:py-4 bg-white text-blue-900 flex items-center justify-center gap-2">
+                        <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Solo por</span>
+                        <span>{formatCurrency(currentPromo.price)}</span>
                       </span>
                     </div>
                   </div>

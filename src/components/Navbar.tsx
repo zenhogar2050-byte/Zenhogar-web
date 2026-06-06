@@ -92,8 +92,8 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 md:h-28 items-center">
-          <div className="flex items-center gap-2 md:gap-4 lg:gap-8 min-w-0">
+        <div className="flex justify-between h-20 md:h-24 items-center">
+          <div className="flex items-center gap-2 md:gap-4 lg:gap-6 min-w-0">
             {/* Mobile Menu Button - Moved to Left */}
             <button
               onClick={() => {
@@ -107,7 +107,7 @@ export default function Navbar() {
             </button>
 
             <Link to="/" className="flex items-center gap-2 group shrink-0">
-              <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
+              <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
                   <img 
                     src="/assets/logo/logo-icon.webp" 
                     alt="Zen Hogar Icon" 
@@ -120,33 +120,32 @@ export default function Navbar() {
                     height="64"
                   />
               </div>
-              <div className="flex flex-col leading-none md:-translate-y-5 lg:translate-y-0">
-                <span className="text-xl md:text-2xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
-                <span className="text-[10px] md:text-[12px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
+              <div className="flex flex-col leading-none">
+                <span className="text-lg md:text-xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
+                <span className="text-[9px] md:text-[11px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
               </div>
             </Link>
-          </div>
 
-          {/* Desktop Central Navigation - Categories & Search */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-8 flex-1 max-w-2xl mx-6 lg:mx-12">
-            <div className="flex items-center gap-3 lg:gap-5 shrink-0 md:translate-y-6 lg:translate-y-0">
+            {/* Desktop Categories (Adjacent to Logo) */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-4 ml-4 lg:ml-6 border-l border-stone-200 pl-4 lg:pl-6 shrink-0">
               {CATEGORIES.map((category) => (
                 <Link
                   key={category.id}
                   to={`/categoria/${category.id}`}
-                  className="text-sm lg:text-[15px] font-bold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap group"
+                  className="text-xs lg:text-sm font-bold text-stone-600 hover:text-stone-900 transition-colors flex items-center gap-1.5 lg:gap-2 whitespace-nowrap group"
                 >
                   {getCategoryIcon(category.id)}
-                  <span className="hidden lg:inline">{category.name}</span>
-                  <span className="lg:hidden">{category.id.split('-')[0].charAt(0).toUpperCase() + category.id.split('-')[0].slice(1)}</span>
+                  <span className="hidden xl:inline">{category.name}</span>
+                  <span className="xl:hidden">{category.id.split('-')[0].charAt(0).toUpperCase() + category.id.split('-')[0].slice(1)}</span>
                 </Link>
               ))}
             </div>
+          </div>
 
-            <div className="h-6 w-px bg-stone-200 shrink-0" />
-
+          {/* Desktop Right Navigation - Search, Product Dropdown & Cart */}
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 flex-1 justify-end ml-4 md:ml-6 lg:ml-8 min-w-0">
             {/* Persistent Search Bar Desktop */}
-            <div className="relative flex-1 min-w-[180px]" ref={searchRef}>
+            <div className="relative w-full max-w-[180px] lg:max-w-[260px]" ref={searchRef}>
               <div className="relative pt-1">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
                 <input
@@ -155,98 +154,95 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
-                  className="w-full pl-11 pr-4 py-2.5 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-sm outline-none transition-all shadow-inner focus:shadow-md"
+                  className="w-full pl-11 pr-4 py-2 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-xs sm:text-sm outline-none transition-all shadow-inner focus:shadow-md"
                 />
               </div>
 
-                
-                <AnimatePresence>
-                  {isSearchOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full left-0 mt-2 w-full bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden min-w-[320px]"
-                    >
-                      {/* Symptom Quick Filter PIILLS */}
-                      {searchQuery.trim() === '' && (
-                        <div className="mb-6">
-                          <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3 px-1">¿Qué quieres mejorar hoy?</p>
-                          <div className="grid grid-cols-2 gap-2">
-                            {SYMPTOMS.map((symptom) => (
-                              <Link
-                                key={symptom.id}
-                                to={symptom.link}
-                                onClick={() => setIsSearchOpen(false)}
-                                className={cn(
-                                  "flex items-center gap-2 px-3 py-2 rounded-xl border transition-all hover:shadow-md active:scale-95",
-                                  symptom.bg,
-                                  symptom.border
-                                )}
-                              >
-                                <symptom.icon className={cn("w-3.5 h-3.5", symptom.color)} />
-                                <span className="font-bold text-stone-900 text-[11px]">{symptom.label}</span>
-                              </Link>
-                            ))}
-                          </div>
+              <AnimatePresence>
+                {isSearchOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute top-full right-0 mt-2 w-full bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden min-w-[320px]"
+                  >
+                    {/* Symptom Quick Filter PILLS */}
+                    {searchQuery.trim() === '' && (
+                      <div className="mb-6">
+                        <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3 px-1">¿Qué quieres mejorar hoy?</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {SYMPTOMS.map((symptom) => (
+                            <Link
+                              key={symptom.id}
+                              to={symptom.link}
+                              onClick={() => setIsSearchOpen(false)}
+                              className={cn(
+                                "flex items-center gap-2 px-3 py-2 rounded-xl border transition-all hover:shadow-md active:scale-95",
+                                symptom.bg,
+                                symptom.border
+                              )}
+                            >
+                              <symptom.icon className={cn("w-3.5 h-3.5", symptom.color)} />
+                              <span className="font-bold text-stone-900 text-[11px]">{symptom.label}</span>
+                            </Link>
+                          ))}
                         </div>
-                      )}
+                      </div>
+                    )}
 
-                      <div className="space-y-2 max-h-[60vh] overflow-y-auto">
-                        {searchQuery.trim() !== '' ? (
-                          searchResults.length > 0 ? (
-                            searchResults.map(item => (
-                              <Link
-                                key={item.id}
-                                to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
-                                className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
-                              >
-                                <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
-                                  <img 
-                                    src={item.image || null} 
-                                    alt={item.name} 
-                                    className="w-full h-full object-contain"
-                                    referrerPolicy="no-referrer"
-                                  />
+                    <div className="space-y-2 max-h-[60vh] overflow-y-auto">
+                      {searchQuery.trim() !== '' ? (
+                        searchResults.length > 0 ? (
+                          searchResults.map(item => (
+                            <Link
+                              key={item.id}
+                              to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
+                              className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
+                            >
+                              <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
+                                <img 
+                                  src={item.image || null} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-contain"
+                                  referrerPolicy="no-referrer"
+                                />
+                                {item.searchType === 'combo' && (
+                                  <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
+                                    <Sparkles className="w-4 h-4 text-emerald-600 opacity-50" />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex-grow min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <p className="text-sm font-bold text-stone-900 truncate font-display">
+                                    {item.name}
+                                  </p>
                                   {item.searchType === 'combo' && (
-                                    <div className="absolute inset-0 bg-emerald-600/10 flex items-center justify-center">
-                                      <Sparkles className="w-4 h-4 text-emerald-600 opacity-50" />
-                                    </div>
+                                    <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
                                   )}
                                 </div>
-                                <div className="flex-grow min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <p className="text-sm font-bold text-stone-900 truncate font-display">
-                                      {item.name}
-                                    </p>
-                                    {item.searchType === 'combo' && (
-                                      <span className="text-[8px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Combo</span>
-                                    )}
-                                  </div>
-                                  <p className="text-xs text-stone-500 truncate">
-                                    {'shortDescription' in item ? item.shortDescription : item.description}
-                                  </p>
-                                </div>
-                              </Link>
-                            ))
-                          ) : (
-                            <p className="text-center py-4 text-sm text-stone-500">No encontramos resultados para "{searchQuery}"</p>
-                          )
+                                <p className="text-xs text-stone-500 truncate">
+                                  {'shortDescription' in item ? item.shortDescription : item.description}
+                                </p>
+                              </div>
+                            </Link>
+                          ))
                         ) : (
-                          <div className="py-2">
-                            <p className="text-center text-xs text-stone-400 italic">Escribe para buscar productos, ingredientes o soluciones...</p>
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                          <p className="text-center py-4 text-sm text-stone-500">No encontramos resultados para "{searchQuery}"</p>
+                        )
+                      ) : (
+                        <div className="py-2">
+                          <p className="text-center text-xs text-stone-400 italic">Escribe para buscar productos, ingredientes o soluciones...</p>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-          {/* Right Side Actions (Desktop) */}
-          <div className="hidden md:flex items-center gap-3 lg:gap-5 shrink-0">
-            <div className="relative group">
+            {/* Right Side Actions (Desktop) */}
+            <div className="relative group shrink-0">
               <button 
                 className="flex items-center gap-1.5 text-stone-600 hover:text-emerald-600 font-bold transition-colors py-2"
                 aria-label="Ver lista de productos"
@@ -269,7 +265,7 @@ export default function Navbar() {
             </div>
             <Link
               to="/checkout"
-              className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors shrink-0"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCart className="w-6 h-6" />

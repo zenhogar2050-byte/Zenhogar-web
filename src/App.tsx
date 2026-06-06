@@ -70,6 +70,17 @@ function AppContent() {
   const isHome = location.pathname === '/';
   const isAdmin = location.pathname.startsWith('/admin');
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search);
+      const gclid = p.get('gclid');
+      if (gclid) {
+        localStorage.setItem('gclid', gclid);
+        console.log('🎯 [GCLID Tracker] GCLID detectado y guardado en localStorage:', gclid);
+      }
+    }
+  }, [location.search]);
+
   if (isAdmin) {
     return (
       <Suspense fallback={null}>

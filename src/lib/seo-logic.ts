@@ -160,7 +160,7 @@ export const generateSchemaGraph = (params: {
                     "@type": "MerchantReturnPolicy",
                     "applicableCountry": "CO",
                     "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                    "merchantReturnDays": "30",
+                    "merchantReturnDays": "3",
                     "returnMethod": "https://schema.org/ReturnByMail",
                     "returnFees": "https://schema.org/FreeReturn",
                     "url": `${BASE_URL}/devoluciones-garantia`
