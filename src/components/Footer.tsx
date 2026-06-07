@@ -69,7 +69,6 @@ export default function Footer() {
                     {/* Dirección administrativa de registro (cumplimiento Merchant Center - No atención física) */}
                     Carrera 3a #23 - 40 <br />
                     Puerto Colombia, Atlántico, Colombia <br />
-                    <span className="text-[10px] text-stone-400">NIT: 1017123456-1</span>
                   </address>
                 </div>
               </li>
