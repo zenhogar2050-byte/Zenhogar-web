@@ -32,6 +32,12 @@ export default function WhatsAppFloat() {
   } else if (location.pathname === '/') {
     message = `Hola *ZENHOGAR*! 👋\n\nEstoy visitando su tienda y me gustaría recibir información sobre sus productos y las ofertas del mes. ✨`;
   }
+
+  // Obtener GCLID guardado si existe, para tracking de campañas
+  const savedGclid = typeof window !== 'undefined' ? localStorage.getItem('gclid') : null;
+  if (savedGclid) {
+    message += `\n\n_Ref ID: ${savedGclid}_`;
+  }
     
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
 

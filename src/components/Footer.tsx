@@ -2,6 +2,11 @@ import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
+  const savedGclid = typeof window !== 'undefined' ? localStorage.getItem('gclid') : null;
+  const whatsappUrl = savedGclid
+    ? `https://api.whatsapp.com/send?phone=573024102568&text=${encodeURIComponent(`Hola *ZENHOGAR*! 👋\n\nEstoy interesado en sus productos de salud y bienestar y me gustaría consultarlos.\n\n_Ref ID: ${savedGclid}_`)}`
+    : 'https://wa.me/573024102568';
+
   return (
     <footer className="bg-stone-900 text-white py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,7 +84,7 @@ export default function Footer() {
                 <div>
                   <p className="text-[10px] font-bold text-stone-300 uppercase tracking-widest mb-1">WhatsApp</p>
                   <a 
-                    href="https://wa.me/573024102568" 
+                    href={whatsappUrl} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-white hover:text-emerald-400 transition-colors text-lg font-medium"
