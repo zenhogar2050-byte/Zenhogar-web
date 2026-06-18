@@ -17,6 +17,7 @@ import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 
 import StickyCTA from '../components/StickyCTA';
 import ProductVideo from '../components/ProductVideo';
+import NotFound from './NotFound';
 
 export default function ProductLanding() {
   const { id } = useParams();
@@ -42,6 +43,33 @@ export default function ProductLanding() {
     const cleanName = cleanStr(p.name);
     return cleanId === targetIdClean || cleanName === targetIdClean;
   });
+
+  // Si no se encuentra un producto exacto, aplicamos redirección inteligente para URLs indexadas obsoletas
+  useEffect(() => {
+    if (!product && targetIdClean) {
+      // 1. Caso zafir / zafir-energizante
+      if (targetIdClean.includes('zafir')) {
+        navigate('/producto/zafir', { replace: true });
+        return;
+      }
+      // 2. Redireccionar búsquedas obsoletas de zeus o cafetolio a la categoría de salud y bienestar
+      if (targetIdClean.includes('zeus') || targetIdClean.includes('cafetolio')) {
+        navigate('/categoria/salud-bienestar', { replace: true });
+        return;
+      }
+      
+      // 3. Caso general por inclusión / coincidencia difusa de ID o Nombre
+      const fuzzyProduct = PRODUCTS.find(p => {
+        const cleanId = cleanStr(p.id);
+        const cleanName = cleanStr(p.name);
+        return targetIdClean.includes(cleanId) || cleanId.includes(targetIdClean) ||
+               targetIdClean.includes(cleanName) || cleanName.includes(targetIdClean);
+      });
+      if (fuzzyProduct) {
+        navigate(`/producto/${fuzzyProduct.id}`, { replace: true });
+      }
+    }
+  }, [id, product, targetIdClean, navigate]);
 
   const currentIndex = product ? PRODUCTS.findIndex(p => p.id === product.id) : -1;
   const nextProduct = currentIndex !== -1 ? PRODUCTS[(currentIndex + 1) % PRODUCTS.length] : null;
@@ -88,28 +116,17 @@ export default function ProductLanding() {
   useEffect(() => {
     if (product) {
       track('ViewContent', { 
-        content_ids: [String(product.id)], 
-        content_name: product.name, 
-        value: Number(product.basePrice), 
-        currency: 'COP', 
-        content_type: 'product' 
+         content_ids: [String(product.id)], 
+         content_name: product.name, 
+         value: Number(product.basePrice), 
+         currency: 'COP', 
+         content_type: 'product' 
       });
     }
   }, [product?.id]);
 
   if (!product) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-2xl font-bold mb-4">Producto no encontrado</h1>
-        <button 
-          onClick={handleGoBack} 
-          className="text-emerald-600 font-black flex items-center gap-3 p-4 rounded-2xl hover:bg-emerald-50 transition-all active:scale-95 group"
-        >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
-          <span className="text-lg">Volver</span>
-        </button>
-      </div>
-    );
+    return <NotFound />;
   }
 
   const handleBuyNow = (promoId: string) => {

@@ -14,6 +14,7 @@ import { track, trackGoogleBeginCheckout } from '../utils/pixel';
 import { useEffect, useState, useRef } from 'react';
 import StickyCTA from '../components/StickyCTA';
 import ProductVideo from '../components/ProductVideo';
+import NotFound from './NotFound';
 
 export default function ComboLanding() {
   const { id } = useParams();
@@ -42,6 +43,26 @@ export default function ComboLanding() {
       : null
   );
 
+  // Si no se encuentra un combo exacto, aplicamos redirección inteligente para URLs indexadas obsoletas o parciales
+  useEffect(() => {
+    if (!combo && targetIdClean) {
+      const fuzzyCombo = PROMOTIONS.find(p => {
+        const cleanId = cleanStr(p.id);
+        const cleanName = cleanStr(p.name);
+        return targetIdClean.includes(cleanId) || cleanId.includes(targetIdClean) ||
+               targetIdClean.includes(cleanName) || cleanName.includes(targetIdClean);
+      }) || (
+        targetIdClean.includes(cleanStr(COMBO_OF_THE_MONTH.id)) || 
+        cleanStr(COMBO_OF_THE_MONTH.id).includes(targetIdClean)
+          ? COMBO_OF_THE_MONTH
+          : null
+      );
+      if (fuzzyCombo) {
+        navigate(`/combo/${fuzzyCombo.id}`, { replace: true });
+      }
+    }
+  }, [id, combo, targetIdClean, navigate]);
+
   const handleGoBack = () => {
     if (window.history.state && window.history.state.idx > 0) {
       navigate(-1);
@@ -67,18 +88,7 @@ export default function ComboLanding() {
   }, [combo?.id]);
 
   if (!combo) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-2xl font-bold mb-4">Combo no encontrado</h1>
-        <button 
-          onClick={handleGoBack} 
-          className="text-emerald-600 font-black flex items-center gap-3 p-4 rounded-2xl hover:bg-emerald-50 transition-all active:scale-95 group"
-        >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 
-          <span className="text-lg">Volver</span>
-        </button>
-      </div>
-    );
+    return <NotFound />;
   }
 
   const handleBuyNow = () => {
@@ -311,9 +321,11 @@ export default function ComboLanding() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest">
-                  {combo.badge}
-                </div>
+                {combo.badge && !combo.badge.toUpperCase().includes('COMBO N°') && (
+                  <div className="inline-block px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-widest">
+                    {combo.badge}
+                  </div>
+                )}
                 <div className="flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full uppercase tracking-widest">
                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
                   <span>En Stock</span>

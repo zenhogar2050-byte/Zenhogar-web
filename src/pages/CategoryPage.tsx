@@ -233,7 +233,11 @@ export default function CategoryPage() {
                           {isCombosCategory ? (
                             <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-100 shadow-sm">
                               <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                              <span className="whitespace-nowrap">{product.badge || 'COMBOS'}</span>
+                              <span className="whitespace-nowrap">
+                                {product.badge && !product.badge.toUpperCase().includes('COMBO N°') 
+                                  ? product.badge 
+                                  : 'COMBOS'}
+                              </span>
                             </div>
                           ) : (
                             product.invima && (

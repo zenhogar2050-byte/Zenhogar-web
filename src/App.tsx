@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
 import { CartProvider } from './CartContext';
 import Navbar from './components/Navbar';
@@ -111,7 +111,9 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/producto/:id" element={<ProductLanding />} />
+            <Route path="/producto" element={<Navigate to="/" replace />} />
             <Route path="/combo/:id" element={<ComboLanding />} />
+            <Route path="/combo" element={<Navigate to="/categoria/combos" replace />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/gracias" element={<Gracias />} />
             <Route path="/categoria/:id" element={<CategoryPage />} />

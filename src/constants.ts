@@ -494,78 +494,86 @@ Además de su acción en la quema de grasas, CLA 500 protege tus células del pa
     }
   },
   {
-    id: 'cafetolio',
-    masterId: '11262',
-    name: 'Cafetolio',
+    id: 'booster-lion',
+    masterId: '129326',
+    name: 'Booster Lion',
     category: 'salud-bienestar',
-    shortDescription: 'Activación Metabólica y Control Natural de Saciedad.',
-    description: `Potencia tu metabolismo y recupera el control de tu apetito con Café Verde Cafetolio, el concentrado orgánico de granos sin tostar que conserva intactas todas las propiedades del ácido clorogénico. A diferencia del café tradicional, nuestro Café Verde actúa como un termogénico inteligente que ayuda a tu cuerpo a quemar grasas de forma natural mientras bloquea la absorción de azúcares innecesarios. Es el aliado perfecto para quienes buscan un vientre plano y una energía constante sin los picos de ansiedad o nerviosismo.
+    shortDescription: 'Soporte Cognitivo, Memoria y Enfoque Natural con Melena de León.',
+    description: `Optimiza tu rendimiento mental y potencia tu claridad cognitiva con Booster Lion, el alimento funcional de última generación diseñado a base de crema de coco. Su fórmula premium está enriquecida con vitaminas y minerales esenciales, teniendo como ingrediente estrella 300 mg de Betaglucanos de Hericium Erinaceus (Melena de León), un hongo funcional ampliamente estudiado y reconocido por su capacidad para estimular el enfoque, la memoria y la salud cerebral.
 
-Rico en antioxidantes de alta potencia, Cafetolio purifica tu hígado y desintoxica tu organismo en cada taza. Su formato de molienda fina permite una preparación versátil y rápida, ideal para integrar en tu rutina diaria como un ritual de salud que revitaliza tu sistema digestivo y te mantiene activo durante toda la jornada.
+Enriquecido con una fuente de proteína de suero lácteo de excelente calidad, Booster Lion promueve el fortalecimiento muscular y la recuperación física, mientras sus betaglucanos aportan un soporte único para mejorar la salud del sistema digestivo. Disfruta de un delicioso sabor artificial a vainilla fina, sin preocuparte por azúcares añadidos ni partículas extrañas; es una bebida nutritiva y sumamente práctica creada para nutrir tu mente y potenciar tu estilo de vida activo.
 
-✔️ Quema de Grasa Natural: El ácido clorogénico estimula la utilización de reservas lipídicas como energía.
-✔️ Control de Ansiedad: Ayuda a regular los niveles de glucosa, reduciendo el deseo impulsivo de picar dulce.
-✔️ Pureza Orgánica: 100% café verde puro, libre de aditivos químicos y apto para estilos de vida veganos.`,
-    seoTitle: 'Café Verde Cafetolio: Vientre Plano y Metabolismo Activo | Zenhogar',
-    seoDescription: 'Activa tu quema de grasa natural con Café Verde Cafetolio. Rico en ácido clorogénico para un metabolismo acelerado y energía sin ansiedad. ¡Calidad INVIMA certificada!',
+✔️ Salud Cognitiva: Favorece la memoria, concentración y activa tu agilidad mental ante jornadas de alta exigencia.
+✔️ Inmunidad y Vigor: Premezcla de sales minerales y vitaminas esenciales que robustecen las defensas naturales y protegen contra el cansancio cerebral.
+✔️ Formulación Limpia: 100% libre de azúcares añadidos y libre de impurezas para asegurar máxima asimilación y pureza cerebral.`,
+    seoTitle: 'Booster Lion Melena de León | Enfoque y Salud Mental | Zenhogar',
+    seoDescription: 'Potencia tu concentración y claridad mental con Booster Lion. Alimento con hongo funcional Melena de León, vitaminas y sabor vainilla. ¡Registro INVIMA IRSA-0021928-2022!',
     benefits: [
-      'Acelera el metabolismo promoviendo la quema de grasa abdominal',
-      'Controla eficazmente la ansiedad y el deseo de comer entre horas',
-      'Proporciona energía natural y duradera sin causar nerviosismo',
-      'Limpia profundamente el hígado y actúa como potente antioxidante',
-      'Grano 100% natural al natural, conservando todos sus fitoquímicos'
+      'Contiene Melena de León para optimizar la memoria, concentración y salud cognitiva',
+      'Aporta vitaminas y minerales esenciales que fortalecen activamente tu sistema inmune',
+      'Fuente de proteína de suero lácteo que favorece la energía limpia y mantenimiento muscular',
+      'Contribuye al bienestar digestivo y regenerador gracias a los betaglucanos premium',
+      'Alimento bajo en calorías, ideal para complementar un estilo de vida saludable y activo',
+      'Sin azúcares añadidos, formulado en polvo fino de exquisito sabor vainilla'
     ],
-    image: '/assets/products/Cafetolio.webp',
-    basePrice: 99900,
+    image: '/assets/products/booster-lion.webp',
+    basePrice: 79900,
     size: '350g',
     presentation: 'Polvo',
-    invima: 'NSA-0008349-2020',
+    invima: 'IRSA-0021928-2022',
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     supportImages: [
-      '/assets/products/cafetolio-apoyo-1.webp',
-      '/assets/products/cafetolio-apoyo-2.webp',
-      '/assets/products/cafetolio-apoyo-3.webp',
-      '/assets/products/cafetolio-apoyo-4.webp'
+      '/assets/products/booster-lion-apoyo-1.webp',
+      '/assets/products/booster-lion-apoyo-2.webp',
+      '/assets/products/booster-lion-apoyo-3.webp',
+      '/assets/products/booster-lion-apoyo-4.webp'
     ],
-    keywords: 'café verde, vientre plano, control de peso, limpiar hígado, energía natural, metabolismo, Cafetolio, Zenhogar',
-    components: 'Café Verde 100% natural',
+    keywords: 'booster lion, boster lion, melena de leon, hongo funcional, enfoque mental, memoria, salud cerebral, zenhogar, suplemento concentracion',
+    components: 'Crema de coco, Proteína de suero lácteo, Betaglucanos de Hericium erinaceus (Melena de león), Sabor artificial a vainilla, Vitaminas y Minerales',
     componentBenefits: [
-    {
-        'name': 'Café Verde',
-        'benefit': 'Rico en ácido clorogénico, un antioxidante natural que promueve un metabolismo más activo y contribuye a la vitalidad diaria.'
-    }
-],
+      {
+        'name': 'Hericium Erinaceus (Melena de León)',
+        'benefit': 'Hongo adaptógeno reconocido por ayudar a estimular el factor de crecimiento nervioso, protegiendo las redes cognitivas.'
+      },
+      {
+        'name': 'Crema de Coco y Suero Lácteo',
+        'benefit': 'Lípidos saludables de fácil asimilación y rica fuente de aminoácidos para la recuperación muscular prolongada.'
+      },
+      {
+        'name': 'Vitaminas B, C, D, Calcio y Magnesio',
+        'benefit': 'Complejo de micronutrientes de alta biodisponibilidad para blindar el sistema inmune y combatir la fatiga crónica.'
+      }
+    ],
     longTailKeywords: [
-      'mejor café verde para tener el vientre plano',
-      'cómo limpiar el hígado y movilizar energías naturalmente',
-      'suplemento para energía diaria sin causar nerviosismo',
-      'beneficios del café verde al natural para el organismo',
-      'fórmula para que el cuerpo no guarde azúcares',
-      'bienestar integral y control de medidas con registro INVIMA',
-      'bebida natural para mantenerse activo y saludable todo el día',
-      'café verde para control de peso efectivo',
-      'energía metabólica segura con ingredientes de origen natural'
+      'mejor suplemento de melena de leon para enfoque y memoria',
+      'cómo mejorar la concentracion y salud cerebral de forma natural',
+      'alimento a base de crema de coco con hongos funcionales',
+      'beneficios de booster lion para personas de alta exigencia mental',
+      'polvo de melena de leon para vitalidad libre de picos de ansiedad',
+      'bienestar cerebral and digestivo con betaglucanos de hericium erinaceus',
+      'cómo complementar la nutricion del cerebro con vitaminas y minerales',
+      'suplemento para estudiantes y deportistas con registro INVIMA',
+      'bebida de vainilla con melena de leon sin azucares añadidos'
     ],
     seoFaqs: [
-      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Añadir 1 cucharadita en agua caliente; consumir como café tradicional.' },
-      { q: '¿El café verde Cafetolio ayuda a moldear la figura?', a: 'Sí, su efecto termogénico natural ayuda a acelerar el metabolismo y a utilizar las grasas como fuente de energía.' },
-      { q: '¿Contiene mucha cafeína?', a: 'Contiene una dosis equilibrada que brinda energía constante sin los picos de ansiedad del café tradicional.' }
+      { q: '¿Cómo se debe consumir Booster Lion?', a: 'Se recomienda mezclar 1 y media cucharadas en agua, leche o bebida vegetal caliente o fría; disolver perfectamente mediante licuadora o agitando.' },
+      { q: '¿Contiene alérgenos la formulación?', a: 'Contiene derivados lácteos provenientes de la proteína de suero, por lo que no es apto para personas con alergias severas a la leche.' },
+      { q: '¿En cuánto tiempo se sienten los efectos cognitivos?', a: 'La asimilación de sus vitaminas y el aporte energético se perciben de manera inmediata, mientras que la óptima claridad mental progresa con el uso diario continuo.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 99900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 164000 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 227000, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 295000, badge: '🔥 Mejor Oferta' }
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Isabel Cristina', text: 'Me encanta el sabor y cómo me quita la ansiedad de estar picando entre comidas.', rating: 5 },
-      { name: 'Mauricio L.', text: 'Es mi café de todas las mañanas. Me mantiene activo y me ayuda a controlar el peso.', rating: 5 },
-      { name: 'Daniela P.', text: 'He notado que mi metabolismo está más rápido. Muy recomendado.', rating: 5 }
+      { name: 'Diana Marcela', text: 'Excelente para estudiar, me concentro por horas sin sentir cansancio ni dolor de cabeza.', rating: 5 },
+      { name: 'Andrés Felipe', text: 'El sabor a vainilla es increíble y me ayuda muchísimo con la memoria en mi trabajo.', rating: 5 }
     ],
     whyChoose: {
-      title: 'Energía que fluye contigo',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de sabor excepcional. Cafetolio activa tu metabolismo lento y controla la ansiedad gracias al poder del Café Verde y la L-Carnitina. Fórmula balanceada para una energía vital con calidad certificada.'
+      title: 'Enfoque Superior Sin Límites',
+      description: 'En ZENHOGAR impulsamos tu rendimiento diario. Booster Lion integra las bondades del hongo funcional Melena de León con un perfil vitamínico avanzado para blindar tu mente y vitalidad con el respaldo de un registro INVIMA certificado.'
     }
   },
   {
@@ -2573,87 +2581,85 @@ Diseñada para acompañarte en jornadas exigentes, Zafir te ayuda a mantener el 
     }
   },
   {
-    id: 'zeus',
-    masterId: '61653',
-    name: 'Zeus',
-    category: 'salud-sexual',
-    shortDescription: 'Vigor, Resistencia y Vitalidad Masculina Superior.',
-    description: `Zeus es el suplemento de élite diseñado específicamente para el hombre que busca potencia, vigor y resistencia en todas las áreas de su vida. Su fórmula encapsulada de alta concentración reúne los ingredientes más poderosos de la biodiversidad: Borojó, Chontaduro, Maca Negra y Guaraná. Juntos, estos extractos trabajan en sinergia para elevar los niveles de vitalidad acumulada, combatir el cansancio crónico y mejorar la respuesta física ante la exigencia.
+    id: 'guanda-mix',
+    masterId: '129302',
+    name: 'Guanda Mix',
+    category: 'salud-bienestar',
+    shortDescription: 'Apoyo Digestivo, Energía Diaria y Sensación de Frescura.',
+    description: `Disfruta de una profunda ligereza y vitalidad con Guanda Mix, el alimento en polvo prémium diseñado específicamente para preparar una deliciosa bebida a base de hierbas aromáticas. Su fórmula avanzada está fortificada con una completa combinación de vitaminas y minerales esenciales, teniendo como ingrediente destacado la Flor de Jamaica y el Té Verde, reconocidos dinamizadores de la digestión y el bienestar integral de tu organismo.
 
-Además de potenciar el rendimiento, Zeus actúa como un escudo protector gracias a su aporte de Vitaminas A, C, D y Complejo B, fortaleciendo el sistema inmunológico y acelerando la recuperación tras el esfuerzo físico. Es la solución natural para recuperar el ímpetu juvenil y vivir cada día con la fuerza de un dios.
+Ideada para resolver problemas relacionados con el cansancio físico y mental por deficiencias nutricionales, Guanda Mix actúa como un apoyo digestivo superior gracias a la selección pura de sus hierbas naturales, maca y complejos de magnesio (citrato y bisglicinato). Con un sabor artificial a cereza exquisito, este polvo fino de color rojo se disuelve al instante sin azúcares añadidos ni partículas extrañas; es la opción de hidratación ligera y saludable perfecta para estudiantes, deportistas, profesionales o personas comprometidas con el control de peso.
 
-✔️ Vigor y Desempeño: Eleva la energía física y el ánimo de forma natural y progresiva.
-✔️ Recuperación Acelerada: Reduce la fatiga post-esfuerzo y revitaliza el cuerpo desde el nivel celular.
-✔️ Refuerzo Inmunológico: Nutrientes esenciales que protegen el organismo contra virus y debilidad.`,
-    seoTitle: 'Zeus Cápsulas de Vigor Masculino | Borojó, Maca y Chontaduro',
-    seoDescription: 'Recupera tu potencia y vitalidad con Zeus. Cápsulas naturales con Borojó y Chontaduro para un rendimiento físico y vigor superior. ¡Registro INVIMA!',
+✔️ Digestión Saludable: Combinación botánica que apoya el correcto tránsito y brinda una reconfortante sensación de alivio y frescura.
+✔️ Dinamismo Libre de Fatiga: La maca y la flor de jamaica aportan nutrientes clave para optimizar tu energía sin causar ansiedad ni nerviosismo.
+✔️ Máxima Pureza: Alimento sin azúcares añadidos, libre de partículas extrañas, garantizando una bebida ligera y de un sabor excepcional.`,
+    seoTitle: 'Guanda Mix Hierbas Aromáticas y Flor de Jamaica | Zenhogar',
+    seoDescription: 'Estrena bienestar digestivo y vitalidad con Guanda Mix. Bebida en polvo con té verde, maca, magnesio y delicioso sabor cereza. ¡Registro INVIMA IRSA-0245-2025!',
     benefits: [
-      'Incrementa la vitalidad física y el rendimiento energético superior',
-      'Refuerzo inmunológico con extractos botánicos de alta pureza',
-      'Favorece una sensación de vitalidad y bienestar diario',
-      'Mejora el enfoque mental y la determinación en retos físicos',
-      'Fórmula 100% natural sin efectos secundarios hormonales negativos'
+      'Aporta vitaminas y minerales esenciales que completan y fortalecen la nutrición diaria',
+      'Contiene maca, reconocida por su gran capacidad para favorecer la energía física y mental',
+      'Rico en hierbas aromáticas seleccionadas que alivian la pesadez y optimizan la digestión',
+      'Incluye flor de jamaica y magnesio (citrato y bisglicinato) para un balance celular completo',
+      'Alimento bajo en calorías y libre de azúcares añadidos, ideal para dietas de control de peso',
+      'Polvo fino rojo sin partículas extrañas con un agradable y refrescante sabor a cereza'
     ],
-    image: '/assets/products/Zeus.webp',
-    basePrice: 85000,
-    size: '15 unidades',
-    presentation: 'Cápsulas',
-    invima: 'RSA-0031426-2024',
+    image: '/assets/products/guanda-mix.webp',
+    basePrice: 79900,
+    size: '350g',
+    presentation: 'Polvo',
+    invima: 'IRSA-0245-2025',
     googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
     condition: 'new',
     supportImages: [
-      '/assets/products/zeus-apoyo-1.webp',
-      '/assets/products/zeus-apoyo-2.webp',
-      '/assets/products/zeus-apoyo-3.webp',
-      '/assets/products/zeus-apoyo-4.webp'
+      '/assets/products/guanda-mix-apoyo-1.webp',
+      '/assets/products/guanda-mix-apoyo-2.webp',
+      '/assets/products/guanda-mix-apoyo-3.webp'
     ],
-    keywords: 'vitalidad masculina, vigor natural, rendimiento sexual, potencia hombre, Zeus, Zenhogar, Borojó, Maca',
-    components: 'Borojó, Chontaduro, Maca, Guaraná, Fenogreco y Açaí',
+    keywords: 'guanda mix, hierbas aromaticas, flor de jamaica, digestion ligera, energia natural, cereza, maca, dolor estomacal, bienestar digestivo, zenhogar',
+    components: 'Hierbas aromáticas en polvo, Té verde, Flor de jamaica, Citrato de magnesio, Bisglicinato de magnesio, Carbonato de calcio, Fumarato ferroso, Vitaminas y Minerales',
     componentBenefits: [
-    {
-        'name': 'Borojó, Chontaduro y Maca',
-        'benefit': 'Tradicionales dinamizadores que favorecen la resistencia muscular y el vigor físico diario.'
-    },
-    {
-        'name': 'Guaraná y Fenogreco',
-        'benefit': 'Brindan energía sostenida.'
-    },
-    {
-        'name': 'Açaí',
-        'benefit': 'Aporta una excelente fuente de antioxidantes que protegen el organismo.'
-    }
-],
+      {
+        'name': 'Hierbas Aromáticas y Té Verde',
+        'benefit': 'Mezcla botánica que estimula el correcto funcionamiento gástrico, aliviando la hinchazón y la pesadez estomacal.'
+      },
+      {
+        'name': 'Flor de Jamaica y Maca',
+        'benefit': 'Excelentes fuentes de antioxidantes y compuestos activos que promueven la energía sostenida sin estimulantes nocivos.'
+      },
+      {
+        'name': 'Magnesio Dinámico y Vitaminas',
+        'benefit': 'Complejo de asimilación rápida (citrato, bisglicinato, cloruro) que ayuda al tono muscular y bienestar del sistema nervioso.'
+      }
+    ],
     longTailKeywords: [
-      'mejor suplemento de vigor masculino con borojó chontaduro y maca',
-      'cómo mejorar la resistencia física y potencia del hombre naturalmente',
-      'cápsulas de energía real para combatir el cansancio y el agotamiento',
-      'beneficios de Zeus para el bienestar integral y vigor masculino superior',
-      'fórmula avanzada para la salud del hombre moderno con vitaminas y zinc',
-      'bienestar integral y vitalidad masculina renovada con certificado INVIMA',
-      'cómo recuperar el ímpetu y rendimiento diario de forma segura y efectiva',
-      'suplemento para la fuerza interior masculina con ingredientes de alta pureza',
-      'solución natural para la falta de energía y debilidad física constante',
-      'vigor y resistencia apoyados con la potencia de la naturaleza pura'
+      'mejor bebida de hierbas aromaticas con flor de jamaica y maca',
+      'cómo desinflamar la digestión y sentir mayor ligereza estomacal',
+      'alimento en polvo sabor cereza para energía limpia y diaria',
+      'beneficios de guanda mix para mejorar el cansancio fisico y mental',
+      'suplemento con citrato y bisglicinato de magnesio para digestión',
+      'té verde y flor de jamaica para mantener un metabolismo saludable',
+      'cómo evitar la fatiga y pesadez estomacal con productos naturales',
+      'suplemento para deportistas y personas activas con registro INVIMA',
+      'bebida hidratante ligera y baja en calorías sabor cereza'
     ],
     seoFaqs: [
-      { q: '¿Cómo se debe tomar Zeus para ver resultados óptimos?', a: 'Se recomienda consumir progresivamente para que tu cuerpo asimile los nutrientes, promoviendo bienestar integral y vigor duradero.' },
-      { q: '¿Zeus ayuda a fortalecer las defensas?', a: 'Sí, su mezcla incluye vitaminas clave que refuerzan tu sistema inmune mientras te brindan una vitalidad y equilibrio natural superior.' },
-      { q: '¿Tiene algún componente químico estimulante?', a: 'Zeus basa su efectividad en extractos puros y botánicos de calidad certificada, diseñados para un rendimiento saludable sin riesgos.' },
-      { q: '¿Pueden tomarlo adultos mayores?', a: 'Es un suplemento excelente para recuperar la energía del hombre en cualquier etapa de la vida adulta con total seguridad.' }
+      { q: '¿Cómo se prepara el Guanda Mix?', a: 'Mezclar 1 y media cucharadas (30g) in un vaso de agua, leche o bebida vegetal (240ml); se puede preparar en licuadora o agitando manualmente.' },
+      { q: '¿Contiene alérgenos o advertencias?', a: 'Contiene derivados lácteos (no apto para personas con alergia al suero de leche) y no se recomienda ante hipersensibilidad a alguno de sus componentes.' },
+      { q: '¿Cuál es la vida útil de Guanda Mix?', a: 'Bajo condiciones adecuadas de almacenamiento y manipulación controlada, conserva todas sus propiedades durante 24 meses.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 85000 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 127500 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 170000, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 255000, badge: '🔥 Mejor Oferta' }
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
-      { name: 'Héctor M.', text: 'Me siento con el poder de un dios. Mi rendimiento ha mejorado al 100%.', rating: 5 },
-      { name: 'Julián D.', text: 'Excelente suplemento para la vitalidad masculina. Calidad garantizada.', rating: 5 }
+      { name: 'Saray Lorena', text: 'Me ha ayudado muchísimo con la digestión pesada, me siento súper ligera y el sabor a cereza es riquísimo.', rating: 5 },
+      { name: 'Gustavo Adolfo', text: 'Excelente para tomar frío por las tardes, me da una energía deliciosa sin ponerme ansioso.', rating: 5 }
     ],
     whyChoose: {
-      title: 'Poder y Resistencia Natural',
-      description: 'En ZENHOGAR potenciamos tu fuerza interior con ingredientes que la naturaleza ofrece. Zeus es la fórmula definitiva para quienes buscan superar el cansancio físico y mental, permitiéndote recuperar la energía vital con la seguridad de un producto certificado.'
+      title: 'Frescura y Alivio Digestivo Natural',
+      description: 'En ZENHOGAR creamos bienestar natural para tu día a día. Guanda Mix une los secretos digestivos de la Flor de Jamaica, el té verde y el magnesio de máxima asimilación para brindarte un vientre plano y una energía brillante con registro INVIMA garantizado.'
     }
   },
   {
@@ -3360,67 +3366,6 @@ export const PROMOTIONS: Promotion[] = [
     testimonials: [
       { name: 'Doña Rosa', text: 'Mis rodillas ya no me molestan tanto. Gracias.', rating: 5 },
       { name: 'Don Pedro', text: 'La loción es mágica para después del trabajo.', rating: 5 }
-    ]
-  },
-  {
-    id: 'promo-7',
-    name: 'Combo Energía Máxima',
-    description: 'Energía Máxima es el sistema de revitalización más potente de nuestra gama, diseñado para catapultar tu rendimiento físico y mental ante los retos más exigentes. Este combo une la alta densidad nutricional de Megamac, que aporta ingredientes milenarios para combatir el agotamiento, con la acción activadora de Cafetolio, un café verde puro que optimiza la quema de energía y mejora la concentración. Si buscas superar la fatiga, mantener el enfoque laboral y sentirte imparable durante todo el día, este combo es tu fuente de vitalidad definitiva.',
-    image: '/assets/combos/promo-7.webp',
-    price: 149425,
-    originalPrice: 199250,
-    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
-    condition: 'new',
-    products: ['cafetolio', 'megamac'],
-    seoTitle: 'Cómo favorecer la vitalidad ante el cansancio extremo y falta de enfoque con Combo Energía Máxima',
-    seoDescription: 'Potencia tu rendimiento con el Combo Energía Máxima. Fórmula balanceada para vitalidad extrema, bienestar integral y calidad certificada. ¡Compra segura!',
-    whyChoose: {
-      title: 'Energía pura para tus retos',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA. Energía Máxima combina Cafetolio y Megamac para potenciar tu vitalidad y enfoque mental en días de cansancio extremo. Potencia certificada y segura.'
-    },
-    badge: 'COMBO N°7',
-    keywords: 'Cafetolio, Megamac, energía, vitalidad, nutrición, rendimiento, Zenhogar, combo energía',
-    components: 'Maca, Chontaduro, Borojó, Café Verde, Hierro, Magnesio, Zinc y Vitaminas del complejo B',
-    componentBenefits: [
-    {
-        'name': 'Maca, Chontaduro y Borojó',
-        'benefit': 'Dinamizan la fuerza física, el vigor y la resistencia prolongada.'
-    },
-    {
-        'name': 'Café Verde',
-        'benefit': 'Favorece el correcto funcionamiento del metabolismo y aporta un alto contenido de antioxidantes.'
-    },
-    {
-        'name': 'Vitaminas B, Hierro, Magnesio y Zinc',
-        'benefit': 'Elevan la concentración mental y el metabolismo diario.'
-    }
-],
-    longTailKeywords: [
-      'mejor combo para tener energía todo el día de forma natural',
-      'cómo mejorar el enfoque mental y rendimiento físico extremo',
-      'cuidado para la vitalidad máxima y nutrición avanzada',
-      'beneficios del combo Energía Máxima para el bienestar integral',
-      'fórmula balanceada para favorecer la vitalidad diaria',
-      'bienestar integral y vitalidad con suplementos',
-      'cómo potenciar el rendimiento intelectual con calidad certificada',
-      'combo para personas con alta exigencia diaria',
-      'apoyo natural para el agotamiento y falta de concentración',
-      'energía y nutrición segura con ingredientes de alta pureza'
-    ],
-    seoFaqs: [
-      { q: '¿Megamac quita el sueño?', a: 'Brinda vitalidad y energía natural, mejorando tu bienestar integral sin alterar tu descanso nocturno.' },
-      { q: '¿Cafetolio es mejor que el café instantáneo?', a: 'Sí, su fórmula balanceada con ganoderma aporta nutrientes para un equilibrio natural superior.' },
-      { q: '¿Lo pueden tomar personas que trabajan de noche?', a: 'Es ideal para mantener el enfoque y rendimiento con calidad certificada en turnos exigentes.' }
-    ],
-    benefits: [
-      'Energía natural duradera',
-      'Nutrición avanzada completa',
-      'Mejora el enfoque mental',
-      'Vitalidad para todo el día'
-    ],
-    testimonials: [
-      { name: 'Luis Alberto', text: 'El mejor reemplazo para el café común. Mucha energía.', rating: 5 },
-      { name: 'Carmen Alicia', text: 'Me siento mucho más fuerte y activa.', rating: 5 }
     ]
   },
   {

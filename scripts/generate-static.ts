@@ -21,6 +21,7 @@ async function generate() {
 
     const routes = [
         { path: '/', id: 'index' },
+        { path: '/404', id: '404' },
         ...PRODUCTS.map(p => ({ path: `/producto/${p.id}`, id: `producto-${p.id}` })),
         ...PROMOTIONS.map(c => ({ path: `/combo/${c.id}`, id: `combo-${c.id}` })),
         ...CATEGORIES.map(cat => ({ path: `/categoria/${cat.id}`, id: `categoria-${cat.id}` })),

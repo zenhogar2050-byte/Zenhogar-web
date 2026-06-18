@@ -99,11 +99,10 @@ export default function PromoBanner() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-700/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/40 rounded-full blur-3xl" />
-      </div>
+      {/* Background Decorative Elements - Highly optimized radial gradients instead of heavy blur filters with active timers */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: 'radial-gradient(circle at 10% 15%, rgba(29, 78, 216, 0.25) 0%, transparent 50%), radial-gradient(circle at 90% 85%, rgba(30, 58, 138, 0.3) 0%, transparent 55%)'
+      }} />
 
       <div className="relative w-full max-w-5xl lg:max-w-[1250px] px-4 sm:px-12 flex items-center justify-center">
         {/* Navigation Arrows */}

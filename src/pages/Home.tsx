@@ -90,11 +90,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Abstract organic background elements - Optimized blur for mobile performance */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30 pointer-events-none hidden md:block">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-100 blur-[60px] lg:blur-[120px] rounded-full" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 blur-[60px] lg:blur-[120px] rounded-full" />
-        </div>
+        {/* Abstract organic background elements - Ultra-optimized radial gradients instead of heavy blur filters */}
+        <div className="absolute inset-0 -z-10 opacity-20 pointer-events-none hidden md:block" style={{
+          backgroundImage: 'radial-gradient(circle at 10% 10%, #d1fae5 0%, transparent 45%), radial-gradient(circle at 90% 90%, #f5f5f4 0%, transparent 45%)'
+        }} />
       </section>
 
       {/* Categories Section - Moved to Top */}

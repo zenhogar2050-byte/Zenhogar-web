@@ -387,6 +387,26 @@
         </image:image>
     </url>
     <url>
+        <loc>https://zenhogar.live/producto/booster-lion</loc>
+        <lastmod>2026-06-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://zenhogar.live/assets/products/booster-lion.webp</image:loc>
+            <image:title>Booster Lion</image:title>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://zenhogar.live/producto/guanda-mix</loc>
+        <lastmod>2026-06-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://zenhogar.live/assets/products/guanda-mix.webp</image:loc>
+            <image:title>Guanda Mix</image:title>
+        </image:image>
+    </url>
+    <url>
         <loc>https://zenhogar.live/combo/promo-1</loc>
         <lastmod>2026-05-07</lastmod>
         <changefreq>weekly</changefreq>

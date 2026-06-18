@@ -6,7 +6,6 @@
 export const MASTER_PRODUCTS = [
   { id: 129333, internalId: 'kds-10', name: 'KDS 10 AUMENTO APETITO KIDS', category: 'Salud y Bienestar', basePrice: 24000 },
   { id: 61195, internalId: 'akha', name: 'AKHA', category: 'Salud Sexual', basePrice: 29900 },
-  { id: 11262, internalId: 'cafetolio', name: 'CAFETOLIO', category: 'Salud y Bienestar', basePrice: 49900 },
   { id: 43670, internalId: 'calm-gomas', name: 'CALM GOMAS PARA DORMIR', category: 'Salud y Bienestar', basePrice: 26900 },
   { id: 129312, internalId: 'citramix', name: 'CITRAMIX', category: 'Salud y Bienestar', basePrice: 24000 },
   { id: 61652, internalId: 'cla500', name: 'CLA500', category: 'Salud y Bienestar', basePrice: 25900 },
@@ -32,7 +31,7 @@ export const MASTER_PRODUCTS = [
   { id: 11236, internalId: 'locion', name: 'LOCION TERMOACTIVA', category: 'Cuidado Personal', basePrice: 24900 },
   { id: 11360, internalId: 'mammoth', name: 'MAMMOTH', category: 'Salud Sexual', basePrice: 29900 },
   { id: 11247, internalId: 'megamac', name: 'MEGAMAC - POTENCIA Y ENERGIA', category: 'Salud Sexual', basePrice: 34900 },
-  { id: 129326, internalId: 'melena-leon', name: 'MELENA DE LEON', category: 'Salud y Bienestar', basePrice: 24000 },
+  { id: 129326, internalId: 'booster-lion', name: 'BOOSTER LION (MELENA DE LEON)', category: 'Salud y Bienestar', basePrice: 24000 },
   { id: 11290, internalId: 'miskinne', name: 'MISKINNE CREMA DESPIGMENTANTE', category: 'Belleza Integral', basePrice: 19900 },
   { id: 129308, internalId: 'nad-1', name: 'NAD-1', category: 'Salud y Bienestar', basePrice: 26000 },
   { id: 26845, internalId: 'obs-coffee-col', name: 'OBSEQUIO COFFE COLÁGENO', category: 'Obsequios', basePrice: 1000 },
@@ -40,13 +39,12 @@ export const MASTER_PRODUCTS = [
   { id: 129297, internalId: 'resveratrol', name: 'RESVERATROL', category: 'Salud y Bienestar', basePrice: 24000 },
   { id: 22967, internalId: 'resvisfactor', name: 'RESVISFACTOR CALOSTRO BOVINO', category: 'Salud y Bienestar', basePrice: 34900 },
   { id: 11323, internalId: 'rtafull', name: 'RTA FULL', category: 'Salud y Bienestar', basePrice: 27900 },
-  { id: 129302, internalId: 'shawanda', name: 'SHAWANDA', category: 'Salud y Bienestar', basePrice: 23000 },
+  { id: 129302, internalId: 'guanda-mix', name: 'GUANDA MIX', category: 'Salud y Bienestar', basePrice: 23000 },
   { id: 23013, internalId: 'titan-coffee', name: 'TITAN COFFE', category: 'Salud Sexual', basePrice: 35900 },
   { id: 11260, internalId: 'tonico-capilar', name: 'TONICO CAPILAR X120ML', category: 'Belleza Integral', basePrice: 38900 },
   { id: 68746, internalId: 'tufoff', name: 'TUFOFF', category: 'Belleza Integral', basePrice: 29900 },
   { id: 52600, internalId: 'tyruss-full', name: 'TYRUS FULL', category: 'Salud y Bienestar', basePrice: 38900 },
   { id: 166802, internalId: 'zafir', name: 'ZAFIR', category: 'Salud Sexual', basePrice: 22500 },
-  { id: 61653, internalId: 'zeus', name: 'ZEUS', category: 'Salud Sexual', basePrice: 23900 },
   
   // Obsequios
   { id: 49603, internalId: 'obs-coli', name: 'OBSEQUIO COLI PLUS', category: 'Obsequios', basePrice: 1000 },
