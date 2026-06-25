@@ -28,6 +28,8 @@ async function generate() {
         { path: `/combo/${COMBO_OF_THE_MONTH.id}`, id: `combo-${COMBO_OF_THE_MONTH.id}` },
         { path: '/quienes-somos', id: 'quienes-somos' },
         { path: '/politica-privacidad', id: 'politica-privacidad' },
+        { path: '/politica-reembolso', id: 'politica-reembolso' },
+        { path: '/terminos-servicio', id: 'terminos-servicio' },
         { path: '/condiciones-entrega', id: 'condiciones-entrega' },
         { path: '/devoluciones-garantia', id: 'devoluciones-garantia' }
     ];

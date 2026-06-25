@@ -34,6 +34,8 @@ export default function LegalFooter() {
           <ul className="space-y-3 text-stone-500">
             <li><Link to="/quienes-somos" className="hover:text-emerald-600 transition-colors">Quiénes Somos</Link></li>
             <li><Link to="/politica-privacidad" className="hover:text-emerald-600 transition-colors">Política de Privacidad</Link></li>
+            <li><Link to="/politica-reembolso" className="hover:text-emerald-600 transition-colors">Política de Reembolso</Link></li>
+            <li><Link to="/terminos-servicio" className="hover:text-emerald-600 transition-colors">Términos del Servicio</Link></li>
             <li><Link to="/condiciones-entrega" className="hover:text-emerald-600 transition-colors">Condiciones de Entrega</Link></li>
             <li><Link to="/devoluciones-garantia" className="hover:text-emerald-600 transition-colors">Devoluciones y Garantía</Link></li>
           </ul>

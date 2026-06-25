@@ -5,6 +5,8 @@ import Checkout from './pages/Checkout';
 import CategoryPage from './pages/CategoryPage';
 import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import TermsOfService from './pages/TermsOfService';
 import DeliveryConditions from './pages/DeliveryConditions';
 import ReturnsWarranty from './pages/ReturnsWarranty';
 import Gracias from './pages/Gracias';
@@ -18,6 +20,8 @@ export const routes = [
   { path: '/categoria/:id', component: CategoryPage },
   { path: '/quienes-somos', component: AboutUs },
   { path: '/politica-privacidad', component: PrivacyPolicy },
+  { path: '/politica-reembolso', component: RefundPolicy },
+  { path: '/terminos-servicio', component: TermsOfService },
   { path: '/condiciones-entrega', component: DeliveryConditions },
   { path: '/devoluciones-garantia', component: ReturnsWarranty },
   { path: '/gracias', component: Gracias },
