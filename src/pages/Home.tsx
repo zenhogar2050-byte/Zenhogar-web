@@ -27,6 +27,20 @@ export default function Home() {
   const [stock, setStock] = useState(42);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
+  const launchProductIds = [
+    'ashwagandha',
+    'resveratrol-nad',
+    'vinagre-manzana',
+    'citrato-potasio-magnesio',
+    'oregano',
+    'bisglicinato-magnesio',
+    'guanda-mix',
+    'booster-lion'
+  ];
+  const launchProducts = launchProductIds
+    .map(id => PRODUCTS.find(p => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => !!p);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setStock(prev => {
@@ -243,10 +257,10 @@ export default function Home() {
 
           {/* New Mobile-Only Best Sellers Section */}
           <div className="mt-10 md:hidden">
-            <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Top 6 Más Vendidos</h2>
+            <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Productos en Lanzamiento</h2>
             
             <div className="grid grid-cols-1 gap-6">
-              {PRODUCTS.slice(0, 6).map((product) => (
+              {launchProducts.map((product) => (
                 <div
                   key={product.id}
                   className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col h-full"
@@ -423,12 +437,12 @@ export default function Home() {
       <section id="productos" className="py-24 bg-stone-50 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[var(--color-brand-primary)] mb-4 font-display">Top 6: Los Más Vendidos</h2>
-            <p className="text-stone-600 max-w-2xl mx-auto">Nuestros productos favoritos seleccionados por su efectividad y calidad superior.</p>
+            <h2 className="text-4xl font-bold text-[var(--color-brand-primary)] mb-4 font-display">Productos en Lanzamiento</h2>
+            <p className="text-stone-600 max-w-2xl mx-auto">Descubre nuestras últimas incorporaciones diseñadas para potenciar tu salud y bienestar natural.</p>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PRODUCTS.slice(0, 6).map((product, index) => (
+            {launchProducts.map((product, index) => (
               <div
                 key={product.id}
                 className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col h-full"

@@ -46,6 +46,21 @@ export const MASTER_PRODUCTS = [
   { id: 52600, internalId: 'tyruss-full', name: 'TYRUS FULL', category: 'Salud y Bienestar', basePrice: 38900 },
   { id: 166802, internalId: 'zafir', name: 'ZAFIR', category: 'Salud Sexual', basePrice: 22500 },
   
+  // Nuevos Productos de Salud y Bienestar
+  { id: 231797, internalId: 'ashwagandha', name: 'ASHWAGANDHA', category: 'Salud y Bienestar', basePrice: 24000 },
+  { id: 232077, internalId: 'resveratrol-nad', name: 'RESVERATROL Y VITAMINA B3 (NAD)', category: 'Salud y Bienestar', basePrice: 25000 },
+  { id: 232090, internalId: 'vinagre-manzana', name: 'VINAGRE DE MANZANA', category: 'Salud y Bienestar', basePrice: 23000 },
+  { id: 232080, internalId: 'citrato-potasio-magnesio', name: 'CITRATO DE POTASIO Y MAGNESIO', category: 'Salud y Bienestar', basePrice: 24000 },
+  { id: 231795, internalId: 'oregano', name: 'OREGANO', category: 'Salud y Bienestar', basePrice: 24000 },
+  { id: 232091, internalId: 'bisglicinato-magnesio', name: 'BISGLICINATO DE MAGNESIO', category: 'Salud y Bienestar', basePrice: 24000 },
+
+  // Nuevos Productos de Salud Integral / Belleza Integral
+  { id: 232081, internalId: 'crema-despigmentante', name: 'CREMA DESPIGMENTANTE', category: 'Belleza Integral', basePrice: 26000 },
+  { id: 11261, internalId: 'tonico-capilar-folivance', name: 'TONICO CAPILAR FOLIVANCE', category: 'Belleza Integral', basePrice: 38900 },
+  { id: 232077, internalId: 'shampoo-intensivo', name: 'SHAMPOO INTENSIVO', category: 'Belleza Integral', basePrice: 20000 },
+  { id: 232077, internalId: 'aceite-relajante', name: 'ACEITE RELAJANTE', category: 'Belleza Integral', basePrice: 20000 },
+  { id: 232079, internalId: 'gel-frio-relajante', name: 'GEL FRIO RELAJANTE', category: 'Belleza Integral', basePrice: 20000 },
+  
   // Obsequios
   { id: 49603, internalId: 'obs-coli', name: 'OBSEQUIO COLI PLUS', category: 'Obsequios', basePrice: 1000 },
   { id: 11301, internalId: 'obs-repolarizador', name: 'OBSEQUIO GRATIS REPOLARIZADOR', category: 'Obsequios', basePrice: 1 },

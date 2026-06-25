@@ -15,19 +15,29 @@ export function useInventory() {
 
   useEffect(() => {
     const saved = localStorage.getItem('zh_inventory_design');
+    const masterMapped = MASTER_PRODUCTS.map((p, index) => ({
+      idProduct: p.id,
+      internalId: p.internalId,
+      name: p.name,
+      category: p.category,
+      basePrice: (p as any).basePrice || 0,
+      stock: index % 5 === 0 ? 0 : index % 3 === 0 ? 450 : 2500
+    }));
+
     if (saved) {
-      setInventory(JSON.parse(saved));
+      const parsed: Product[] = JSON.parse(saved);
+      // Combinar para asegurar que si hay nuevos productos se incluyan en el inventario
+      const existingInternalIds = new Set(parsed.map(p => p.internalId));
+      const missingProducts = masterMapped.filter(p => !existingInternalIds.has(p.internalId));
+      if (missingProducts.length > 0) {
+        const merged = [...parsed, ...missingProducts];
+        setInventory(merged);
+        localStorage.setItem('zh_inventory_design', JSON.stringify(merged));
+      } else {
+        setInventory(parsed);
+      }
     } else {
-      const initial = MASTER_PRODUCTS.map((p, index) => ({
-        idProduct: p.id,
-        internalId: p.internalId,
-        name: p.name,
-        category: p.category,
-        basePrice: (p as any).basePrice || 0,
-        // Forzar algunos valores bajos para probar diseño
-        stock: index % 5 === 0 ? 0 : index % 3 === 0 ? 450 : 2500
-      }));
-      setInventory(initial);
+      setInventory(masterMapped);
     }
   }, []);
 

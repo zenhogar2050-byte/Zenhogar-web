@@ -2905,6 +2905,621 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
       title: 'Alivio y confort inmediato',
       description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA de alivio suave. Este cuidado botánico ayuda a calmar el ardor y la pesadez gracias a la Caléndula y el Aloe Vera. Recupera tu confort con calidad certificada.'
     }
+  },
+  {
+    id: 'ashwagandha',
+    masterId: '231797',
+    name: 'Ashwagandha',
+    category: 'salud-bienestar',
+    shortDescription: 'Equilibrio Emocional, Alivio del Estrés y Descanso Reparador.',
+    description: `Encuentra la paz mental y la serenidad física con Ashwagandha de ZENHOGAR, un adaptógeno ancestral diseñado para equilibrar tu sistema nervioso frente a las demandas cotidianas. Esta fórmula pura te ayuda a regular los niveles de cortisol, promoviendo una sensación de calma, un estado de ánimo positivo y un descanso verdaderamente reparador. Ideal para quienes sufren de insomnio, fatiga mental o estrés crónico, Ashwagandha fortalece tu resiliencia natural de manera segura y sin efectos de somnolencia diurna.`,
+    seoTitle: 'Ashwagandha Suplemento Adaptógeno Natural para Estrés y Sueño | Zenhogar',
+    seoDescription: 'Reduce el estrés y mejora tu calidad de sueño de forma natural con Ashwagandha de ZENHOGAR. Suplemento adaptógeno premium con Registro INVIMA.',
+    benefits: [
+      'Ayuda a regular los niveles de ansiedad y aliviar el estrés',
+      'Promueve un descanso profundo, reparador y combate el insomnio',
+      'Favorece el enfoque mental, la concentración y la claridad cognitiva',
+      'Apoya el sistema inmunológico y la vitalidad física general',
+      'Fórmula adaptógena natural de alta pureza y asimilación'
+    ],
+    image: '/assets/products/ashwagandha.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/ashwagandha-apoyo-1.webp',
+      '/assets/products/ashwagandha-apoyo-2.webp',
+      '/assets/products/ashwagandha-apoyo-3.webp'
+    ],
+    keywords: 'ashwagandha, estrés, ansiedad, insomnio, adaptógeno, sueño profundo, bienestar emocional',
+    components: 'Ashwagandha, Gelatina, Glicerina, Sorbato de Potasio, Aceite Vegetal, Lecitina de Soya, Dioxido de Silicio',
+    componentBenefits: [
+      { name: 'Ashwagandha', benefit: 'Regula el sistema nervioso y controla el cortisol.' },
+      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+    ],
+    longTailKeywords: [
+      'mejor suplemento de ashwagandha para el estrés en Colombia',
+      'cómo bajar el cortisol de forma natural y efectiva',
+      'ashwagandha para mejorar la calidad del sueño y dormir mejor',
+      'beneficios de los adaptógenos naturales para la salud mental',
+      'algo para bajar el stress y la ansiedad',
+      'cómo combatir la fatiga mental y el insomnio sin fármacos'
+    ],
+    seoFaqs: [
+      { q: '¿En cuánto tiempo se sienten los efectos de la Ashwagandha?', a: 'Muchos usuarios sienten un alivio de la tensión nerviosa y una mejor calidad del sueño desde la primera semana de uso constante.' },
+      { q: '¿Produce somnolencia durante el día?', a: 'No, como adaptógeno ayuda a equilibrar tu cuerpo, dándote energía por el día y promoviendo el descanso reparador en la noche.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Camila V.', text: 'Sufría de mucho insomnio por el trabajo y la ashwagandha me ha devuelto el sueño profundo. Me despierto renovada.', rating: 5 },
+      { name: 'Felipe M.', text: 'Excelente para el estrés del día a día, me siento mucho más tranquilo y enfocado.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Serenidad y Resiliencia Natural',
+      description: 'En ZENHOGAR impulsamos tu bienestar con extractos adaptógenos de alta pureza. Nuestra Ashwagandha ayuda a regular el cortisol para brindarte paz mental y un descanso profundo con registro sanitario oficial.'
+    }
+  },
+  {
+    id: 'resveratrol-nad',
+    masterId: '232077',
+    name: 'Resveratrol y Vitamina B3 (NAD)',
+    category: 'salud-bienestar',
+    shortDescription: 'Energía y vitalidad Celular, Protección Antienvejecimiento.',
+    description: `Revitaliza tu cuerpo desde el núcleo celular con Resveratrol y Vitamina B3 (NAD) de ZENHOGAR. Esta fórmula avanzada combina dos de los precursores de longevidad más potentes de la ciencia moderna: el Resveratrol purificado y la Vitamina B3, clave para la síntesis de NAD+. Al actuar directamente en las mitocondrias, optimiza la conversión de alimentos en energía vital, promueve la reparación del ADN y combate el envejecimiento celular prematuro, devolviendo a tu piel, mente y cuerpo una profunda turgencia y juventud.`,
+    seoTitle: 'Resveratrol y Vitamina B3 (NAD): Rejuvenecimiento Celular | Zenhogar',
+    seoDescription: 'Potencia tu vitalidad y rejuvenece desde adentro con Resveratrol y Vitamina B3 (NAD). Fórmula de longevidad celular con Registro INVIMA y alta absorción.',
+    benefits: [
+      'Apoya la producción de energía celular y combate la fatiga',
+      'Potente acción antioxidante contra el envejecimiento de las células',
+      'Ayuda a unificar el tono de la piel y devolverle su firmeza natural',
+      'Favorece el bienestar cardiovascular y la microcirculación cerebral',
+      'Fórmula enriquecida con precursores de NAD+ de máxima absorción'
+    ],
+    image: '/assets/products/resveratrol-nad.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/resveratrol-nad-apoyo-1.webp',
+      '/assets/products/resveratrol-nad-apoyo-2.webp',
+      '/assets/products/resveratrol-nad-apoyo-3.webp'
+    ],
+    keywords: 'resveratrol nad, vitamina b3, antiedad celular, longevidad, colágeno, arrugas, piel firme, ZENHOGAR',
+    components: 'Resveratrol, Vitamina B3 (Nicotinamida), precursores de NAD+, Glicerina, Sorbato de Potasio, Aceite Vegetal',
+    componentBenefits: [
+      { name: 'Resveratrol y Vitamina B3', benefit: 'Estimulan la función del NAD+ celular y defienden la piel y órganos contra radicales libres.' },
+      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+    ],
+    longTailKeywords: [
+      'mejor suplemento de resveratrol y nad en Colombia para la vejez',
+      'cómo aumentar el NAD+ en el cuerpo de manera natural',
+      'beneficios del resveratrol con vitamina b3 para la piel y energía',
+      'antioxidantes de grado clínico para retardar el envejecimiento',
+      'suplementos de longevidad celular and energía mitocondrial'
+    ],
+    seoFaqs: [
+      { q: '¿Qué es el NAD y cómo ayuda con el envejecimiento?', a: 'El NAD+ es una coenzima celular indispensable para la producción de energía y la reparación del ADN. Sus niveles disminuyen con la edad, y precursores como la Vitamina B3 ayudan a restaurarlos.' },
+      { q: '¿Cómo se debe consumir?', a: 'Debe tomarse por via oral acompañado de agua o preferiblemente de alimentos.' },
+      { q: '¿Es apto para adultos mayores?', a: 'Absolutamente, es ideal para personas que buscan mantener la agilidad mental, la firmeza cutánea y la energía celular.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Diana R.', text: 'He sentido un cambio enorme en mi piel y mi nivel de energía. Se siente la diferencia en la vitalidad diaria.', rating: 5 },
+      { name: 'Carlos T.', text: 'Es un excelente producto antienvejecimiento, me siento menos cansado por las tardes.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Ciencia Celular y Rejuvenecimiento',
+      description: 'En ZENHOGAR comprometidos con tu longevidad. Resveratrol y Vitamina B3 (NAD) une ciencia mitocondrial con pureza antioxidante para reactivar tus niveles de energía y elasticidad celular de forma certificada.'
+    }
+  },
+  {
+    id: 'vinagre-manzana',
+    masterId: '232090',
+    name: 'Vinagre de Manzana',
+    category: 'salud-bienestar',
+    shortDescription: 'Equilibrio Digestivo, Control de Ansiedad y Metabolismo Activo.',
+    description: `Optimiza tu digestión y acelera tu metabolismo de forma natural con el Vinagre de Manzana de ZENHOGAR. Este alimento funcional ha sido desarrollado para ofrecerte todos los beneficios purificadores del vinagre de sidra de manzana de manera práctica, agradable y sin el sabor ácido tradicional. Es un excelente coadyuvanate para regular los niveles de glucosa en sangre, disminuir la inflamación abdominal y controlar los antojos de dulce, permitiéndote mantener tus metas de peso saludable de forma cómoda y segura.`,
+    seoTitle: 'Vinagre de Manzana para Metabolismo y Digestión | Zenhogar',
+    seoDescription: 'Regula tu digestión y controla los antojos con el Vinagre de Manzana de ZENHOGAR. Suplemento natural para un vientre plano y metabolismo activo. ¡Registro INVIMA!',
+    benefits: [
+      'Apoya el control de peso y disminuye la ansiedad por comer dulce',
+      'Mejora la digestión y ayuda a reducir el reflujo y la pesadez',
+      'Favorece la desintoxicación natural del colon y el abdomen plano',
+      'Ayuda a mantener estables los niveles de azúcar en la sangre',
+      'Fórmula balanceada de alta asimilación con agradable consistencia'
+    ],
+    image: '/assets/products/vinagre-manzana.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/vinagre-manzana-apoyo-1.webp',
+      '/assets/products/vinagre-manzana-apoyo-2.webp',
+      '/assets/products/vinagre-manzana-apoyo-3.webp',
+      '/assets/products/vinagre-manzana-apoyo-4.webp'
+    ],
+    keywords: 'vinagre de sidra de manzana, detox, metabolismo, vientre plano, digestión ligera, glucosa, ZENHOGAR',
+    components: 'Vinagre de Sidra de Manzana, Aceite Vegetal y Lecitina de Soya',
+    componentBenefits: [
+      { name: 'Vinagre de Sidra de Manzana', benefit: 'Favorece la reducción del pH gástrico optimizando la asimilación de alimentos y controlando la glucemia.' },
+      { name: 'Aceite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }    ],
+    longTailKeywords: [
+      'mejor vinagre de manzana capsulas en Colombia para adelgazar',
+      'cómo tomar vinagre de manzana sin dañar el esmalte dental',
+      'vinagre de manzana para la digestión pesada e inflamación',
+      'suplementos naturales para controlar el azúcar y la ansiedad',
+      'detox de colon y abdomen plano con vinagre de manzana'
+    ],
+    seoFaqs: [
+      { q: '¿Daña este vinagre el esmalte de los dientes?', a: 'No, al estar formulado en una mezcla en polvo balanceada para diluir, no entra en contacto ácido directo con el esmalte como el vinagre líquido puro.' },
+      { q: '¿Cómo se debe Consumir?', a: 'Debe tomarse por via oral con un vaso de agua, preferiblemente antes de la comida principal para optimizar la digestión y controlar saciedad.' },
+      { q: '¿Es apto para personas con gastritis?', a: 'Sí, su fórmula amortiguada y balanceada ayuda a regular la acidez de forma natural sin agredir las mucosas.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 75900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 113850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Isabela M.', text: 'Me ha ayudado muchísimo a desinflamarme el estómago y a controlar la ansiedad por las tardes. Súper recomendado.', rating: 5 },
+      { name: 'Andrés Q.', text: 'Excelente opción para tener los beneficios del vinagre de manzana sin su sabor fuerte.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Ligereza y Equilibrio Metabólico',
+      description: 'En ZENHOGAR te ofrecemos soluciones de salud digestiva seguras. Nuestro Vinagre de Manzana estimula la buena digestión y el balance metabólico con una fórmula gentil y registro INVIMA garantizado.'
+    }
+  },
+  {
+    id: 'citrato-potasio-magnesio',
+    masterId: '232080',
+    name: 'Citrato de Potasio y Magnesio',
+    category: 'salud-bienestar',
+    shortDescription: 'Equilibrio Electrolítico, Alivio de Calambres y Salud Cardiovascular.',
+    description: `Recupera el balance mineral perfecto con el Citrato de Potasio y Magnesio de ZENHOGAR. Esta potente combinación de minerales de máxima absorción (citratos) trabaja en sinergia para regular la presión arterial, mantener el ritmo cardíaco saludable y evitar los molestos calambres y la fatiga muscular. Es la solución ideal para deportistas, personas con alta demanda física o quienes buscan combatir la retención de líquidos y favorecer la relajación del sistema nervioso de forma natural.`,
+    seoTitle: 'Citrato de Potasio y Magnesio Suplemento Mineral | Zenhogar',
+    seoDescription: 'Evita los calambres y mejora tu salud cardiovascular con Citrato de Potasio y Magnesio de ZENHOGAR. Citratos de alta disponibilidad con Registro INVIMA.',
+    benefits: [
+      'Combate eficazmente los calambres y la rigidez muscular de forma estable',
+      'Ayuda a unificar el ritmo muscular cardíaco y apoya el sistema cardiovascular',
+      'Favorece el pH del organismo, reduciendo la retención de líquidos',
+      'Optimiza la función del sistema nervioso y promueve la relajación',
+      'Fórmula en citratos altamente asimilables por el organismo',
+      'Ayuda a regular la presión arterial y reduce los efectos del sodio en el cuerpo'
+    ],
+    image: '/assets/products/citrato-potasio-magnesio.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/citrato-potasio-magnesio-apoyo-1.webp',
+      '/assets/products/citrato-potasio-magnesio-apoyo-2.webp',
+      '/assets/products/citrato-potasio-magnesio-apoyo-3.webp'
+    ],
+    keywords: 'citrato de potasio, citrato de magnesio, calambres, presión arterial, retención líquidos, ZENHOGAR',
+    components: 'Citrato de Potasio, Citrato de Magnesio',
+    componentBenefits: [
+      { name: 'Citrato de Potasio', benefit: 'Ayuda a la correcta función celular y muscular, combatiendo el sodio y la retención de liquidos, ayuda a prevenir la formacion de nuevos calculos renales.' },
+      { name: 'Citrato de Magnesio', benefit: 'Favorece la relajación neuromuscular reduciendo el cansancio y calambres.' },
+      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+    ],
+    longTailKeywords: [
+      'mejor citrato de potasio y magnesio Colombia',
+      'cómo quitar los calambres en las piernas por las noches',
+      'beneficios del magnesio y potasio para la presion arterial',
+      'suplementos de citrato para retención de líquidos y riñones',
+      'minerales esenciales para evitar la fatiga muscular diaria'
+    ],
+    seoFaqs: [
+      { q: '¿Por qué son mejores los citratos?', a: 'Los citratos son formas orgánicas que el cuerpo humano absorbe y asimila con un 90% más de efectividad que los óxidos o carbonatos de magnesio y potasio.' },
+      { q: '¿Ayuda con la retención de líquidos?', a: 'Sí, el potasio actúa como un regulador natural que facilita la expulsión del exceso de sodio a través de los riñones.' },
+      { q: '¿Tiene alguna contraindicación?', a: 'Personas con insuficiencia renal severa o afecciones cardíacas graves deben consultar a su médico antes de consumir.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Sonia P.', text: 'Sufría de calambres todas las noches y desde la primera semana que tomé el citrato de potasio y magnesio desaparecieron. Increíble.', rating: 5 },
+      { name: 'Ricardo G.', text: 'Excelente para recuperar electrolitos después de mis entrenamientos en bicicleta. No me volví a fatigar.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Balance Mineral y Alivio Neuromuscular',
+      description: 'En ZENHOGAR garantizamos tu bienestar con formulaciones de alta biodisponibilidad. Nuestro Citrato de Potasio y Magnesio relaja el sistema muscular y protege tus articulaciones y corazón con calidad certificada.'
+    }
+  },
+  {
+    id: 'oregano',
+    masterId: '231795',
+    name: 'Orégano',
+    category: 'salud-bienestar',
+    shortDescription: 'Inmunidad Avanzada, Antiparasitario y Balance Digestivo.',
+    description: `Descubre el poder purificador del Orégano de ZENHOGAR, una de las soluciones botánicas más potentes del mundo vegetal para blindar tus defensas y limpiar tu sistema digestivo de forma profunda. Rico en carvacrol, este suplemento concentrado de alta pureza actúa como un escudo natural contra bacterias y parásitos perjudiciales, ayudando a equilibrar la microbiota intestinal, aliviar la candidiasis y mitigar los gases o la inflamación estomacal de manera segura.`,
+    seoTitle: 'Orégano Concentrado Suplemento Natural Antimicrobiano | Zenhogar',
+    seoDescription: 'Fortalece tus defensas y limpia tu sistema digestivo con el Orégano de ZENHOGAR. Suplemento natural rico en carvacrol con Registro INVIMA.',
+    benefits: [
+      'Potente antiparasitario y antibacteriano natural',
+      'Ayuda a combatir el envejecimiento prematuro',
+      'Ayuda a combatir la cándida y apoya la salud de la microbiota',
+      'Alivia la inflamación abdominal, los gases y pesadez digestiva',
+      'Fortalece de manera notable el sistema inmunológico activo',
+      'Ayuda a aliviar dolores musculares y articulares'
+    ],
+    image: '/assets/products/oregano.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/oregano-apoyo-1.webp',
+      '/assets/products/oregano-apoyo-2.webp',
+      '/assets/products/oregano-apoyo-3.webp',
+      '/assets/products/oregano-apoyo-4.webp'
+    ],
+    keywords: 'oregano, carvacrol, antiparasitario natural, candida, digestión ligera, defensas, ZENHOGAR',
+    components: 'Orégano, Glicerina, Sorbato de Potasio, aceite Vegetal, Lecitina de Soya, Dioxido de Silicio',
+    componentBenefits: [
+      { name: 'Extracto de Orégano', benefit: 'Aporta una alta concentración de carvacrol para combatir agentes infecciosos e hinchazón.' },
+      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+    ],
+    longTailKeywords: [
+      'mejor suplemento de orégano con carvacrol en Colombia',
+      'cómo limpiar el colon y eliminar parásitos naturalmente',
+      'beneficios del extracto de orégano para la candidiasis',
+      'suplementos antimicrobianos naturales para el estómago',
+      'cómo subir las defensas rápido con extractos de plantas'
+    ],
+    seoFaqs: [
+      { q: '¿Qué es el carvacrol y por qué es importante?', a: 'El carvacrol es el compuesto activo principal del orégano, reconocido científicamente por sus potentes propiedades antiparasitarias y fungicidas.' },
+      { q: '¿Cómo ayuda en la digestión?', a: 'Elimina las bacterias nocivas en el colon que provocan fermentación y gases, permitiendo que la flora saludable se restablezca.' },
+      { q: '¿Es seguro para uso continuo?', a: 'Se recomienda consumirlo en ciclos de detox (15 a 30 días) para realizar una depuración digestiva profunda y segura.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Lorena B.', text: 'Un suplemento increíble para el sistema digestivo. Me ayudó a limpiar mi colon y la inflamación desapareció.', rating: 5 },
+      { name: 'Juan P.', text: 'Excelente para las defensas. He notado que ya no me enfermo tan seguido desde que lo tomo.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Purificación e Inmunidad Botánica',
+      description: 'En ZENHOGAR creemos en el poder curativo de la fitoterapia. Nuestro suplemento de Orégano ofrece una concentración óptima de carvacrol para restaurar tu armonía digestiva de manera certificada.'
+    }
+  },
+  {
+    id: 'bisglicinato-magnesio',
+    masterId: '232091',
+    name: 'Bisglicinato de Magnesio',
+    category: 'salud-bienestar',
+    shortDescription: 'Relajación Profunda, Descanso Reparador y Alivio del Estrés.',
+    description: `Logra un descanso nocturno inigualable y una tranquilidad profunda con el Bisglicinato de Magnesio de ZENHOGAR. Al estar quelado con glicina, esta forma de magnesio es la más suave para el sistema digestivo y la más efectiva para cruzar la barrera hematoencefálica, actuando directamente sobre el cerebro y el sistema nervioso para mitigar el estrés, calmar la mente activa y relajar los músculos tensos para que consigas un sueño reparador y una mañana sin fatiga.`,
+    seoTitle: 'Bisglicinato de Magnesio Quelado para Sueño y Relax | Zenhogar',
+    seoDescription: 'Concilia un sueño profundo y relaja tus músculos con Bisglicinato de Magnesio de ZENHOGAR. Magnesio quelado de máxima absorción con Registro INVIMA.',
+    benefits: [
+      'Promueve un sueño profundo, reparador y combate el insomnio crónico',
+      'Alivia la tensión muscular acumulada, calambres y espasmos',
+      'Disminuye el estrés, la ansiedad diaria y calma la mente activa',
+      'Forma mineral quelada extremadamente gentil con el estómago (sin efecto laxante)',
+      'Fórmula balanceada de altísima biodisponibilidad certificada'
+    ],
+    image: '/assets/products/bisglicinato-magnesio.webp',
+    basePrice: 79900,
+    size: '60 Unidades',
+    presentation: 'Capsulas Blandas',
+    invima: 'NSA-2948-2026',
+    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/bisglicinato-magnesio-apoyo-1.webp',
+      '/assets/products/bisglicinato-magnesio-apoyo-2.webp',
+      '/assets/products/bisglicinato-magnesio-apoyo-3.webp'
+    ],
+    keywords: 'bisglicinato de magnesio, magnesio quelado, insomnio, relajante muscular, estrés, dormir bien, ZENHOGAR',
+    components: 'Bisglicinato de Magnesio, Glicina, Vitaminas del grupo B',
+    componentBenefits: [
+      { name: 'Bisglicinato de Magnesio', benefit: 'Magnesio unido a glicina que favorece la relajación del sistema nervioso sin alterar el tránsito gástrico.' },
+      { name: 'Glicina y Complejo B', benefit: 'Aminoácido y neurotransmisor que induce de forma natural a estados de calma y descanso.' }
+    ],
+    longTailKeywords: [
+      'mejor bisglicinato de magnesio quelado en Colombia para dormir',
+      'magnesio que no suelte el estómago y ayude a relajar la mente',
+      'suplementos de magnesio con glicina para el descanso y estres',
+      'cómo relajar el sistema nervioso para dormir mejor naturalmente',
+      'beneficios del bisglicinato de magnesio en polvo biodisponible'
+    ],
+    seoFaqs: [
+      { q: '¿Qué diferencia al Bisglicinato de otras formas de magnesio?', a: 'Es un magnesio quelado (unido a glicina) que se absorbe al máximo en las células cerebrales y nerviosas, y al no competir por el agua gástrica, no produce el efecto laxante del cloruro o sulfato de magnesio.' },
+      { q: '¿Ayuda a controlar la ansiedad?', a: 'Sí, la glicina actúa en conjunto con el magnesio estimulando los receptores GABA que disminuyen la sobreexcitación cerebral, induciendo serenidad.' },
+      { q: '¿En qué momento del día es mejor tomarlo?', a: 'Se recomienda consumirlo de 30 a 45 minutos antes de acostarse para preparar el cuerpo y la mente para un sueño profundo.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Marta L.', text: 'El mejor descubrimiento para mis noches. Concilio el sueño súper rápido y amanezco con una energía maravillosa.', rating: 5 },
+      { name: 'Fernando S.', text: 'Mis piernas y mi espalda se relajan por completo. No he vuelto a tener tensiones musculares al dormir.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Descanso y Confort Neuromuscular Superior',
+      description: 'En ZENHOGAR estamos comprometidos con tu descanso. Nuestro Bisglicinato de Magnesio de grado farmacológico ofrece la máxima asimilación relajante para restaurar tu ritmo biológico de forma segura.'
+    }
+  },
+  {
+    id: 'tonico-capilar-folivance',
+    masterId: '11261',
+    name: 'Tónico Capilar Folivance',
+    category: 'belleza-integral',
+    shortDescription: 'Densificador Capilar y Ritual de Crecimiento Acelerado.',
+    description: `Detén la caída de raíz y acelera el nacimiento de cabello fuerte con el Tónico Capilar Folivance de ZENHOGAR. Diseñado con Biotina, aminoácidos y niacinamida, FOLIvance reactiva la microcirculación en el folículo piloso. Este nutriente folicular de alto impacto frena la caída prematura, engrosa el cabello debilitado y promueve un crecimiento rápido y denso, siendo también ideal para repoblar la barra y las cejas con total seguridad.`,
+    seoTitle: 'Tónico Capilar Folivance para Caída, Crecimiento y mejora de apariencia | Zenhogar',
+    seoDescription: 'Frena la caída y duplica el crecimiento capilar con Folivance de ZENHOGAR. Tónico folicular de alto impacto Biotina, Aminoácidos y Niacinamida. ¡Registro INVIMA!',
+    benefits: [
+      'Frena la caída del cabello de forma visible desde la segunda semana',
+      'Estimula la fase de crecimiento activo (anágena) para nuevas hebras',
+      'Engrosa y fortalece la fibra capilar reduciendo el quiebre y puntas abiertas',
+      'Fórmula ligera en spray de rápida absorción que no deja el cabello grasoso',
+      'Nutre a profundidad cejas, barra y cuero cabelludo debilitado'
+    ],
+    image: '/assets/products/folivance.webp',
+    basePrice: 69900,
+    size: '120g',
+    presentation: 'Líquido (Spray)',
+    googleCategory: 'Health & Beauty > Personal Care > Hair Care > Hair Loss Treatments',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/folivance-apoyo-1.webp',
+      '/assets/products/folivance-apoyo-2.webp'
+    ],
+    keywords: 'Folivance, tonico capilar, caida cabello, crecimiento pelo, aminoácidos, niacinamida, biotina, romero, Zenhogar',
+    components: 'Biotina, Aminoácidos, niacinamida',
+    componentBenefits: [
+      { name: 'Aminoácidos', benefit: 'fortalece, da estructura y repara el cabello existente.' },
+      { name: 'Biotina', benefit: 'Estimulan el crecimiento de hebras de cabello, mejoran la oxigenación y engrosan el cabello.' },
+      { name: 'Niacinamida (vitamina B3)', benefit: 'Mejora la circulación, calma la irritación y controla el exceso de grasa en el cuero cabelludo .' }
+
+    ],
+    longTailKeywords: [
+      'mejor tonico para el crecimiento acelerado del cabello Colombia',
+      'cómo detener la caida del pelo en hombres y mujeres',
+      'tonico capilar folivance con trichogen al 8 por ciento',
+      'productos naturales para engrosar el cabello fino y debil',
+      'crecimiento de barba y cejas con tonicos capilares folivance'
+    ],
+    seoFaqs: [
+      { q: '¿Cómo se debe aplicar Folivance?', a: 'Aplicar directamente sobre el cuero cabelludo limpio en las zonas deseadas, masajear suavemente con la yema de los dedos por 2 minutos para activar la absorción. No requiere enjuague.' },
+      { q: '¿Deja el cabello pesado o con mal olor?', a: 'No, Folivance posee una textura líquida ultra-ligera y de rápida absorción con un aroma herbal muy refrescante que deja el cabello suelto.' },
+      { q: '¿Sirve para rellenar la barba y cejas?', a: 'Sí, es sumamente efectivo para estimular el volumen y densidad de los folículos en barba y cejas de forma segura.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 209700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Liliana M.', text: 'Llevo 3 semanas usando el tónico Folivance y la caída se detuvo casi por completo. Siento el cabello mucho más abundante y con brillo.', rating: 5 },
+      { name: 'Andrés S.', text: 'Excelente producto. Lo usé para rellenar zonas de la barba y los resultados son sorprendentes. Se siente súper fresca la aplicación.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Densidad y Fuerza Capilar Certificada',
+      description: 'En ZENHOGAR redefinimos el cuidado capilar con soluciones científicas de alto impacto. FOLIvance une el poder del Trichogen y extractos herbales para devolver la vitalidad y el volumen a tu cabello de manera segura.'
+    }
+  },
+  {
+    id: 'shampoo-intensivo',
+    masterId: '232077',
+    name: 'Shampoo Intensivo',
+    category: 'belleza-integral',
+    shortDescription: 'Limpieza Profunda, Control Grasa y Fortalecimiento Folicular.',
+    description: `Limpia, purifica y fortalece tu melena desde el primer uso con el Shampoo Intensivo de ZENHOGAR. Su fórmula profesional libre de sal y parabenos limpia suavemente respetando el equilibrio del cuero cabelludo, mientras la Biotina, los Aminoácidos y la Niacinamida nutren la raíz para prevenir la caída del cabello por quiebre. Ideal para cabellos débiles, secos o sometidos a tratamientos químicos, este shampoo devuelve la elasticidad, el brillo de espejo y la suavidad de un salón de belleza.`,
+    seoTitle: 'Shampoo Intensivo Anticaída y Brillo Sin Sal | Zenhogar',
+    seoDescription: 'Limpia con suavidad y fortalece tu cabello con el Shampoo Intensivo de ZENHOGAR. Fórmula profesional con Romero y Biotina libre de sal. ¡INVIMA!',
+    benefits: [
+      'Limpia de manera profunda y regula el exceso de grasa en la raíz',
+      'Previene la caída del cabello fortaleciendo la fibra capilar',
+      'Fórmula profesional libre de sal y parabenos que protege el color',
+      'Devuelve el brillo natural y aporta una sedosidad extraordinaria',
+      'Enriquecido con Biotina para reparar el cabello dañado'
+    ],
+    image: '/assets/products/shampoo-intensivo.webp',
+    basePrice: 69900,
+    size: '450ml',
+    presentation: 'Líquido',
+    googleCategory: 'Health & Beauty > Personal Care > Hair Care > Shampoo',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/shampoo-intensivo-apoyo-1.webp',
+      '/assets/products/shampoo-intensivo-apoyo-2.webp',
+      '/assets/products/shampoo-intensivo-apoyo-3.webp',
+      '/assets/products/shampoo-intensivo-apoyo-4.webp'
+    ],
+    keywords: 'shampoo intensivo, sin sal, anticaida, biotina, Aminoácidos, niacinamida, cabello fuerte, Zenhogar',
+    components: 'Biotina, aminoácidos y niacinamida',
+    componentBenefits: [
+      { name: 'Aminoácidos', benefit: 'fortalece, da estructura y repara el cabello existente.' },
+      { name: 'Biotina', benefit: 'Estimulan el crecimiento de hebras de cabello, mejoran la oxigenación y engrosan el cabello.' },
+      { name: 'Niacinamida (vitamina B3)', benefit: 'Mejora la circulación, calma la irritación y controla el exceso de grasa en el cuero cabelludo .' }
+    ],
+    longTailKeywords: [
+      'mejor shampoo intensivo sin sal para la caida Colombia',
+      'shampoo profesional con romero y biotina para dar brillo',
+      'shampoo restaurador para cabellos debiles y quebradizos',
+      'como lavar el pelo maltratado por tintes o quimicos',
+      'shampoo anticaida y fortalecedor capilar de alta pureza'
+    ],
+    seoFaqs: [
+      { q: '¿Contiene sal o sulfatos?', a: 'No, es un shampoo formulado 100% libre de sal (cloruro de sodio) y sulfatos agresivos, ideal para cuidar queratinas y tintes.' },
+      { q: '¿Se puede utilizar en cabellos grasos?', a: 'Sí, equilibra la producción de sebo sin resecar las puntas, promoviendo vitalidad.' },
+      { q: '¿Con qué frecuencia se debe lavar?', a: 'Se puede usar diariamente o según tu rutina habitual, ya que su base limpiadora es extremadamente gentil.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Verónica P.', text: 'Me encanta este shampoo. Siento mi cabello súper limpio, sedoso y con un brillo espectacular. La caída disminuyó un montón.', rating: 5 },
+      { name: 'Mario J.', text: 'Excelente fragancia y consistencia. Deja el pelo muy manejable y nada reseco.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Fortaleza y Brillo de Salón',
+      description: 'En ZENHOGAR comprometidos con tu salud capilar. Nuestro Shampoo Intensivo repara la fibra capilar y nutre tu cabello desde la raíz con una fórmula profesional libre de químicos agresivos y registro INVIMA garantizado.'
+    }
+  },
+  {
+    id: 'aceite-relajante',
+    masterId: '232077',
+    name: 'Aceite Relajante',
+    category: 'belleza-integral',
+    shortDescription: 'Alivio de Tensiones, Masaje Terapéutico, Descanso Corporal, Fortalecimiento de la Piel.',
+    description: `Disuelve el estrés y libera la rigidez de tus músculos con el Aceite Relajante de ZENHOGAR. Formulado con una fina mezcla de aceites de Castaño de Indias, Centella Asiática y uva, este aceite corporal desliza suavemente sobre la piel facilitando masajes terapéuticos profundos. Sus activos calman la pesadez muscular, promueven la circulación, mejoran la apariencia de la piel y generan sensación de alivio absoluto.`,
+    seoTitle: 'Aceite Relajante para Masajes y Tensión Muscular | Zenhogar',
+    seoDescription: 'Relaja tus músculos y mitiga el estrés con el Aceite Relajante de ZENHOGAR. Combinación de Castaño de Indias y Centella Asiática. ¡INVIMA!',
+    benefits: [
+      'Disuelve el estrés y libera la rigidez de tus músculos',
+      'Desliza suavemente sobre la piel facilitando masajes profundos',
+      'Calma la pesadez muscular y promueve una óptima circulación',
+      'Mejora la apariencia de la piel aportando nutrición y suavidad',
+      'Genera una inmediata sensación de alivio y descanso corporal absoluto'
+    ],
+    image: '/assets/products/aceite-relajante.webp',
+    basePrice: 69900,
+    size: '60g',
+    presentation: 'Aceite',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics > Skin Care > Massage Oil',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/aceite-relajante-apoyo-1.webp',
+      '/assets/products/aceite-relajante-apoyo-2.webp',
+      '/assets/products/aceite-relajante-apoyo-3.webp'
+    ],
+    keywords: 'aceite relajante, masajes, tension muscular, descontracturante, estres, Zenhogar',
+    components: 'Aceite de Castaño de Indias, Centella Asiática, Extracto de Uva',
+    componentBenefits: [
+      { name: 'Castaño de Indias', benefit: 'Desinflama las venas, alivia la pesadez en las piernas y combate la retención de líquidos (ideal para várices).' },
+      { name: 'Centella Asiática', benefit: 'Estimula la producción de colágeno, repara los tejidos de la piel y mejora la elasticidad de los vasos sanguíneos.' },
+      { name: 'extracto de Uva', benefit: 'Aporta potentes antioxidantes que protegen las venas del envejecimiento y refuerzan la circulación general.' }
+    ],
+    longTailKeywords: [
+      'mejor aceite relajante para masajes musculares en Colombia',
+      'aceites corporales para piernas cansadas',
+      'tratamiento natural para venas varices con extracto de uva',
+      'aceite descontracturante para espalda y cuello adoloridos',
+      'masajes de relajacion con aceites naturales de almendras',
+      'como relajar el cuerpo cansado despues del trabajo con aceites'
+    ],
+    seoFaqs: [
+      { q: '¿Deja la piel pegajosa o grasosa?', a: 'No, su fórmula está balanceada con aceites ligeros de almendras que se absorben paulatinamente nutriendo la piel sin dejar residuo pesado.' },
+      { q: '¿Se puede aplicar en niños?', a: 'Sí, al ser una mezcla botánica gentil de lavanda y caléndula, es excelente para realizar masajes relajantes antes de dormir.' },
+      { q: '¿Ayuda con la fatiga tras hacer ejercicio?', a: 'Absolutamente, es ideal para masajear las zonas tensionadas, promoviendo una excelente recuperación muscular.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Guillermo F.', text: 'El aroma a lavanda es súper relajante y es perfecto para masajear la espalda después de un día estresante. Deja la piel muy suave.', rating: 5 },
+      { name: 'Patricia L.', text: 'Excelente calidad, hidrata muy bien y quita toda la tensión del cuello de inmediato. Lo uso todas las noches.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Alivio Terapéutico y Paz Sensorial',
+      description: 'En ZENHOGAR fusionamos naturaleza y bienestar. Nuestro Aceite Relajante combina aceites florales y botánicos que desinflaman tus músculos y calman tu mente con calidad certificada oficial.'
+    }
+  },
+  {
+    id: 'gel-frio-relajante',
+    masterId: '232079',
+    name: 'Gel Frío Relajante',
+    category: 'belleza-integral',
+    shortDescription: 'Efecto Criogénico, Alivio Muscular y Piernas Cansadas.',
+    description: `Siente un alivio refrescante inmediato con el Gel Frío Relajante de ZENHOGAR. Su avanzada fórmula criogénica a base de mentol, Castaño de Indias y Centella Asiática genera una intensa sensación de frío localizado que disminuye la inflamación, relaja los músculos adoloridos y estimula la circulación. Es el aliado perfecto para aliviar la pesadez en piernas cansadas, varices o la fatiga muscular tras una intensa sesión de ejercicio o largas jornadas de pie.`,
+    seoTitle: 'Gel Frío Criogénico para Piernas Cansadas y Alivio | Zenhogar',
+    seoDescription: 'Alivia la fatiga muscular y la pesadez de tus piernas con el Gel Frío Relajante de ZENHOGAR. Efecto criogénico con Castaño de Indias. ¡INVIMA!',
+    benefits: [
+      'Efecto frío criogénico inmediato que reduce la inflamación local',
+      'Alivia de forma efectiva la pesadez y cansancio en piernas y pies',
+      'Favorece la circulación sanguínea ideal para el cuidado de varices',
+      'Relaja la tensión muscular tras el deporte o trabajo pesado',
+      'Textura en gel ligera, no grasosa y de rápida absorción'
+    ],
+    image: '/assets/products/gel-frio.webp',
+    basePrice: 59900,
+    size: '60g',
+    presentation: 'Gel',
+    googleCategory: 'Health & Beauty > Personal Care > Cosmetics > Skin Care',
+    condition: 'new',
+    supportImages: [
+      '/assets/products/gel-frio-apoyo-1.webp',
+      '/assets/products/gel-frio-apoyo-2.webp'
+    ],
+    keywords: 'gel frio, criogenico, piernas cansadas, varices, mentol, castaño de indias, Zenhogar, fatiga muscular',
+    components: 'Mentol, Castaño de Indias, Centella Asiática',
+    componentBenefits: [
+      { name: 'Mentol', benefit: 'Proporcionan un efecto frío inmediato que insensibiliza la molestia y desinflama.' },
+      { name: 'Castaño de Indias', benefit: 'Estimulan la circulación periférica reduciendo la retención y la hinchazón.' },
+      { name: 'Centella Asiática', benefit: 'Estimula la producción de colágeno, repara los tejidos de la piel y mejora la elasticidad de los vasos sanguíneos.' }
+    ],
+    longTailKeywords: [
+      'mejor gel frio criogenico para piernas cansadas Colombia',
+      'gel desinflamatorio para golpes y tension muscular',
+      'aliviar dolor de pies y piernas varicosas con gel frio',
+      'gel de mentol y castaño de indias para deportistas',
+      'como deshinchar las piernas despues de estar de pie todo el dia'
+    ],
+    seoFaqs: [
+      { q: '¿Cómo se debe aplicar el gel frío?', a: 'Aplicar sobre la zona afectada con masajes ascendentes (de abajo hacia arriba) hasta que se absorba. Se sentirá una oleada de frío que relaja de inmediato.' },
+      { q: '¿Sirve para golpes o esguinces?', a: 'Sí, su efecto frío y desinflamatorio ayuda a mitigar la inflamación y dolor de contusiones ligeras.' },
+      { q: '¿Mancha la ropa?', a: 'No, su consistencia en gel de grado profesional penetra al instante sin dejar humedad ni manchas en tus prendas.' }
+    ],
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+    ],
+    testimonials: [
+      { name: 'Mónica T.', text: 'Trabajo de pie todo el día y este gel frío ha sido mi salvación. Me quita todo el dolor y pesadez en las piernas al instante.', rating: 5 },
+      { name: 'Gustavo R.', text: 'Es excelente para después de correr, relaja los gemelos de inmediato con un frío muy refrescante.', rating: 5 }
+    ],
+    whyChoose: {
+      title: 'Efecto Criogénico y Alivio de Circulación',
+      description: 'En ZENHOGAR estamos comprometidos con tu movilidad activa. Nuestro Gel Frío combina mentol y extractos circulatorios para deshinchar y aliviar tu cansancio de forma rápida y certificada.'
+    }
   }
 ];
 
