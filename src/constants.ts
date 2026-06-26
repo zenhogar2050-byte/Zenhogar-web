@@ -2912,7 +2912,12 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Ashwagandha',
     category: 'salud-bienestar',
     shortDescription: 'Equilibrio Emocional, Alivio del Estrés y Descanso Reparador.',
-    description: `Encuentra la paz mental y la serenidad física con Ashwagandha de ZENHOGAR, un adaptógeno ancestral diseñado para equilibrar tu sistema nervioso frente a las demandas cotidianas. Esta fórmula pura te ayuda a regular los niveles de cortisol, promoviendo una sensación de calma, un estado de ánimo positivo y un descanso verdaderamente reparador. Ideal para quienes sufren de insomnio, fatiga mental o estrés crónico, Ashwagandha fortalece tu resiliencia natural de manera segura y sin efectos de somnolencia diurna.`,
+    description: `Encuentra la paz mental y la serenidad física con Ashwagandha de ZENHOGAR, el poderoso suplemento adaptógeno ancestral diseñado para equilibrar tu sistema nervioso frente a las demandas cotidianas y rejuvenecer tu mente desde el interior. Esta fórmula premium aprovecha las propiedades milenarias de la Withania somnifera en un formato de cápsulas blandas de fácil absorción, creando un sistema de soporte completo para tu mente, tu estado de ánimo y tu descanso. Enriquecido con sus compuestos activos de alta pureza, este extracto combate el desgaste celular provocado por el estrés crónico, promoviendo una resistencia superior en todo tu organismo.
+  Complementado con una excelente biodisponibilidad gracias a su presentación en gel suave (softgel), este suplemento es el aliado perfecto para personas activas que sufren de insomnio o fatiga mental y no desean que el ritmo diario limite su bienestar. Su acción reguladora actúa profundamente en el cuerpo, ayudándote a modular la respuesta ante las tensiones del día a día, devolviéndole la luminosidad a tu energía vital y la firmeza a tu equilibrio emocional de manera segura.
+
+✔️ Control del Estrés: Regula el cortisol, reduce la ansiedad y promueve la calma.
+✔️ Sueño Reparador: Combate el insomnio y relaja el sistema nervioso sin causar somnolencia diurna.
+✔️ Resiliencia Natural: Optimiza el rendimiento mental y aporta un estado de ánimo positivo.`,
     seoTitle: 'Ashwagandha Suplemento Adaptógeno Natural para Estrés y Sueño | Zenhogar',
     seoDescription: 'Reduce el estrés y mejora tu calidad de sueño de forma natural con Ashwagandha de ZENHOGAR. Suplemento adaptógeno premium con Registro INVIMA.',
     benefits: [
@@ -2973,7 +2978,14 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Resveratrol y Vitamina B3 (NAD)',
     category: 'salud-bienestar',
     shortDescription: 'Energía y vitalidad Celular, Protección Antienvejecimiento.',
-    description: `Revitaliza tu cuerpo desde el núcleo celular con Resveratrol y Vitamina B3 (NAD) de ZENHOGAR. Esta fórmula avanzada combina dos de los precursores de longevidad más potentes de la ciencia moderna: el Resveratrol purificado y la Vitamina B3, clave para la síntesis de NAD+. Al actuar directamente en las mitocondrias, optimiza la conversión de alimentos en energía vital, promueve la reparación del ADN y combate el envejecimiento celular prematuro, devolviendo a tu piel, mente y cuerpo una profunda turgencia y juventud.`,
+    description: `Revitaliza tu cuerpo desde el núcleo celular con el complejo de Resveratrol y Vitamina B3 (NAD), la fórmula avanzada diseñada para rejuvenecer tus células y proteger tu organismo desde el interior. Esta combinación premium une dos de los precursores de longevidad más potentes de la ciencia moderna, creando un sistema de soporte completo que combate el desgaste oxidativo, promueve la reparación del ADN y actúa directamente en las mitocondrias para optimizar la conversión de alimentos en energía vital.
+    
+ Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto contra el envejecimiento prematuro, la fatiga y la pérdida de firmeza. Su acción protectora actúa profundamente para combatir el desgaste celular, devolviendo a tu piel, mente y cuerpo una profunda turgencia, luminosidad y juventud.
+
+✔️ Longevidad Celular: Activa los genes de la juventud y promueve de forma segura la reparación del ADN.
+✔️ Energía Mitocondrial: La vitamina B3 y el NAD+ optimizan la energía celular, reduciendo eficazmente el cansancio.
+✔️ Firmeza y Elasticidad: Combate los radicales libres para restaurar la turgencia natural de la piel y los tejidos.`,
+
     seoTitle: 'Resveratrol y Vitamina B3 (NAD): Rejuvenecimiento Celular | Zenhogar',
     seoDescription: 'Potencia tu vitalidad y rejuvenece desde adentro con Resveratrol y Vitamina B3 (NAD). Fórmula de longevidad celular con Registro INVIMA y alta absorción.',
     benefits: [
@@ -3034,7 +3046,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Vinagre de Manzana',
     category: 'salud-bienestar',
     shortDescription: 'Equilibrio Digestivo, Control de Ansiedad y Metabolismo Activo.',
-    description: `Optimiza tu digestión y acelera tu metabolismo de forma natural con el Vinagre de Manzana de ZENHOGAR. Este alimento funcional ha sido desarrollado para ofrecerte todos los beneficios purificadores del vinagre de sidra de manzana de manera práctica, agradable y sin el sabor ácido tradicional. Es un excelente coadyuvanate para regular los niveles de glucosa en sangre, disminuir la inflamación abdominal y controlar los antojos de dulce, permitiéndote mantener tus metas de peso saludable de forma cómoda y segura.`,
+    description: `Optimiza tu digestión, activa tu energía y acelera tu metabolismo de forma natural con el Vinagre de Manzana, la solución avanzada diseñada para purificar tu cuerpo y potenciar tu rendimiento diario desde el interior. Esta fórmula premium ofrece todos los beneficios del vinagre de sidra de manzana de manera práctica y sin el sabor ácido tradicional, creando un sistema de soporte completo que apoya la salud digestiva y evita la acumulación de grasa corporal de forma cómoda y segura.
+    
+  Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto para mantener tus metas de peso saludable, regular la glucosa y controlar los antojos. Su acción purificadora actúa profundamente en el organismo, transformando los nutrientes en vitalidad constante y protegiendo tu equilibrio corporal de manera natural y duradera.
+  
+✔️ Activación de Energía: Transforma los alimentos en combustible celular para apoyar un rendimiento físico y mental superior.
+✔️ Metabolismo y Control: Acelera el metabolismo de forma natural y ayuda a evitar que el cuerpo acumule grasa.
+✔️ Salud Digestiva: Disminuye la inflamación abdominal, controla los antojos de dulce y promueve una digestión ligera. `,
     seoTitle: 'Vinagre de Manzana para Metabolismo y Digestión | Zenhogar',
     seoDescription: 'Regula tu digestión y controla los antojos con el Vinagre de Manzana de ZENHOGAR. Suplemento natural para un vientre plano y metabolismo activo. ¡Registro INVIMA!',
     benefits: [
@@ -3094,8 +3112,14 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     masterId: '232080',
     name: 'Citrato de Potasio y Magnesio',
     category: 'salud-bienestar',
-    shortDescription: 'Equilibrio Electrolítico, Alivio de Calambres y Salud Cardiovascular.',
-    description: `Recupera el balance mineral perfecto con el Citrato de Potasio y Magnesio de ZENHOGAR. Esta potente combinación de minerales de máxima absorción (citratos) trabaja en sinergia para regular la presión arterial, mantener el ritmo cardíaco saludable y evitar los molestos calambres y la fatiga muscular. Es la solución ideal para deportistas, personas con alta demanda física o quienes buscan combatir la retención de líquidos y favorecer la relajación del sistema nervioso de forma natural.`,
+    shortDescription: 'Equilibrio Electrolítico, Bienestar Muscular, Sistema Nervioso y Salud Cardiovascular.',
+    description: `Recupera el equilibrio mineral de tu cuerpo con el complejo de Citrato de Potasio y Citrato de Magnesio, la fórmula avanzada diseñada para restaurar tu vitalidad y proteger tu sistema muscular desde el interior. Esta combinación premium une las dos formas de mayor absorción de estos minerales esenciales, creando un sistema de soporte completo que combate los calambres, reduce la fatiga crónica y promueve un correcto balance electrolítico en todo tu organismo.
+  
+  Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto para personas activas que buscan aliviar la tensión acumulada, regular la presión arterial y mejorar la relajación nocturna. Su acción sinérgica actúa profundamente en el cuerpo, transformando el descanso en energía vital y apoyando el buen funcionamiento del sistema nervioso de forma segura y natural.
+
+✔️ Bienestar Muscular: Alivia la tensión, previene calambres y espasmos, y acelera la recuperación física.
+✔️ Sistema Nervioso y Sueño: Promueve una relajación profunda, ayuda a controlar el estrés y mejora la calidad del descanso.
+✔️ Balance y Energía: Optimiza el equilibrio de líquidos en el cuerpo, regula la presión y combate el cansancio crónico.`,
     seoTitle: 'Citrato de Potasio y Magnesio Suplemento Mineral | Zenhogar',
     seoDescription: 'Evita los calambres y mejora tu salud cardiovascular con Citrato de Potasio y Magnesio de ZENHOGAR. Citratos de alta disponibilidad con Registro INVIMA.',
     benefits: [
@@ -3158,7 +3182,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Orégano',
     category: 'salud-bienestar',
     shortDescription: 'Inmunidad Avanzada, Antiparasitario y Balance Digestivo.',
-    description: `Descubre el poder purificador del Orégano de ZENHOGAR, una de las soluciones botánicas más potentes del mundo vegetal para blindar tus defensas y limpiar tu sistema digestivo de forma profunda. Rico en carvacrol, este suplemento concentrado de alta pureza actúa como un escudo natural contra bacterias y parásitos perjudiciales, ayudando a equilibrar la microbiota intestinal, aliviar la candidiasis y mitigar los gases o la inflamación estomacal de manera segura.`,
+    description: `Descubre el poder purificador del Orégano, una de las soluciones botánicas más potentes de la naturaleza para blindar tus defensas, proteger tus células y limpiar tu sistema digestivo de forma profunda. Esta fórmula premium de alta pureza es excepcionalmente rica en carvacrol, creando un sistema de soporte completo que actúa como un escudo natural, combate el daño oxidativo, ayuda a equilibrar la microbiota intestinal, alivia la candidiasis y mitiga los gases o la inflamación estomacal de manera segura.
+
+Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto para quienes buscan un apoyo integral al bienestar digestivo, eliminar toxinas y fortalecer su sistema inmune sin sufrir el fuerte sabor del extracto tradicional. Su acción protectora y antioxidante actúa profundamente en el organismo, combatiendo bacterias y parásitos perjudiciales para devolverle el equilibrio, la ligereza y una vitalidad saludable a tu día a día.
+
+✔️ Escudo e Inmunidad: Potente protector natural que fortalece las defensas y combate amenazas externas gracias a su acción antioxidante.
+✔️ Bienestar Digestivo: Alivia los gases, reduce la inflamación estomacal y apoya el funcionamiento correcto y ligero de todo el sistema digestivo.
+✔️ Limpieza Profunda: Ayuda a regular la microbiota intestinal, mitiga la candidiasis y depura el organismo de manera segura.`,
     seoTitle: 'Orégano Concentrado Suplemento Natural Antimicrobiano | Zenhogar',
     seoDescription: 'Fortalece tus defensas y limpia tu sistema digestivo con el Orégano de ZENHOGAR. Suplemento natural rico en carvacrol con Registro INVIMA.',
     benefits: [
@@ -3221,7 +3251,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Bisglicinato de Magnesio',
     category: 'salud-bienestar',
     shortDescription: 'Relajación Profunda, Descanso Reparador y Alivio del Estrés.',
-    description: `Logra un descanso nocturno inigualable y una tranquilidad profunda con el Bisglicinato de Magnesio de ZENHOGAR. Al estar quelado con glicina, esta forma de magnesio es la más suave para el sistema digestivo y la más efectiva para cruzar la barrera hematoencefálica, actuando directamente sobre el cerebro y el sistema nervioso para mitigar el estrés, calmar la mente activa y relajar los músculos tensos para que consigas un sueño reparador y una mañana sin fatiga.`,
+    description: `Mejora tu rutina de energía y equilibrio y recupera el bienestar de tu cuerpo con el Bisglicinato de Magnesio, la fórmula avanzada diseñada para combatir el estrés, restaurar tu tranquilidad y proteger tu sistema muscular desde el interior. Esta fórmula premium aprovecha la forma más pura y de mayor biodisponibilidad de este mineral esencial, actuando como un bálsamo natural que reduce la fatiga mental y ayuda al organismo a adaptarse y recuperarse del desgaste diario en todo tu organismo.
+    
+  Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto para cualquier persona que busque aliviar el estrés acumulado, calmar la mente y favorecer un enfoque nítido durante el día. Su acción sinérgica actúa profundamente en el cuerpo, disminuyendo la tensión nerviosa, mejorando la concentración y apoyando la relajación nocturna de forma segura y natural.
+    
+ ✔️ Alivio del Estrés y Ansiedad: Equilibra el sistema nervioso, reduce los niveles de cortisol y ayuda a mantener la calma en días exigentes.
+ ✔️ Calma Mental y Enfoque: Disminuye la fatiga mental, promueve la claridad cognitiva y mejora la concentración diaria.
+ ✔️ Descanso y Alivio Muscular: Promueve una relajación profunda, previene espasmos y optimiza la calidad del sueño reparador.`,
     seoTitle: 'Bisglicinato de Magnesio Quelado para Sueño y Relax | Zenhogar',
     seoDescription: 'Concilia un sueño profundo y relaja tus músculos con Bisglicinato de Magnesio de ZENHOGAR. Magnesio quelado de máxima absorción con Registro INVIMA.',
     benefits: [
@@ -3282,9 +3318,15 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Tónico Capilar Folivance',
     category: 'belleza-integral',
     shortDescription: 'Densificador Capilar y Ritual de Crecimiento Acelerado.',
-    description: `Detén la caída de raíz y acelera el nacimiento de cabello fuerte con el Tónico Capilar Folivance de ZENHOGAR. Diseñado con Biotina, aminoácidos y niacinamida, FOLIvance reactiva la microcirculación en el folículo piloso. Este nutriente folicular de alto impacto frena la caída prematura, engrosa el cabello debilitado y promueve un crecimiento rápido y denso, siendo también ideal para repoblar la barra y las cejas con total seguridad.`,
+    description: `Eleva tu rutina de cuidado capilar y recupera la vitalidad de tu fibra del cabello con el complejo de Aminoácidos, Biotina y Niacinamida (Vitamina B3), la fórmula avanzada diseñada para transformar tu cabello y proteger tu cuero cabelludo desde el interior. Esta combinación premium une tres de los nutrientes más potentes de la ciencia cosmética y nutricional, creando un sistema de soporte completo que de manera natural estimula el nacimiento de nuevas hebras, frena la caída y devuelve el volumen y la salud a tu melena de forma segura.
+    
+  Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), es el aliado perfecto para cualquier persona que busque combatir el adelgazamiento capilar, la debilidad y el desgaste diario. Su acción sinérgica actúa profundamente en el organismo, optimizando la oxigenación de los folículos y restaurando un cabello visiblemente más grueso, resistente y radiante.
+  
+✔️ Estructura y Reparación: Los aminoácidos fortalecen la fibra capilar, reparan el cabello existente y previenen la rotura.
+✔️ Crecimiento y Grosor: La biotina estimula la aparición de nuevas hebras, mejora la oxigenación y engrosa el cabello de raíz a puntas.
+✔️ Circulación y Control: La niacinamida mejora el flujo sanguíneo en el cuero cabelludo, calma la irritación y controla el exceso de grasa. | Calidad Certificada (INVIMA: Régimen Sanitario Vigente)`,
     seoTitle: 'Tónico Capilar Folivance para Caída, Crecimiento y mejora de apariencia | Zenhogar',
-    seoDescription: 'Frena la caída y duplica el crecimiento capilar con Folivance de ZENHOGAR. Tónico folicular de alto impacto Biotina, Aminoácidos y Niacinamida. ¡Registro INVIMA!',
+    seoDescription: 'Frena la caída y duplica el crecimiento capilar con Folivance de ZENHOGAR. Tónico folicular de alto impacto Biotina, Aminoácidos y Niacinamida.',
     benefits: [
       'Frena la caída del cabello de forma visible desde la segunda semana',
       'Estimula la fase de crecimiento activo (anágena) para nuevas hebras',
@@ -3343,7 +3385,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Shampoo Intensivo',
     category: 'belleza-integral',
     shortDescription: 'Limpieza Profunda, Control Grasa y Fortalecimiento Folicular.',
-    description: `Limpia, purifica y fortalece tu melena desde el primer uso con el Shampoo Intensivo de ZENHOGAR. Su fórmula profesional libre de sal y parabenos limpia suavemente respetando el equilibrio del cuero cabelludo, mientras la Biotina, los Aminoácidos y la Niacinamida nutren la raíz para prevenir la caída del cabello por quiebre. Ideal para cabellos débiles, secos o sometidos a tratamientos químicos, este shampoo devuelve la elasticidad, el brillo de espejo y la suavidad de un salón de belleza.`,
+    description: `Transforma tu rutina de cuidado capilar y recupera la vitalidad de tu fibra del cabello con el Shampoo Intensivo de Biotina, Aminoácidos y Niacinamida (Vitamina B3), la fórmula avanzada diseñada para restaurar tu melena, devolverle su brillo natural y proteger tu cuero cabelludo desde la raíz. Esta combinación premium une tres de los nutrientes más potentes de la ciencia cosmética, creando un sistema de limpieza y reparación profundo que de manera natural disminuye la caída, estimula el nacimiento de nuevo cabello y devuelve el volumen perdido.
+    
+    Con una fórmula de acción directa e intensiva, es el aliado perfecto para cualquier persona que busque combatir el adelgazamiento capilar, la opacidad, la debilidad y el desgaste diario. Su acción sinérgica actúa eficazmente en cada lavado, optimizando la oxigenación de los folículos, purificando el cuero cabelludo y restaurando un cabello visiblemente más grueso, luminoso, resistente y radiante.
+    
+✔️ Estructura y Brillo: Los aminoácidos fortalecen la fibra capilar, reparan el cabello existente, previenen la rotura y restauran un brillo saludable desde el primer uso.
+✔️ Crecimiento y Grosor: La biotina estimula la aparición de nuevo cabello, mejora la oxigenación folicular y lo engrosa de raíz a puntas.
+✔️ Circulación y Control: La niacinamida mejora el flujo sanguíneo en el cuero cabelludo, calma la irritación y controla el exceso de grasa de forma duradera.`,
     seoTitle: 'Shampoo Intensivo Anticaída y Brillo Sin Sal | Zenhogar',
     seoDescription: 'Limpia con suavidad y fortalece tu cabello con el Shampoo Intensivo de ZENHOGAR. Fórmula profesional con Romero y Biotina libre de sal. ¡INVIMA!',
     benefits: [
@@ -3405,7 +3453,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Aceite Relajante',
     category: 'belleza-integral',
     shortDescription: 'Alivio de Tensiones, Masaje Terapéutico, Descanso Corporal, Fortalecimiento de la Piel.',
-    description: `Disuelve el estrés y libera la rigidez de tus músculos con el Aceite Relajante de ZENHOGAR. Formulado con una fina mezcla de aceites de Castaño de Indias, Centella Asiática y uva, este aceite corporal desliza suavemente sobre la piel facilitando masajes terapéuticos profundos. Sus activos calman la pesadez muscular, promueven la circulación, mejoran la apariencia de la piel y generan sensación de alivio absoluto.`,
+    description: `Renueva la ligereza de tus piernas y optimiza tu bienestar corporal con el Aceite de Castaño de Indias y Centella Asiática, una fórmula avanzada diseñada para mejorar la microcirculación local y proteger la elasticidad de tu piel desde el exterior. Esta combinación premium une dos de los extractos botánicos más potentes de la naturaleza, creando un sistema de cuidado completo que a través del masaje disminuye la pesadez, estimula el flujo sanguíneo y devuelve el descanso a tu cuerpo.
+    
+Desarrollado con una textura ideal para masajes y una absorción profunda, este producto es el aliado perfecto para cualquier persona que busque combatir la retención de líquidos, la hinchazón local y la fatiga diaria acumulada por pasar mucho tiempo de pie o sentado. Su acción sinérgica actúa directamente sobre las zonas afectadas, promoviendo la relajación de los tejidos musculares y restaurando una sensación de ligereza duradera.
+    
+✔️ Circulación y Alivio: El castaño de indias ayuda a tonificar la piel, disminuye la pesadez y reduce notablemente la tensión en las piernas cansadas mediante el masaje.
+✔️ Elasticidad y Firmeza: La centella asiática favorece la firmeza de la piel estimulando de forma natural los tejidos, mejora su aspecto y atenúa la apariencia de las várices y líneas superficiales.
+✔️ Acción Protectora y Nutrición: Su base aceitosa humecta profundamente la piel, mientras que sus antioxidantes naturales protegen las células contra el desgaste y la resequedad diaria.`,
     seoTitle: 'Aceite Relajante para Masajes y Tensión Muscular | Zenhogar',
     seoDescription: 'Relaja tus músculos y mitiga el estrés con el Aceite Relajante de ZENHOGAR. Combinación de Castaño de Indias y Centella Asiática. ¡INVIMA!',
     benefits: [
@@ -3467,7 +3521,13 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     name: 'Gel Frío Relajante',
     category: 'belleza-integral',
     shortDescription: 'Efecto Criogénico, Alivio Muscular y Piernas Cansadas.',
-    description: `Siente un alivio refrescante inmediato con el Gel Frío Relajante de ZENHOGAR. Su avanzada fórmula criogénica a base de mentol, Castaño de Indias y Centella Asiática genera una intensa sensación de frío localizado que disminuye la inflamación, relaja los músculos adoloridos y estimula la circulación. Es el aliado perfecto para aliviar la pesadez en piernas cansadas, varices o la fatiga muscular tras una intensa sesión de ejercicio o largas jornadas de pie.`,
+    description: `Siente un alivio refrescante inmediato con este Gel Frío Relajante, una propuesta avanzada diseñada específicamente para desinflamar las piernas, reactivar la circulación periférica y tonificar la piel desde la primera aplicación. Su poderosa fórmula criogénica aprovecha los beneficios naturales del castaño de indias y la centella asiática, fusionándolas con el mentol para generar una intensa sensación de frío localizado que disminuye la inflamación y devuelve la vitalidad a tu caminar.
+    
+Diseñado con una textura ligera de rápida absorción y efecto no graso, este producto estimula la circulación en la zona aplicada y en toda la pierna, convirtiéndose en el aliado perfecto para aliviar la pesadez, mitigar las molestias por várices o reducir la fatiga muscular tras una intensa sesión de ejercicio y largas jornadas de pie. Su acción térmica actúa directamente sobre el área afectada, ayudando a deshinchar los tobillos, relajar los músculos adoloridos y restaurar una agradable sensación de ligereza y confort duradero en tus piernas.
+  
+✔️ Efecto Frío: El mentol aporta una sensación de frescura calmante inmediata que disminuye la pesadez, alivia el dolor local y descansa las piernas de forma instantánea.
+✔️ Tonificación y Circulación Ampliada: El castaño de indias activa el flujo sanguíneo de forma localizada, estimula la circulación en la zona aplicada y en toda la pierna, y previene eficazmente la hinchazón diaria.
+✔️ Firmeza y Reparación: La centella asiática mejora la consistencia de los tejidos cutáneos de las piernas, disminuye la flacidez y ayuda a desvanecer visualmente las várices.`,
     seoTitle: 'Gel Frío Criogénico para Piernas Cansadas y Alivio | Zenhogar',
     seoDescription: 'Alivia la fatiga muscular y la pesadez de tus piernas con el Gel Frío Relajante de ZENHOGAR. Efecto criogénico con Castaño de Indias. ¡INVIMA!',
     benefits: [
@@ -3522,6 +3582,20 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     }
   }
 ];
+
+// Reordenar dinámicamente el array PRODUCTS para que la declaración expuesta coincida
+// exactamente con la estructura de categorías de la tienda, optimizando la navegación de carrusel (adelante/atrás)
+(function() {
+  const categoryOrder = ['salud-bienestar', 'belleza-integral', 'salud-sexual'];
+  PRODUCTS.sort((a, b) => {
+    const idxA = categoryOrder.indexOf(a.category);
+    const idxB = categoryOrder.indexOf(b.category);
+    if (idxA !== idxB) {
+      return idxA - idxB;
+    }
+    return 0; // Orden relativo estable dentro de la misma categoría
+  });
+})();
 
 export interface Promotion {
   id: string;

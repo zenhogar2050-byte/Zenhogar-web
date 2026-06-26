@@ -60,7 +60,7 @@ import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFire
 import InventoryManager from '../components/InventoryManager';
 import { useInventory } from '../hooks/useInventory';
 import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
-import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../constants';
+import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, COLOMBIA_DATA } from '../constants';
 import * as XLSX from 'xlsx';
 
 interface Order {
@@ -3014,32 +3014,51 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad*</label>
-                        <input 
-                          type="text"
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento*</label>
+                        <select 
                           required
-                          value={selectedOrder.customer.ciudad || ''}
+                          value={selectedOrder.customer.departamento || selectedOrder.customer.department || ''}
                           onChange={(e) => {
-                            const updatedCust = { ...selectedOrder.customer, ciudad: e.target.value, city: e.target.value };
+                            const val = e.target.value;
+                            const updatedCust = { 
+                              ...selectedOrder.customer, 
+                              departamento: val, 
+                              department: val,
+                              ciudad: '', 
+                              city: '' 
+                            };
                             setSelectedOrder({ ...selectedOrder, customer: updatedCust });
                           }}
-                          placeholder="Ej: Medellín"
-                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
-                        />
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 appearance-none"
+                        >
+                          <option value="">Seleccione Departamento</option>
+                          {Object.keys(COLOMBIA_DATA || {}).map(d => (
+                            <option key={d} value={d}>{d}</option>
+                          ))}
+                        </select>
                       </div>
                       <div>
-                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento*</label>
-                        <input 
-                          type="text"
+                        <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad*</label>
+                        <select 
                           required
-                          value={selectedOrder.customer.departamento || ''}
+                          disabled={!(selectedOrder.customer.departamento || selectedOrder.customer.department)}
+                          value={selectedOrder.customer.ciudad || selectedOrder.customer.city || ''}
                           onChange={(e) => {
-                            const updatedCust = { ...selectedOrder.customer, departamento: e.target.value, department: e.target.value };
+                            const val = e.target.value;
+                            const updatedCust = { 
+                              ...selectedOrder.customer, 
+                              ciudad: val, 
+                              city: val 
+                            };
                             setSelectedOrder({ ...selectedOrder, customer: updatedCust });
                           }}
-                          placeholder="Ej: Antioquia"
-                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800"
-                        />
+                          className="w-full px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 font-sans text-stone-800 disabled:opacity-50 appearance-none"
+                        >
+                          <option value="">Seleccione Ciudad</option>
+                          {((selectedOrder.customer.departamento || selectedOrder.customer.department) ? (COLOMBIA_DATA as any)[selectedOrder.customer.departamento || selectedOrder.customer.department || ''] || [] : []).map((c: string) => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -3412,22 +3431,47 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
 
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad</label>
-                              <input 
-                                type="text"
-                                value={editedCustomer.ciudad || editedCustomer.city || ''}
-                                onChange={(e) => setEditedCustomer({ ...editedCustomer, ciudad: e.target.value, city: e.target.value })}
-                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
-                              />
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento</label>
+                              <select 
+                                value={editedCustomer.department || editedCustomer.departamento || ''}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setEditedCustomer({ 
+                                    ...editedCustomer, 
+                                    department: val, 
+                                    departamento: val,
+                                    ciudad: '', 
+                                    city: '' 
+                                  });
+                                }}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 appearance-none"
+                              >
+                                <option value="">Seleccione Departamento</option>
+                                {Object.keys(COLOMBIA_DATA || {}).map(d => (
+                                  <option key={d} value={d}>{d}</option>
+                                ))}
+                              </select>
                             </div>
                             <div>
-                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Departamento</label>
-                              <input 
-                                type="text"
-                                value={editedCustomer.department || editedCustomer.departamento || ''}
-                                onChange={(e) => setEditedCustomer({ ...editedCustomer, department: e.target.value, departamento: e.target.value })}
-                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500"
-                              />
+                              <label className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1 block">Ciudad</label>
+                              <select 
+                                disabled={!(editedCustomer.department || editedCustomer.departamento)}
+                                value={editedCustomer.ciudad || editedCustomer.city || ''}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setEditedCustomer({ 
+                                    ...editedCustomer, 
+                                    ciudad: val, 
+                                    city: val 
+                                  });
+                                }}
+                                className="w-full px-3 py-2 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-emerald-500 disabled:opacity-50 appearance-none"
+                              >
+                                <option value="">Seleccione Ciudad</option>
+                                {((editedCustomer.department || editedCustomer.departamento) ? (COLOMBIA_DATA as any)[editedCustomer.department || editedCustomer.departamento || ''] || [] : []).map((c: string) => (
+                                  <option key={c} value={c}>{c}</option>
+                                ))}
+                              </select>
                             </div>
                           </div>
 
