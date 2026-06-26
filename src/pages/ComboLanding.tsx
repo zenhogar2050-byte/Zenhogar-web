@@ -307,6 +307,77 @@ export default function ComboLanding() {
                 </div>
               </div>
 
+              {/* Mobile-only Purchase Section - Positioned below Beneficios del Combo */}
+              <div className="block lg:hidden mt-6 p-6 bg-stone-50 rounded-3xl border border-stone-200">
+                <div className="grid gap-2 sm:gap-3">
+                  <button
+                    onClick={handleBuyNow}
+                    className="relative w-full flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-emerald-600 bg-emerald-600 shadow-lg text-left cursor-pointer hover:scale-[1.01] hover:bg-emerald-700 hover:border-emerald-700 hover:shadow-xl transition-all"
+                  >
+                    <div>
+                      <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                        <span className="text-sm sm:text-base font-bold text-white">Oferta Especial Combo</span>
+                        <span className="text-[9px] sm:text-[10px] uppercase tracking-wider font-black px-1.5 py-0.5 rounded-full bg-white/20 text-white">
+                          Ahorro Máximo
+                        </span>
+                      </div>
+                      <div className="text-[14px] sm:text-[20px] font-black uppercase mb-0.5 sm:mb-1 leading-none text-white">
+                        Mejor relación precio
+                      </div>
+                      <span className="text-[15px] sm:text-[18px] font-bold block text-white">
+                        Ahorras {formatCurrency(combo.originalPrice - combo.price)}
+                      </span>
+                    </div>
+                    <div className="text-right flex flex-col items-end justify-center">
+                      <div className="text-base sm:text-lg font-black leading-none mb-1 text-white">
+                        {formatCurrency(combo.price)}
+                      </div>
+                      <div className="text-[14px] sm:text-[15px] line-through leading-none text-white/90">
+                        {formatCurrency(combo.originalPrice)}
+                      </div>
+                    </div>
+                  </button>
+                </div>
+
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full mt-6 py-6 bg-amber-500 text-white rounded-2xl font-black text-xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/30 flex items-center justify-center gap-3 group animate-pulse-slow hover:animate-none scale-100 hover:scale-[1.02]"
+                  aria-label={`Comprar ${combo.name} ahora`}
+                >
+                  <ShoppingCart className="w-7 h-7 group-hover:scale-110 transition-transform" />
+                  COMPRAR AHORA
+                </button>
+
+                <ConfidenceBadges className="mt-4" />
+
+                {/* Persuasive Micro-copy */}
+                <div className="mt-6 space-y-3">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Registros INVIMA Vigentes</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Experiencias positivas: El combo más solicitado este mes</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Ahorro garantizado comparado con compras individuales</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Asegura tu stock: Alta demanda en este combo</span>
+                  </div>
+                </div>
+                
+                <p className="text-center text-lg font-black text-emerald-800 mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 bg-emerald-50 py-4 px-6 rounded-2xl border-2 border-emerald-200 shadow-sm">
+                  <Zap className="w-6 h-6 fill-emerald-500 text-emerald-500 animate-pulse" />
+                  <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
+                </p>
+
+                <TrustBar className="mt-8" />
+              </div>
+
               {/* Desktop FAQ - Below left column seals */}
               <div className="hidden lg:block relative z-10">
                 <FAQSection 
@@ -351,9 +422,12 @@ export default function ComboLanding() {
 
 
 
-              <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200">
+              <div className="hidden lg:block p-6 bg-stone-50 rounded-3xl border border-stone-200">
                 <div className="grid gap-2 sm:gap-3">
-                  <div className="relative flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-emerald-600 bg-emerald-600 shadow-lg text-left">
+                  <button
+                    onClick={handleBuyNow}
+                    className="relative w-full flex items-center justify-between p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-emerald-600 bg-emerald-600 shadow-lg text-left cursor-pointer hover:scale-[1.01] hover:bg-emerald-700 hover:border-emerald-700 hover:shadow-xl transition-all"
+                  >
                     <div>
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
                         <span className="text-sm sm:text-base font-bold text-white">Oferta Especial Combo</span>
@@ -376,7 +450,7 @@ export default function ComboLanding() {
                         {formatCurrency(combo.originalPrice)}
                       </div>
                     </div>
-                  </div>
+                  </button>
                 </div>
 
                 <button

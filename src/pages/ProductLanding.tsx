@@ -368,6 +368,109 @@ export default function ProductLanding() {
                 </div>
               </div>
 
+              {/* Mobile-only Purchase Section - Positioned below Beneficios y Resultados */}
+              <div className="block lg:hidden mt-6 p-6 bg-stone-50 rounded-3xl border border-stone-200 h-auto pb-8">
+                <div className="grid gap-2 sm:gap-3">
+                  {product.promos.map((promo) => {
+                    const originalPrice = product.basePrice * promo.units;
+                    const savings = originalPrice - promo.price;
+                    const avgPrice = promo.price / promo.units;
+
+                    return (
+                      <button
+                        key={promo.id}
+                        onClick={() => {
+                          setSelectedPromo(promo.id);
+                          handleBuyNow(promo.id);
+                        }}
+                        className={cn(
+                          "relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left h-auto min-h-[70px] py-3 sm:py-4 cursor-pointer hover:scale-[1.01] hover:shadow-md",
+                          selectedPromo === promo.id
+                            ? "border-emerald-600 bg-emerald-600 shadow-lg"
+                            : "border-transparent bg-stone-100 hover:bg-stone-200"
+                        )}
+                        aria-label={`Seleccionar promoción ${promo.label}`}
+                        aria-pressed={selectedPromo === promo.id}
+                      >
+                        <div>
+                          <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                            <span className={`text-sm sm:text-base font-bold transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-stone-900'}`}>{promo.label}</span>
+                            {promo.badge && (
+                              <span className={`text-[9px] sm:text-[10px] uppercase tracking-wider font-black px-1.5 py-0.5 rounded-full transition-colors ${selectedPromo === promo.id ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700'}`}>
+                                {promo.badge}
+                              </span>
+                            )}
+                          </div>
+                          <div className={`text-[14px] sm:text-[20px] font-black uppercase mb-0.5 sm:mb-1 leading-none transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-800'}`}>
+                            {promo.units > 1 ? `Solo ${formatCurrency(avgPrice)} / unidad` : "Precio especial"}
+                          </div>
+                          {savings > 0 && (
+                            <span className={`text-[15px] sm:text-[18px] font-bold block transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-700'}`}>
+                              Ahorras {formatCurrency(savings)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-right flex flex-col items-end justify-center">
+                          <div className={`text-base sm:text-lg font-black leading-none mb-1 transition-colors ${selectedPromo === promo.id ? 'text-white' : 'text-emerald-800'}`}>
+                            {formatCurrency(promo.price)}
+                          </div>
+                          {savings > 0 && (
+                            <div className={`text-[14px] sm:text-[15px] line-through leading-none transition-colors ${selectedPromo === promo.id ? 'text-white/90' : 'text-stone-500'}`}>
+                              {formatCurrency(originalPrice)}
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Order Bump - Visible only when 1 Unit is selected */}
+                {selectedPromo === '1u' && currentBump && (
+                  <OrderBump
+                    productName={product.name}
+                    complementName={currentBump.complementName}
+                    bumpPrice={currentBump.bumpPrice}
+                    savings={currentBump.savings}
+                    onAccept={handleBumpAccept}
+                  />
+                )}
+
+                <button
+                  onClick={() => selectedPromo && handleBuyNow(selectedPromo)}
+                  className="w-full mt-6 py-6 bg-amber-500 text-white rounded-2xl font-black text-xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/30 flex items-center justify-center gap-3 group animate-pulse-slow hover:animate-none scale-100 hover:scale-[1.02]"
+                  aria-label={`Comprar ${product.name} ahora`}
+                >
+                  <ShoppingCart className="w-7 h-7 group-hover:scale-110 transition-transform" />
+                  COMPRAR AHORA
+                </button>
+
+                <ConfidenceBadges className="mt-4" />
+
+                {/* Persuasive Micro-copy */}
+                <div className="mt-6 space-y-3">
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-800 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>No interrumpas tu proceso: 92% de los clientes eligen el Plan de 3 meses</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Ahorro garantizado en tu recompra automática</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-stone-600 uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Asegura tu stock: Alta demanda en este producto</span>
+                  </div>
+                </div>
+                
+                <p className="text-center text-lg font-black text-emerald-800 mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 bg-emerald-50 py-4 px-6 rounded-2xl border-2 border-emerald-200 shadow-sm">
+                  <Zap className="w-6 h-6 fill-emerald-500 text-emerald-500 animate-pulse" />
+                  <span>Envío GRATIS + Pago Contra Entrega + Incluye Obsequio 🎁</span>
+                </p>
+
+                <TrustBar className="mt-8" />
+              </div>
+
               {/* Desktop FAQ - Below left column seals */}
               <div className="hidden lg:block relative z-10">
                 <FAQSection 
@@ -416,9 +519,7 @@ export default function ProductLanding() {
                 {product.description} <strong className="font-bold text-stone-800">| Calidad Certificada {(!product.invima || product.invima.toLowerCase().includes('trámite')) ? '(INVIMA: Registro en proceso de verificación)' : `(INVIMA: ${product.invima})`}</strong>
               </h2>
 
-
-
-              <div className="p-6 bg-stone-50 rounded-3xl border border-stone-200 h-auto pb-8">
+              <div className="hidden lg:block p-6 bg-stone-50 rounded-3xl border border-stone-200 h-auto pb-8">
                 <div className="grid gap-2 sm:gap-3">
                   {product.promos.map((promo) => {
                     const originalPrice = product.basePrice * promo.units;
@@ -428,9 +529,12 @@ export default function ProductLanding() {
                     return (
                       <button
                         key={promo.id}
-                        onClick={() => setSelectedPromo(promo.id)}
+                        onClick={() => {
+                          setSelectedPromo(promo.id);
+                          handleBuyNow(promo.id);
+                        }}
                         className={cn(
-                          "relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left h-auto min-h-[70px] py-3 sm:py-4",
+                          "relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all text-left h-auto min-h-[70px] py-3 sm:py-4 cursor-pointer hover:scale-[1.01] hover:shadow-md",
                           selectedPromo === promo.id
                             ? "border-emerald-600 bg-emerald-600 shadow-lg"
                             : "border-transparent bg-stone-100 hover:bg-stone-200"
