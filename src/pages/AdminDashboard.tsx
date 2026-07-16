@@ -501,9 +501,17 @@ export default function AdminDashboard() {
     const ticketStr = order.ticket_number ? `*#${order.ticket_number}*` : '';
     const guideStr = order.tracking_guide ? `\n📦 *Guía de Seguimiento:* ${order.tracking_guide}` : '';
     
+    // Add product details
+    let itemsDetails = '';
+    if (order.cart && order.cart.items && order.cart.items.length > 0) {
+      itemsDetails = '\n\n🛍️ *Detalle del pedido:* \n' + order.cart.items.map(item => {
+        return `- ${item.productName} (${item.promoLabel}) - Cantidad: ${item.quantity} (Total unidades: ${item.units * item.quantity})`;
+      }).join('\n');
+    }
+    
     return `¡Hola ${order.customer.nombre || order.customer.fullName || ''}! Te saludamos de *Zenhogar*. 🌿
 
-Confirmamos que tu pedido ${ticketStr} ha sido procesado correctamente.${guideStr}
+Confirmamos que tu pedido ${ticketStr} ha sido procesado correctamente.${itemsDetails}${guideStr}
 
 Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios. Cualquier duda, estamos para ayudarte.
 
@@ -712,6 +720,30 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
       alert(err.message || 'Error técnico al actualizar el estado.');
       fetchOrders(); // Revert to server state
     }
+  };
+
+
+  const handleSyncPendingOrders = async () => {
+    console.log("Iniciando sincronización de pedidos pendientes");
+    if (!window.confirm("¿Sincronizar pedidos pendientes con Google Sheets?")) return;
+    const pendientes = filteredOrders.filter(o => o.type === 'order' && o.mastershop_status !== 'sync_success');
+    console.log("Pedidos pendientes encontrados:", pendientes.length);
+    
+    for (const order of pendientes) {
+        console.log("Sincronizando pedido:", order.id, order.ticket_number);
+        try {
+            await sendStatusUpdateToSheets({ 
+                ticket: order.ticket_number || order.id, 
+                tracking_guide: order.tracking_guide || '',
+                guia: order.tracking_guide || '',
+                status: order.status || 'shipped_with_guide'
+            });
+            console.log("Pedido sincronizado:", order.id);
+        } catch (err) {
+            console.error(`Error syncing order ${order.id}:`, err);
+        }
+    }
+    alert("Sincronización de pedidos pendiente finalizada.");
   };
 
   const handleSaveCell = async (orderId: string, field: string, value: string) => {
@@ -1952,6 +1984,16 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
                         <span>Nuevo Pedido Manual</span>
+                      </button>
+
+                      
+                      <button 
+                        onClick={handleSyncPendingOrders}
+                        className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-bold text-[10px] uppercase hover:bg-blue-700 transition-all flex items-center gap-1.5 shadow-sm shadow-blue-600/10"
+                        title="Sincronizar pedidos pendientes con Google Sheets"
+                      >
+                        <RefreshCw className="w-3.5 h-3.5" />
+                        <span>Sincronizar</span>
                       </button>
                       
                       {/* Botón de Sincronización Masiva Pedido -> Logística (Solo si hay pendientes) */}

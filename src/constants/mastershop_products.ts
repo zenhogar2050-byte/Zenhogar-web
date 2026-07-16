@@ -8,7 +8,6 @@ export const MASTER_PRODUCTS = [
   { id: 61195, internalId: 'akha', name: 'AKHA', category: 'Salud Sexual', basePrice: 29900 },
   { id: 43670, internalId: 'calm-gomas', name: 'CALM GOMAS PARA DORMIR', category: 'Salud y Bienestar', basePrice: 26900 },
   { id: 129312, internalId: 'citramix', name: 'CITRAMIX', category: 'Salud y Bienestar', basePrice: 24000 },
-  { id: 61652, internalId: 'cla500', name: 'CLA500', category: 'Salud y Bienestar', basePrice: 25900 },
   { id: 144660, internalId: 'c-lagen', name: 'C-LAGEN', category: 'Salud y Bienestar', basePrice: 32000 },
   { id: 23012, internalId: 'colageno-cafe', name: 'COLAGENO + CAFE (CAPUCHINO)', category: 'Salud y Bienestar', basePrice: 25000 },
   { id: 219962, internalId: 'colageno-citrato-promo', name: 'COLAGENO CITRATO MADRE PAGUE 2 LLEVE 3', category: 'Salud y Bienestar', basePrice: 89700 },

@@ -414,86 +414,6 @@ Enriquecido con un complejo multivitamínico total y Omega 3, 6 y 9, este suplem
     }
   },
   {
-    id: 'cla500',
-    masterId: '61652',
-    name: 'CLA 500',
-    category: 'salud-bienestar',
-    shortDescription: 'Tonificación Metabólica y Confort Articular Profundo.',
-    description: `Saca la mejor versión de ti y reconforta tu cuerpo con CLA 500, el suplemento metabólico avanzado diseñado para quienes buscan una transformación física consciente y segura. Su fórmula maestra aprovecha el Ácido Linoleico Conjugado (CLA) de alta pureza para movilizar las grasas acumuladas y transformarlas en energía, evitando el temido "efecto rebote". Potenciado con Cúrcuma y un toque de Pimienta Negra, este suplemento ofrece una potente acción antiinflamatoria que alivia la pesadez en las articulaciones y favorece la recuperación muscular post-entrenamiento.
-
-Además de su acción en la quema de grasas, CLA 500 protege tus células del paso del tiempo gracias a su carga antioxidante, ayudando a mantener una piel firme y elástica durante tu proceso de cambio. Es la solución ideal para deportistas y personas activas que desean definir su musculatura, mejorar su movilidad articular y fortalecer su sistema óseo con el respaldo de la Vitamina D3 y el Magnesio.
-
-✔️ Movilización de Grasas: Ayuda a tu cuerpo a utilizar las reservas de tejido adiposo como combustible real.
-✔️ Alivio y Confort: La cúrcuma y pimienta negra reducen la inflamación articular y la rigidez corporal.
-✔️ Definición Muscular: Favorece la tonificación y protege la masa magra durante la pérdida de peso.`,
-    seoTitle: 'CLA 500 Cúrcuma y Pimienta: Tonificación y Salud Articular | Zenhogar',
-    seoDescription: 'Define tu figura y alivia tus articulaciones con CLA 500. Fórmula con Cúrcuma y Magnesio para un metabolismo activo y confort corporal. ¡Calidad INVIMA certificada!',
-    benefits: [
-      'Promueve la movilización de grasas y ayuda en la tonificación muscular',
-      'Acción protectora que reduce la pesadez en articulaciones',
-      'Optimiza la absorción de nutrientes gracias al extracto de pimienta negra',
-      'Protege las células contra el envejecimiento y flacidez prematura',
-      'Aporte esencial de Vitamina D3 y Magnesio para la salud ósea integral'
-    ],
-    image: '/assets/products/CLA500.webp',
-    basePrice: 75900,
-    size: '30 und',
-    presentation: 'Cápsulas Blandas',
-    invima: 'SD2019-0004457',
-    googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
-    condition: 'new',
-    supportImages: [
-      '/assets/products/cla500-apoyo-1.webp',
-      '/assets/products/cla500-apoyo-2.webp',
-      '/assets/products/cla500-apoyo-3.webp',
-      '/assets/products/cla500-apoyo-4.webp'
-    ],
-    keywords: 'cúrcuma, pimienta negra, inflamación, salud articular, antiage, antioxidante, CLA 500, Zenhogar',
-    components: 'Cloruro de Magnesio, Vitamina D3, Cúrcuma y Pimienta Negra',
-    componentBenefits: [
-    {
-        'name': 'Cúrcuma y Pimienta Negra',
-        'benefit': 'La pimienta optimiza la absorción de la cúrcuma, favoreciendo el alivio, la recuperación y el confort muscular.'
-    },
-    {
-        'name': 'Cloruro de Magnesio y D3',
-        'benefit': 'Contribuyen al mantenimiento saludable de los huesos y apoyan la regeneración natural de los tejidos.'
-    }
-],
-    longTailKeywords: [
-      'mejor suplemento de cúrcuma para confortar articulaciones',
-      'cómo absorber mejor los beneficios de la cúrcuma con pimienta',
-      'suplemento para proteger la piel del envejecimiento natural',
-      'beneficios de la cúrcuma para la salud articular integral',
-      'fórmula para reducir la pesadez de forma natural y segura',
-      'bienestar integral y cuidado celular con registro INVIMA',
-      'CLA 500 para pérdida de grasa saludable',
-      'suplemento natural para evitar el efecto rebote en dietas',
-      'tonificación muscular segura con ingredientes de alta pureza'
-    ],
-    seoFaqs: [
-      { q: '¿Cómo debo consumir este producto para obtener mejores resultados?', a: 'Consumir 1 cápsula al día con una comida principal.' },
-      { q: '¿Cómo funciona el CLA 500 en el cuerpo?', a: 'Ayuda a movilizar las grasas acumuladas para que el cuerpo las use como energía, favoreciendo la tonificación.' },
-      { q: '¿Necesito hacer ejercicio para ver resultados?', a: 'El ejercicio potencia enormemente los resultados de nuestra fórmula balanceada para un bienestar integral.' },
-      { q: '¿Tiene efectos secundarios?', a: 'Es un suplemento natural con calidad certificada, diseñado para ser seguro bajo las dosis recomendadas.' }
-    ],
-    promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 75900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 113850 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
-    ],
-    testimonials: [
-      { name: 'Julián Toro', text: 'He bajado dos tallas combinando CLA 500 con ejercicio. Realmente funciona.', rating: 5 },
-      { name: 'Paola V.', text: 'Me ayuda a marcar más los músculos y a reducir medidas difícil del abdomen.', rating: 5 },
-      { name: 'Mateo G.', text: 'Buen complemento para el gimnasio. Siento que sudo más y movilizo mejor la energía.', rating: 4 }
-    ],
-    whyChoose: {
-      title: 'Esculpe tu mejor versión',
-      description: 'En ZENHOGAR estamos comprometidos con tu salud, ofrecemos productos con registro INVIMA para resultados honestos. CLA 500 ayuda a reducir la grasa corporal y tonificar tus músculos mediante Ácido Linoleico Conjugado de alta pureza. Control de peso seguro y certificado.'
-    }
-  },
-  {
     id: 'booster-lion',
     masterId: '129326',
     name: 'Booster Lion',
@@ -2943,7 +2863,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     components: 'Ashwagandha, Gelatina, Glicerina, Sorbato de Potasio, Aceite Vegetal, Lecitina de Soya, Dioxido de Silicio',
     componentBenefits: [
       { name: 'Ashwagandha', benefit: 'Regula el sistema nervioso y controla el cortisol.' },
-      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+      { name: 'Aceite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
     ],
     longTailKeywords: [
       'mejor suplemento de ashwagandha para el estrés en Colombia',
@@ -3011,7 +2931,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     components: 'Resveratrol, Vitamina B3 (Nicotinamida), precursores de NAD+, Glicerina, Sorbato de Potasio, Aceite Vegetal',
     componentBenefits: [
       { name: 'Resveratrol y Vitamina B3', benefit: 'Estimulan la función del NAD+ celular y defienden la piel y órganos contra radicales libres.' },
-      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+      { name: 'Aceite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
     ],
     longTailKeywords: [
       'mejor suplemento de resveratrol y nad en Colombia para la vejez',
@@ -3093,7 +3013,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
       { q: '¿Es apto para personas con gastritis?', a: 'Sí, su fórmula amortiguada y balanceada ayuda a regular la acidez de forma natural sin agredir las mucosas.' }
     ],
     promos: [
-      { id: '1u', label: '1 Unidad', units: 1, price: 75900 },
+      { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
       { id: '2u', label: '2 Unidades', units: 2, price: 113850 },
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
       { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
@@ -3147,7 +3067,7 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     componentBenefits: [
       { name: 'Citrato de Potasio', benefit: 'Ayuda a la correcta función celular y muscular, combatiendo el sodio y la retención de liquidos, ayuda a prevenir la formacion de nuevos calculos renales.' },
       { name: 'Citrato de Magnesio', benefit: 'Favorece la relajación neuromuscular reduciendo el cansancio y calambres.' },
-      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+      { name: 'Aceite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
     ],
     longTailKeywords: [
       'mejor citrato de potasio y magnesio Colombia',
@@ -3216,7 +3136,7 @@ Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), e
     components: 'Orégano, Glicerina, Sorbato de Potasio, aceite Vegetal, Lecitina de Soya, Dioxido de Silicio',
     componentBenefits: [
       { name: 'Extracto de Orégano', benefit: 'Aporta una alta concentración de carvacrol para combatir agentes infecciosos e hinchazón.' },
-      { name: 'Aeite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
+      { name: 'Aceite Vegetal y Lecitina de Soya', benefit: 'Optimizan la biodisponibilidad de la fórmula para que tu cuerpo asimile los nutrientes de manera inmediata y eficiente.' }
     ],
     longTailKeywords: [
       'mejor suplemento de orégano con carvacrol en Colombia',
@@ -4197,39 +4117,39 @@ export const GIFT_PRODUCTS: GiftProduct[] = [
 ];
 
 export const COLOMBIA_DATA = {
-  'Amazonas': ['Leticia', 'Puerto Nariño'],
-  'Antioquia': ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Apartadó', 'Rionegro', 'Turbo', 'Caucasia', 'Chigorodó', 'Sabaneta', 'La Estrella', 'Caldas', 'Girardota', 'Copacabana', 'Marinilla', 'El Carmen de Viboral', 'Guaduas', 'Santa Rosa de Osos', 'Yarumal', 'Sonsón'],
-  'Arauca': ['Arauca', 'Saravena', 'Tame', 'Arauquita'],
-  'Atlántico': ['Barranquilla', 'Soledad', 'Malambo', 'Sabanalarga', 'Puerto Colombia', 'Baranoa', 'Galapa', 'Palmar de Varela', 'Santo Tomás'],
-  'Bolívar': ['Cartagena', 'Magangué', 'Turbaco', 'Arjona', 'Carmen de Bolívar'],
-  'Boyacá': ['Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá', 'Puerto Boyacá', 'Paipa', 'Moniquirá'],
-  'Caldas': ['Manizales', 'La Dorada', 'Chinchiná', 'Villamaría', 'Riosucio', 'Anserma'],
-  'Caquetá': ['Florencia', 'San Vicente del Caguán', 'Cartagena del Chairá', 'Puerto Rico'],
-  'Casanare': ['Yopal', 'Aguazul', 'Villanueva', 'Paz de Ariporo'],
-  'Cauca': ['Popayán', 'Santander de Quilichao', 'Puerto Tejada', 'Piendamó', 'Patía'],
-  'Cesar': ['Valledupar', 'Aguachica', 'Codazzi', 'La Paz', 'El Paso'],
-  'Chocó': ['Quibdó', 'Istmina', 'Condoto', 'Tadó'],
-  'Córdoba': ['Montería', 'Cereté', 'Sahagún', 'Lorica', 'Planeta Rica', 'Montelíbano', 'Tierralta'],
-  'Cundinamarca': ['Soacha', 'Fusagasugá', 'Facatativá', 'Zipaquirá', 'Chía', 'Girardot', 'Mosquera', 'Madrid', 'Funza', 'Cajicá', 'Ubaté', 'Ubaque', 'Tocancipá'],
-  'Bogotá D.C.': ['Bogotá'],
-  'Guainía': ['Inírida'],
-  'Guaviare': ['San José del Guaviare', 'Retorno'],
-  'Huila': ['Neiva', 'Pitalito', 'Garzón', 'La Plata', 'Campoalegre'],
-  'La Guajira': ['Riohacha', 'Maicao', 'Uribia', 'Manaure', 'Fonseca', 'San Juan del Cesar', 'Barrancas'],
-  'Magdalena': ['Santa Marta', 'Ciénaga', 'Fundación', 'El Banco', 'Plato'],
-  'Meta': ['Villavicencio', 'Acacías', 'Granada', 'Puerto López', 'Cumaral'],
-  'Nariño': ['Pasto', 'Ipiales', 'Tumaco', 'Túquerres', 'La Unión'],
-  'Norte de Santander': ['Cúcuta', 'Ocaña', 'Villa del Rosario', 'Los Patios', 'Pamplona', 'Tibú'],
-  'Putumayo': ['Mocoa', 'Puerto Asís', 'Orito', 'Sibundoy'],
-  'Quindío': ['Armenia', 'Calarcá', 'Quimbaya', 'Montenegro', 'Circasia', 'La Tebaida'],
-  'Risaralda': ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal', 'La Virginia', 'Belén de Umbría'],
+  'Amazonas': ['Leticia', 'Puerto Nariño', 'El Encanto', 'La Chorrera', 'La Pedrera', 'La Victoria', 'Mirití - Paraná', 'Puerto Alegría', 'Puerto Arica', 'Puerto Santander', 'Tarapacá'],
+  'Antioquia': ['Medellín', 'Abejorral', 'Abriaquí', 'Alejandría', 'Amagá', 'Amalfi', 'Andes', 'Angelópolis', 'Angostura', 'Anorí', 'Santa Fé De Antioquia', 'Anzá', 'Apartadó', 'Arboletes', 'Argelia', 'Armenia', 'Barbosa', 'Belmira', 'Bello', 'Betania', 'Betulia', 'Ciudad Bolívar', 'Briceño', 'Buriticá', 'Cáceres', 'Caicedo', 'Caldas', 'Campamento', 'Cañasgordas', 'Caracolí', 'Caramanta', 'Carepa', 'El Carmen De Viboral', 'Carolina', 'Caucasia', 'Chigorodó', 'Cisneros', 'Cocorná', 'Concepción', 'Concordia', 'Copacabana', 'Dabeiba', 'Donmatías', 'Ebéjico', 'El Bagre', 'Entrerríos', 'Envigado', 'Fredonia', 'Frontino', 'Giraldo', 'Girardota', 'Gómez Plata', 'Granada', 'Guadalupe', 'Guarne', 'Guatapé', 'Heliconia', 'Hispania', 'Itagüí', 'Ituango', 'Jardín', 'Jericó', 'La Ceja', 'La Estrella', 'La Pintada', 'La Unión', 'Liborina', 'Maceo', 'Marinilla', 'Montebello', 'Murindó', 'Mutatá', 'Nariño', 'Necoclí', 'Nechí', 'Olaya', 'Peñol', 'Peque', 'Pueblorrico', 'Puerto Berrío', 'Puerto Nare', 'Puerto Triunfo', 'Remedios', 'Retiro', 'Rionegro', 'Sabanalarga', 'Sabaneta', 'Salgar', 'San Andrés De Cuerquía', 'San Carlos', 'San Francisco', 'San Jerónimo', 'San José De La Montaña', 'San Juan De Urabá', 'San Luis', 'San Pedro De Los Milagros', 'San Pedro De Urabá', 'San Rafael', 'San Roque', 'San Vicente Ferrer', 'Santa Bárbara', 'Santa Rosa De Osos', 'Santo Domingo', 'El Santuario', 'Segovia', 'Sonsón', 'Sopetrán', 'Támesis', 'Tarazá', 'Tarso', 'Titiribí', 'Toledo', 'Turbo', 'Uramita', 'Urrao', 'Valdivia', 'Valparaíso', 'Vegachí', 'Venecia', 'Vigía Del Fuerte', 'Yalí', 'Yarumal', 'Yolombó', 'Yondó', 'Zaragoza'],
+  'Arauca': ['Arauca', 'Arauquita', 'Cravo Norte', 'Fortul', 'Puerto Rondón', 'Saravena', 'Tame'],
+  'Atlántico': ['Barranquilla', 'Baranoa', 'Campo De La Cruz', 'Candelaria', 'Galapa', 'Juan De Acosta', 'Luruaco', 'Malambo', 'Manatí', 'Palmar De Varela', 'Piojó', 'Polonuevo', 'Ponedera', 'Puerto Colombia', 'Repelón', 'Sabanagrande', 'Sabanalarga', 'Santa Lucía', 'Santo Tomás', 'Soledad', 'Suan', 'Tubará', 'Usiacurí'],
+  'Bogotá D.C.': ['Bogotá, D.C.'],
+  'Bolívar': ['Cartagena De Indias', 'Achí', 'Altos Del Rosario', 'Arenal', 'Arjona', 'Arroyohondo', 'Barranco De Loba', 'Calamar', 'Cantagallo', 'Cicuco', 'Córdoba', 'Clemencia', 'El Carmen De Bolívar', 'El Guamo', 'El Peñón', 'Hatillo De Loba', 'Magangué', 'Mahates', 'Margarita', 'María La Baja', 'Montecristo', 'Santa Cruz De Mompox', 'Morales', 'Norosí', 'Pinillos', 'Regidor', 'Río Viejo', 'San Cristóbal', 'San Estanislao', 'San Fernando', 'San Jacinto', 'San Jacinto Del Cauca', 'San Juan Nepomuceno', 'San Martín De Loba', 'San Pablo', 'Santa Catalina', 'Santa Rosa', 'Santa Rosa Del Sur', 'Simití', 'Soplaviento', 'Talaigua Nuevo', 'Tiquisio', 'Turbaco', 'Turbaná', 'Villanueva', 'Zambrano'],
+  'Boyacá': ['Tunja', 'Almeida', 'Aquitania', 'Arcabuco', 'Belén', 'Berbeo', 'Betéitiva', 'Boavita', 'Boyacá', 'Briceño', 'Buenavista', 'Busbanzá', 'Caldas', 'Campohermoso', 'Cerinza', 'Chinavita', 'Chiquinquirá', 'Chiscas', 'Chita', 'Chitaraque', 'Chivatá', 'Ciénega', 'Cómbita', 'Coper', 'Corrales', 'Covarachía', 'Cubará', 'Cucaita', 'Cuítiva', 'Chíquiza', 'Chivor', 'Duitama', 'El Cocuy', 'El Espino', 'Firavitoba', 'Floresta', 'Gachantivá', 'Gámeza', 'Garagoa', 'Guacamayas', 'Guateque', 'Guayatá', 'Güicán De La Sierra', 'Iza', 'Jenesano', 'Jericó', 'Labranzagrande', 'La Capilla', 'La Victoria', 'La Uvita', 'Villa De Leyva', 'Macanal', 'Maripí', 'Miraflores', 'Mongua', 'Monguí', 'Moniquirá', 'Motavita', 'Muzo', 'Nobsa', 'Nuevo Colón', 'Oicatá', 'Otanche', 'Pachavita', 'Páez', 'Paipa', 'Pajarito', 'Panqueba', 'Pauna', 'Paya', 'Paz De Río', 'Pesca', 'Pisba', 'Puerto Boyacá', 'Quípama', 'Ramiriquí', 'Ráquira', 'Rondón', 'Saboyá', 'Sáchica', 'Samacá', 'San Eduardo', 'San José De Pare', 'San Luis De Gaceno', 'San Mateo', 'San Miguel De Sema', 'San Pablo De Borbur', 'Santana', 'Santa María', 'Santa Rosa De Viterbo', 'Santa Sofía', 'Sativanorte', 'Sativasur', 'Siachoque', 'Soatá', 'Socotá', 'Socha', 'Sogamoso', 'Somondoco', 'Sora', 'Sotaquirá', 'Soracá', 'Susacón', 'Sutamarchán', 'Sutatenza', 'Tasco', 'Tenza', 'Tibaná', 'Tibasosa', 'Tinjacá', 'Tipacoque', 'Toca', 'Togüí', 'Tópaga', 'Tota', 'Tununguá', 'Turmequé', 'Tuta', 'Tutazá', 'Úmbita', 'Ventaquemada', 'Viracachá', 'Zetaquira'],
+  'Caldas': ['Manizales', 'Aguadas', 'Anserma', 'Aranzazu', 'Belalcázar', 'Chinchiná', 'Filadelfia', 'La Dorada', 'La Merced', 'Manzanares', 'Marmato', 'Marquetalia', 'Marulanda', 'Neira', 'Norcasia', 'Pácora', 'Palestina', 'Pensilvania', 'Riosucio', 'Risaralda', 'Salamina', 'Samaná', 'San José', 'Supía', 'Victoria', 'Villamaría', 'Viterbo'],
+  'Caquetá': ['Florencia', 'Albania', 'Belén De Los Andaquíes', 'Cartagena Del Chairá', 'Curillo', 'El Doncello', 'El Paujíl', 'La Montañita', 'Milán', 'Morelia', 'Puerto Rico', 'San José Del Fragua', 'San Vicente Del Caguán', 'Solano', 'Solita', 'Valparaíso'],
+  'Casanare': ['Yopal', 'Aguazul', 'Chámeza', 'Hato Corozal', 'La Salina', 'Maní', 'Monterrey', 'Nunchía', 'Orocué', 'Paz De Ariporo', 'Pore', 'Recetor', 'Sabanalarga', 'Sácama', 'San Luis De Palenque', 'Támara', 'Tauramena', 'Trinidad', 'Villanueva'],
+  'Cauca': ['Popayán', 'Almaguer', 'Argelia', 'Balboa', 'Bolívar', 'Buenos Aires', 'Cajibío', 'Caldono', 'Caloto', 'Corinto', 'El Tambo', 'Florencia', 'Guachené', 'Guapi', 'Inzá', 'Jambaló', 'La Sierra', 'La Vega', 'López De Micay', 'Mercaderes', 'Miranda', 'Morales', 'Padilla', 'Páez', 'Patía', 'Piamonte', 'Piendamó - Tunía', 'Puerto Tejada', 'Puracé', 'Rosas', 'San Sebastián', 'Santander De Quilichao', 'Santa Rosa', 'Silvia', 'Sotará - Paispamba', 'Suárez', 'Sucre', 'Timbío', 'Timbiquí', 'Toribío', 'Totoró', 'Villa Rica'],
+  'Cesar': ['Valledupar', 'Aguachica', 'Agustín Codazzi', 'Astrea', 'Becerril', 'Bosconia', 'Chimichagua', 'Chiriguaná', 'Curumaní', 'El Copey', 'El Paso', 'Gamarra', 'González', 'La Gloria', 'La Jagua De Ibirico', 'Manaure Balcón Del Cesar', 'Pailitas', 'Pelaya', 'Pueblo Bello', 'Río De Oro', 'La Paz', 'San Alberto', 'San Diego', 'San Martín', 'Tamalameque'],
+  'Chocó': ['Quibdó', 'Acandí', 'Alto Baudó', 'Atrato', 'Bagadó', 'Bahía Solano', 'Bajo Baudó', 'Bojayá', 'El Cantón Del San Pablo', 'Carmen Del Darién', 'Cértegui', 'Condoto', 'El Carmen De Atrato', 'El Litoral Del San Juan', 'Istmina', 'Juradó', 'Lloró', 'Medio Atrato', 'Medio Baudó', 'Medio San Juan', 'Nóvita', 'Nuevo Belén De Bajirá', 'Nuquí', 'Río Iró', 'Río Quito', 'Riosucio', 'San José Del Palmar', 'Sipí', 'Tadó', 'Unguía', 'Unión Panamericana'],
+  'Córdoba': ['Montería', 'Ayapel', 'Buenavista', 'Canalete', 'Cereté', 'Chimá', 'Chinú', 'Ciénaga De Oro', 'Cotorra', 'La Apartada', 'Lorica', 'Los Córdobas', 'Momil', 'Montelíbano', 'Moñitos', 'Planeta Rica', 'Pueblo Nuevo', 'Puerto Escondido', 'Puerto Libertador', 'Purísima De La Concepción', 'Sahagún', 'San Andrés De Sotavento', 'San Antero', 'San Bernardo Del Viento', 'San Carlos', 'San José De Uré', 'San Pelayo', 'Tierralta', 'Tuchín', 'Valencia'],
+  'Cundinamarca': ['Agua De Dios', 'Albán', 'Anapoima', 'Anolaima', 'Arbeláez', 'Beltrán', 'Bituima', 'Bojacá', 'Cabrera', 'Cachipay', 'Cajicá', 'Caparrapí', 'Cáqueza', 'Carmen De Carupa', 'Chaguaní', 'Chía', 'Chipaque', 'Choachí', 'Chocontá', 'Cogua', 'Cota', 'Cucunubá', 'El Colegio', 'El Peñón', 'El Rosal', 'Facatativá', 'Fómeque', 'Fosca', 'Funza', 'Fúquene', 'Fusagasugá', 'Gachalá', 'Gachancipá', 'Gachetá', 'Gama', 'Girardot', 'Granada', 'Guachetá', 'Guaduas', 'Guasca', 'Guataquí', 'Guatavita', 'Guayabal De Síquima', 'Guayabetal', 'Gutiérrez', 'Jerusalén', 'Junín', 'La Calera', 'La Mesa', 'La Palma', 'La Peña', 'La Vega', 'Lenguazaque', 'Machetá', 'Madrid', 'Manta', 'Medina', 'Mosquera', 'Nariño', 'Nemocón', 'Nilo', 'Nimaima', 'Nocaima', 'Venecia', 'Pacho', 'Paime', 'Pandi', 'Paratebueno', 'Pasca', 'Puerto Salgar', 'Pulí', 'Quebradanegra', 'Quetame', 'Quipile', 'Apulo', 'Ricaurte', 'San Antonio Del Tequendama', 'San Bernardo', 'San Cayetano', 'San Francisco', 'San Juan De Rioseco', 'Sasaima', 'Sesquilé', 'Sibaté', 'Silvania', 'Simijaca', 'Soacha', 'Sopó', 'Subachoque', 'Suesca', 'Supatá', 'Susa', 'Sutatausa', 'Tabio', 'Tausa', 'Tena', 'Tenjo', 'Tibacuy', 'Tibirita', 'Tocaima', 'Tocancipá', 'Topaipí', 'Ubalá', 'Ubaque', 'Villa De San Diego De Ubaté', 'Une', 'Útica', 'Vergara', 'Vianí', 'Villagómez', 'Villapinzón', 'Villeta', 'Viotá', 'Yacopí', 'Zipacón', 'Zipaquirá'],
+  'Guainía': ['Inírida', 'Barrancominas', 'San Felipe', 'Puerto Colombia', 'La Guadalupe', 'Cacahual', 'Pana Pana', 'Morichal'],
+  'Guaviare': ['San José Del Guaviare', 'Calamar', 'El Retorno', 'Miraflores'],
+  'Huila': ['Neiva', 'Acevedo', 'Agrado', 'Aipe', 'Algeciras', 'Altamira', 'Baraya', 'Campoalegre', 'Colombia', 'Elías', 'Garzón', 'Gigante', 'Guadalupe', 'Hobo', 'Íquira', 'Isnos', 'La Argentina', 'La Plata', 'Nátaga', 'Oporapa', 'Paicol', 'Palermo', 'Palestina', 'Pital', 'Pitalito', 'Rivera', 'Saladoblanco', 'San Agustín', 'Santa María', 'Suaza', 'Tarqui', 'Tesalia', 'Tello', 'Teruel', 'Timaná', 'Villavieja', 'Yaguará'],
+  'La Guajira': ['Riohacha', 'Albania', 'Barrancas', 'Dibulla', 'Distracción', 'El Molino', 'Fonseca', 'Hatonuevo', 'La Jagua Del Pilar', 'Maicao', 'Manaure', 'San Juan Del Cesar', 'Uribia', 'Urumita', 'Villanueva'],
+  'Magdalena': ['Santa Marta', 'Algarrobo', 'Aracataca', 'Ariguaní', 'Cerro De San Antonio', 'Chivolo', 'Ciénaga', 'Concordia', 'El Banco', 'El Piñón', 'El Retén', 'Fundación', 'Guamal', 'Nueva Granada', 'Pedraza', 'Pijiño Del Carmen', 'Pivijay', 'Plato', 'Puebloviejo', 'Remolino', 'Sabanas De San Ángel', 'Salamina', 'San Sebastián De Buenavista', 'San Zenón', 'Santa Ana', 'Santa Bárbara De Pinto', 'Sitionuevo', 'Tenerife', 'Zapayán', 'Zona Bananera'],
+  'Meta': ['Villavicencio', 'Acacías', 'Barranca De Upía', 'Cabuyaro', 'Castilla La Nueva', 'Cubarral', 'Cumaral', 'El Calvario', 'El Castillo', 'El Dorado', 'Fuente De Oro', 'Granada', 'Guamal', 'Mapiripán', 'Mesetas', 'La Macarena', 'Uribe', 'Lejanías', 'Puerto Concordia', 'Puerto Gaitán', 'Puerto López', 'Puerto Lleras', 'Puerto Rico', 'Restrepo', 'San Carlos De Guaroa', 'San Juan De Arama', 'San Juanito', 'San Martín', 'Vistahermosa'],
+  'Nariño': ['Pasto', 'Albán', 'Aldana', 'Ancuya', 'Arboleda', 'Barbacoas', 'Belén', 'Buesaco', 'Colón', 'Consacá', 'Contadero', 'Córdoba', 'Cuaspud Carlosama', 'Cumbal', 'Cumbitara', 'Chachagüí', 'El Charco', 'El Peñol', 'El Rosario', 'El Tablón De Gómez', 'El Tambo', 'Funes', 'Guachucal', 'Guaitarilla', 'Gualmatán', 'Iles', 'Imués', 'Ipiales', 'La Cruz', 'La Florida', 'La Llanada', 'La Tola', 'La Unión', 'Leiva', 'Linares', 'Los Andes', 'Magüí', 'Mallama', 'Mosquera', 'Nariño', 'Olaya Herrera', 'Ospina', 'Francisco Pizarro', 'Policarpa', 'Potosí', 'Providencia', 'Puerres', 'Pupiales', 'Ricaurte', 'Roberto Payán', 'Samaniego', 'Sandoná', 'San Bernardo', 'San Lorenzo', 'San Pablo', 'San Pedro De Cartago', 'Santa Bárbara', 'Santacruz', 'Sapuyes', 'Taminango', 'Tangua', 'San Andrés De Tumaco', 'Túquerres', 'Yacuanquer'],
+  'Norte de Santander': ['San José De Cúcuta', 'Ábrego', 'Arboledas', 'Bochalema', 'Bucarasica', 'Cácota', 'Cáchira', 'Chinácota', 'Chitagá', 'Convención', 'Cucutilla', 'Durania', 'El Carmen', 'El Tarra', 'El Zulia', 'Gramalote', 'Hacarí', 'Herrán', 'Labateca', 'La Esperanza', 'La Playa', 'Los Patios', 'Lourdes', 'Mutiscua', 'Ocaña', 'Pamplona', 'Pamplonita', 'Puerto Santander', 'Ragonvalia', 'Salazar', 'San Calixto', 'San Cayetano', 'Santiago', 'Sardinata', 'Silos', 'Teorama', 'Tibú', 'Toledo', 'Villa Caro', 'Villa Del Rosario'],
+  'Putumayo': ['Mocoa', 'Colón', 'Orito', 'Puerto Asís', 'Puerto Caicedo', 'Puerto Guzmán', 'Puerto Leguízamo', 'Sibundoy', 'San Francisco', 'San Miguel', 'Santiago', 'Valle Del Guamuez', 'Villagarzón'],
+  'Quindío': ['Armenia', 'Buenavista', 'Calarcá', 'Circasia', 'Córdoba', 'Filandia', 'Génova', 'La Tebaida', 'Montenegro', 'Pijao', 'Quimbaya', 'Salento'],
+  'Risaralda': ['Pereira', 'Apía', 'Balboa', 'Belén De Umbría', 'Dosquebradas', 'Guática', 'La Celia', 'La Virginia', 'Marsella', 'Mistrató', 'Pueblo Rico', 'Quinchía', 'Santa Rosa De Cabal', 'Santuario'],
   'San Andrés y Providencia': ['San Andrés', 'Providencia'],
-  'Santander': ['Bucaramanga', 'Floridablanca', 'Girón', 'Piedecuesta', 'Barrancabermeja', 'San Gil', 'Socorro', 'Barbosa'],
-  'Sucre': ['Sincelejo', 'Corozal', 'Sampués', 'Tolú'],
-  'Tolima': ['Ibagué', 'Espinal', 'Melgar', 'Mariquita', 'Honda', 'Chaparral', 'Líbano'],
-  'Valle del Cauca': ['Cali', 'Buenaventura', 'Palmira', 'Tuluá', 'Cartago', 'Jamundí', 'Buga', 'Yumbo', 'Candelaria', 'Florida', 'Pradera', 'Zarzal'],
-  'Vaupés': ['Mitú'],
-  'Vichada': ['Puerto Carreño', 'La Primavera']
+  'Santander': ['Bucaramanga', 'Aguada', 'Albania', 'Aratoca', 'Barbosa', 'Barichara', 'Barrancabermeja', 'Betulia', 'Bolívar', 'Cabrera', 'California', 'Capitanejo', 'Carcasí', 'Cepitá', 'Cerrito', 'Charalá', 'Charta', 'Chima', 'Chipatá', 'Cimitarra', 'Concepción', 'Confines', 'Contratación', 'Coromoro', 'Curití', 'El Carmen De Chucurí', 'El Guacamayo', 'El Peñón', 'El Playón', 'Encino', 'Enciso', 'Florián', 'Floridablanca', 'Galán', 'Gámbita', 'Girón', 'Guaca', 'Guadalupe', 'Guapotá', 'Guavatá', 'Güepsa', 'Hato', 'Jesús María', 'Jordán', 'La Belleza', 'Landázuri', 'La Paz', 'Lebrija', 'Los Santos', 'Macaravita', 'Málaga', 'Matanza', 'Mogotes', 'Molagavita', 'Ocamonte', 'Oiba', 'Onzaga', 'Palmar', 'Palmas Del Socorro', 'Páramo', 'Piedecuesta', 'Pinchote', 'Puente Nacional', 'Puerto Parra', 'Puerto Wilches', 'Rionegro', 'Sabana De Torres', 'San Andrés', 'San Benito', 'San Gil', 'San Joaquín', 'San José De Miranda', 'San Miguel', 'San Vicente De Chucurí', 'Santa Bárbara', 'Santa Helena Del Opón', 'Simacota', 'Socorro', 'Suaita', 'Sucre', 'Suratá', 'Tona', 'Valle De San José', 'Vélez', 'Vetas', 'Villanueva', 'Zapatoca'],
+  'Sucre': ['Sincelejo', 'Buenavista', 'Caimito', 'Colosó', 'Corozal', 'Coveñas', 'Chalán', 'El Roble', 'Galeras', 'Guaranda', 'La Unión', 'Los Palmitos', 'Majagual', 'Morroa', 'Ovejas', 'Palmito', 'Sampués', 'San Benito Abad', 'San Juan De Betulia', 'San Marcos', 'San Onofre', 'San Pedro', 'San Luis De Sincé', 'Sucre', 'Santiago De Tolú', 'San José De Toluviejo'],
+  'Tolima': ['Ibagué', 'Alpujarra', 'Alvarado', 'Ambalema', 'Anzoátegui', 'Armero', 'Ataco', 'Cajamarca', 'Carmen De Apicalá', 'Casabianca', 'Chaparral', 'Coello', 'Coyaima', 'Cunday', 'Dolores', 'Espinal', 'Falan', 'Flandes', 'Fresno', 'Guamo', 'Herveo', 'Honda', 'Icononzo', 'Lérida', 'Líbano', 'San Sebastián De Mariquita', 'Melgar', 'Murillo', 'Natagaima', 'Ortega', 'Palocabildo', 'Piedras', 'Planadas', 'Prado', 'Purificación', 'Rioblanco', 'Roncesvalles', 'Rovira', 'Saldaña', 'San Antonio', 'San Luis', 'Santa Isabel', 'Suárez', 'Valle De San Juan', 'Venadillo', 'Villahermosa', 'Villarrica'],
+  'Valle del Cauca': ['Santiago De Cali', 'Alcalá', 'Andalucía', 'Ansermanuevo', 'Argelia', 'Bolívar', 'Buenaventura', 'Guadalajara De Buga', 'Bugalagrande', 'Caicedonia', 'Calima', 'Candelaria', 'Cartago', 'Dagua', 'El Águila', 'El Cairo', 'El Cerrito', 'El Dovio', 'Florida', 'Ginebra', 'Guacarí', 'Jamundí', 'La Cumbre', 'La Unión', 'La Victoria', 'Obando', 'Palmira', 'Pradera', 'Restrepo', 'Riofrío', 'Roldanillo', 'San Pedro', 'Sevilla', 'Toro', 'Trujillo', 'Tuluá', 'Ulloa', 'Versalles', 'Vijes', 'Yotoco', 'Yumbo', 'Zarzal'],
+  'Vaupés': ['Mitú', 'Carurú', 'Pacoa', 'Taraira', 'Papunahua', 'Yavaraté'],
+  'Vichada': ['Puerto Carreño', 'La Primavera', 'Santa Rosalía', 'Cumaribo']
 };
 
 export const GENERAL_FAQS = [
