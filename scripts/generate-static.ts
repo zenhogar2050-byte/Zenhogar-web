@@ -41,8 +41,15 @@ async function generate() {
     
     console.log('Bundle de servidor encontrado en:', serverModulePath);
 
-    const { render } = await import(serverModulePath as any);
-
+    const module = await import(serverModulePath as any);
+    console.log('Module exports:', Object.keys(module));
+    
+    const render = module.render || module.default?.render || module.default;
+    
+    if (typeof render !== 'function') {
+        console.error('ERROR: render no es una función.');
+        process.exit(1);
+    }
     const BASE_URL = 'https://zenhogar.live';
     const distIndexHtml = fs.readFileSync(path.join(process.cwd(), 'dist/index.html'), 'utf-8');
 
