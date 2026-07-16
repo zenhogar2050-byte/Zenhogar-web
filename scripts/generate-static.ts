@@ -3,12 +3,43 @@ import path from 'path';
 import { PRODUCTS, PROMOTIONS, CATEGORIES, COMBO_OF_THE_MONTH } from '../src/constants';
 
 async function generate() {
-    const serverModulePath = path.resolve(process.cwd(), 'dist/server/main-server.js');
+    const serverDir = path.resolve(process.cwd(), 'dist/server');
     
-    if (!fs.existsSync(serverModulePath)) {
-        console.error('ERROR: No se encontró el bundle de servidor en dist/server/main-server.js.');
+    if (!fs.existsSync(serverDir)) {
+        console.error('ERROR: No se encontró el directorio dist/server.');
         process.exit(1);
     }
+    
+    // Buscamos el archivo JS más grande como bundle principal
+    let bundlePath = '';
+    let maxFileSize = 0;
+
+    function searchBundle(dir: string) {
+        const files = fs.readdirSync(dir);
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            if (fs.statSync(fullPath).isDirectory()) {
+                searchBundle(fullPath);
+            } else if (file.endsWith('.js')) {
+                const size = fs.statSync(fullPath).size;
+                if (size > maxFileSize) {
+                    maxFileSize = size;
+                    bundlePath = fullPath;
+                }
+            }
+        }
+    }
+    
+    searchBundle(serverDir);
+    
+    let serverModulePath = bundlePath;
+    
+    if (!serverModulePath || !fs.existsSync(serverModulePath)) {
+        console.error('ERROR: No se encontró el bundle de servidor (.js) en dist/server/.');
+        process.exit(1);
+    }
+    
+    console.log('Bundle de servidor encontrado en:', serverModulePath);
 
     const { render } = await import(serverModulePath as any);
 
