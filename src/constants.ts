@@ -3014,9 +3014,9 @@ Especialmente formulada para pieles frágiles, esta solución botánica esencial
     ],
     promos: [
       { id: '1u', label: '1 Unidad', units: 1, price: 79900 },
-      { id: '2u', label: '2 Unidades', units: 2, price: 113850 },
-      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 151800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 227700, badge: '🔥 Mejor Oferta' }
+      { id: '2u', label: '2 Unidades', units: 2, price: 119850 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 159800, badge: '⭐ Recomendado' },
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 239700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Isabela M.', text: 'Me ha ayudado muchísimo a desinflamarme el estómago y a controlar la ansiedad por las tardes. Súper recomendado.', rating: 5 },
