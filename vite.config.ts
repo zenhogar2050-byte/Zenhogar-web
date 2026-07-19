@@ -7,13 +7,13 @@ import { PRODUCTS, PROMOTIONS, CATEGORIES, COMBO_OF_THE_MONTH } from './src/cons
 export default defineConfig((configEnv) => {
   const { mode } = configEnv;
   const isSsr = !!(
-    configEnv.ssrBuild || 
+    (configEnv as any).ssrBuild || 
     (configEnv as any).isSsrBuild || 
     process.env.VITE_SSR === 'true' || 
     process.argv.includes('--ssr') ||
     process.argv.some(arg => arg.includes('main-server'))
   );
-  console.log(`[Vite Config] Build Mode: ${mode}, isSsr: ${isSsr}, ssrBuild: ${configEnv.ssrBuild}, argv: ${process.argv.join(' ')}`);
+  console.log(`[Vite Config] Build Mode: ${mode}, isSsr: ${isSsr}, ssrBuild: ${(configEnv as any).ssrBuild}, argv: ${process.argv.join(' ')}`);
   const env = loadEnv(mode, '.', '');
   return {
     base: '/',
@@ -52,7 +52,9 @@ export default defineConfig((configEnv) => {
       noExternal: ['react-helmet-async', 'react-router-dom', 'react-router'],
     },
     build: {
+      ssr: isSsr ? 'src/main-server.tsx' : undefined,
       rollupOptions: {
+        input: isSsr ? 'src/main-server.tsx' : undefined,
         output: isSsr ? {
           entryFileNames: 'main-server.js',
           assetFileNames: '[name].[ext]',
