@@ -4,7 +4,9 @@ import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import { PRODUCTS, PROMOTIONS, CATEGORIES, COMBO_OF_THE_MONTH } from './src/constants';
 
-export default defineConfig(({mode}) => {
+export default defineConfig((configEnv) => {
+  const { mode } = configEnv;
+  const isSsr = !!(configEnv.ssrBuild || (configEnv as any).isSsrBuild || process.env.VITE_SSR === 'true');
   const env = loadEnv(mode, '.', '');
   return {
     base: '/',
@@ -44,8 +46,12 @@ export default defineConfig(({mode}) => {
     },
     build: {
       rollupOptions: {
-        output: {
-          manualChunks: mode === 'production' && !process.env.VITE_SSR ? {
+        output: isSsr ? {
+          entryFileNames: 'main-server.js',
+          assetFileNames: '[name].[ext]',
+          chunkFileNames: '[name].js',
+        } : {
+          manualChunks: mode === 'production' ? {
             'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
             'vendor-ui': ['lucide-react', 'motion/react', 'clsx', 'tailwind-merge'],
           } : undefined,

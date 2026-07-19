@@ -10,29 +10,32 @@ async function generate() {
         process.exit(1);
     }
     
-    // Buscamos el archivo JS más grande como bundle principal
-    let bundlePath = '';
-    let maxFileSize = 0;
+    // Buscamos primero el archivo esperado directamente, si no, buscamos recursivamente
+    let serverModulePath = path.resolve(serverDir, 'main-server.js');
+    
+    if (!fs.existsSync(serverModulePath)) {
+        let bundlePath = '';
+        let maxFileSize = 0;
 
-    function searchBundle(dir: string) {
-        const files = fs.readdirSync(dir);
-        for (const file of files) {
-            const fullPath = path.join(dir, file);
-            if (fs.statSync(fullPath).isDirectory()) {
-                searchBundle(fullPath);
-            } else if (file.endsWith('.js')) {
-                const size = fs.statSync(fullPath).size;
-                if (size > maxFileSize) {
-                    maxFileSize = size;
-                    bundlePath = fullPath;
+        function searchBundle(dir: string) {
+            const files = fs.readdirSync(dir);
+            for (const file of files) {
+                const fullPath = path.join(dir, file);
+                if (fs.statSync(fullPath).isDirectory()) {
+                    searchBundle(fullPath);
+                } else if (file.endsWith('.js')) {
+                    const size = fs.statSync(fullPath).size;
+                    if (size > maxFileSize) {
+                        maxFileSize = size;
+                        bundlePath = fullPath;
+                    }
                 }
             }
         }
+        
+        searchBundle(serverDir);
+        serverModulePath = bundlePath;
     }
-    
-    searchBundle(serverDir);
-    
-    let serverModulePath = bundlePath;
     
     if (!serverModulePath || !fs.existsSync(serverModulePath)) {
         console.error('ERROR: No se encontró el bundle de servidor (.js) en dist/server/.');
