@@ -6,7 +6,14 @@ import { PRODUCTS, PROMOTIONS, CATEGORIES, COMBO_OF_THE_MONTH } from './src/cons
 
 export default defineConfig((configEnv) => {
   const { mode } = configEnv;
-  const isSsr = !!(configEnv.ssrBuild || (configEnv as any).isSsrBuild || process.env.VITE_SSR === 'true');
+  const isSsr = !!(
+    configEnv.ssrBuild || 
+    (configEnv as any).isSsrBuild || 
+    process.env.VITE_SSR === 'true' || 
+    process.argv.includes('--ssr') ||
+    process.argv.some(arg => arg.includes('main-server'))
+  );
+  console.log(`[Vite Config] Build Mode: ${mode}, isSsr: ${isSsr}, ssrBuild: ${configEnv.ssrBuild}, argv: ${process.argv.join(' ')}`);
   const env = loadEnv(mode, '.', '');
   return {
     base: '/',
