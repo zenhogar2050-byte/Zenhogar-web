@@ -100,20 +100,20 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 md:h-24 items-center">
-          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4 lg:gap-6 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-4 lg:gap-6 shrink-0 -ml-2">
             {/* Mobile Menu Button - Moved to Left */}
             <button
               onClick={() => {
                 setIsOpen(!isOpen);
                 setIsSearchOpen(false);
               }}
-              className="md:hidden p-1.5 sm:p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              className="md:hidden p-1 sm:p-2 text-stone-600 hover:text-emerald-600 transition-colors"
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
-            <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group shrink-0">
+            <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group shrink-0 -ml-1">
               <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0">
                   <img 
                     src="/assets/logo/logo-icon.webp" 
@@ -147,20 +147,6 @@ export default function Navbar() {
                 </Link>
               ))}
             </div>
-          </div>
-
-          {/* Mobile Search - Centered between Name and Cart */}
-          <div className="md:hidden flex-1 flex justify-center items-center px-1 min-w-0">
-            <button
-              onClick={() => {
-                setIsSearchOpen(!isSearchOpen);
-                setIsOpen(false);
-              }}
-              className="p-1.5 sm:p-2 text-stone-600 hover:text-emerald-600 transition-colors"
-              aria-label="Buscar"
-            >
-              <Search className="w-5 h-5" />
-            </button>
           </div>
 
           {/* Desktop Right Navigation - Search, Product Dropdown & Cart */}
@@ -379,31 +365,41 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Actions - Buttons on Right */}
-          <div className="md:hidden flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <div className="md:hidden flex items-center gap-1.5 shrink-0 -mr-1">
+            <button
+              onClick={() => {
+                setIsSearchOpen(!isSearchOpen);
+                setIsOpen(false);
+              }}
+              className="p-1.5 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Buscar"
+            >
+              <Search className="w-6 h-6" />
+            </button>
             <Link 
               to="/checkout" 
-              className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              className="relative p-1.5 text-stone-600 hover:text-emerald-600 transition-colors"
               aria-label="Ver carrito"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-8 h-8" />
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-emerald-600 text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white">
+                <span className="absolute top-0 right-0 bg-emerald-600 text-white text-[11px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
                   {cartCount}
                 </span>
               )}
             </Link>
-            <div className="relative" ref={countryRef}>
+            <div className="relative ml-0.5" ref={countryRef}>
               <button
                 onClick={() => setIsCountryOpen(!isCountryOpen)}
-                className="flex items-center gap-1 px-2 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-bold text-stone-800 active:scale-95 transition-transform"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-sm font-bold text-stone-800 active:scale-95 transition-transform"
                 aria-label="Seleccionar país"
               >
                 <img 
                   src={country === 'EC' ? "/assets/logo/Logo-ecuador.webp" : "/assets/logo/logo-colombia.webp"} 
                   alt={country === 'EC' ? "Ecuador" : "Colombia"} 
-                  className="w-4 h-3 object-cover rounded-xs shrink-0" 
+                  className="w-8 h-6 object-cover rounded-sm shrink-0" 
                 />
-                <ChevronDown className="w-3 h-3 text-stone-500" />
+                <ChevronDown className="w-4 h-4 text-stone-500" />
               </button>
 
               <AnimatePresence>
