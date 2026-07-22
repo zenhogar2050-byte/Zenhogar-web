@@ -310,7 +310,11 @@ export default function Navbar() {
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-stone-100 hover:bg-stone-200/80 border border-stone-200 text-xs font-bold text-stone-800 transition-all shadow-sm"
                 aria-label="Seleccionar país de envío"
               >
-                <span className="text-base leading-none">{country === 'EC' ? '🇪🇨' : '🇨🇴'}</span>
+                <img 
+                  src={country === 'EC' ? "/assets/logo/Logo-ecuador.webp" : "/assets/logo/logo-colombia.webp"} 
+                  alt={country === 'EC' ? "Ecuador" : "Colombia"} 
+                  className="w-4 h-3 object-cover rounded-xs shrink-0" 
+                />
                 <ChevronDown className="w-3.5 h-3.5 text-stone-500" />
               </button>
 
@@ -334,7 +338,7 @@ export default function Navbar() {
                       )}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-base">🇨🇴</span>
+                        <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                         <span>Colombia</span>
                       </div>
                       {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
@@ -350,7 +354,7 @@ export default function Navbar() {
                       )}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-base">🇪🇨</span>
+                        <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                         <span>Ecuador</span>
                       </div>
                       {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
@@ -394,7 +398,11 @@ export default function Navbar() {
                 className="flex items-center gap-1 px-2 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-bold text-stone-800 active:scale-95 transition-transform"
                 aria-label="Seleccionar país"
               >
-                <span className="text-sm leading-none">{country === 'EC' ? '🇪🇨' : '🇨🇴'}</span>
+                <img 
+                  src={country === 'EC' ? "/assets/logo/Logo-ecuador.webp" : "/assets/logo/logo-colombia.webp"} 
+                  alt={country === 'EC' ? "Ecuador" : "Colombia"} 
+                  className="w-4 h-3 object-cover rounded-xs shrink-0" 
+                />
                 <ChevronDown className="w-3 h-3 text-stone-500" />
               </button>
 
@@ -418,7 +426,7 @@ export default function Navbar() {
                       )}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-base">🇨🇴</span>
+                        <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                         <span>Colombia</span>
                       </div>
                       {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
@@ -434,7 +442,7 @@ export default function Navbar() {
                       )}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-base">🇪🇨</span>
+                        <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                         <span>Ecuador</span>
                       </div>
                       {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
@@ -558,7 +566,7 @@ export default function Navbar() {
                         : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
                     )}
                   >
-                    <span className="text-base">🇨🇴</span>
+                    <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-5 h-3.5 object-cover rounded-xs shrink-0" />
                     <span>Colombia</span>
                   </button>
                   <button
@@ -573,7 +581,7 @@ export default function Navbar() {
                         : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
                     )}
                   >
-                    <span className="text-base">🇪🇨</span>
+                    <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-5 h-3.5 object-cover rounded-xs shrink-0" />
                     <span>Ecuador</span>
                   </button>
                 </div>

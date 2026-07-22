@@ -31,7 +31,7 @@ export default function Checkout() {
   const departments = Object.keys(locationData || {});
   const cities = formData.department ? (locationData as any)[formData.department] || [] : [];
   const phonePrefix = isEC ? '+593' : '+57';
-  const whatsappTarget = isEC ? '593987654321' : '573024102568';
+  const whatsappTarget = '573024102568';
 
   // Endpoints
   const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';

@@ -1606,7 +1606,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 selectedCountry === 'CO' ? "bg-white/20 text-white" : "text-stone-400"
               )}
             >
-              <span>🇨🇴</span>
+              <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-3.5 h-2.5 object-cover rounded-xs shrink-0" />
               <span>CO</span>
             </button>
             <button
@@ -1617,7 +1617,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 selectedCountry === 'EC' ? "bg-white/20 text-white" : "text-stone-400"
               )}
             >
-              <span>🇪🇨</span>
+              <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-3.5 h-2.5 object-cover rounded-xs shrink-0" />
               <span>EC</span>
             </button>
           </div>
@@ -1782,7 +1782,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 )}
                 title="Ver pedidos de Colombia"
               >
-                <span className="text-sm">🇨🇴</span>
+                <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                 <span>Colombia</span>
               </button>
               <button
@@ -1796,7 +1796,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 )}
                 title="Ver pedidos de Ecuador"
               >
-                <span className="text-sm">🇪🇨</span>
+                <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                 <span>Ecuador</span>
               </button>
             </div>
