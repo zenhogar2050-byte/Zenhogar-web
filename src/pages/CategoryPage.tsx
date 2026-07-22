@@ -1,15 +1,20 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { PRODUCTS, CATEGORIES, COMBO_OF_THE_MONTH, PROMOTIONS } from '../constants';
+import { CATEGORIES, COMBO_OF_THE_MONTH, PROMOTIONS } from '../constants';
 import { ArrowRight, ArrowLeft, Sparkles, Heart, Zap, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import Footer from '../components/Footer';
 import SEOManager from '../components/SEOManager';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { formatCurrency, cn } from '../utils';
+import { useCart } from '../CartContext';
 
 export default function CategoryPage() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const { getProducts, getCategories, isCO } = useCart();
+
+  const activeCategories = getCategories();
+  const availableProducts = getProducts();
 
   // Normalización ultra-robusta de slugs para emparejar enlaces basados tanto en ID como en Nombre de la categoría
   const cleanStr = (str: string) => 
@@ -22,7 +27,7 @@ export default function CategoryPage() {
 
   const targetIdClean = id ? cleanStr(id) : '';
 
-  const category = CATEGORIES.find(c => {
+  const category = activeCategories.find(c => {
     const cleanId = cleanStr(c.id);
     const cleanName = cleanStr(c.name);
     return cleanId === targetIdClean || cleanName === targetIdClean;
@@ -30,7 +35,7 @@ export default function CategoryPage() {
 
   const isCombosCategory = category?.id === 'combos';
 
-  const comboProducts = [
+  const comboProducts = isCO ? [
     ...PROMOTIONS.map(p => ({
       ...p,
       basePrice: p.price,
@@ -38,16 +43,16 @@ export default function CategoryPage() {
       size: 'Envío Gratis',
       presentation: p.id === 'promo-9' ? 'Kit Completo' : 'Kit Promocional',
     }))
-  ];
+  ] : [];
 
   const categoryProducts = isCombosCategory
     ? comboProducts
     : (category 
-        ? PRODUCTS.filter(p => cleanStr(p.category) === cleanStr(category.id))
+        ? availableProducts.filter(p => cleanStr(p.category) === cleanStr(category.id))
         : []);
 
-  const currentIndex = category ? CATEGORIES.findIndex(c => c.id === category.id) : -1;
-  const nextCategory = currentIndex !== -1 ? CATEGORIES[(currentIndex + 1) % CATEGORIES.length] : null;
+  const currentIndex = category ? activeCategories.findIndex(c => c.id === category.id) : -1;
+  const nextCategory = currentIndex !== -1 ? activeCategories[(currentIndex + 1) % activeCategories.length] : null;
 
   const handleNextCategory = () => {
     if (nextCategory) {

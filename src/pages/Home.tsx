@@ -23,11 +23,25 @@ const SYMPTOMS = [
 export default function Home() {
   const navigate = useNavigate();
   const { hash } = useLocation();
-  const { addComboToCart } = useCart();
+  const { addComboToCart, getProducts, getCategories, isEC, formatPrice } = useCart();
   const [stock, setStock] = useState(42);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
 
-  const launchProductIds = [
+  const availableProducts = getProducts();
+  const currentCategories = getCategories();
+
+  const launchProductIds = isEC ? [
+    'coliplus',
+    'hemocream',
+    'tonico-capilar',
+    'colageno',
+    'rtafull',
+    'derman',
+    'locion',
+    'mamooth',
+    'titan-coffee',
+    'instant-virgin'
+  ] : [
     'ashwagandha',
     'resveratrol-nad',
     'vinagre-manzana',
@@ -37,8 +51,9 @@ export default function Home() {
     'guanda-mix',
     'booster-lion'
   ];
+
   const launchProducts = launchProductIds
-    .map(id => PRODUCTS.find(p => p.id === id))
+    .map(id => availableProducts.find(p => p.id === id))
     .filter((p): p is NonNullable<typeof p> => !!p);
 
   useEffect(() => {
@@ -114,7 +129,7 @@ export default function Home() {
       <section className="py-12 bg-stone-50 border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
-            {CATEGORIES.map((category) => {
+            {currentCategories.map((category) => {
               const Icon = category.id === 'salud-bienestar' ? Activity : 
                            category.id === 'belleza-integral' ? Sparkles : Flame;
               
@@ -170,8 +185,8 @@ export default function Home() {
                           referrerPolicy="no-referrer"
                           width="64"
                           height="64"
-                          loading={CATEGORIES.indexOf(category) === 0 ? "eager" : "lazy"}
-                          fetchPriority={CATEGORIES.indexOf(category) === 0 ? "high" : "low"}
+                          loading={currentCategories.indexOf(category) === 0 ? "eager" : "lazy"}
+                          fetchPriority={currentCategories.indexOf(category) === 0 ? "high" : "low"}
                           decoding="async"
                         />
                       ) : (
@@ -189,71 +204,71 @@ export default function Home() {
                 </Link>
               );
             })}
-          </div>
-
-          {/* Mobile-Only Oferta del Mes (Combo del Mes) */}
-          <div className="mt-10 md:hidden">
-            <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Oferta del Mes</h2>
-            <div
-              className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col"
-            >
-              <Link to={`/combo/${COMBO_OF_THE_MONTH.id}`} className="flex flex-col h-full" aria-label={`Ver detalles de ${COMBO_OF_THE_MONTH.name}`}>
-                <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 shrink-0">
-                  <img
-                    src={COMBO_OF_THE_MONTH.image}
-                    alt={COMBO_OF_THE_MONTH.name}
-                    width={400}
-                    height={400}
-                    loading="lazy"
-                    className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="px-2 flex flex-col flex-grow text-left">
-                  <div className="flex flex-col gap-2 mb-3">
-                    <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{cleanPromoName(COMBO_OF_THE_MONTH.name)}</h3>
-                    
-                    <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
-                      <div className="inline-block px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-100 shadow-sm whitespace-nowrap">
-                        🔒 OFERTA DEL MES
+                  {/* Mobile-Only Oferta del Mes (Combo del Mes) */}
+          {!isEC && (
+            <div className="mt-10 md:hidden">
+              <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Oferta del Mes</h2>
+              <div
+                className="group bg-white rounded-3xl p-4 border border-stone-200 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-900/5 transition-all flex flex-col"
+              >
+                <Link to={`/combo/${COMBO_OF_THE_MONTH.id}`} className="flex flex-col h-full" aria-label={`Ver detalles de ${COMBO_OF_THE_MONTH.name}`}>
+                  <div className="aspect-square rounded-2xl overflow-hidden bg-stone-100 mb-6 flex items-center justify-center p-2 shrink-0">
+                    <img
+                      src={COMBO_OF_THE_MONTH.image}
+                      alt={COMBO_OF_THE_MONTH.name}
+                      width={400}
+                      height={400}
+                      loading="lazy"
+                      className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="px-2 flex flex-col flex-grow text-left">
+                    <div className="flex flex-col gap-2 mb-3">
+                      <h3 className="text-xl font-bold text-stone-900 font-display leading-tight">{cleanPromoName(COMBO_OF_THE_MONTH.name)}</h3>
+                      
+                      <div className="flex flex-wrap items-center gap-1.5 min-h-[32px]">
+                        <div className="inline-block px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-100 shadow-sm whitespace-nowrap">
+                          🔒 OFERTA DEL MES
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+                          <span className="whitespace-nowrap">Envío GRATIS + Pago Contraentrega</span>
+                        </div>
                       </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white text-stone-900 text-[10px] font-normal border border-stone-200 shadow-sm">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-                        <span className="whitespace-nowrap">Envío GRATIS + Pago Contraentrega</span>
+                    </div>
+
+                    <div className="flex flex-col gap-1 mb-4">
+                      <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">El combo contiene:</span>
+                      <p className="text-stone-500 text-sm">{COMBO_OF_THE_MONTH.components}</p>
+                    </div>
+
+                    {/* Benefits with checkmarks */}
+                    <div className="space-y-2 mb-6">
+                      {COMBO_OF_THE_MONTH.benefits.slice(0, 4).map((benefit, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0 mt-0.5" />
+                          <span className="text-xs text-stone-700 font-medium">
+                            {benefit}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
+                      <div className="flex flex-col">
+                        <span className="text-stone-400 text-xs line-through">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</span>
+                        <span className="text-2xl font-bold text-stone-900">{formatCurrency(COMBO_OF_THE_MONTH.price)}</span>
+                      </div>
+                      <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center transition-colors group-hover:bg-emerald-600 shrink-0">
+                        <ArrowRight className="w-5 h-5" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="flex flex-col gap-1 mb-4">
-                    <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">El combo contiene:</span>
-                    <p className="text-stone-500 text-sm">{COMBO_OF_THE_MONTH.components}</p>
-                  </div>
-
-                  {/* Benefits with checkmarks */}
-                  <div className="space-y-2 mb-6">
-                    {COMBO_OF_THE_MONTH.benefits.slice(0, 4).map((benefit, i) => (
-                      <div key={i} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-800 flex-shrink-0 mt-0.5" />
-                        <span className="text-xs text-stone-700 font-medium">
-                          {benefit}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-stone-100">
-                    <div className="flex flex-col">
-                      <span className="text-stone-400 text-xs line-through">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</span>
-                      <span className="text-2xl font-bold text-stone-900">{formatCurrency(COMBO_OF_THE_MONTH.price)}</span>
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center transition-colors group-hover:bg-emerald-600 shrink-0">
-                      <ArrowRight className="w-5 h-5" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             </div>
-          </div>
+          )}        </div>
 
           {/* New Mobile-Only Best Sellers Section */}
           <div className="mt-10 md:hidden">
@@ -337,101 +352,103 @@ export default function Home() {
       </section>
 
       {/* Combo of the Month */}
-      <section id="oferta-del-mes" className="pt-8 pb-4 lg:pt-12 lg:pb-6 bg-white hidden sm:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16"
-          >
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
-              <div className="text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-600 text-white text-[10px] sm:text-xs font-black tracking-widest uppercase mb-6 lg:mb-8">
-                  <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                  <span>{COMBO_OF_THE_MONTH.badge}</span>
-                </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black mb-4 lg:mb-6 leading-tight font-display">
-                  {cleanPromoName(COMBO_OF_THE_MONTH.name)}
-                </h2>
-                <div className="mb-8 lg:mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
-                  <h3 className="text-emerald-500 font-bold text-[27px] mb-2 leading-tight">{COMBO_OF_THE_MONTH.whyChoose?.title}</h3>
-                  <p className="text-[21px] lg:text-[21px] text-stone-200 leading-relaxed font-medium">
-                    {COMBO_OF_THE_MONTH.whyChoose?.description}
-                  </p>
+      {!isEC && (
+        <section id="oferta-del-mes" className="pt-8 pb-4 lg:pt-12 lg:pb-6 bg-white hidden sm:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+              className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16"
+            >
+              <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
+                <div className="text-center lg:text-left">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-600 text-white text-[10px] sm:text-xs font-black tracking-widest uppercase mb-6 lg:mb-8">
+                    <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                    <span>{COMBO_OF_THE_MONTH.badge}</span>
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black mb-4 lg:mb-6 leading-tight font-display">
+                    {cleanPromoName(COMBO_OF_THE_MONTH.name)}
+                  </h2>
+                  <div className="mb-8 lg:mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
+                    <h3 className="text-emerald-500 font-bold text-[27px] mb-2 leading-tight">{COMBO_OF_THE_MONTH.whyChoose?.title}</h3>
+                    <p className="text-[21px] lg:text-[21px] text-stone-200 leading-relaxed font-medium">
+                      {COMBO_OF_THE_MONTH.whyChoose?.description}
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row items-center lg:items-end gap-4 sm:gap-6 mb-8 lg:mb-10">
+                    <div className="text-center sm:text-left">
+                      <div className="text-stone-500 text-xs sm:text-sm line-through mb-1">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</div>
+                      <div className="text-4xl sm:text-5xl font-black text-emerald-500">{formatCurrency(COMBO_OF_THE_MONTH.price)}</div>
+                    </div>
+                    <div className="bg-emerald-600/20 text-emerald-500 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold" role="status">
+                      Ahorra {formatCurrency(COMBO_OF_THE_MONTH.originalPrice - COMBO_OF_THE_MONTH.price)}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <button 
+                      ref={buyButtonRef}
+                      onClick={handleComboBuy}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-stone-900 rounded-2xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl group"
+                      aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
+                    >
+                      <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                      APROVECHAR OFERTA
+                    </button>
+                  </div>
+
+                  <div className="mt-8 flex flex-col gap-4">
+                    <div className="flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
+                      <Zap className="w-5 h-5 fill-current animate-pulse" />
+                      <span>Envío GRATIS + Pago Contra Entrega</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-white/80 font-bold text-sm lg:text-base">
+                      <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                      <span>Certificación INVIMA Garantizada</span>
+                    </div>
+                  </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row items-center lg:items-end gap-4 sm:gap-6 mb-8 lg:mb-10">
-                  <div className="text-center sm:text-left">
-                    <div className="text-stone-500 text-xs sm:text-sm line-through mb-1">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</div>
-                    <div className="text-4xl sm:text-5xl font-black text-emerald-500">{formatCurrency(COMBO_OF_THE_MONTH.price)}</div>
-                  </div>
-                  <div className="bg-emerald-600/20 text-emerald-500 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold" role="status">
-                    Ahorra {formatCurrency(COMBO_OF_THE_MONTH.originalPrice - COMBO_OF_THE_MONTH.price)}
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <button 
-                    ref={buyButtonRef}
-                    onClick={handleComboBuy}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-stone-900 rounded-2xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl group"
-                    aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
-                  >
-                    <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                    APROVECHAR OFERTA
-                  </button>
-                </div>
-
-                <div className="mt-8 flex flex-col gap-4">
-                  <div className="flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
-                    <Zap className="w-5 h-5 fill-current animate-pulse" />
-                    <span>Envío GRATIS + Pago Contra Entrega</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/80 font-bold text-sm lg:text-base">
-                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                    <span>Certificación INVIMA Garantizada</span>
+                <div className="relative mt-4 lg:mt-0 flex justify-center">
+                  <div className="w-full max-w-[500px] aspect-square flex items-center justify-center">
+                    {COMBO_OF_THE_MONTH.videoUrl || COMBO_OF_THE_MONTH.videoUrlMp4 ? (
+                      <ProductVideo 
+                        webmUrl={COMBO_OF_THE_MONTH.videoUrl}
+                        mp4Url={COMBO_OF_THE_MONTH.videoUrlMp4}
+                        poster={COMBO_OF_THE_MONTH.videoPoster}
+                        className="rounded-[3rem] shadow-2xl"
+                      />
+                    ) : (
+                      <img 
+                        src={COMBO_OF_THE_MONTH.image} 
+                        alt={COMBO_OF_THE_MONTH.name}
+                        width={500}
+                        height={500}
+                        loading="lazy"
+                        fetchPriority="low"
+                        decoding="async"
+                        className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu hover:scale-105 transition-transform duration-700"
+                        referrerPolicy="no-referrer"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
               
-              <div className="relative mt-4 lg:mt-0 flex justify-center">
-                <div className="w-full max-w-[500px] aspect-square flex items-center justify-center">
-                  {COMBO_OF_THE_MONTH.videoUrl || COMBO_OF_THE_MONTH.videoUrlMp4 ? (
-                    <ProductVideo 
-                      webmUrl={COMBO_OF_THE_MONTH.videoUrl}
-                      mp4Url={COMBO_OF_THE_MONTH.videoUrlMp4}
-                      poster={COMBO_OF_THE_MONTH.videoPoster}
-                      className="rounded-[3rem] shadow-2xl"
-                    />
-                  ) : (
-                    <img 
-                      src={COMBO_OF_THE_MONTH.image} 
-                      alt={COMBO_OF_THE_MONTH.name}
-                      width={500}
-                      height={500}
-                      loading="lazy"
-                      fetchPriority="low"
-                      decoding="async"
-                      className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu hover:scale-105 transition-transform duration-700"
-                      referrerPolicy="no-referrer"
-                    />
-                  )}
-                </div>
+              {/* Background pattern */}
+              <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
               </div>
             </div>
-            
-            {/* Background pattern */}
-            <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none">
-              <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#grid)" />
-              </svg>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Products Grid */}
       <section id="productos" className="py-24 bg-stone-50 hidden md:block">
@@ -598,13 +615,23 @@ export default function Home() {
 
       <FAQSection generalFaqs={GENERAL_FAQS} />
       
-      <StickyCTA 
-        name={COMBO_OF_THE_MONTH.name}
-        image={COMBO_OF_THE_MONTH.image}
-        price={COMBO_OF_THE_MONTH.price}
-        onBuy={handleComboBuy}
-        desktopTriggerRef={buyButtonRef}
-      />
+      {!isEC ? (
+        <StickyCTA 
+          name={COMBO_OF_THE_MONTH.name}
+          image={COMBO_OF_THE_MONTH.image}
+          price={COMBO_OF_THE_MONTH.price}
+          onBuy={handleComboBuy}
+          desktopTriggerRef={buyButtonRef}
+        />
+      ) : launchProducts.length > 0 ? (
+        <StickyCTA 
+          name={launchProducts[0].name}
+          image={launchProducts[0].image}
+          price={launchProducts[0].promos?.[0]?.price || launchProducts[0].basePrice}
+          onBuy={() => navigate(`/producto/${launchProducts[0].id}`)}
+          desktopTriggerRef={buyButtonRef}
+        />
+      ) : null}
 
       {/* Footer */}
       <Footer />

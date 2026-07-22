@@ -130,13 +130,21 @@ async function generate() {
     <url>
         <loc>${BASE_URL}/</loc>
         <lastmod>${today}</lastmod>
+        <changefreq>daily</changefreq>
         <priority>1.0</priority>
-    </url>${routes.filter(r => r.path !== '/').map(r => `
+    </url>${routes.filter(r => r.path !== '/' && r.path !== '/404').map(r => {
+        const isProductOrCombo = r.path.startsWith('/producto/') || r.path.startsWith('/combo/');
+        const isCategory = r.path.startsWith('/categoria/');
+        const freq = isProductOrCombo ? 'weekly' : (isCategory ? 'weekly' : 'monthly');
+        const prio = isProductOrCombo ? '0.9' : (isCategory ? '0.8' : '0.5');
+        return `
     <url>
         <loc>${BASE_URL}${r.path}</loc>
         <lastmod>${today}</lastmod>
-        <priority>0.8</priority>
-    </url>`).join('')}
+        <changefreq>${freq}</changefreq>
+        <priority>${prio}</priority>
+    </url>`;
+    }).join('')}
 </urlset>`.trim();
 
     fs.writeFileSync('dist/sitemap.xml', sitemap);

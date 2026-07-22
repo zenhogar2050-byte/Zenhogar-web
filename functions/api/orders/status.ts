@@ -21,16 +21,26 @@ export const onRequestPost: PagesFunction = async (context) => {
       ...body,
       type: "update_status",
       token: env.SHEETS_SECURITY_TOKEN || env.VITE_SHEETS_SECURITY_TOKEN || "zenhogar_secret_2026",
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' })
     };
 
+    // Petición hacia Google Apps Script permitiendo redirecciones automáticas
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      redirect: "follow"
     });
 
-    const result = await response.json();
+    const textResult = await response.text();
+    let result: any;
+
+    try {
+      result = JSON.parse(textResult);
+    } catch {
+      result = { status: "success", rawResponse: textResult };
+    }
+
     return new Response(JSON.stringify(result), {
       headers: { 
         "Content-Type": "application/json", 

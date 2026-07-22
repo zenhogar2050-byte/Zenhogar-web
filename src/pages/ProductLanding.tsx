@@ -23,9 +23,11 @@ export default function ProductLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { addToCart, addComboToCart } = useCart();
+  const { addToCart, addComboToCart, getProducts } = useCart();
   const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
   const buyButtonRef = useRef<HTMLButtonElement>(null);
+
+  const availableProducts = getProducts();
 
   // Normalización ultra-robusta de slugs para emparejar enlaces basados tanto en ID como en Nombre comercial del producto
   const cleanStr = (str: string) => 
@@ -38,7 +40,7 @@ export default function ProductLanding() {
 
   const targetIdClean = id ? cleanStr(id) : '';
 
-  const product = PRODUCTS.find(p => {
+  const product = availableProducts.find(p => {
     const cleanId = cleanStr(p.id);
     const cleanName = cleanStr(p.name);
     return cleanId === targetIdClean || cleanName === targetIdClean;
@@ -59,7 +61,7 @@ export default function ProductLanding() {
       }
       
       // 3. Caso general por inclusión / coincidencia difusa de ID o Nombre
-      const fuzzyProduct = PRODUCTS.find(p => {
+      const fuzzyProduct = availableProducts.find(p => {
         const cleanId = cleanStr(p.id);
         const cleanName = cleanStr(p.name);
         return targetIdClean.includes(cleanId) || cleanId.includes(targetIdClean) ||
@@ -69,10 +71,10 @@ export default function ProductLanding() {
         navigate(`/producto/${fuzzyProduct.id}`, { replace: true });
       }
     }
-  }, [id, product, targetIdClean, navigate]);
+  }, [id, product?.id, targetIdClean, navigate]);
 
-  const currentIndex = product ? PRODUCTS.findIndex(p => p.id === product.id) : -1;
-  const nextProduct = currentIndex !== -1 ? PRODUCTS[(currentIndex + 1) % PRODUCTS.length] : null;
+  const currentIndex = product ? availableProducts.findIndex(p => p.id === product.id) : -1;
+  const nextProduct = currentIndex !== -1 ? availableProducts[(currentIndex + 1) % availableProducts.length] : null;
 
   const handleNextProduct = () => {
     if (nextProduct) {
@@ -101,17 +103,18 @@ export default function ProductLanding() {
     if (galleryItems.length > 0) {
       setActiveItem(galleryItems[0]);
     }
-  }, [id, product]);
+  }, [id, product?.id]);
+
+  const promoParam = searchParams.get('promo');
 
   useEffect(() => {
-    const promoParam = searchParams.get('promo');
     if (promoParam && product) {
       const found = product.promos.find(p => p.label === promoParam || p.id === promoParam);
       if (found) setSelectedPromo(found.id);
-    } else if (product) {
+    } else if (product && product.promos.length > 0) {
       setSelectedPromo(product.promos[0].id);
     }
-  }, [id, product, searchParams]);
+  }, [id, product?.id, promoParam]);
 
   useEffect(() => {
     if (product) {
@@ -628,7 +631,7 @@ export default function ProductLanding() {
                   <Info className="w-7 h-7" /> {product.whyChoose?.title || `¿Por qué elegir ${product.name}?`}
                 </h3>
                 <p className="text-xl text-emerald-800 leading-relaxed font-medium">
-                  {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes colombianos.'}
+                  {product.whyChoose?.description || 'Este suplemento ha sido formulado bajo los más altos estándares de calidad. Al elegirlo, aseguras un tratamiento natural efectivo, con respaldo científico y resultados comprobados por miles de clientes.'}
                 </p>
               </div>
 

@@ -60,7 +60,7 @@ import { getOrdersFromFirebase, updateOrderStatusInFirebase, deleteOrderFromFire
 import InventoryManager from '../components/InventoryManager';
 import { useInventory } from '../hooks/useInventory';
 import { doc, updateDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
-import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, COLOMBIA_DATA } from '../constants';
+import { PRODUCTS, GIFT_PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES, COLOMBIA_DATA, ECUADOR_DATA } from '../constants';
 import * as XLSX from 'xlsx';
 
 interface Order {
@@ -115,6 +115,65 @@ const formatDuration = (ms: number) => {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+  const [selectedCountry, setSelectedCountry] = useState<'CO' | 'EC'>(() => {
+    return (localStorage.getItem('admin_selected_country') as 'CO' | 'EC') || 'CO';
+  });
+
+  const handleCountryChange = (country: 'CO' | 'EC') => {
+    setSelectedCountry(country);
+    localStorage.setItem('admin_selected_country', country);
+  };
+
+  const getOrderCountry = (o: any): 'CO' | 'EC' => {
+    if (!o) return selectedCountry;
+
+    // 1. Explicit country property
+    const c = (o.country || o.customer?.country || '').toString().trim().toUpperCase();
+    if (c === 'EC' || c === 'ECUADOR') return 'EC';
+    if (c === 'CO' || c === 'COLOMBIA') return 'CO';
+
+    // 2. Explicit currency property
+    const curr = (o.currency || o.cart?.currency || '').toString().trim().toUpperCase();
+    if (curr === 'USD') return 'EC';
+    if (curr === 'COP') return 'CO';
+
+    // 3. Total monetary value threshold (COP orders are > $1,000 COP, USD orders in Ecuador are $20-$150)
+    const val = Number(o.total) || Number(o.cart?.total) || 0;
+    if (val > 1000) return 'CO';
+
+    // 4. Phone prefix or structure check
+    const phone = (o.customer?.phone || o.customer?.telefono || '').toString().trim();
+    if (phone.startsWith('+593') || phone.startsWith('593')) return 'EC';
+    if (phone.startsWith('+57') || phone.startsWith('57') || (phone.length === 10 && phone.startsWith('3'))) return 'CO';
+
+    // 5. City exact match in COLOMBIA_DATA vs ECUADOR_DATA
+    const dept = (o.customer?.department || o.customer?.departamento || '').trim().toLowerCase();
+    const city = (o.customer?.city || o.customer?.ciudad || '').trim().toLowerCase();
+
+    if (city) {
+      for (const cities of Object.values(COLOMBIA_DATA)) {
+        if (cities.some(cit => cit.toLowerCase() === city)) return 'CO';
+      }
+      for (const cities of Object.values(ECUADOR_DATA)) {
+        if (cities.some(cit => cit.toLowerCase() === city)) return 'EC';
+      }
+    }
+
+    // 6. Department vs Province unique match
+    if (dept) {
+      const colombiaDepts = Object.keys(COLOMBIA_DATA).map(d => d.toLowerCase());
+      const ecuadorProvinces = Object.keys(ECUADOR_DATA).map(p => p.toLowerCase());
+
+      const inCo = colombiaDepts.some(d => d === dept || dept.includes(d));
+      const inEc = ecuadorProvinces.some(p => p === dept || dept.includes(p));
+
+      if (inCo && !inEc) return 'CO';
+      if (inEc && !inCo) return 'EC';
+    }
+
+    return 'CO';
+  };
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -162,7 +221,7 @@ export default function AdminDashboard() {
 
     // Calculate details text
     const detailsText = newItems
-      .map(item => `${item.quantity}x ${item.name} (${formatCurrency(item.price)})`)
+      .map(item => `${item.quantity}x ${item.name} (${formatCurrency(item.price, selectedCountry)})`)
       .join(', ');
 
     // Calculate total price
@@ -501,17 +560,39 @@ export default function AdminDashboard() {
     const ticketStr = order.ticket_number ? `*#${order.ticket_number}*` : '';
     const guideStr = order.tracking_guide ? `\n📦 *Guía de Seguimiento:* ${order.tracking_guide}` : '';
     
-    // Add product details
+    // Add product details safely
     let itemsDetails = '';
-    if (order.cart && order.cart.items && order.cart.items.length > 0) {
-      itemsDetails = '\n\n🛍️ *Detalle del pedido:* \n' + order.cart.items.map(item => {
-        return `- ${item.productName} (${item.promoLabel}) - Cantidad: ${item.quantity} (Total unidades: ${item.units * item.quantity})`;
-      }).join('\n');
+    let itemsToProcess = order.cart?.items || [];
+    
+    if (itemsToProcess.length === 0 && order.id === 'draft-new' && manualOrderItems.length > 0) {
+      itemsToProcess = manualOrderItems.map(item => ({
+        productName: item.name,
+        name: item.name,
+        quantity: item.quantity,
+        promoLabel: item.promoLabel || item.label || '',
+        units: item.units || 1
+      }));
     }
+    
+    if (itemsToProcess.length > 0) {
+      itemsDetails = '\n\n🛍️ *Detalle del pedido:* \n' + itemsToProcess.map((item: any) => {
+        const name = item.productName || item.name || 'Producto';
+        const promoLabelStr = item.promoLabel || item.label ? ` (${item.promoLabel || item.label})` : '';
+        const qty = item.quantity || item.qty || 1;
+        const units = typeof item.units === 'number' && !isNaN(item.units) && item.units > 0 ? item.units : 1;
+        const totalUnits = units * qty;
+        return `- ${name}${promoLabelStr} - Cantidad: ${qty} (Total unidades: ${totalUnits})`;
+      }).join('\n');
+    } else if (order.order_details) {
+      itemsDetails = `\n\n🛍️ *Detalle del pedido:* \n- ${order.order_details}`;
+    }
+    
+    const totalVal = order.total || order.cart?.total || 0;
+    const totalStr = totalVal > 0 ? `\n💰 *Valor Total:* ${formatCurrency(totalVal, getOrderCountry(order))}` : '';
     
     return `¡Hola ${order.customer.nombre || order.customer.fullName || ''}! Te saludamos de *Zenhogar*. 🌿
 
-Confirmamos que tu pedido ${ticketStr} ha sido procesado correctamente.${itemsDetails}${guideStr}
+Confirmamos que tu pedido ${ticketStr} ha sido procesado correctamente.${itemsDetails}${totalStr}${guideStr}
 
 Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios. Cualquier duda, estamos para ayudarte.
 
@@ -1148,7 +1229,8 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
   }, []);
 
   const filteredOrders = useMemo(() => (orders || [])
-    .filter(o => o && (filter === 'all' || o.type === filter))
+    .filter(o => o && getOrderCountry(o) === selectedCountry)
+    .filter(o => filter === 'all' || o.type === filter)
     .filter(o => {
       if (selectedStatuses.length === 0) return true;
       return selectedStatuses.includes(o.status);
@@ -1189,7 +1271,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
         email.includes(search) ||
         ticket.includes(search)
       );
-    }), [orders, filter, searchTerm, startDate, endDate, selectedStatuses]);
+    }), [orders, filter, searchTerm, startDate, endDate, selectedStatuses, selectedCountry]);
 
   const buildMastershopPayload = (order: Order) => {
     const customer = order.customer || {};
@@ -1300,7 +1382,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
     });
 
     const now = new Date().getTime();
-    const ordersOnly = orders.filter(o => o.type === 'order');
+    const ordersOnly = filteredOrders.filter(o => o.type === 'order');
 
     ordersOnly.forEach(o => {
       const status = o.status;
@@ -1514,12 +1596,38 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
           <img src="/favicon.png" className="w-6 h-6 object-contain" alt="Logo" />
           <span className="font-bold text-sm tracking-tight">ZENHOGAR Admin</span>
         </div>
-        <button 
-          onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
-          className="text-[10px] font-black uppercase text-stone-400"
-        >
-          Salir
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center bg-stone-800 p-0.5 rounded-lg border border-white/10">
+            <button
+              type="button"
+              onClick={() => handleCountryChange('CO')}
+              className={cn(
+                "px-2 py-1 rounded-md text-[10px] font-bold transition-all flex items-center gap-1",
+                selectedCountry === 'CO' ? "bg-white/20 text-white" : "text-stone-400"
+              )}
+            >
+              <span>🇨🇴</span>
+              <span>CO</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleCountryChange('EC')}
+              className={cn(
+                "px-2 py-1 rounded-md text-[10px] font-bold transition-all flex items-center gap-1",
+                selectedCountry === 'EC' ? "bg-white/20 text-white" : "text-stone-400"
+              )}
+            >
+              <span>🇪🇨</span>
+              <span>EC</span>
+            </button>
+          </div>
+          <button 
+            onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
+            className="text-[10px] font-black uppercase text-stone-400 ml-1"
+          >
+            Salir
+          </button>
+        </div>
       </div>
 
       {/* Sidebar Desktop */}
@@ -1661,12 +1769,45 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
             <div className="h-4 w-px bg-stone-200 hidden sm:block" />
             <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest hidden sm:block">Zenhogar v2.1.2</p>
           </div>
-          <button 
-            onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
-            className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors"
-          >
-            Cerrar Sesión
-          </button>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center bg-stone-100 p-1 rounded-xl border border-stone-200">
+              <button
+                type="button"
+                onClick={() => handleCountryChange('CO')}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all",
+                  selectedCountry === 'CO' 
+                    ? "bg-white text-stone-900 shadow-sm" 
+                    : "text-stone-500 hover:text-stone-800"
+                )}
+                title="Ver pedidos de Colombia"
+              >
+                <span className="text-sm">🇨🇴</span>
+                <span>Colombia</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleCountryChange('EC')}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all",
+                  selectedCountry === 'EC' 
+                    ? "bg-white text-stone-900 shadow-sm" 
+                    : "text-stone-500 hover:text-stone-800"
+                )}
+                title="Ver pedidos de Ecuador"
+              >
+                <span className="text-sm">🇪🇨</span>
+                <span>Ecuador</span>
+              </button>
+            </div>
+
+            <button 
+              onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
+              className="px-4 py-2 text-stone-400 hover:text-red-500 font-bold text-[10px] uppercase tracking-widest transition-colors"
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </header>
 
         <div className="p-4 lg:p-8">
@@ -1682,7 +1823,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   <StatCard 
                     label="Ingresos Estimados" 
-                    value={formatCurrency(stats.ingresosEstimados)} 
+                    value={formatCurrency(stats.ingresosEstimados, selectedCountry)} 
                     icon={<DollarSign className="w-5 h-5" />}
                     color="emerald"
                   />
@@ -2221,7 +2362,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200">
                                   <span className="text-[11px] font-normal text-black whitespace-nowrap">
-                                    {formatCurrency(order.total || order.cart?.total || 0)}
+                                    {formatCurrency(order.total || order.cart?.total || 0, getOrderCountry(order))}
                                   </span>
                                 </td>
                                 <td className="px-2 py-1.5 border-r border-stone-200">
@@ -2356,7 +2497,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   <StatCard 
                     label="Ingresos Estimados" 
-                    value={formatCurrency(stats.ingresosEstimados)} 
+                    value={formatCurrency(stats.ingresosEstimados, selectedCountry)} 
                     icon={<DollarSign className="w-5 h-5" />}
                     color="emerald"
                   />
@@ -2409,7 +2550,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                           <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94a3b8' }} />
                           <Tooltip 
                             contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                            formatter={(value: any) => typeof value === 'number' ? formatCurrency(value) : value}
+                            formatter={(value: any) => typeof value === 'number' ? formatCurrency(value, selectedCountry) : value}
                           />
                           <Area type="monotone" dataKey="ingresos" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorIngresos)" />
                         </AreaChart>
@@ -3162,7 +3303,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                   />
                                   <label htmlFor={`check-${prod.internalId}`} className="flex-grow text-xs leading-tight font-medium text-stone-800 cursor-pointer">
                                     <span className="font-semibold">{prod.name}</span>
-                                    <span className="text-[10px] text-stone-400 block font-mono">ID: {prod.idProduct || prod.internalId} — Precio Base: {formatCurrency(prod.basePrice)}</span>
+                                    <span className="text-[10px] text-stone-400 block font-mono">ID: {prod.idProduct || prod.internalId} — Precio Base: {formatCurrency(prod.basePrice, selectedCountry)}</span>
                                   </label>
                                 </div>
 
@@ -3649,7 +3790,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                    <span className="font-bold text-stone-800">{q}x {item.name || item.productName}</span>
                                    {label && <span className="text-[10px] text-stone-500 font-medium uppercase tracking-wider">{label}</span>}
                                  </div>
-                                 <span className="font-black text-emerald-600">{formatCurrency(item.price ? (item.price * q) : 0)}</span>
+                                 <span className="font-black text-emerald-600">{formatCurrency(item.price ? (item.price * q) : 0, getOrderCountry(selectedOrder))}</span>
                                </li>
                              );
                           })}
@@ -3659,7 +3800,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                       )}
                       <div className="mt-4 pt-4 border-t-2 border-dashed border-stone-200 flex justify-between items-center font-black text-lg text-stone-900">
                         <span>TOTAL</span>
-                        <span className="text-emerald-600">{formatCurrency(selectedOrder.total || selectedOrder.cart?.total || 0)}</span>
+                        <span className="text-emerald-600">{formatCurrency(selectedOrder.total || selectedOrder.cart?.total || 0, getOrderCountry(selectedOrder))}</span>
                       </div>
                     </div>
                   </section>

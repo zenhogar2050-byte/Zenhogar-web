@@ -91,6 +91,8 @@ export const CATEGORIES = [
   }
 ];
 
+export type Category = typeof CATEGORIES[number];
+
 export const PRODUCTS: Product[] = [
   {
     id: 'rtafull',
@@ -4155,11 +4157,11 @@ export const COLOMBIA_DATA = {
 export const GENERAL_FAQS = [
   {
     q: "¿Cómo es el proceso de envío?",
-    a: "Realizamos envíos a toda Colombia. El tiempo estimado es de 2 a 5 días hábiles dependiendo de tu ubicación. Recibirás un número de guía para rastrear tu pedido."
+    a: "Realizamos envíos a todo el país. El tiempo estimado es de 2 a 5 días hábiles dependiendo de tu ubicación. Recibirás un número de guía para rastrear tu pedido."
   },
   {
-    q: "¿Tienen registro INVIMA?",
-    a: "Sí, todos nuestros productos son originales y cuentan con su respectivo Registro Sanitario INVIMA vigente, garantizando su seguridad y calidad."
+    q: "¿Tienen registro y certificaciones sanitarias?",
+    a: "Sí, todos nuestros productos son 100% originales y cuentan con sus correspondientes registros de calidad y certificados sanitarios vigentes."
   },
   {
     q: "¿Cómo funciona el pago contra entrega?",
@@ -4170,3 +4172,191 @@ export const GENERAL_FAQS = [
     a: "Garantizamos que recibirás un producto 100% original y en perfecto estado. Si el empaque llega dañado, realizamos el cambio sin costo adicional."
   }
 ];
+
+// ECUADOR CONFIGURATION & PRODUCT LIST
+export const ECUADOR_PRODUCT_IDS = [
+  'coliplus',
+  'hemocream',
+  'tonico-capilar',
+  'colageno',
+  'rtafull',
+  'derman',
+  'locion',
+  'mamooth',
+  'titan-coffee',
+  'instant-virgin'
+];
+
+export interface EcuadorPricing {
+  basePrice: number;
+  promos: {
+    id: string;
+    label: string;
+    units: number;
+    price: number;
+    badge?: string;
+  }[];
+}
+
+export const ECUADOR_PRICING: Record<string, EcuadorPricing> = {
+  'coliplus': {
+    basePrice: 37.00,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 37.00 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 55.50 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 74.00, badge: '⭐ Recomendado' }
+    ]
+  },
+  'hemocream': {
+    basePrice: 34.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 34.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 52.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 69.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'tonico-capilar': {
+    basePrice: 34.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 34.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 52.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 69.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'colageno': {
+    basePrice: 37.00,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 37.00 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 55.50 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 74.00, badge: '⭐ Recomendado' }
+    ]
+  },
+  'rtafull': {
+    basePrice: 34.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 34.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 52.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 69.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'derman': {
+    basePrice: 34.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 34.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 52.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 69.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'locion': {
+    basePrice: 32.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 32.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 49.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 65.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'mamooth': {
+    basePrice: 33.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 33.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 50.99 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 67.98, badge: '⭐ Recomendado' }
+    ]
+  },
+  'titan-coffee': {
+    basePrice: 37.00,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 37.00 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 55.50 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 74.00, badge: '⭐ Recomendado' }
+    ]
+  },
+  'instant-virgin': {
+    basePrice: 34.99,
+    promos: [
+      { id: '1u', label: '1 Unidad', units: 1, price: 34.99 },
+      { id: '2u', label: '2 Unidades', units: 2, price: 52.49 },
+      { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 69.98, badge: '⭐ Recomendado' }
+    ]
+  }
+};
+
+export const ECUADOR_DATA: Record<string, string[]> = {
+  'Azuay': ['Cuenca', 'Gualaceo', 'Paute', 'Santa Isabel', 'Sigsig', 'Girón', 'Chordeleg', 'Camilo Ponce Enríquez'],
+  'Bolívar': ['Guaranda', 'Chimbo', 'San Miguel', 'Caluma', 'Echeandía', 'Las Naves'],
+  'Cañar': ['Azogues', 'La Troncal', 'Cañar', 'Biblián', 'El Tambo'],
+  'Carchi': ['Tulcán', 'San Gabriel (Montúfar)', 'Bolívar', 'Espejo (El Ángel)', 'Mira'],
+  'Chimborazo': ['Riobamba', 'Alausí', 'Guano', 'Chambo', 'Colta', 'Cumandá', 'Pallatanga'],
+  'Cotopaxi': ['Latacunga', 'Salcedo', 'Pujilí', 'La Maná', 'Saquisilí', 'Sigchos'],
+  'El Oro': ['Machala', 'Pasaje', 'Santa Rosa', 'Arenillas', 'Huaquillas', 'Piñas', 'Zaruma', 'El Guabo'],
+  'Esmeraldas': ['Esmeraldas', 'Quinindé', 'Atacames', 'San Lorenzo', 'Muisne', 'Rioverde'],
+  'Galápagos': ['Puerto Baquerizo Moreno', 'Puerto Ayora', 'Puerto Villamil'],
+  'Guayas': ['Guayaquil', 'Durán', 'Samborondón', 'Daule', 'Milagro', 'Salitre', 'Balzar', 'El Triunfo', 'Naranjal', 'Pedro Carbo', 'Playas (General Villamil)'],
+  'Imbabura': ['Ibarra', 'Otavalo', 'Cotacachi', 'Antonio Ante (Atuntaqui)', 'Pimampiro', 'Urcuquí'],
+  'Loja': ['Loja', 'Catamayo', 'Calvas (Cariamanga)', 'Macará', 'Paltas (Catacocha)', 'Saraguro'],
+  'Los Ríos': ['Babahoyo', 'Quevedo', 'Ventanas', 'Vinces', 'Buena Fe', 'Puebloviejo', 'Valencia'],
+  'Manabí': ['Portoviejo', 'Manta', 'Chone', 'Montecristi', 'Jipijapa', 'Bahía de Caráquez (Sucre)', 'El Carmen', 'Pedernales', 'Rocafuerte'],
+  'Morona Santiago': ['Macas', 'Gualaquiza', 'Sucúa'],
+  'Napo': ['Tena', 'Archidona', 'El Chaqui'],
+  'Orellana': ['Puerto Francisco de Orellana (El Coca)', 'La Joya de los Sachas'],
+  'Pastaza': ['Puyo', 'Mera', 'Santa Clara'],
+  'Pichincha': ['Quito', 'Rumiñahui (Sangolquí)', 'Mejía (Machachi)', 'Cayambe', 'Puerto Quito', 'Pedro Moncayo (Tabacundo)', 'San Miguel de los Bancos'],
+  'Santa Elena': ['Santa Elena', 'La Libertad', 'Salinas'],
+  'Santo Domingo de los Tsáchilas': ['Santo Domingo', 'La Concordia'],
+  'Sucumbíos': ['Nueva Loja (Lago Agrio)', 'Shushufindi'],
+  'Tungurahua': ['Ambato', 'Baños de Agua Santa', 'Pelileo', 'Píllaro', 'Cevallos', 'Tisaleo'],
+  'Zamora Chinchipe': ['Zamora', 'Yantzaza']
+};
+
+let cachedEcuadorProducts: Product[] | null = null;
+let cachedEcuadorCategories: Category[] | null = null;
+let cachedColombiaCategories: Category[] | null = null;
+
+export function getProductsForCountry(country: 'CO' | 'EC' = 'CO'): Product[] {
+  if (country === 'EC') {
+    if (!cachedEcuadorProducts) {
+      cachedEcuadorProducts = PRODUCTS
+        .filter(p => ECUADOR_PRODUCT_IDS.includes(p.id))
+        .map(p => {
+          const ecPricing = ECUADOR_PRICING[p.id];
+          if (!ecPricing) return p;
+          return {
+            ...p,
+            basePrice: ecPricing.basePrice,
+            promos: ecPricing.promos
+          };
+        });
+    }
+    return cachedEcuadorProducts;
+  }
+  return PRODUCTS;
+}
+
+export function getProductForCountry(productId: string, country: 'CO' | 'EC' = 'CO'): Product | undefined {
+  const allProds = getProductsForCountry(country);
+  return allProds.find(p => p.id === productId);
+}
+
+export function getCategoriesForCountry(country: 'CO' | 'EC' = 'CO'): Category[] {
+  if (country === 'EC') {
+    if (!cachedEcuadorCategories) {
+      const prods = getProductsForCountry('EC');
+      cachedEcuadorCategories = CATEGORIES.filter(cat => {
+        if (cat.id === 'combos') {
+          return false;
+        }
+        if (cat.id === 'belleza-integral') {
+          return false;
+        }
+        return prods.some(p => p.category === cat.id);
+      });
+    }
+    return cachedEcuadorCategories;
+  }
+  if (!cachedColombiaCategories) {
+    cachedColombiaCategories = CATEGORIES;
+  }
+  return cachedColombiaCategories;
+}
+
+

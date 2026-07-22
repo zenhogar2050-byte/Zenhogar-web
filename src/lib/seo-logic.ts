@@ -75,22 +75,41 @@ export const generateSchemaGraph = (params: {
     // 4. BreadcrumbList
     const breadcrumbs: any[] = [{ "@type": "ListItem", "position": 1, "name": "Inicio", "item": BASE_URL }];
     if (path !== "") {
-        const segments = path.split('/').filter(Boolean);
-        let cumulativePath = "";
-        segments.forEach((segment, index) => {
-            cumulativePath += `/${segment}`;
-            let label = segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-            if (segment === "categoria") label = "Categorías";
-            if (segment === "producto") label = "Productos";
-            if (segment === "combo") label = "Ofertas";
-
+        let pos = 2;
+        if ((type === "product" || path.startsWith('/producto/') || path.startsWith('/combo/')) && productData) {
+            const catId = productData.category || (path.startsWith('/combo/') || productData.isCombo ? 'combos' : null);
+            if (catId) {
+                const catName = catId === 'combos' ? 'Combos' : (catId === 'salud-bienestar' ? 'Salud y Bienestar' : (catId === 'belleza-integral' ? 'Belleza Integral' : (catId === 'salud-sexual' ? 'Salud Sexual' : catId.charAt(0).toUpperCase() + catId.slice(1).replace(/-/g, ' '))));
+                breadcrumbs.push({
+                    "@type": "ListItem",
+                    "position": pos++,
+                    "name": catName,
+                    "item": `${BASE_URL}/categoria/${catId}`
+                });
+            }
             breadcrumbs.push({
                 "@type": "ListItem",
-                "position": index + 2,
-                "name": label,
-                "item": `${BASE_URL}${cumulativePath}`
+                "position": pos,
+                "name": productData.name || title,
+                "item": fullUrl
             });
-        });
+        } else if (path.startsWith('/categoria/')) {
+            const catId = path.replace('/categoria/', '').replace(/\/$/, '');
+            const catName = catId === 'combos' ? 'Combos' : (catId === 'salud-bienestar' ? 'Salud y Bienestar' : (catId === 'belleza-integral' ? 'Belleza Integral' : (catId === 'salud-sexual' ? 'Salud Sexual' : catId.charAt(0).toUpperCase() + catId.slice(1).replace(/-/g, ' '))));
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": pos,
+                "name": catName,
+                "item": fullUrl
+            });
+        } else {
+            breadcrumbs.push({
+                "@type": "ListItem",
+                "position": pos,
+                "name": title.replace(' | Zenhogar', '').trim(),
+                "item": fullUrl
+            });
+        }
     }
     graph.push({
         "@type": "BreadcrumbList",

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { PRODUCTS } from '../constants';
 import { Link } from 'react-router-dom';
-import { formatCurrency, cleanPromoName, cn } from '../utils';
+import { cleanPromoName, cn } from '../utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { useCart } from '../CartContext';
 
 export default function PromoBanner() {
+  const { getProducts, formatPrice, isEC } = useCart();
+  const products = getProducts();
+
   const baseItems = [
     {
       id: 'hemocream',
@@ -45,18 +48,30 @@ export default function PromoBanner() {
     },
   ];
 
+  const items = baseItems.map(item => {
+    const p = products.find(prod => prod.id === item.id);
+    if (!p) return item;
+    const price = p.promos?.[0]?.price || p.basePrice;
+    const originalPrice = p.basePrice || price;
+    return {
+      ...item,
+      price,
+      originalPrice,
+    };
+  });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const nextSlide = () => {
     setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % baseItems.length);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
   };
 
   const prevSlide = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + baseItems.length) % baseItems.length);
+    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
   useEffect(() => {
@@ -86,11 +101,11 @@ export default function PromoBanner() {
     })
   };
 
-  const currentPromo = baseItems[currentIndex];
-  const prevIndex = (currentIndex - 1 + baseItems.length) % baseItems.length;
-  const nextIndex = (currentIndex + 1) % baseItems.length;
-  const prevPromo = baseItems[prevIndex];
-  const nextPromo = baseItems[nextIndex];
+  const currentPromo = items[currentIndex];
+  const prevIndex = (currentIndex - 1 + items.length) % items.length;
+  const nextIndex = (currentIndex + 1) % items.length;
+  const prevPromo = items[prevIndex];
+  const nextPromo = items[nextIndex];
 
   return (
     <div 
@@ -211,14 +226,16 @@ export default function PromoBanner() {
                 
                 <div className="flex flex-col items-center gap-2 sm:gap-4 pt-2">
                   <div className="flex flex-col items-center">
-                    <span className="font-extrabold text-red-200 line-through decoration-red-500/80 decoration-[1.5px] text-[22px] sm:text-[26px] mb-2 bg-red-950/50 px-5 py-1 rounded-full border border-red-500/30 shadow-sm flex items-center gap-1.5">
-                      Antes: {formatCurrency(currentPromo.originalPrice)}
-                    </span>
+                    {!isEC && (
+                      <span className="font-extrabold text-red-200 line-through decoration-red-500/80 decoration-[1.5px] text-[22px] sm:text-[26px] mb-2 bg-red-950/50 px-5 py-1 rounded-full border border-red-500/30 shadow-sm flex items-center gap-1.5">
+                        Antes: {formatPrice(currentPromo.originalPrice)}
+                      </span>
+                    )}
                     <div className="relative group">
                       <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-emerald-400 rounded-full blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
                       <span className="relative font-black rounded-full shadow-2xl transform text-lg sm:text-3xl px-8 sm:px-14 py-2.5 sm:py-4 bg-white text-blue-900 flex items-center justify-center gap-2">
                         <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Solo por</span>
-                        <span>{formatCurrency(currentPromo.price)}</span>
+                        <span>{formatPrice(currentPromo.price)}</span>
                       </span>
                     </div>
                   </div>

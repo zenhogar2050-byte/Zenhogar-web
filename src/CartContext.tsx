@@ -1,5 +1,8 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Product } from './constants';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
+import { Product, getProductsForCountry, getProductForCountry, getCategoriesForCountry } from './constants';
+import { formatCurrency } from './utils';
+
+export type CountryCode = 'CO' | 'EC';
 
 interface CartItem {
   productId: string;
@@ -19,12 +22,44 @@ interface CartContextType {
   updateQuantity: (productId: string, promoId: string, quantity: number) => void;
   clearCart: () => void;
   total: number;
+  country: CountryCode;
+  setCountry: (country: CountryCode) => void;
+  isEC: boolean;
+  isCO: boolean;
+  currency: 'COP' | 'USD';
+  currencySymbol: '$';
+  formatPrice: (amount: number) => string;
+  getProducts: () => Product[];
+  getProduct: (id: string) => Product | undefined;
+  getCategories: () => typeof import('./constants').CATEGORIES;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [country, setCountryState] = useState<CountryCode>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('zenhogar_country');
+      if (saved === 'CO' || saved === 'EC') return saved;
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        if (tz.includes('Guayaquil') || tz.includes('Galapagos')) {
+          return 'EC';
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    return 'CO';
+  });
+
+  const setCountry = (newCountry: CountryCode) => {
+    setCountryState(newCountry);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('zenhogar_country', newCountry);
+    }
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem('zenhogar_cart');
@@ -38,6 +73,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('zenhogar_cart', JSON.stringify(items));
     }
   }, [items]);
+
+  const isEC = country === 'EC';
+  const isCO = country === 'CO';
+  const currency = isEC ? 'USD' : 'COP';
+  const currencySymbol = '$';
+
+  const formatPrice = useCallback((amount: number) => formatCurrency(amount, country), [country]);
+
+  const getProducts = useCallback(() => getProductsForCountry(country), [country]);
+  const getProduct = useCallback((id: string) => getProductForCountry(id, country), [country]);
+  const getCategories = useCallback(() => getCategoriesForCountry(country), [country]);
 
   const addToCart = (product: Product, promoId: string) => {
     const promo = product.promos.find(p => p.id === promoId);
@@ -119,7 +165,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, addToCart, addComboToCart, removeFromCart, updateQuantity, clearCart, total }}>
+    <CartContext.Provider value={{
+      items,
+      addToCart,
+      addComboToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      total,
+      country,
+      setCountry,
+      isEC,
+      isCO,
+      currency,
+      currencySymbol,
+      formatPrice,
+      getProducts,
+      getProduct,
+      getCategories
+    }}>
       {children}
     </CartContext.Provider>
   );

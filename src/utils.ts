@@ -5,7 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(value: number) {
+export function formatCurrency(value: number, country?: string) {
+  const activeCountry = country || (typeof window !== 'undefined' ? localStorage.getItem('zenhogar_country') : null) || 'CO';
+  
+  if (activeCountry === 'EC' || activeCountry === 'USD') {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
+
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../CartContext';
-import { COLOMBIA_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS, GIFT_PRODUCTS } from '../constants';
+import { COLOMBIA_DATA, ECUADOR_DATA, PRODUCTS, COMBO_OF_THE_MONTH, PROMOTIONS, GIFT_PRODUCTS } from '../constants';
 import { formatCurrency, formatPriceForAPI } from '../utils';
 import { Trash2, Plus, Minus, ShoppingBag, Send, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { trackPurchaseIfFromFacebook, track, trackGoogleBeginCheckout } from '../utils/pixel';
+import { track, trackGoogleBeginCheckout } from '../utils/pixel';
 import OrderBump from '../components/OrderBump';
 import { BUMP_OPPORTUNITIES } from '../lib/bump-logic';
 import { saveOrderToFirebase, getNextOrderTicket } from '../lib/firebase';
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { items, total, updateQuantity, removeFromCart, clearCart, addComboToCart } = useCart();
+  const { items, total, updateQuantity, removeFromCart, clearCart, addComboToCart, country, isEC, formatPrice } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submittingRef = React.useRef(false);
   const [formData, setFormData] = useState({
@@ -26,6 +26,12 @@ export default function Checkout() {
   });
   const [hasTrackedAbandoned, setHasTrackedAbandoned] = useState(false);
   const [abandonedId, setAbandonedId] = useState<string | null>(null);
+
+  const locationData = isEC ? ECUADOR_DATA : COLOMBIA_DATA;
+  const departments = Object.keys(locationData || {});
+  const cities = formData.department ? (locationData as any)[formData.department] || [] : [];
+  const phonePrefix = isEC ? '+593' : '+57';
+  const whatsappTarget = isEC ? '593987654321' : '573024102568';
 
   // Endpoints
   const GATEWAY_URL = 'https://zenhogar-api.zenhogar2050.workers.dev';
@@ -97,9 +103,6 @@ export default function Checkout() {
       return () => clearTimeout(timer);
     }
   }, [formData.fullName, formData.phone, items, total, isSubmitting]);
-
-  const departments = Object.keys(COLOMBIA_DATA || {});
-  const cities = formData.department ? (COLOMBIA_DATA as any)[formData.department] || [] : [];
 
   const getBumpOpportunity = () => {
     if (items.length !== 1) return null;
@@ -308,7 +311,7 @@ export default function Checkout() {
         `_Por favor, confirma mi pedido. ¡Gracias!_`;
 
       const encodedMessage = encodeURIComponent(message);
-      const finalWhatsappUrl = `https://api.whatsapp.com/send?phone=573024102568&text=${encodedMessage}`;
+      const finalWhatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappTarget}&text=${encodedMessage}`;
       
       localStorage.setItem('lastOrder', JSON.stringify({ 
         total: total, 
@@ -451,8 +454,8 @@ export default function Checkout() {
                   <div className="flex flex-col gap-1">
                     <label htmlFor="phone" className="text-xs font-bold text-stone-700 ml-2">WhatsApp / Teléfono</label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold text-sm">+57</span>
-                      <input id="phone" required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Tu número de celular" className="w-full pl-12 pr-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold text-sm">{phonePrefix}</span>
+                      <input id="phone" required type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Tu número de celular" className="w-full pl-14 pr-5 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 transition-all text-sm" />
                     </div>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -468,16 +471,16 @@ export default function Checkout() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="department" className="text-xs font-bold text-stone-700 ml-2">Departamento</label>
+                    <label htmlFor="department" className="text-xs font-bold text-stone-700 ml-2">{isEC ? 'Provincia' : 'Departamento'}</label>
                     <select id="department" required name="department" value={formData.department} onChange={handleInputChange} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 appearance-none text-sm">
-                      <option value="">Departamento</option>
+                      <option value="">{isEC ? 'Provincia' : 'Departamento'}</option>
                       {departments.map(d => <option key={d} value={d}>{d}</option>)}
                     </select>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label htmlFor="city" className="text-xs font-bold text-stone-700 ml-2">Ciudad</label>
+                    <label htmlFor="city" className="text-xs font-bold text-stone-700 ml-2">{isEC ? 'Cantón / Ciudad' : 'Ciudad'}</label>
                     <select id="city" required name="city" value={formData.city} onChange={handleInputChange} disabled={!formData.department} className="w-full px-3 py-3 rounded-xl bg-stone-50 border border-stone-200 outline-none focus:border-emerald-500 disabled:opacity-50 appearance-none text-sm">
-                      <option value="">Ciudad</option>
+                      <option value="">{isEC ? 'Cantón / Ciudad' : 'Ciudad'}</option>
                       {cities.map((c: string) => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>

@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge } from 'lucide-react';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge, Check } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
-import { PRODUCTS, CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
+import { CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from '../constants';
 import { cn } from '../utils';
 
 const SYMPTOMS = [
@@ -17,18 +17,22 @@ const SYMPTOMS = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
-  const { items } = useCart();
+  const countryRef = useRef<HTMLDivElement>(null);
+  const { items, country, setCountry, getProducts, getCategories } = useCart();
   const location = useLocation();
 
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
+  const currentProducts = getProducts();
+  const currentCategories = getCategories();
 
   const searchableItems = React.useMemo(() => [
-    ...PRODUCTS.map(p => ({ ...p, searchType: 'product' as const })),
+    ...currentProducts.map(p => ({ ...p, searchType: 'product' as const })),
     ...PROMOTIONS.map(p => ({ ...p, searchType: 'combo' as const })),
     { ...COMBO_OF_THE_MONTH, searchType: 'combo' as const }
-  ], []);
+  ], [currentProducts]);
 
   const normalize = (text: string) => {
     if (!text) return '';
@@ -60,6 +64,9 @@ export default function Navbar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchOpen(false);
+      }
+      if (countryRef.current && !countryRef.current.contains(event.target as Node)) {
+        setIsCountryOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -93,21 +100,21 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 md:h-24 items-center">
-          <div className="flex items-center gap-2 md:gap-4 lg:gap-6 min-w-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4 lg:gap-6 shrink-0">
             {/* Mobile Menu Button - Moved to Left */}
             <button
               onClick={() => {
                 setIsOpen(!isOpen);
                 setIsSearchOpen(false);
               }}
-              className="md:hidden p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              className="md:hidden p-1.5 sm:p-2 text-stone-600 hover:text-emerald-600 transition-colors"
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
-            <Link to="/" className="flex items-center gap-2 group shrink-0">
-              <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
+            <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group shrink-0">
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0">
                   <img 
                     src="/assets/logo/logo-icon.webp" 
                     alt="Zen Hogar Icon" 
@@ -121,14 +128,14 @@ export default function Navbar() {
                   />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="text-lg md:text-xl font-black text-stone-900 tracking-tighter uppercase">Zen Hogar</span>
-                <span className="text-[9px] md:text-[11px] font-bold text-emerald-600 tracking-[0.2em] uppercase">Salud Vital</span>
+                <span className="text-base sm:text-lg md:text-xl font-black text-stone-900 tracking-tighter uppercase whitespace-nowrap">Zen Hogar</span>
+                <span className="text-[8px] sm:text-[9px] md:text-[11px] font-bold text-emerald-600 tracking-[0.2em] uppercase whitespace-nowrap">Salud Vital</span>
               </div>
             </Link>
 
             {/* Desktop Categories (Adjacent to Logo) */}
             <div className="hidden md:flex items-center gap-2 lg:gap-4 ml-4 lg:ml-6 border-l border-stone-200 pl-4 lg:pl-6 shrink-0">
-              {CATEGORIES.map((category) => (
+              {currentCategories.map((category) => (
                 <Link
                   key={category.id}
                   to={`/categoria/${category.id}`}
@@ -142,21 +149,31 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* Mobile Search - Centered between Name and Cart */}
+          <div className="md:hidden flex-1 flex justify-center items-center px-1 min-w-0">
+            <button
+              onClick={() => {
+                setIsSearchOpen(!isSearchOpen);
+                setIsOpen(false);
+              }}
+              className="p-1.5 sm:p-2 text-stone-600 hover:text-emerald-600 transition-colors"
+              aria-label="Buscar"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+          </div>
+
           {/* Desktop Right Navigation - Search, Product Dropdown & Cart */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6 flex-1 justify-end ml-4 md:ml-6 lg:ml-8 min-w-0">
-            {/* Persistent Search Bar Desktop */}
-            <div className="relative w-full max-w-[180px] lg:max-w-[260px]" ref={searchRef}>
-              <div className="relative pt-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 group-focus-within:text-emerald-500 transition-colors" />
-                <input
-                  type="text"
-                  placeholder="Buscar..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchOpen(true)}
-                  className="w-full pl-11 pr-4 py-2 bg-stone-100 border-2 border-transparent focus:border-emerald-500/30 focus:bg-white rounded-xl text-xs sm:text-sm outline-none transition-all shadow-inner focus:shadow-md"
-                />
-              </div>
+          <div className="hidden md:flex items-center gap-3 lg:gap-5 flex-1 justify-end ml-4 md:ml-6 lg:ml-8 min-w-0">
+            {/* Search Icon Button Desktop */}
+            <div className="relative" ref={searchRef}>
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="p-2 text-stone-600 hover:text-emerald-600 transition-colors rounded-full hover:bg-stone-100"
+                aria-label="Buscar"
+              >
+                <Search className="w-5 h-5" />
+              </button>
 
               <AnimatePresence>
                 {isSearchOpen && (
@@ -164,12 +181,33 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-2 w-full bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden min-w-[320px]"
+                    className="absolute top-full right-0 mt-2 w-80 sm:w-96 bg-white border border-stone-200 rounded-2xl shadow-2xl p-4 z-50 overflow-hidden"
                   >
+                    {/* Search Input inside Dropdown */}
+                    <div className="relative mb-4">
+                      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+                      <input
+                        type="text"
+                        placeholder="¿Qué buscas?"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-8 py-2 bg-stone-100 border border-stone-200 focus:border-emerald-500 rounded-xl text-sm outline-none transition-all"
+                        autoFocus
+                      />
+                      {searchQuery && (
+                        <button 
+                          onClick={() => setSearchQuery('')}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+
                     {/* Symptom Quick Filter PILLS */}
                     {searchQuery.trim() === '' && (
-                      <div className="mb-6">
-                        <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-3 px-1">¿Qué quieres mejorar hoy?</p>
+                      <div className="mb-4">
+                        <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-2.5 px-1">¿Qué quieres mejorar hoy?</p>
                         <div className="grid grid-cols-2 gap-2">
                           {SYMPTOMS.map((symptom) => (
                             <Link
@@ -197,6 +235,7 @@ export default function Navbar() {
                             <Link
                               key={item.id}
                               to={item.searchType === 'product' ? `/producto/${item.id}` : `/combo/${item.id}`}
+                              onClick={() => setIsSearchOpen(false)}
                               className="flex items-center gap-3 p-2 hover:bg-stone-50 rounded-xl transition-colors group"
                             >
                               <div className="w-10 h-10 rounded-lg bg-stone-100 flex-shrink-0 overflow-hidden relative">
@@ -252,7 +291,7 @@ export default function Navbar() {
               </button>
 
               <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-stone-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 max-h-[70vh] overflow-y-auto z-50">
-                {PRODUCTS.map(product => (
+                {currentProducts.map(product => (
                   <Link
                     key={product.id}
                     to={`/producto/${product.id}`}
@@ -263,6 +302,64 @@ export default function Navbar() {
                 ))}
               </div>
             </div>
+
+            {/* Country Selector (Desktop) */}
+            <div className="relative shrink-0" ref={countryRef}>
+              <button
+                onClick={() => setIsCountryOpen(!isCountryOpen)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-stone-100 hover:bg-stone-200/80 border border-stone-200 text-xs font-bold text-stone-800 transition-all shadow-sm"
+                aria-label="Seleccionar país de envío"
+              >
+                <span className="text-base leading-none">{country === 'EC' ? '🇪🇨' : '🇨🇴'}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-stone-500" />
+              </button>
+
+              <AnimatePresence>
+                {isCountryOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                    className="absolute top-full right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-2xl p-2 z-50"
+                  >
+                    <p className="text-[10px] font-black text-stone-400 uppercase tracking-wider px-2 py-1">Seleccionar País</p>
+                    <button
+                      onClick={() => {
+                        setCountry('CO');
+                        setIsCountryOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors mb-1",
+                        country === 'CO' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">🇨🇴</span>
+                        <span>Colombia</span>
+                      </div>
+                      {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCountry('EC');
+                        setIsCountryOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors",
+                        country === 'EC' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">🇪🇨</span>
+                        <span>Ecuador</span>
+                      </div>
+                      {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <Link
               to="/checkout"
               className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors shrink-0"
@@ -278,17 +375,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Actions - Buttons on Right */}
-          <div className="md:hidden flex items-center gap-1">
-            <button
-              onClick={() => {
-                setIsSearchOpen(!isSearchOpen);
-                setIsOpen(false);
-              }}
-              className="p-2 text-stone-600 hover:text-emerald-600 transition-colors"
-              aria-label="Buscar"
-            >
-              <Search className="w-5 h-5" />
-            </button>
+          <div className="md:hidden flex items-center gap-1 sm:gap-1.5 shrink-0">
             <Link 
               to="/checkout" 
               className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors"
@@ -301,6 +388,61 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
+            <div className="relative" ref={countryRef}>
+              <button
+                onClick={() => setIsCountryOpen(!isCountryOpen)}
+                className="flex items-center gap-1 px-2 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-bold text-stone-800 active:scale-95 transition-transform"
+                aria-label="Seleccionar país"
+              >
+                <span className="text-sm leading-none">{country === 'EC' ? '🇪🇨' : '🇨🇴'}</span>
+                <ChevronDown className="w-3 h-3 text-stone-500" />
+              </button>
+
+              <AnimatePresence>
+                {isCountryOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                    className="absolute top-full right-0 mt-2 w-44 bg-white border border-stone-200 rounded-xl shadow-2xl p-2 z-50"
+                  >
+                    <p className="text-[10px] font-black text-stone-400 uppercase tracking-wider px-2 py-1">País de Envío</p>
+                    <button
+                      onClick={() => {
+                        setCountry('CO');
+                        setIsCountryOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors mb-1",
+                        country === 'CO' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">🇨🇴</span>
+                        <span>Colombia</span>
+                      </div>
+                      {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCountry('EC');
+                        setIsCountryOpen(false);
+                      }}
+                      className={cn(
+                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors",
+                        country === 'EC' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">🇪🇨</span>
+                        <span>Ecuador</span>
+                      </div>
+                      {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
@@ -399,12 +541,49 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white border-b border-stone-200 overflow-hidden"
           >
-            <div className="px-4 py-6 space-y-8">
+            <div className="px-4 py-6 space-y-6">
+              {/* Mobile Country Selector */}
+              <div className="bg-stone-50 p-3 rounded-2xl border border-stone-200">
+                <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2 px-1">País de Envío</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => {
+                      setCountry('CO');
+                      setIsOpen(false);
+                    }}
+                    className={cn(
+                      "flex items-center justify-center gap-2 p-2.5 rounded-xl font-bold text-xs transition-all border",
+                      country === 'CO'
+                        ? "bg-white text-emerald-800 border-emerald-500 shadow-sm"
+                        : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
+                    )}
+                  >
+                    <span className="text-base">🇨🇴</span>
+                    <span>Colombia</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setCountry('EC');
+                      setIsOpen(false);
+                    }}
+                    className={cn(
+                      "flex items-center justify-center gap-2 p-2.5 rounded-xl font-bold text-xs transition-all border",
+                      country === 'EC'
+                        ? "bg-white text-emerald-800 border-emerald-500 shadow-sm"
+                        : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
+                    )}
+                  >
+                    <span className="text-base">🇪🇨</span>
+                    <span>Ecuador</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Mobile Categories */}
               <div>
                 <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] px-2 mb-4">Categorías</p>
                 <div className="grid grid-cols-1 gap-2">
-                  {CATEGORIES.map((category) => (
+                  {currentCategories.map((category) => (
                     <Link
                       key={category.id}
                       to={`/categoria/${category.id}`}

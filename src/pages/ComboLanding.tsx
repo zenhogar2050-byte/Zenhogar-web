@@ -19,8 +19,14 @@ import NotFound from './NotFound';
 export default function ComboLanding() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addComboToCart } = useCart();
+  const { addComboToCart, isEC } = useCart();
   const buyButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isEC) {
+      navigate('/', { replace: true });
+    }
+  }, [isEC, navigate]);
 
   // Normalización de slugs tanto para ID como Nombre de Combos
   const cleanStr = (str: string) => 
@@ -45,6 +51,7 @@ export default function ComboLanding() {
 
   // Si no se encuentra un combo exacto, aplicamos redirección inteligente para URLs indexadas obsoletas o parciales
   useEffect(() => {
+    if (isEC) return;
     if (!combo && targetIdClean) {
       const fuzzyCombo = PROMOTIONS.find(p => {
         const cleanId = cleanStr(p.id);
@@ -61,7 +68,7 @@ export default function ComboLanding() {
         navigate(`/combo/${fuzzyCombo.id}`, { replace: true });
       }
     }
-  }, [id, combo, targetIdClean, navigate]);
+  }, [id, combo?.id, targetIdClean, isEC, navigate]);
 
   const handleGoBack = () => {
     if (window.history.state && window.history.state.idx > 0) {

@@ -1,3 +1,7 @@
 # Enforce Canonical Domain (Non-WWW and HTTPS)
+https://www.zenhogar.live/* https://zenhogar.live/:splat 301
+http://www.zenhogar.live/* https://zenhogar.live/:splat 301
+http://zenhogar.live/* https://zenhogar.live/:splat 301
 
-# SPA Routing for Cloudflare Page
+# SPA Routing for Cloudflare Pages
+/* /index.html 200
