@@ -220,9 +220,9 @@ export default function ProductLanding() {
       <section className="relative pt-4 pb-12 lg:pt-8 lg:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <h1 className="lg:hidden text-3xl sm:text-4xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
+          <div className="lg:hidden text-3xl sm:text-4xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
             {product.name} - {product.shortDescription}
-          </h1>
+          </div>
 
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-start">
             <div className="flex flex-col gap-4 lg:gap-12">

@@ -157,9 +157,9 @@ export default function ComboLanding() {
             <span className="text-base sm:text-lg">Volver</span>
           </button>
 
-          <h1 className="lg:hidden text-3xl sm:text-4xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
+          <div className="lg:hidden text-3xl sm:text-4xl font-bold text-[var(--color-brand-primary)] mb-6 leading-tight font-display">
             {cleanPromoName(combo.name)}
-          </h1>
+          </div>
 
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-start">
             <div className="flex flex-col gap-4 lg:gap-12">
@@ -202,7 +202,7 @@ export default function ComboLanding() {
                     >
                       <div className="relative w-full h-full bg-stone-50 rounded-xl flex items-center justify-center overflow-hidden">
                         {combo.videoPoster ? (
-                          <img src={combo.videoPoster} className="w-full h-full object-cover opacity-60" alt="" />
+                          <img src={combo.videoPoster} className="w-full h-full object-cover opacity-60" alt={`Miniatura video ${combo.name}`} />
                         ) : (
                           <Play className="w-6 h-6 text-emerald-600 fill-current" />
                         )}
@@ -216,7 +216,7 @@ export default function ComboLanding() {
                         !showVideo ? "border-emerald-600 ring-2 ring-emerald-100" : "border-stone-200"
                       )}
                     >
-                      <img src={combo.image} className="w-full h-full object-contain" alt="" />
+                      <img src={combo.image} className="w-full h-full object-contain" alt={`Imagen ${combo.name}`} />
                     </button>
                   </div>
                 )}

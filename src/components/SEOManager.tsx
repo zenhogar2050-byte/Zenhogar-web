@@ -27,11 +27,16 @@ const SEOManager = ({
     const finalImage = ogImage?.startsWith('http') ? ogImage : `${baseUrl}${ogImage || ''}`;
 
     const isPending = !productData?.invima || productData.invima.toLowerCase().includes('trámite');
-    const invimaDisplay = isPending ? 'Registro en proceso de verificación' : productData.invima;
+    const invimaDisplay = isPending ? 'Verificación INVIMA' : productData.invima;
     
-    const finalDescription = productData 
-        ? `${description} Reg. Sant. INVIMA: ${invimaDisplay}.` 
+    const rawDescription = productData 
+        ? `${description} INVIMA: ${invimaDisplay}.` 
         : description;
+
+    // Asegurar que la meta descripción se mantenga en el rango óptimo (<155 caracteres / ~950px)
+    const finalDescription = rawDescription.length > 155 
+        ? rawDescription.slice(0, 152).trim() + '...' 
+        : rawDescription;
  
     // 2. Generación del Grafo de Esquema Único
     const schemaData = generateSchemaGraph({

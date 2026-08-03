@@ -38,21 +38,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
-  const [country, setCountryState] = useState<CountryCode>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('zenhogar_country');
-      if (saved === 'CO' || saved === 'EC') return saved;
-      try {
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-        if (tz.includes('Guayaquil') || tz.includes('Galapagos')) {
-          return 'EC';
-        }
-      } catch (e) {
-        // ignore
-      }
-    }
-    return 'CO';
-  });
+  const [country, setCountryState] = useState<CountryCode>('CO');
 
   const setCountry = (newCountry: CountryCode) => {
     setCountryState(newCountry);

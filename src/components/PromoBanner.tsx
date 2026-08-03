@@ -226,11 +226,6 @@ export default function PromoBanner() {
                 
                 <div className="flex flex-col items-center gap-2 sm:gap-4 pt-2">
                   <div className="flex flex-col items-center">
-                    {!isEC && (
-                      <span className="font-extrabold text-red-200 line-through decoration-red-500/80 decoration-[1.5px] text-[22px] sm:text-[26px] mb-2 bg-red-950/50 px-5 py-1 rounded-full border border-red-500/30 shadow-sm flex items-center gap-1.5">
-                        Antes: {formatPrice(currentPromo.originalPrice)}
-                      </span>
-                    )}
                     <div className="relative group">
                       <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-emerald-400 rounded-full blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
                       <span className="relative font-black rounded-full shadow-2xl transform text-lg sm:text-3xl px-8 sm:px-14 py-2.5 sm:py-4 bg-white text-blue-900 flex items-center justify-center gap-2">

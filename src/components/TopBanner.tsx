@@ -5,16 +5,8 @@ import { useCart } from '../CartContext';
 export default function TopBanner() {
   const [isMobile, setIsMobile] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
-  const { country } = useCart();
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const timer = setTimeout(() => setStartAnimation(true), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const countryName = country === 'EC' ? 'Ecuador' : 'Colombia';
-  const paymentText = country === 'EC' ? 'Pago Contraentrega en Dólares (USD)' : 'Pago Contraentrega (Pagas al recibir)';
+  const countryName = 'Colombia';
+  const paymentText = 'Pago Contraentrega (Pagas al recibir)';
 
   return (
     <div className="bg-stone-900 overflow-hidden h-9 sm:h-10 flex items-center border-b border-white/5 relative z-[60]">

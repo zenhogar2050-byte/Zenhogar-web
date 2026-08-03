@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge, Check } from 'lucide-react';
+import { ShoppingCart, Menu, X, ChevronDown, Sparkles, Heart, Zap, Search, Activity, Shield, Gauge } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '../CartContext';
 import { motion, AnimatePresence } from 'motion/react';
@@ -17,11 +17,9 @@ const SYMPTOMS = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
-  const countryRef = useRef<HTMLDivElement>(null);
-  const { items, country, setCountry, getProducts, getCategories } = useCart();
+  const { items, getProducts, getCategories } = useCart();
   const location = useLocation();
 
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
@@ -64,9 +62,6 @@ export default function Navbar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsSearchOpen(false);
-      }
-      if (countryRef.current && !countryRef.current.contains(event.target as Node)) {
-        setIsCountryOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -289,67 +284,6 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Country Selector (Desktop) */}
-            <div className="relative shrink-0" ref={countryRef}>
-              <button
-                onClick={() => setIsCountryOpen(!isCountryOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-stone-100 hover:bg-stone-200/80 border border-stone-200 text-xs font-bold text-stone-800 transition-all shadow-sm"
-                aria-label="Seleccionar país de envío"
-              >
-                <img 
-                  src={country === 'EC' ? "/assets/logo/Logo-ecuador.webp" : "/assets/logo/logo-colombia.webp"} 
-                  alt={country === 'EC' ? "Ecuador" : "Colombia"} 
-                  className="w-4 h-3 object-cover rounded-xs shrink-0" 
-                />
-                <ChevronDown className="w-3.5 h-3.5 text-stone-500" />
-              </button>
-
-              <AnimatePresence>
-                {isCountryOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-2xl p-2 z-50"
-                  >
-                    <p className="text-[10px] font-black text-stone-400 uppercase tracking-wider px-2 py-1">Seleccionar País</p>
-                    <button
-                      onClick={() => {
-                        setCountry('CO');
-                        setIsCountryOpen(false);
-                      }}
-                      className={cn(
-                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors mb-1",
-                        country === 'CO' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
-                        <span>Colombia</span>
-                      </div>
-                      {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCountry('EC');
-                        setIsCountryOpen(false);
-                      }}
-                      className={cn(
-                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors",
-                        country === 'EC' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
-                        <span>Ecuador</span>
-                      </div>
-                      {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             <Link
               to="/checkout"
               className="relative p-2 text-stone-600 hover:text-emerald-600 transition-colors shrink-0"
@@ -388,65 +322,6 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <div className="relative ml-0.5" ref={countryRef}>
-              <button
-                onClick={() => setIsCountryOpen(!isCountryOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-sm font-bold text-stone-800 active:scale-95 transition-transform"
-                aria-label="Seleccionar país"
-              >
-                <img 
-                  src={country === 'EC' ? "/assets/logo/Logo-ecuador.webp" : "/assets/logo/logo-colombia.webp"} 
-                  alt={country === 'EC' ? "Ecuador" : "Colombia"} 
-                  className="w-8 h-6 object-cover rounded-sm shrink-0" 
-                />
-                <ChevronDown className="w-4 h-4 text-stone-500" />
-              </button>
-
-              <AnimatePresence>
-                {isCountryOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-2 w-44 bg-white border border-stone-200 rounded-xl shadow-2xl p-2 z-50"
-                  >
-                    <p className="text-[10px] font-black text-stone-400 uppercase tracking-wider px-2 py-1">País de Envío</p>
-                    <button
-                      onClick={() => {
-                        setCountry('CO');
-                        setIsCountryOpen(false);
-                      }}
-                      className={cn(
-                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors mb-1",
-                        country === 'CO' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
-                        <span>Colombia</span>
-                      </div>
-                      {country === 'CO' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCountry('EC');
-                        setIsCountryOpen(false);
-                      }}
-                      className={cn(
-                        "w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors",
-                        country === 'EC' ? "bg-emerald-50 text-emerald-800" : "hover:bg-stone-50 text-stone-700"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
-                        <span>Ecuador</span>
-                      </div>
-                      {country === 'EC' && <Check className="w-3.5 h-3.5 text-emerald-600" />}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </div>
         </div>
 
@@ -546,43 +421,6 @@ export default function Navbar() {
             className="md:hidden bg-white border-b border-stone-200 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-6">
-              {/* Mobile Country Selector */}
-              <div className="bg-stone-50 p-3 rounded-2xl border border-stone-200">
-                <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-2 px-1">País de Envío</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => {
-                      setCountry('CO');
-                      setIsOpen(false);
-                    }}
-                    className={cn(
-                      "flex items-center justify-center gap-2 p-2.5 rounded-xl font-bold text-xs transition-all border",
-                      country === 'CO'
-                        ? "bg-white text-emerald-800 border-emerald-500 shadow-sm"
-                        : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
-                    )}
-                  >
-                    <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-5 h-3.5 object-cover rounded-xs shrink-0" />
-                    <span>Colombia</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setCountry('EC');
-                      setIsOpen(false);
-                    }}
-                    className={cn(
-                      "flex items-center justify-center gap-2 p-2.5 rounded-xl font-bold text-xs transition-all border",
-                      country === 'EC'
-                        ? "bg-white text-emerald-800 border-emerald-500 shadow-sm"
-                        : "bg-stone-100 text-stone-600 border-transparent hover:bg-stone-200"
-                    )}
-                  >
-                    <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-5 h-3.5 object-cover rounded-xs shrink-0" />
-                    <span>Ecuador</span>
-                  </button>
-                </div>
-              </div>
-
               {/* Mobile Categories */}
               <div>
                 <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] px-2 mb-4">Categorías</p>

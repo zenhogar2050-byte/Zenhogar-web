@@ -105,6 +105,11 @@ async function generate() {
             console.warn(`  - ADVERTENCIA: No se encontró el div root en index.html`);
         }
 
+        // Limpieza de meta tags estáticos base de index.html para evitar duplicaciones en SSG
+        html = html.replace(/<meta\s+[^>]*name=["']description["'][^>]*>/gi, '');
+        html = html.replace(/<link\s+[^>]*rel=["']canonical["'][^>]*>/gi, '');
+        html = html.replace(/<meta\s+[^>]*property=["']og:[^"']+["'][^>]*>/gi, '');
+
         if (titleRegex.test(html)) {
             html = html.replace(titleRegex, helmet?.title?.toString() || '<title>Zenhogar</title>');
         }

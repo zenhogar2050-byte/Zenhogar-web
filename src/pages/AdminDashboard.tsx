@@ -115,9 +115,7 @@ const formatDuration = (ms: number) => {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [selectedCountry, setSelectedCountry] = useState<'CO' | 'EC'>(() => {
-    return (localStorage.getItem('admin_selected_country') as 'CO' | 'EC') || 'CO';
-  });
+  const [selectedCountry, setSelectedCountry] = useState<'CO' | 'EC'>('CO');
 
   const handleCountryChange = (country: 'CO' | 'EC') => {
     setSelectedCountry(country);
@@ -1609,17 +1607,6 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
               <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-3.5 h-2.5 object-cover rounded-xs shrink-0" />
               <span>CO</span>
             </button>
-            <button
-              type="button"
-              onClick={() => handleCountryChange('EC')}
-              className={cn(
-                "px-2 py-1 rounded-md text-[10px] font-bold transition-all flex items-center gap-1",
-                selectedCountry === 'EC' ? "bg-white/20 text-white" : "text-stone-400"
-              )}
-            >
-              <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-3.5 h-2.5 object-cover rounded-xs shrink-0" />
-              <span>EC</span>
-            </button>
           </div>
           <button 
             onClick={() => { localStorage.removeItem('admin_pass'); window.location.reload(); }}
@@ -1784,20 +1771,6 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
               >
                 <img src="/assets/logo/logo-colombia.webp" alt="Colombia" className="w-4 h-3 object-cover rounded-xs shrink-0" />
                 <span>Colombia</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleCountryChange('EC')}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all",
-                  selectedCountry === 'EC' 
-                    ? "bg-white text-stone-900 shadow-sm" 
-                    : "text-stone-500 hover:text-stone-800"
-                )}
-                title="Ver pedidos de Ecuador"
-              >
-                <img src="/assets/logo/Logo-ecuador.webp" alt="Ecuador" className="w-4 h-3 object-cover rounded-xs shrink-0" />
-                <span>Ecuador</span>
               </button>
             </div>
 
@@ -2774,6 +2747,7 @@ Pronto recibirás tus productos para que empieces a disfrutar de sus beneficios.
                                   rel="noopener noreferrer" 
                                   className="p-2 bg-white hover:bg-stone-50 border border-stone-200 rounded-lg text-stone-500 transition-colors shrink-0"
                                   title="Abrir en pestaña nueva"
+                                  aria-label="Abrir enlace de producto en pestaña nueva"
                                 >
                                   <ExternalLink className="w-4 h-4" />
                                 </a>
