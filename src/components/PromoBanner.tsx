@@ -189,14 +189,6 @@ export default function PromoBanner() {
               className="flex flex-col items-center group w-full"
             >
               <div className="relative">
-                <motion.div 
-                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="absolute -top-6 -left-6 z-10 bg-amber-400 text-amber-950 font-black text-[10px] sm:text-xs px-4 py-2 rounded-full shadow-lg transform -rotate-12 uppercase tracking-widest border-2 border-white flex items-center justify-center gap-1"
-                >
-                  ✨ Oferta Mes de Junio
-                </motion.div>
-                
                 <div className="rounded-[3rem] sm:rounded-[4rem] mb-4 sm:mb-6 flex items-center justify-center p-1 sm:p-2 overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] group-hover:scale-105 transition-all duration-500 bg-white w-48 h-48 sm:w-64 sm:h-64 border-4 border-white/20 ring-1 ring-white/10 group-hover:ring-white/30 truncate">
                   <img 
                     src={currentPromo.image} 
