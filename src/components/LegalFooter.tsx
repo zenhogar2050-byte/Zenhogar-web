@@ -6,7 +6,10 @@ export default function LegalFooter() {
   return (
     <div className="mt-32 pt-20 border-t border-stone-200">
       <div className="grid md:grid-cols-4 gap-12 items-start">
-        <div className="space-y-6">
+        <div className="space-y-4">
+          <p className="text-xl font-black text-stone-900 tracking-tighter uppercase">
+            Dios Bendice este Negocio
+          </p>
           <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 flex-shrink-0">
               <img 

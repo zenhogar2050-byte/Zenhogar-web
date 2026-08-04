@@ -7,7 +7,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-12 lg:gap-16 mb-16 items-start">
           {/* Brand Section */}
-          <div className="space-y-6">
+          <div className="space-y-4">
+            <p className="text-2xl font-black text-[#1c1917] tracking-tighter uppercase">
+              Dios Bendice este Negocio
+            </p>
             <Link to="/" className="flex items-center gap-3 group">
               <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
                 <img 
