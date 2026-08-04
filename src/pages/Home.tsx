@@ -205,7 +205,7 @@ export default function Home() {
               );
             })}
                   {/* Mobile-Only Oferta del Mes (Combo del Mes) */}
-          {!isEC && (
+          {false && (
             <div className="mt-10 md:hidden">
               <h2 className="text-2xl font-black text-stone-900 uppercase tracking-tight mb-6 px-1 text-center">Oferta del Mes</h2>
               <div
@@ -343,112 +343,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Trust Elements - Consolidado y reposicionado */}
-      <section className="py-8 bg-white md:bg-stone-50 border-b border-stone-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <TrustBar className="bg-white rounded-3xl border border-stone-100 p-4 lg:p-8 shadow-sm" />
-        </div>
-      </section>
-
-      {/* Combo of the Month */}
-      {!isEC && (
-        <section id="oferta-del-mes" className="pt-8 pb-4 lg:pt-12 lg:pb-6 bg-white hidden sm:block">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div
-              className="relative overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] bg-stone-900 text-white p-6 sm:p-10 lg:p-16"
-            >
-              <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
-                <div className="text-center lg:text-left">
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-600 text-white text-[10px] sm:text-xs font-black tracking-widest uppercase mb-6 lg:mb-8">
-                    <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                    <span>{COMBO_OF_THE_MONTH.badge}</span>
-                  </div>
-                  <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black mb-4 lg:mb-6 leading-tight font-display">
-                    {cleanPromoName(COMBO_OF_THE_MONTH.name)}
-                  </h2>
-                  <div className="mb-8 lg:mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
-                    <h3 className="text-emerald-500 font-bold text-[27px] mb-2 leading-tight">{COMBO_OF_THE_MONTH.whyChoose?.title}</h3>
-                    <p className="text-[21px] lg:text-[21px] text-stone-200 leading-relaxed font-medium">
-                      {COMBO_OF_THE_MONTH.whyChoose?.description}
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row items-center lg:items-end gap-4 sm:gap-6 mb-8 lg:mb-10">
-                    <div className="text-center sm:text-left">
-                      <div className="text-stone-500 text-xs sm:text-sm line-through mb-1">Antes {formatCurrency(COMBO_OF_THE_MONTH.originalPrice)}</div>
-                      <div className="text-4xl sm:text-5xl font-black text-emerald-500">{formatCurrency(COMBO_OF_THE_MONTH.price)}</div>
-                    </div>
-                    <div className="bg-emerald-600/20 text-emerald-500 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold" role="status">
-                      Ahorra {formatCurrency(COMBO_OF_THE_MONTH.originalPrice - COMBO_OF_THE_MONTH.price)}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <button 
-                      ref={buyButtonRef}
-                      onClick={handleComboBuy}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-stone-900 rounded-2xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all shadow-xl group"
-                      aria-label={`Aprovechar oferta de ${COMBO_OF_THE_MONTH.name}`}
-                    >
-                      <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                      APROVECHAR OFERTA
-                    </button>
-                  </div>
-
-                  <div className="mt-8 flex flex-col gap-4">
-                    <div className="flex items-center gap-3 text-emerald-500 font-bold text-sm lg:text-base">
-                      <Zap className="w-5 h-5 fill-current animate-pulse" />
-                      <span>Envío GRATIS + Pago Contra Entrega</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-white/80 font-bold text-sm lg:text-base">
-                      <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                      <span>Certificación INVIMA Garantizada</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="relative mt-4 lg:mt-0 flex justify-center">
-                  <div className="w-full max-w-[500px] aspect-square flex items-center justify-center">
-                    {COMBO_OF_THE_MONTH.videoUrl || COMBO_OF_THE_MONTH.videoUrlMp4 ? (
-                      <ProductVideo 
-                        webmUrl={COMBO_OF_THE_MONTH.videoUrl}
-                        mp4Url={COMBO_OF_THE_MONTH.videoUrlMp4}
-                        poster={COMBO_OF_THE_MONTH.videoPoster}
-                        className="rounded-[3rem] shadow-2xl"
-                      />
-                    ) : (
-                      <img 
-                        src={COMBO_OF_THE_MONTH.image} 
-                        alt={COMBO_OF_THE_MONTH.name}
-                        width={500}
-                        height={500}
-                        loading="lazy"
-                        fetchPriority="low"
-                        decoding="async"
-                        className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform-gpu hover:scale-105 transition-transform duration-700"
-                        referrerPolicy="no-referrer"
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Background pattern */}
-              <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none">
-                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Products Grid */}
       <section id="productos" className="py-24 bg-stone-50 hidden md:block">
@@ -615,24 +509,6 @@ export default function Home() {
 
       <FAQSection generalFaqs={GENERAL_FAQS} />
       
-      {!isEC ? (
-        <StickyCTA 
-          name={COMBO_OF_THE_MONTH.name}
-          image={COMBO_OF_THE_MONTH.image}
-          price={COMBO_OF_THE_MONTH.price}
-          onBuy={handleComboBuy}
-          desktopTriggerRef={buyButtonRef}
-        />
-      ) : launchProducts.length > 0 ? (
-        <StickyCTA 
-          name={launchProducts[0].name}
-          image={launchProducts[0].image}
-          price={launchProducts[0].promos?.[0]?.price || launchProducts[0].basePrice}
-          onBuy={() => navigate(`/producto/${launchProducts[0].id}`)}
-          desktopTriggerRef={buyButtonRef}
-        />
-      ) : null}
-
       {/* Footer */}
       <Footer />
     </div>

@@ -571,13 +571,15 @@ export default function ComboLanding() {
           </div>
         </div>
       </section>
-      <StickyCTA 
-        name={combo.name}
-        image={combo.image}
-        price={combo.price}
-        onBuy={handleBuyNow}
-        desktopTriggerRef={buyButtonRef}
-      />
+      {combo.id !== 'combo-inmunidad-dual' && (
+        <StickyCTA 
+          name={combo.name}
+          image={combo.image}
+          price={combo.price}
+          onBuy={handleBuyNow}
+          desktopTriggerRef={buyButtonRef}
+        />
+      )}
 
       <Footer />
     </div>
