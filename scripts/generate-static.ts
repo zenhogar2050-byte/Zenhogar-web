@@ -166,46 +166,46 @@ Sitemap: ${BASE_URL}/sitemap.xml`;
     const googleFeedXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
 <channel>
-  <title>Zenhogar - Salud y Bienestar</title>
+  <title><![CDATA[Zenhogar - Salud y Bienestar]]></title>
   <link>${BASE_URL}</link>
-  <description>Tu aliado en salud natural, suplementos y bienestar integral en Colombia.</description>
+  <description><![CDATA[Tu aliado en salud natural, suplementos y bienestar integral en Colombia.]]></description>
   ${PRODUCTS.map(p => `
   <item>
-    <g:id>${p.masterId}</g:id>
-    <g:title>${p.name}</g:title>
-    <g:description>${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
+    <g:id><![CDATA[${p.masterId}]]></g:id>
+    <g:title><![CDATA[${p.name}]]></g:title>
+    <g:description><![CDATA[${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
     <g:link>${BASE_URL}/producto/${p.id}</g:link>
     <g:image_link>${BASE_URL}${p.image}</g:image_link>
-    <g:condition>${p.condition || 'new'}</g:condition>
-    <g:availability>in stock</g:availability>
-    <g:price>${p.basePrice} COP</g:price>
-    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
-    <g:brand>Zenhogar</g:brand>
-    <g:mpn>${p.masterId}</g:mpn>
-    <g:identifier_exists>yes</g:identifier_exists>
+    <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
+    <g:availability><![CDATA[in stock]]></g:availability>
+    <g:price><![CDATA[${p.basePrice} COP]]></g:price>
+    <g:google_product_category><![CDATA[${p.googleCategory || 'Health & Beauty > Health Care > Fitness & Nutrition'}]]></g:google_product_category>
+    <g:brand><![CDATA[Zenhogar]]></g:brand>
+    <g:mpn><![CDATA[${p.masterId}]]></g:mpn>
+    <g:identifier_exists><![CDATA[yes]]></g:identifier_exists>
     <g:shipping>
-      <g:country>CO</g:country>
-      <g:service>Envío Gratis</g:service>
-      <g:price>0 COP</g:price>
+      <g:country><![CDATA[CO]]></g:country>
+      <g:service><![CDATA[Envío Gratis]]></g:service>
+      <g:price><![CDATA[0 COP]]></g:price>
     </g:shipping>
   </item>`).join('')}
   ${PROMOTIONS.map(p => `
   <item>
-    <g:id>${p.id}</g:id>
-    <g:title>${p.name}</g:title>
-    <g:description>${p.description.replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
+    <g:id><![CDATA[${p.id}]]></g:id>
+    <g:title><![CDATA[${p.name}]]></g:title>
+    <g:description><![CDATA[${p.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
     <g:link>${BASE_URL}/combo/${p.id}</g:link>
     <g:image_link>${BASE_URL}${p.image}</g:image_link>
-    <g:condition>${p.condition || 'new'}</g:condition>
-    <g:availability>in stock</g:availability>
-    <g:price>${p.price} COP</g:price>
-    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
-    <g:brand>Zenhogar</g:brand>
-    <g:identifier_exists>no</g:identifier_exists>
+    <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
+    <g:availability><![CDATA[in stock]]></g:availability>
+    <g:price><![CDATA[${p.price} COP]]></g:price>
+    <g:google_product_category><![CDATA[${p.googleCategory || 'Health & Beauty > Health Care > Fitness & Nutrition'}]]></g:google_product_category>
+    <g:brand><![CDATA[Zenhogar]]></g:brand>
+    <g:identifier_exists><![CDATA[no]]></g:identifier_exists>
     <g:shipping>
-      <g:country>CO</g:country>
-      <g:service>Envío Gratis</g:service>
-      <g:price>0 COP</g:price>
+      <g:country><![CDATA[CO]]></g:country>
+      <g:service><![CDATA[Envío Gratis]]></g:service>
+      <g:price><![CDATA[0 COP]]></g:price>
     </g:shipping>
   </item>`).join('')}
 </channel>
