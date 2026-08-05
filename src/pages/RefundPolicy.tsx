@@ -45,16 +45,10 @@ const RefundPolicy = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Derecho de Retracto (Ley 1480)</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Derecho de Retracto</h2>
               <p>
-                De acuerdo con el Estatuto del Consumidor, tienes derecho a retractarte de tu compra dentro de los primeros <strong>5 días hábiles</strong> posteriores a la recepción del pedido, siempre que se cumplan las siguientes condiciones:
+                De acuerdo con la naturaleza de nuestro modelo de pago contraentrega y entrega presencial, el derecho de retracto solo se puede ejercer <strong>antes de que el pedido sea entregado o reclamado</strong>. Al momento de la entrega, el comprador revisa, inspecciona y valida el producto; al dar su aprobación y recibirlo a satisfacción, se realiza el pago respectivo. Por lo tanto, no aplican retractos posteriores a la recepción y validación en la entrega.
               </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>El producto <strong>no debe haber sido abierto</strong>.</li>
-                <li>No debe presentar señales de uso o alteración.</li>
-                <li>Debe encontrarse en perfecto estado y en su empaque original.</li>
-              </ul>
-              <p className="mt-4">En este caso, el cliente deberá asumir los costos de transporte para la devolución del producto a nuestras instalaciones.</p>
             </section>
 
             <section>

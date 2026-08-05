@@ -45,9 +45,9 @@ export default function ReturnsWarranty() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Plazo para Reclamaciones</h2>
+            <h2 className="text-2xl font-bold text-stone-900 mb-4">2. Validación e Inspección al Momento de la Entrega</h2>
             <p>
-              Usted dispone de <strong>48 horas</strong> después de recibido el producto para reportar cualquier novedad relacionada con daños físicos, producto equivocado o faltantes en su pedido.
+              En nuestro modelo de pago contraentrega, el producto se entrega, se revisa y se valida por el comprador <strong>en el instante mismo de la entrega</strong>. En ese mismo momento es que se realiza el pago tras su debida conformidad. Por lo tanto, cualquier revisión física o conformidad se realiza de manera presencial al recibir.
             </p>
           </section>
 
