@@ -30,16 +30,39 @@ export default function AboutUs() {
         <div className="mb-24">
           <div className="max-w-3xl">
             <h2 className="text-3xl font-display font-bold text-stone-900 mb-6">Nuestra Historia</h2>
-            <div className="space-y-4 text-stone-600 leading-relaxed text-lg">
+            <div className="space-y-4 text-stone-600 leading-relaxed text-lg mb-12">
               <p>
                 ZENHOGAR nació de la convicción de que la naturaleza ofrece las mejores soluciones para nuestra salud. Lo que comenzó como un pequeño proyecto familiar se ha convertido en una marca de confianza para miles de colombianos que buscan una alternativa natural y efectiva.
               </p>
               <p>
-                Nos especializamos en la selección y distribución de suplementos naturales de la más alta calidad, asegurándonos de que cada producto que llega a tu hogar cumpla con los estándares más exigentes y cuente con los registros sanitarios necesarios.
+                Nos especializamos en la selección y distribución de suplementos naturales de la más alta calidad, asegurándonos de que cada producto que llega a tu hogar cumpla con los estándares más exigentes y cuente con los registros sanitarios INVIMA necesarios.
               </p>
               <p className="font-bold text-stone-900">
-                Gestionamos los despachos desde Barranquilla a cualquier parte de Colombia.
+                Gestionamos los despachos desde Barranquilla a cualquier parte de Colombia bajo la modalidad exclusiva de Pago Contraentrega.
               </p>
+            </div>
+
+            {/* Official Business Identity Box for Merchant Center Compliance */}
+            <div className="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 shadow-sm space-y-4">
+              <h3 className="text-xl font-bold text-stone-900">Información Corporativa y de Contacto</h3>
+              <div className="grid sm:grid-cols-2 gap-4 text-stone-700 text-sm">
+                <div>
+                  <p className="font-bold text-stone-900 mb-1">Dirección Administrativa:</p>
+                  <p>Carrera 3a #23 - 40<br />Puerto Colombia, Atlántico, Colombia</p>
+                </div>
+                <div>
+                  <p className="font-bold text-stone-900 mb-1">Canales Oficiales:</p>
+                  <p>WhatsApp: +57 302 410 2568<br />Email: ventas@zenhogar.live</p>
+                </div>
+                <div>
+                  <p className="font-bold text-stone-900 mb-1">Método de Pago:</p>
+                  <p>Pago Contraentrega (Pago al recibir y verificar)</p>
+                </div>
+                <div>
+                  <p className="font-bold text-stone-900 mb-1">Cobertura:</p>
+                  <p>Envíos a todo el territorio nacional colombiano</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
