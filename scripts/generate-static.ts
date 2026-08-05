@@ -162,7 +162,60 @@ Disallow: /checkout
 Sitemap: ${BASE_URL}/sitemap.xml`;
     fs.writeFileSync('dist/robots.txt', robots);
 
-    console.log('--- SSG Completado ---');
+    // Google Merchant Feed XML
+    const googleFeedXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<channel>
+  <title>Zenhogar - Salud y Bienestar</title>
+  <link>${BASE_URL}</link>
+  <description>Tu aliado en salud natural, suplementos y bienestar integral en Colombia.</description>
+  ${PRODUCTS.map(p => `
+  <item>
+    <g:id>${p.masterId}</g:id>
+    <g:title>${p.name}</g:title>
+    <g:description>${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
+    <g:link>${BASE_URL}/producto/${p.id}</g:link>
+    <g:image_link>${BASE_URL}${p.image}</g:image_link>
+    <g:condition>${p.condition || 'new'}</g:condition>
+    <g:availability>in stock</g:availability>
+    <g:price>${p.basePrice} COP</g:price>
+    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
+    <g:brand>Zenhogar</g:brand>
+    <g:mpn>${p.masterId}</g:mpn>
+    <g:identifier_exists>yes</g:identifier_exists>
+    <g:shipping>
+      <g:country>CO</g:country>
+      <g:service>Envío Gratis</g:service>
+      <g:price>0 COP</g:price>
+    </g:shipping>
+  </item>`).join('')}
+  ${PROMOTIONS.map(p => `
+  <item>
+    <g:id>${p.id}</g:id>
+    <g:title>${p.name}</g:title>
+    <g:description>${p.description.replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
+    <g:link>${BASE_URL}/combo/${p.id}</g:link>
+    <g:image_link>${BASE_URL}${p.image}</g:image_link>
+    <g:condition>${p.condition || 'new'}</g:condition>
+    <g:availability>in stock</g:availability>
+    <g:price>${p.price} COP</g:price>
+    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
+    <g:brand>Zenhogar</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:shipping>
+      <g:country>CO</g:country>
+      <g:service>Envío Gratis</g:service>
+      <g:price>0 COP</g:price>
+    </g:shipping>
+  </item>`).join('')}
+</channel>
+</rss>`.trim();
+
+    fs.writeFileSync('dist/google-feed.xml', googleFeedXml);
+    if (!fs.existsSync('public')) fs.mkdirSync('public', { recursive: true });
+    fs.writeFileSync('public/google-feed.xml', googleFeedXml);
+
+    console.log('--- SSG y Google Merchant Feed Completado ---');
 }
 
 generate().catch(err => {
