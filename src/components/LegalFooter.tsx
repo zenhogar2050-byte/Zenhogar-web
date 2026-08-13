@@ -53,7 +53,7 @@ export default function LegalFooter() {
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1" aria-label="Dirección administrativa de registro únicamente">Dirección Administrativa</p>
-                <p className="text-stone-900 font-bold text-xs">Carrera 3a #23 - 40</p>
+                <p className="text-stone-900 font-bold text-xs">Calle 3a #23 - 40</p>
                 <p className="text-stone-700 text-xs text-[10px]">Puerto Colombia, Atlántico, CO</p>
                 {/* Dirección administrativa de registro (cumplimiento Merchant Center - Dropshipping sin atención física) */}
               </div>

@@ -48,7 +48,7 @@ export default function AboutUs() {
               <div className="grid sm:grid-cols-2 gap-4 text-stone-700 text-sm">
                 <div>
                   <p className="font-bold text-stone-900 mb-1">Dirección Administrativa:</p>
-                  <p>Carrera 3a #23 - 40<br />Puerto Colombia, Atlántico, Colombia</p>
+                  <p>Calle 3a #23 - 40<br />Puerto Colombia, Atlántico, Colombia</p>
                 </div>
                 <div>
                   <p className="font-bold text-stone-900 mb-1">Canales Oficiales:</p>
