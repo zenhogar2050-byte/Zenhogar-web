@@ -297,17 +297,17 @@ export default function ProductLanding() {
                 )}
                 
                 <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 mt-10">
-                  <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">
-                    <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" width="80" height="80" />
-                    <div className="flex flex-col">
-                      <span className="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-none">Registro INVIMA</span>
-                      <span className="text-[14px] sm:text-base font-bold text-stone-700">
-                        {(!product.invima || product.invima.toLowerCase().includes('trámite')) 
-                          ? 'Registro en proceso de verificación' 
-                          : product.invima}
-                      </span>
+                  {product.invima && (
+                    <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-stone-50 rounded-2xl border border-stone-200">
+                      <img src="/assets/logo/invima1.webp" alt="Sello INVIMA" className="h-16 sm:h-20 object-contain drop-shadow-sm opacity-90" width="80" height="80" />
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-black text-stone-400 uppercase tracking-widest leading-none">Registro INVIMA</span>
+                        <span className="text-[14px] sm:text-base font-bold text-stone-700">
+                          {product.invima}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="flex flex-col items-center gap-1">
                     <img src="/assets/logo/sello de calidad.webp" alt="Sello 100% Quality" className="h-18 sm:h-24 object-contain drop-shadow-sm opacity-90" width="96" height="96" />
                     <span className="text-[9px] font-black text-emerald-800 uppercase tracking-tight">Garantía de Satisfacción</span>
@@ -519,7 +519,9 @@ export default function ProductLanding() {
               </div>
 
               <h2 className="text-[17px] leading-[25.25px] text-stone-600 mb-6 mt-4 whitespace-pre-line text-justify">
-                {product.description} <strong className="font-bold text-stone-800">| Calidad Certificada {(!product.invima || product.invima.toLowerCase().includes('trámite')) ? '(INVIMA: Registro en proceso de verificación)' : `(INVIMA: ${product.invima})`}</strong>
+                {product.description} {product.invima && (
+                  <strong className="font-bold text-stone-800">| Calidad Certificada (INVIMA: {product.invima})</strong>
+                )}
               </h2>
 
               <div className="hidden lg:block p-6 bg-stone-50 rounded-3xl border border-stone-200 h-auto pb-8">

@@ -3246,7 +3246,7 @@ Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), e
   
 ✔️ Estructura y Reparación: Los aminoácidos fortalecen la fibra capilar, reparan el cabello existente y previenen la rotura.
 ✔️ Crecimiento y Grosor: La biotina estimula la aparición de nuevas hebras, mejora la oxigenación y engrosa el cabello de raíz a puntas.
-✔️ Circulación y Control: La niacinamida mejora el flujo sanguíneo en el cuero cabelludo, calma la irritación y controla el exceso de grasa. | Calidad Certificada (INVIMA: Régimen Sanitario Vigente)`,
+✔️ Circulación y Control: La niacinamida mejora el flujo sanguíneo en el cuero cabelludo, calma la irritación y controla el exceso de grasa.`,
     seoTitle: 'Tónico Capilar Folivance para Caída, Crecimiento y mejora de apariencia | Zenhogar',
     seoDescription: 'Frena la caída y duplica el crecimiento capilar con Folivance de ZENHOGAR. Tónico folicular de alto impacto Biotina, Aminoácidos y Niacinamida.',
     benefits: [
@@ -3358,7 +3358,7 @@ Con una excelente biodisponibilidad en formato de cápsulas blandas (softgel), e
       { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
       { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 209700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Verónica P.', text: 'Me encanta este shampoo. Siento mi cabello súper limpio, sedoso y con un brillo espectacular. La caída disminuyó un montón.', rating: 5 },
@@ -3426,7 +3426,7 @@ Desarrollado con una textura ideal para masajes y una absorción profunda, este 
       { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
       { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 209700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Guillermo F.', text: 'El aroma a lavanda es súper relajante y es perfecto para masajear la espalda después de un día estresante. Deja la piel muy suave.', rating: 5 },
@@ -3492,7 +3492,7 @@ Diseñado con una textura ligera de rápida absorción y efecto no graso, este p
       { id: '1u', label: '1 Unidad', units: 1, price: 69900 },
       { id: '2u', label: '2 Unidades', units: 2, price: 104850 },
       { id: '2x3', label: 'Pague 2 Lleve 3', units: 3, price: 139800, badge: '⭐ Recomendado' },
-      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 2099700, badge: '🔥 Mejor Oferta' }
+      { id: '3x5', label: 'Pague 3 Lleve 5', units: 5, price: 209700, badge: '🔥 Mejor Oferta' }
     ],
     testimonials: [
       { name: 'Mónica T.', text: 'Trabajo de pie todo el día y este gel frío ha sido mi salvación. Me quita todo el dolor y pesadez en las piernas al instante.', rating: 5 },
