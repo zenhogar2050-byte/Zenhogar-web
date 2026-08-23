@@ -222,20 +222,20 @@ export default function ComboLanding() {
                 )}
 
                 {/* Presentaciones de productos del combo */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-                  {combo.products.slice(0, 2).map((pid, idx) => {
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                  {combo.products.map((pid, idx) => {
                     const prod = PRODUCTS.find(p => p.id === pid);
                     if (!prod) return null;
                     return (
                       <div key={pid} className={cn(
-                        "flex flex-col gap-2",
-                        idx === 0 ? "items-start text-left" : "items-end text-right"
+                        "flex flex-col gap-1.5",
+                        idx % 2 === 0 ? "items-start text-left" : "items-start sm:items-end text-left sm:text-right"
                       )}>
                         <p className="text-[11px] font-black text-stone-500 uppercase tracking-widest px-1">{prod.name}</p>
-                        <div className="inline-block px-8 py-3 rounded-2xl bg-white text-stone-900 text-lg sm:text-xl font-normal border-2 border-stone-200 shadow-lg transition-all hover:scale-105">
-                          <div className="flex items-center gap-3">
+                        <div className="inline-block px-4 py-2 sm:px-6 sm:py-2.5 rounded-2xl bg-white text-stone-900 text-sm sm:text-base font-normal border-2 border-stone-200 shadow-md transition-all hover:scale-105">
+                          <div className="flex items-center gap-2">
                             {prod.size && <span>{prod.size}</span>}
-                            {prod.size && prod.presentation && <span className="w-2 h-2 rounded-full bg-stone-300" />}
+                            {prod.size && prod.presentation && <span className="w-1.5 h-1.5 rounded-full bg-stone-300" />}
                             {prod.presentation && <span>{prod.presentation}</span>}
                           </div>
                         </div>

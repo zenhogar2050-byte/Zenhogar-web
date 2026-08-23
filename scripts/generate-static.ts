@@ -163,6 +163,7 @@ Sitemap: ${BASE_URL}/sitemap.xml`;
     fs.writeFileSync('dist/robots.txt', robots);
 
     // Google Merchant Feed XML
+    const ALL_PROMOTIONS = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
     const googleFeedXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
 <channel>
@@ -174,28 +175,28 @@ Sitemap: ${BASE_URL}/sitemap.xml`;
     <g:id><![CDATA[${p.masterId}]]></g:id>
     <g:title><![CDATA[${p.name}]]></g:title>
     <g:description><![CDATA[${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
-    <g:link>${BASE_URL}/producto/${p.id}</g:link>
-    <g:image_link>${BASE_URL}${p.image}</g:image_link>
+    <g:link>${encodeURI(`${BASE_URL}/producto/${p.id}`)}</g:link>
+    <g:image_link>${encodeURI(`${BASE_URL}${p.image}`)}</g:image_link>
     <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
     <g:availability><![CDATA[in stock]]></g:availability>
     <g:price><![CDATA[${p.basePrice} COP]]></g:price>
     <g:google_product_category><![CDATA[${p.googleCategory || 'Health & Beauty > Health Care > Fitness & Nutrition'}]]></g:google_product_category>
     <g:brand><![CDATA[Zenhogar]]></g:brand>
     <g:mpn><![CDATA[${p.masterId}]]></g:mpn>
-    <g:identifier_exists><![CDATA[yes]]></g:identifier_exists>
+    <g:identifier_exists><![CDATA[no]]></g:identifier_exists>
     <g:shipping>
       <g:country><![CDATA[CO]]></g:country>
       <g:service><![CDATA[Envío Gratis]]></g:service>
       <g:price><![CDATA[0 COP]]></g:price>
     </g:shipping>
   </item>`).join('')}
-  ${PROMOTIONS.map(p => `
+  ${ALL_PROMOTIONS.map(p => `
   <item>
     <g:id><![CDATA[${p.id}]]></g:id>
     <g:title><![CDATA[${p.name}]]></g:title>
     <g:description><![CDATA[${p.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
-    <g:link>${BASE_URL}/combo/${p.id}</g:link>
-    <g:image_link>${BASE_URL}${p.image}</g:image_link>
+    <g:link>${encodeURI(`${BASE_URL}/combo/${p.id}`)}</g:link>
+    <g:image_link>${encodeURI(`${BASE_URL}${p.image}`)}</g:image_link>
     <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
     <g:availability><![CDATA[in stock]]></g:availability>
     <g:price><![CDATA[${p.price} COP]]></g:price>

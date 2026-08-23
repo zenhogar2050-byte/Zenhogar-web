@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import compression from "compression";
 import dotenv from "dotenv";
-import { PRODUCTS, CATEGORIES, PROMOTIONS } from "./src/constants.js";
+import { PRODUCTS, CATEGORIES, PROMOTIONS, COMBO_OF_THE_MONTH } from "./src/constants.js";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 
@@ -401,55 +401,56 @@ Sitemap: https://zenhogar.live/sitemap.xml
   // SEO: Google Merchant Feed
   app.get("/google-feed.xml", (req, res) => {
     const baseUrl = "https://zenhogar.live";
+    const ALL_PROMOTIONS = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
 <channel>
-  <title>Zenhogar - Salud y Bienestar</title>
+  <title><![CDATA[Zenhogar - Salud y Bienestar]]></title>
   <link>${baseUrl}</link>
-  <description>Tu aliado en salud natural, suplementos y bienestar integral en Colombia.</description>
+  <description><![CDATA[Tu aliado en salud natural, suplementos y bienestar integral en Colombia.]]></description>
   ${PRODUCTS.map(p => `
   <item>
-    <g:id>${p.masterId}</g:id>
-    <g:title>${p.name}</g:title>
-    <g:description>${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
-    <g:link>${baseUrl}/producto/${p.id}</g:link>
-    <g:image_link>${baseUrl}${p.image}</g:image_link>
-    <g:condition>${p.condition || 'new'}</g:condition>
-    <g:availability>in stock</g:availability>
-    <g:price>${p.basePrice} COP</g:price>
-    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
-    <g:brand>Zenhogar</g:brand>
-    <g:mpn>${p.masterId}</g:mpn>
-    <g:identifier_exists>yes</g:identifier_exists>
+    <g:id><![CDATA[${p.masterId}]]></g:id>
+    <g:title><![CDATA[${p.name}]]></g:title>
+    <g:description><![CDATA[${(p.description || p.shortDescription).replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
+    <g:link>${encodeURI(`${baseUrl}/producto/${p.id}`)}</g:link>
+    <g:image_link>${encodeURI(`${baseUrl}${p.image}`)}</g:image_link>
+    <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
+    <g:availability><![CDATA[in stock]]></g:availability>
+    <g:price><![CDATA[${p.basePrice} COP]]></g:price>
+    <g:google_product_category><![CDATA[${p.googleCategory || 'Health & Beauty > Health Care > Fitness & Nutrition'}]]></g:google_product_category>
+    <g:brand><![CDATA[Zenhogar]]></g:brand>
+    <g:mpn><![CDATA[${p.masterId}]]></g:mpn>
+    <g:identifier_exists><![CDATA[no]]></g:identifier_exists>
     <g:shipping>
-      <g:country>CO</g:country>
-      <g:service>Envío Gratis</g:service>
-      <g:price>0 COP</g:price>
+      <g:country><![CDATA[CO]]></g:country>
+      <g:service><![CDATA[Envío Gratis]]></g:service>
+      <g:price><![CDATA[0 COP]]></g:price>
     </g:shipping>
   </item>`).join('')}
-  ${PROMOTIONS.map(p => `
+  ${ALL_PROMOTIONS.map(p => `
   <item>
-    <g:id>${p.id}</g:id>
-    <g:title>${p.name}</g:title>
-    <g:description>${p.description.replace(/<[^>]*>?/gm, '').substring(0, 1000)}</g:description>
-    <g:link>${baseUrl}/combo/${p.id}</g:link>
-    <g:image_link>${baseUrl}${p.image}</g:image_link>
-    <g:condition>${p.condition || 'new'}</g:condition>
-    <g:availability>in stock</g:availability>
-    <g:price>${p.price} COP</g:price>
-    <g:google_product_category>${p.googleCategory || 'Health &amp; Beauty &gt; Health Care &gt; Fitness &amp; Nutrition'}</g:google_product_category>
-    <g:brand>Zenhogar</g:brand>
-    <g:identifier_exists>no</g:identifier_exists>
+    <g:id><![CDATA[${p.id}]]></g:id>
+    <g:title><![CDATA[${p.name}]]></g:title>
+    <g:description><![CDATA[${p.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 1000)}]]></g:description>
+    <g:link>${encodeURI(`${baseUrl}/combo/${p.id}`)}</g:link>
+    <g:image_link>${encodeURI(`${baseUrl}${p.image}`)}</g:image_link>
+    <g:condition><![CDATA[${p.condition || 'new'}]]></g:condition>
+    <g:availability><![CDATA[in stock]]></g:availability>
+    <g:price><![CDATA[${p.price} COP]]></g:price>
+    <g:google_product_category><![CDATA[${p.googleCategory || 'Health & Beauty > Health Care > Fitness & Nutrition'}]]></g:google_product_category>
+    <g:brand><![CDATA[Zenhogar]]></g:brand>
+    <g:identifier_exists><![CDATA[no]]></g:identifier_exists>
     <g:shipping>
-      <g:country>CO</g:country>
-      <g:service>Envío Gratis</g:service>
-      <g:price>0 COP</g:price>
+      <g:country><![CDATA[CO]]></g:country>
+      <g:service><![CDATA[Envío Gratis]]></g:service>
+      <g:price><![CDATA[0 COP]]></g:price>
     </g:shipping>
   </item>`).join('')}
 </channel>
 </rss>`;
 
-    res.header("Content-Type", "application/xml");
+    res.header("Content-Type", "application/xml; charset=utf-8");
     res.send(xml.trim());
   });
 

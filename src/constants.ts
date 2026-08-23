@@ -3570,7 +3570,6 @@ export const COMBO_OF_THE_MONTH: Promotion = {
     title: 'Rendimiento y Vigor Masculino Absoluto',
     description: 'El Combo Futbolero combina energía extrema, desintoxicación hepática y recuperación muscular de grado profesional. Un sistema completo diseñado para el hombre de alta exigencia que busca mantener su vitalidad y fuerza todos los días.'
   },
-  badge: 'OFERTA DEL MES',
   benefits: [
     'Energía y enfoque extremo con Titan Coffee',
     'Recuperación y alivio con Termoactiva',

@@ -2,35 +2,67 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { PRODUCTS, PROMOTIONS, COMBO_OF_THE_MONTH, CATEGORIES } from '../constants';
 
 export default function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
+
+  const cleanStr = (str: string) => 
+    str.toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "")
+       .replace(/[^a-z0-9]+/g, '-')
+       .replace(/-+/g, '-')
+       .replace(/^-+|-+$/g, '');
 
   // Detect context from URL
   let productContext = '';
   let categoryContext = '';
   
   if (location.pathname.startsWith('/producto/')) {
-    const id = location.pathname.split('/').pop() || '';
-    productContext = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const rawId = location.pathname.split('/').pop() || '';
+    const targetClean = cleanStr(rawId);
+    const product = PRODUCTS.find(p => cleanStr(p.id) === targetClean || p.masterId === rawId || cleanStr(p.name) === targetClean);
+    productContext = product ? product.name : rawId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   } else if (location.pathname.startsWith('/combo/')) {
-    const id = location.pathname.split('/').pop() || '';
-    productContext = `Combo ${id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`;
+    const rawId = location.pathname.split('/').pop() || '';
+    const targetClean = cleanStr(rawId);
+    const combo = PROMOTIONS.find(p => cleanStr(p.id) === targetClean || cleanStr(p.name) === targetClean) ||
+      (cleanStr(COMBO_OF_THE_MONTH.id) === targetClean || cleanStr(COMBO_OF_THE_MONTH.name) === targetClean ? COMBO_OF_THE_MONTH : null);
+
+    if (combo) {
+      const resolvedComponents = (combo.products || [])
+        .map(pid => {
+          const prod = PRODUCTS.find(p => p.id === pid);
+          return prod ? prod.name : pid;
+        })
+        .filter(Boolean);
+
+      const componentsText = resolvedComponents.length > 0 
+        ? resolvedComponents.join(' + ') 
+        : combo.components;
+
+      productContext = `${combo.name}${componentsText ? ` (${componentsText})` : ''}`;
+    } else {
+      productContext = `Combo ${rawId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`;
+    }
   } else if (location.pathname.startsWith('/categoria/')) {
-    const id = location.pathname.split('/').pop() || '';
-    categoryContext = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const rawId = location.pathname.split('/').pop() || '';
+    const targetClean = cleanStr(rawId);
+    const category = CATEGORIES.find(c => cleanStr(c.id) === targetClean || cleanStr(c.name) === targetClean);
+    categoryContext = category ? category.name : rawId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   }
 
   const whatsappNumber = '573024102568'; 
   
   let message = 'Hola! Me gustaría recibir más información sobre los productos de Zenhogar.';
   if (productContext) {
-    message = `Hola *ZENHOGAR*! 👋\n\nEstoy interesado en el producto: *${productContext}*\n\nMe gustaría recibir más información. ¿Podrían ayudarme?`;
+    message = `Hola *ZENHOGAR*! 👋\n\nEstoy interesado en: *${productContext}*\n\nMe gustaría recibir más información. ¿Podrían ayudarme?`;
   } else if (categoryContext) {
     message = `Hola *ZENHOGAR*! 👋\n\nEstoy buscando productos de la categoría: *${categoryContext}*\n\n¿Me podrían asesorar para elegir el mejor para mí?`;
   } else if (location.pathname === '/') {
-    message = `Hola *ZENHOGAR*! 👋\n\nEstoy visitando su tienda y me gustaría recibir información sobre sus productos y las ofertas del mes. ✨`;
+    message = `Hola *ZENHOGAR*! 👋\n\nEstoy visitando su tienda y me gustaría recibir información sobre sus productos y promociones. ✨`;
   }
     
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;

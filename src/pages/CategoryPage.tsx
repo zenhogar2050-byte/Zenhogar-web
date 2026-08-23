@@ -36,6 +36,13 @@ export default function CategoryPage() {
   const isCombosCategory = category?.id === 'combos';
 
   const comboProducts = isCO ? [
+    {
+      ...COMBO_OF_THE_MONTH,
+      basePrice: COMBO_OF_THE_MONTH.price,
+      shortDescription: COMBO_OF_THE_MONTH.description,
+      size: 'Envío Gratis',
+      presentation: 'Kit Completo',
+    },
     ...PROMOTIONS.map(p => ({
       ...p,
       basePrice: p.price,
