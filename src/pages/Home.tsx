@@ -17,7 +17,7 @@ const SYMPTOMS = [
   { id: 'defensas', label: 'Defensas', icon: Shield, color: 'text-blue-800', bg: 'bg-blue-50', border: 'border-blue-100', link: '/categoria/salud-bienestar' },
   { id: 'energia', label: 'Energía', icon: Zap, color: 'text-orange-800', bg: 'bg-orange-50', border: 'border-orange-100', link: '/categoria/salud-bienestar' },
   { id: 'hormonal', label: 'Vitalidad', icon: Heart, color: 'text-rose-800', bg: 'bg-rose-50', border: 'border-rose-100', link: '/categoria/salud-bienestar' },
-  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-800', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/quemadores' },
+  { id: 'peso', label: 'Control Peso', icon: Gauge, color: 'text-purple-800', bg: 'bg-purple-50', border: 'border-purple-100', link: '/categoria/salud-bienestar' },
 ];
 
 export default function Home() {

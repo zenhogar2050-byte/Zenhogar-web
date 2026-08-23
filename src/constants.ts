@@ -760,7 +760,7 @@ Libre de lácteos y grasas trans, nuestra fórmula se apoya en los triglicérido
       'Contiene el 50% del requerimiento diario de vitaminas clave',
       'Sabor gourmet cremoso sin azúcar añadida ni pesadez gástrica'
     ],
-    image: '/assets/products/Coffe+colageno.webp',
+    image: '/assets/products/coffe-colageno.webp',
     basePrice: 75900,
     size: '400g',
     invima: 'RSA-0010130-2020',
@@ -2606,7 +2606,7 @@ Su base cremosa de coco no solo le otorga un sabor exquisito, sino que facilita 
       'Fortalece la respuesta inmunológica ante desafíos del entorno',
       'Promueve una piel de apariencia saludable y un metabolismo celular revitalizado'
     ],
-    image: '/assets/products/+nad.webp',
+    image: '/assets/products/nad-1.webp',
     basePrice: 79900,
     size: '350g',
     presentation: 'Polvo',
@@ -3557,7 +3557,7 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   id: 'combo-7',
   name: 'Combo 7',
   description: 'El Combo 7 es la selección definitiva de alto rendimiento diseñada para potenciar la fuerza, el vigor y la recuperación masculina. Al reunir la acción termoactiva para el alivio muscular, la energía pura de Titan Coffee, la depuración intensa de Rtafull, y el cuidado especializado de Hemocream y Mammoth, este kit robustece tu vitalidad integral frente a la rutina diaria de alta exigencia física.',
-  image: '/assets/combos/Combo Futbolero.webp',
+  image: '/assets/combos/combo-futbolero.webp',
   price: 247700,
   originalPrice: 329500,
   peso_adicional: 0,
