@@ -46,6 +46,51 @@ async function startServer() {
     next();
   });
 
+  // Redirecciones 301 Canónicas y de Alias Antiguos para Google Merchant / SEO
+  app.use((req, res, next) => {
+    const cleanUrl = req.path.toLowerCase().replace(/\/+$/, '');
+    
+    // Mapeo exhaustivo de alias históricos a URLs canónicas oficiales de producto
+    const PRODUCT_REDIRECTS: Record<string, string> = {
+      '/producto/tonico': '/producto/tonico-capilar',
+      '/producto/tonico-anticanas': '/producto/tonico-capilar',
+      '/producto/tonico-capilar-tonico': '/producto/tonico-capilar',
+      '/producto/folivance': '/producto/tonico-capilar-folivance',
+      '/producto/tonico-folivance': '/producto/tonico-capilar-folivance',
+      '/producto/haydar': '/producto/haydar',
+      '/producto/akha': '/producto/akha',
+      '/producto/crema-akha': '/producto/akha',
+      '/producto/crema-voluminizante-akha': '/producto/akha',
+      '/producto/mamooth': '/producto/mammoth',
+      '/producto/mammoth': '/producto/mammoth',
+      '/producto/crema-mammoth': '/producto/mammoth',
+      '/producto/zafir-energizante': '/producto/zafir',
+      '/producto/zafir': '/producto/zafir',
+      '/producto/zeus': '/categoria/salud-bienestar',
+      '/producto/cafetolio': '/categoria/salud-bienestar'
+    };
+
+    // Mapeo de combos históricos
+    const COMBO_REDIRECTS: Record<string, string> = {
+      '/combo/combo-futbolero': `/combo/${COMBO_OF_THE_MONTH.id}`,
+      '/combo/futbolero': `/combo/${COMBO_OF_THE_MONTH.id}`,
+      '/combo/inmunidad-dual': `/combo/${COMBO_OF_THE_MONTH.id}`,
+      '/combo/combo-inmunidad-dual': `/combo/${COMBO_OF_THE_MONTH.id}`,
+      '/combo/promo-7': `/combo/${COMBO_OF_THE_MONTH.id}`
+    };
+
+    // Si la URL coincide exactamente con un alias diferente al canónico
+    if (PRODUCT_REDIRECTS[cleanUrl] && PRODUCT_REDIRECTS[cleanUrl] !== cleanUrl) {
+      return res.redirect(301, PRODUCT_REDIRECTS[cleanUrl]);
+    }
+
+    if (COMBO_REDIRECTS[cleanUrl] && COMBO_REDIRECTS[cleanUrl] !== cleanUrl) {
+      return res.redirect(301, COMBO_REDIRECTS[cleanUrl]);
+    }
+
+    next();
+  });
+
   // Health check
   app.get("/health-check", (req, res) => res.send("OK"));
 
@@ -360,16 +405,18 @@ async function startServer() {
     const baseUrl = "https://zenhogar.live";
     const productsUrls = PRODUCTS.map(p => `${baseUrl}/producto/${p.id}`);
     const categoriesUrls = CATEGORIES.map(c => `${baseUrl}/categoria/${c.id}`);
-    const combosUrls = PROMOTIONS.map(p => `${baseUrl}/combo/${p.id}`);
+    const ALL_PROMOTIONS = [COMBO_OF_THE_MONTH, ...PROMOTIONS];
+    const combosUrls = ALL_PROMOTIONS.map(p => `${baseUrl}/combo/${p.id}`);
     
-    // Páginas estáticas adicionales sincronizadas con generate-static.ts
+    // Páginas estáticas sincronizadas con generate-static.ts
     const staticPages = [
       "",
       "/quienes-somos",
       "/politica-privacidad",
-      "/devoluciones-garantia",
+      "/politica-reembolso",
+      "/terminos-servicio",
       "/condiciones-entrega",
-      "/categorias"
+      "/devoluciones-garantia"
     ].map(p => `${baseUrl}${p}`);
 
     const allUrls = [...staticPages, ...productsUrls, ...categoriesUrls, ...combosUrls];

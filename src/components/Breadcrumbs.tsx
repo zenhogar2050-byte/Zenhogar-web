@@ -64,8 +64,20 @@ export default function Breadcrumbs() {
       }
     } else if (pathnames[0] === 'checkout') {
       items.push({ label: 'Carrito de Compras', isCurrent: true });
+    } else if (pathnames[0] === 'gracias') {
+      items.push({ label: 'Confirmación de Pedido', isCurrent: true });
     } else if (pathnames[0] === 'quienes-somos') {
       items.push({ label: 'Quiénes Somos', isCurrent: true });
+    } else if (pathnames[0] === 'politica-privacidad') {
+      items.push({ label: 'Política de Privacidad', isCurrent: true });
+    } else if (pathnames[0] === 'politica-reembolso') {
+      items.push({ label: 'Política de Reembolso', isCurrent: true });
+    } else if (pathnames[0] === 'terminos-servicio') {
+      items.push({ label: 'Términos del Servicio', isCurrent: true });
+    } else if (pathnames[0] === 'condiciones-entrega') {
+      items.push({ label: 'Condiciones de Entrega', isCurrent: true });
+    } else if (pathnames[0] === 'devoluciones-garantia') {
+      items.push({ label: 'Devoluciones y Garantía', isCurrent: true });
     }
 
     return items;

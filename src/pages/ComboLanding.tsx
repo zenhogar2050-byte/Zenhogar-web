@@ -44,7 +44,12 @@ export default function ComboLanding() {
     const cleanName = cleanStr(p.name);
     return cleanId === targetIdClean || cleanName === targetIdClean;
   }) || (
-    cleanStr(COMBO_OF_THE_MONTH.id) === targetIdClean || cleanStr(COMBO_OF_THE_MONTH.name) === targetIdClean
+    cleanStr(COMBO_OF_THE_MONTH.id) === targetIdClean || 
+    cleanStr(COMBO_OF_THE_MONTH.name) === targetIdClean ||
+    targetIdClean === 'promo-7' ||
+    targetIdClean === 'combo-inmunidad-dual' ||
+    targetIdClean === 'combo-futbolero' ||
+    targetIdClean === 'futbolero'
       ? COMBO_OF_THE_MONTH
       : null
   );
@@ -571,15 +576,13 @@ export default function ComboLanding() {
           </div>
         </div>
       </section>
-      {combo.id !== 'combo-inmunidad-dual' && (
-        <StickyCTA 
-          name={combo.name}
-          image={combo.image}
-          price={combo.price}
-          onBuy={handleBuyNow}
-          desktopTriggerRef={buyButtonRef}
-        />
-      )}
+      <StickyCTA 
+        name={combo.name}
+        image={combo.image}
+        price={combo.price}
+        onBuy={handleBuyNow}
+        desktopTriggerRef={buyButtonRef}
+      />
 
       <Footer />
     </div>

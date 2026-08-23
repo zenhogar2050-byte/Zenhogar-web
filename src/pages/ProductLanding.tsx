@@ -46,14 +46,33 @@ export default function ProductLanding() {
     return cleanId === targetIdClean || cleanName === targetIdClean;
   });
 
-  // Si no se encuentra un producto exacto, aplicamos redirección inteligente para URLs indexadas obsoletas
+  // Si el usuario entra por un alias (ej: /producto/tonico o /producto/tonico-anticanas), reemplazar URL en cliente a la oficial
   useEffect(() => {
+    if (product && id && id !== product.id) {
+      navigate(`/producto/${product.id}`, { replace: true });
+      return;
+    }
+
     if (!product && targetIdClean) {
-      // 1. Caso zafir / zafir-energizante
-      if (targetIdClean.includes('zafir')) {
-        navigate('/producto/zafir', { replace: true });
+      // 1. Mapeo directo de alias conocidos
+      const KNOWN_ALIASES: Record<string, string> = {
+        'tonico': 'tonico-capilar',
+        'tonico-anticanas': 'tonico-capilar',
+        'tonico-capilar-tonico': 'tonico-capilar',
+        'folivance': 'tonico-capilar-folivance',
+        'tonico-folivance': 'tonico-capilar-folivance',
+        'crema-akha': 'akha',
+        'crema-voluminizante-akha': 'akha',
+        'mamooth': 'mammoth',
+        'crema-mammoth': 'mammoth',
+        'zafir-energizante': 'zafir'
+      };
+
+      if (KNOWN_ALIASES[targetIdClean]) {
+        navigate(`/producto/${KNOWN_ALIASES[targetIdClean]}`, { replace: true });
         return;
       }
+
       // 2. Redireccionar búsquedas obsoletas de zeus o cafetolio a la categoría de salud y bienestar
       if (targetIdClean.includes('zeus') || targetIdClean.includes('cafetolio')) {
         navigate('/categoria/salud-bienestar', { replace: true });

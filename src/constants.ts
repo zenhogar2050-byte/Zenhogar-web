@@ -3554,29 +3554,30 @@ export interface Promotion {
 }
 
 export const COMBO_OF_THE_MONTH: Promotion = {
-  id: 'combo-inmunidad-dual',
-  name: 'Combo Futbolero',
-  description: 'El Combo Futbolero es la selección definitiva de alto rendimiento diseñada para potenciar la fuerza, el vigor y la recuperación masculina. Al reunir la acción termoactiva para el alivio muscular, la energía pura de Titan Coffee, la depuración intensa de Rtafull, y el cuidado especializado de Hemocream y Mammoth, este kit robustece tu vitalidad integral frente a la rutina diaria de alta exigencia física.',
+  id: 'combo-7',
+  name: 'Combo 7',
+  description: 'El Combo 7 es la selección definitiva de alto rendimiento diseñada para potenciar la fuerza, el vigor y la recuperación masculina. Al reunir la acción termoactiva para el alivio muscular, la energía pura de Titan Coffee, la depuración intensa de Rtafull, y el cuidado especializado de Hemocream y Mammoth, este kit robustece tu vitalidad integral frente a la rutina diaria de alta exigencia física.',
   image: '/assets/combos/Combo Futbolero.webp',
   price: 247700,
   originalPrice: 329500,
   peso_adicional: 0,
   googleCategory: 'Health & Beauty > Health Care > Fitness & Nutrition',
   condition: 'new',
-  products: ['termoactiva', 'rtafull', 'hemocream', 'titan-coffee', 'mammoth'],
-  seoTitle: 'Combo Futbolero para el Alto Rendimiento y Vigor Masculino | ZENHOGAR',
-  seoDescription: 'Potencia tu vigor y acelera tu recuperación con el Combo Futbolero. Energía pura, desintoxicación y alivio físico en un solo pack diario. ¡Ahorra $81.800 con envío gratis!',
+  products: ['locion', 'rtafull', 'hemocream', 'titan-coffee', 'mamooth'],
+  seoTitle: 'Combo 7 para el Alto Rendimiento y Vigor Masculino | ZENHOGAR',
+  seoDescription: 'Potencia tu vigor y acelera tu recuperación con el Combo 7. Energía pura, desintoxicación y alivio físico en un solo pack diario. ¡Ahorra $81.800 con envío gratis!',
   whyChoose: {
     title: 'Rendimiento y Vigor Masculino Absoluto',
-    description: 'El Combo Futbolero combina energía extrema, desintoxicación hepática y recuperación muscular de grado profesional. Un sistema completo diseñado para el hombre de alta exigencia que busca mantener su vitalidad y fuerza todos los días.'
+    description: 'El Combo 7 combina energía extrema, desintoxicación hepática y recuperación muscular de grado profesional. Un sistema completo diseñado para el hombre de alta exigencia que busca mantener su vitalidad y fuerza todos los días.'
   },
+  badge: 'COMBO N°7',
   benefits: [
     'Energía y enfoque extremo con Titan Coffee',
     'Recuperación y alivio con Termoactiva',
     'Depuración interna y hepática con Rtafull',
     'Firmeza y cuidado con Mammoth y Hemocream'
   ],
-  keywords: 'vigor masculino, rendimiento de élite, energía, recuperación muscular, desintoxicación hepática, Titan Coffee, Rtafull, Termoactiva, Hemocream, Mammoth, Zenhogar, combo futbolero',
+  keywords: 'vigor masculino, rendimiento de élite, energía, recuperación muscular, desintoxicación hepática, Titan Coffee, Rtafull, Termoactiva, Hemocream, Mammoth, Zenhogar, combo 7',
   components: 'Titan Coffee, RtaFull, Loción Termoactiva, Hemocream y Crema Mammoth',
     componentBenefits: [
     {
@@ -3607,11 +3608,11 @@ export const COMBO_OF_THE_MONTH: Promotion = {
   seoFaqs: [
     { q: '¿Cómo debo consumir y aplicar los productos del combo?', a: 'Disfruta de Titan Coffee por la mañana para iniciar con energía y toma Rtafull para tu purificación. Aplica la Loción Termoactiva antes o después de la actividad muscular, y usa las cremas Mammoth y Hemocream en tus rutinas de masaje y cuidado de la piel.' },
     { q: '¿En cuánto tiempo se sienten los efectos de energía y alivio?', a: 'El enfoque y la energía de Titan Coffee son inmediatos, así como el alivio térmico de la Loción Termoactiva. Los beneficios de desintoxicación y firmeza se consolidan con el uso diario continuo.' },
-    { q: '¿Todos los productos del Combo Futbolero tienen registro oficial?', a: 'Sí, absolutamente todos los componentes cuentan con sus respectivos registros INVIMA vigentes, garantizando pureza de grado profesional.' }
+    { q: '¿Todos los productos del Combo 7 tienen registro oficial?', a: 'Sí, absolutamente todos los componentes cuentan con sus respectivos registros INVIMA vigentes, garantizando pureza de grado profesional.' }
   ],
   testimonials: [
     { name: 'Carlos Mario G.', text: 'El Titan Coffee me da una energía increíble para entrenar y la loción me quita todo el cansancio de las piernas. Recomendado 100%.', rating: 5 },
-    { name: 'Juan Fernando R.', text: 'Excelente combinación de productos. Me siento mucho más activo, ligero y con mejor rendimiento en mis partidos de fútbol.', rating: 5 }
+    { name: 'Juan Fernando R.', text: 'Excelente combinación de productos. Me siento mucho más activo, ligero y con mejor rendimiento en mis actividades diarias.', rating: 5 }
   ]
 };
 

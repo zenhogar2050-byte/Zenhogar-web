@@ -29,13 +29,14 @@ export default function WhatsAppFloat() {
     const rawId = location.pathname.split('/').pop() || '';
     const targetClean = cleanStr(rawId);
     const combo = PROMOTIONS.find(p => cleanStr(p.id) === targetClean || cleanStr(p.name) === targetClean) ||
-      (cleanStr(COMBO_OF_THE_MONTH.id) === targetClean || cleanStr(COMBO_OF_THE_MONTH.name) === targetClean ? COMBO_OF_THE_MONTH : null);
+      (cleanStr(COMBO_OF_THE_MONTH.id) === targetClean || cleanStr(COMBO_OF_THE_MONTH.name) === targetClean || targetClean.includes('futbolero') || targetClean.includes('inmunidad-dual') || targetClean.includes('combo-7') || targetClean.includes('promo-7') ? COMBO_OF_THE_MONTH : null);
 
     if (combo) {
       const resolvedComponents = (combo.products || [])
         .map(pid => {
           const prod = PRODUCTS.find(p => p.id === pid);
-          return prod ? prod.name : pid;
+          if (!prod) return pid;
+          return prod.name.replace(/\s*\([^)]*\)/g, '').trim();
         })
         .filter(Boolean);
 
