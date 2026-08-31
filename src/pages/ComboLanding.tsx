@@ -138,6 +138,8 @@ export default function ComboLanding() {
           offerCount: 1,
           faqs: combo.seoFaqs,
           reviews: combo.testimonials,
+          keywords: combo.keywords,
+          longTailKeywords: combo.longTailKeywords,
           invima: combo.products.map(p => {
              const productInfo = PRODUCTS.find(prod => prod.id === p);
              if (!productInfo) return '';

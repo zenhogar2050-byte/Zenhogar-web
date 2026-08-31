@@ -9,7 +9,8 @@ const SEOManager = ({
     ogImage = '', 
     type = "website", 
     productData = null,
-    faqs = []
+    faqs = [],
+    keywords = []
 }) => {
     const baseUrl = "https://zenhogar.live";
     
@@ -29,7 +30,7 @@ const SEOManager = ({
     const isPending = !productData?.invima || productData.invima.toLowerCase().includes('trámite');
     const invimaDisplay = isPending ? 'Verificación INVIMA' : productData.invima;
     
-    const rawDescription = productData 
+    const rawDescription = productData && productData.invima
         ? `${description} INVIMA: ${invimaDisplay}.` 
         : description;
 
@@ -37,6 +38,13 @@ const SEOManager = ({
     const finalDescription = rawDescription.length > 155 
         ? rawDescription.slice(0, 152).trim() + '...' 
         : rawDescription;
+        
+    // Consolidación de keywords
+    const metaKeywords = [
+        ...(keywords || []),
+        ...(productData?.keywords || []),
+        ...(productData?.longTailKeywords || [])
+    ].filter(Boolean).join(', ');
  
     // 2. Generación del Grafo de Esquema Único
     const schemaData = generateSchemaGraph({
@@ -54,6 +62,7 @@ const SEOManager = ({
             {/* Metadatos Básicos */}
             <title>{fullTitle}</title>
             <meta name="description" content={finalDescription} />
+            {metaKeywords && <meta name="keywords" content={metaKeywords} />}
             <link rel="canonical" href={fullUrl} />
             <meta name="robots" content="index, follow, max-image-preview:large" />
 

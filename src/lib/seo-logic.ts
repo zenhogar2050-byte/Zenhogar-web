@@ -223,6 +223,34 @@ export const generateSchemaGraph = (params: {
             });
         }
         graph.push(productEntity);
+    } else if (type === "category" && productData?.categoryProducts) {
+        const itemList: any = {
+            "@type": "ItemList",
+            "@id": `${fullUrl}#itemlist`,
+            "mainEntityOfPage": { "@id": `${fullUrl}#webpage` },
+            "name": `Productos en ${title}`,
+            "itemListElement": productData.categoryProducts.map((prod: any, idx: number) => {
+                const prodUrl = `${BASE_URL}/${prod.isCombo ? 'combo' : 'producto'}/${prod.id}`;
+                return {
+                    "@type": "ListItem",
+                    "position": idx + 1,
+                    "item": {
+                        "@type": "Product",
+                        "url": prodUrl,
+                        "name": prod.name,
+                        "image": prod.image?.startsWith('http') ? prod.image : `${BASE_URL}${prod.image || ''}`,
+                        "description": prod.shortDescription || prod.description
+                    }
+                };
+            })
+        };
+        
+        const collectionPage = graph.find(item => item["@type"] === "WebPage");
+        if (collectionPage) {
+            collectionPage["@type"] = ["WebPage", "CollectionPage"];
+        }
+        
+        graph.push(itemList);
     }
 
     return {

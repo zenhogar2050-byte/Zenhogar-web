@@ -212,7 +212,9 @@ export default function ProductLanding() {
           offerCount: product.promos.length,
           faqs: product.seoFaqs,
           reviews: product.testimonials,
-          invima: product.invima
+          invima: product.invima,
+          keywords: product.keywords,
+          longTailKeywords: product.longTailKeywords
         }}
       />
 
